@@ -23,7 +23,9 @@ make dev-ps        # status        | make dev-logs SERVICE=keycloak
 make dev-down      # stop, keep data   | make dev-reset  # stop AND delete all local data
 make backend-run   # API on :8080, profile 'local' (needs make dev-up; JDK 21 auto-selected; sources .env)
 make api-verify    # 33 live authn/authz checks against the running API + real Keycloak tokens
-make frontend-dev  # Next.js on :3000
+make frontend-dev  # Next.js dev server on :3000 (sources .env; needs make dev-up + make backend-run)
+make frontend-start # production build served on :3000 (what E2E tests)
+make e2e           # Playwright browser tests: needs dev-up + backend-run + frontend-start; first time: (cd frontend && npx playwright install chromium)
 ```
 First start pulls images (a few minutes) and needs ~2–3 GB of Docker RAM (Docker Desktop was set to 8 GB here).
 
@@ -63,3 +65,6 @@ Postgres: both DB users work, **cross-DB isolation**. Redis: auth required. Rabb
 - Judge worker is disabled locally unless explicitly enabled with the unsafe-dev flag (see doc 10/13).
 - macOS (Apple Silicon): use arm64 images; Firecracker/gVisor are Linux-only → test judge hardening in a Linux VM/CI.
 - Never commit `.env`.
+
+### Web app login (verified in M0.5)
+With the stack up, `make backend-run` (API :8080) and `make frontend-dev` (web :3000), open http://localhost:3000 → "Log in" → Keycloak → sign in as e.g. `learner` / `Dev-Only-Pass-1!` (or `admin`, `superadmin`, …). `make dev-env` now also *appends* variables newly added to `.env.example` to your existing `.env` (never overwrites). New variables for the web app: `APP_URL`, `REDIS_URL`, `SESSION_SECRET` (≥ 32 chars; derives the session encryption keys), optional `SESSION_IDLE_TTL_SECONDS` / `SESSION_ABSOLUTE_TTL_SECONDS`. `make e2e` includes a test that **stops and restarts the Keycloak container** (gated by `E2E_CONTAINER_CONTROL=1`, set by the Make target).

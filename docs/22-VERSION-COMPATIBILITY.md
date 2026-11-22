@@ -35,7 +35,14 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 | TypeScript / ESLint | 5.x / 9.x | Verified | ESLint 9.39 prints an "unsupported" deprecation notice from npm — not yet addressed (eslint-config-next 16.4.6 targets ESLint 9); revisit when Next supports ESLint 10 |
 | Node.js | **24 LTS recommended** (`.nvmrc`); installed here: v25.7.0 (non-LTS) | Verified building on 25.7 | Use LTS for CI/production. Corepack is not bundled with Node 25 |
 | Package manager | **npm** (lockfile committed) | Decision change | Docs earlier said pnpm; pnpm isn't installed and npm avoids extra tooling for a solo dev. Revisit only if needed |
-| shadcn/ui, TanStack Query, Zustand, RHF, Zod, Monaco, Recharts, Framer Motion, TipTap | — | **Not yet added / not checked** | Added when their first feature needs them; each verified against React 19.3 / Next 16.4 at that time |
+| openid-client | 6.9.1 | Verified (M0.5, against Keycloak 26.8.2: PKCE, refresh rotation, end-session) | Dev http issuer needs `allowInsecureRequests` (restricted to localhost) |
+| redis (node-redis) | 6.3.1 | Verified against Redis 8 (SET NX/EX, GETDEL, EVAL, KEEPTTL) | |
+| zod | 4.6.x | Verified (`z.url()`, `z.coerce`) | Server env validation |
+| server-only | 0.0.1 | Verified | |
+| Vitest | 4.1.12 | Verified | npm shows 5.x as latest; 4.x was resolved by the install and works — 5.x not evaluated |
+| @playwright/test | 1.65.1 + Chromium | Verified (local + needs CI run) | Only Chromium installed/tested |
+| shadcn/ui, TanStack Query, Zustand, RHF, Monaco, Recharts, Framer Motion, TipTap | — | **Not yet added / not checked** | Added when their first feature needs them; each verified against React 19.3 / Next 16.4 at that time |
+| Next.js config | `cacheComponents`/`partialPrefetching` removed from the scaffold default | ADR-028 | |
 
 ## Infrastructure (dev stack — pinned and verified in M0.2)
 

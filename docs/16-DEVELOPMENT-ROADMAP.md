@@ -30,7 +30,7 @@ These are planning numbers, not commitments. Content writing time is **in additi
 - **M0.2 ✅ (2026-11-23)** Docker Compose dev stack (Postgres, Redis, RabbitMQ, Keycloak with realm-as-code, MailHog, MinIO), `.env` workflow, Makefile.
 - **M0.3 ✅ (locally verified 2026-11-23; GitHub-side pending repo)** CI (GitHub Actions): build, unit/integration tests (Testcontainers), lint/format, gitleaks, dependency + image scan, OpenAPI → TS client generation.
 - **M0.4 ✅ (2026-11-23)** Spring Boot skeleton: error model (problem+json), security config, health, Flyway baseline, Modulith verification test, structured logging.
-- **M0.5** Spike: Keycloak + Next.js BFF login → call Spring API (documented ADR for chosen OIDC library).
+- **M0.5 ✅ (2026-11-23)** Spike: Keycloak + Next.js BFF login → call Spring API (documented ADR for chosen OIDC library).
 - **M0.6** Spike: outbox → RabbitMQ → idempotent consumer.
 Exit: authenticated request flows through BFF → API → DB in CI-green repo.
 

@@ -14,9 +14,10 @@ _Last updated: 2026-11-23_
 - **M0.3 — CI & quality gates — DONE locally (2026-11-23); GitHub side unverified.** Backend: Spotless/google-java-format, failsafe ITs, Testcontainers 2.0.5 Postgres 18 IT, springdoc 3.2.1 with committed OpenAPI contract + drift test, API docs off by default. Frontend: Prettier, typecheck, ESLint+Prettier, openapi-typescript client + sync check. Security: gitleaks config + pre-commit hook (`make hooks`, enabled), OSV scan of SBOM + lockfile (`make scan`, clean), actionlint. GitHub: `ci.yml` (backend, frontend, secrets, dependency-scan, dev-stack, workflow-lint), `codeql.yml`, `dependabot.yml`, actions pinned to commit SHAs. `make verify` passes; every gate was checked against a deliberate failure (docs/14).
 
 - **M0.4 — Backend skeleton — DONE (2026-11-23).** RFC 9457 error model (stable codes, correlation id, no leakage), stateless JWT resource server (issuer + audience + realm-role allowlist, 401/403/503 problem+json, strict headers, CORS allowlist, fail-fast config), method-security policy enforced by an ArchUnit build rule, Flyway V1 baseline + JPA (`ddl-auto=validate`) on PostgreSQL 18, idempotency primitive (`shared.processed_messages` + `IdempotencyService`), UUIDv7 `Ids`, UTC `Clock`, ECS JSON logging, diagnostic endpoints, regenerated OpenAPI + TS client. **66 backend tests pass** (31 unit + 35 integration on real Postgres 18) plus **33 live checks** against the real dev Keycloak and 24 stack checks. Tests found and fixed two real bugs (IdP outage → 500; wrong error code).
+- **M0.5 — Next.js ↔ Keycloak login (BFF) — DONE (2026-11-23).** Authorization Code + PKCE via `openid-client`; encrypted, HMAC-keyed server-side sessions in Redis; HttpOnly SameSite=Lax opaque cookie; CSRF-protected logout and API proxy (path/SSRF guards, header allowlists, body cap); refresh serialised under a lock (Keycloak rotates refresh tokens) and **sessions survive an IdP outage** (503 + Retry-After, same session recovers); per-request CSP nonce (`proxy.ts`), Cache Components turned off (ADR-028). **84 Vitest unit tests + 35 Playwright E2E tests** driving the real Keycloak login page, incl. attack tests (login CSRF with an attacker's valid callback, replay, fixation, forged cookies, traversal, Redis tampering) validated by **mutation** (broke 3 controls; all caught). Review found and fixed a real flaw (any refresh failure destroyed the session). Details: docs/08 §7, ADR-028…030.
 
 ## In progress
-Nothing running. Next is **M0.5** (Spring Boot skeleton: error model, security config, Flyway baseline, JPA, structured logging).
+Nothing running. Next is **M0.6** (transactional outbox → RabbitMQ → idempotent consumer).
 
 ## Pending
 Roadmap (doc 16) Phases 0–9 plus later items; content track.
@@ -115,5 +116,16 @@ None (no code). No blockers for Phase 0–5. Phase 6 *live* payments are blocked
 
 - **Repository + CI live (2026-11-23):** project pushed to the public GitHub repo (6 milestone commits + 2 CI fixes); CI and CodeQL green. Standing instruction recorded: commit + push after every verified change set (CLAUDE.md rule 10).
 
+## Known issues / debt (from M0.5)
+- **HTTPS-only behaviour is unverified:** `Secure` cookies, the `__Host-` prefix, HSTS and `upgrade-insecure-requests` can only be exercised over https (dev is `http://localhost`, un-prefixed cookie names). Test when TLS exists (hosting decision H-1).
+- Only Chromium is tested (no Firefox/WebKit). Dev-mode CSP is relaxed; only the production build was tested with the strict CSP.
+- **No rate limiting** on `/auth/*` or `/api/proxy` yet (Phase 1 / edge). No MFA/step-up UI, no social login, no Keycloak back-channel logout (a user disabled in Keycloak is cut off at the next refresh ≈ ≤5 min).
+- Redis is now a hard dependency of login; `SESSION_SECRET` rotation logs everyone out (no rotation scheme).
+- ADR-028 open question: cacheable public pages (Phase 2) vs nonce CSP.
+- No React component-test setup yet (RTL) — added with the first real components.
+- E2E selectors depend on Keycloak's default login-theme element ids (`#username`, `#password`, `#kc-login`).
+- The new CI `e2e` job is unproven on GitHub until pushed (see below).
+- Dependabot PRs #1–#5 still open (majors not merged blindly).
+
 ## Next recommended task
-**M0.5** — Keycloak + Next.js BFF login spike: Auth.js or `openid-client` decision (ADR), authorization-code + PKCE with a server-side session in Redis, HttpOnly cookie, CSRF protection for BFF routes, proxy route that attaches the bearer token, silent refresh, logout; verify end-to-end in a real browser (needs Playwright). Adds frontend test setup (Vitest + RTL). Then M0.6 (transactional outbox → RabbitMQ → idempotent consumer, using the primitives from M0.4). Still useful: your weekly hours (T-1) and answer to C-1.
+**M0.6** — transactional outbox → RabbitMQ → idempotent consumer: `shared.outbox` table (Flyway V2), relay (`FOR UPDATE SKIP LOCKED`, publisher confirms), durable topology with DLX/retry, a consumer using `IdempotencyService`, Testcontainers ITs with RabbitMQ (incl. duplicate delivery, crash-between-commit-and-publish, poison message → DLQ). That completes Phase 0; then **Phase 1** (identity & platform core: user provisioning on first login, roles/permissions tables, audit log, rate limiting). Still useful: your weekly hours (T-1).
