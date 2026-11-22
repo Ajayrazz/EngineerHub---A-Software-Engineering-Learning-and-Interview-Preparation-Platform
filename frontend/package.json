@@ -12,14 +12,21 @@
     "format:check": "prettier --check .",
     "api:generate": "openapi-typescript ../openapi/engineerhub-v1.yaml -o src/lib/api/schema.d.ts",
     "api:check": "node scripts/check-api-client.mjs",
-    "check": "npm run lint && npm run typecheck && npm run format:check && npm run api:check"
+    "check": "npm run lint && npm run typecheck && npm run format:check && npm run test && npm run api:check",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "next": "16.4.6",
+    "openid-client": "^6.9.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "redis": "^6.3.1",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -30,6 +37,7 @@
     "openapi-typescript": "^7.13.0",
     "prettier": "^3.10.1",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }
