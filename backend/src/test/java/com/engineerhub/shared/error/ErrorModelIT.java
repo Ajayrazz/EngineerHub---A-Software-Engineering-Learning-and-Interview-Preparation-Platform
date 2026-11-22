@@ -104,10 +104,36 @@ class ErrorModelIT {
 
   @Test
   void wrongMethodIsA405Problem() throws Exception {
-    mvc.perform(post("/api/v1/system/ping"))
+    mvc.perform(post("/api/v1/system/ping").with(jwt()))
         .andExpect(status().isMethodNotAllowed())
         .andExpect(content().contentTypeCompatibleWith(PROBLEM))
         .andExpect(jsonPath("$.code").value("METHOD_NOT_ALLOWED"));
+  }
+
+  /**
+   * Anonymous writes are refused before routing/binding, so callers cannot probe which routes
+   * exist.
+   */
+  @Test
+  void anonymousMutationsGet401EvenForUnknownPathsAndBadBodies() throws Exception {
+    for (String path :
+        new String[] {"/api/v1/system/ping", "/api/v1/does-not-exist", "/api/v1/me/profile"}) {
+      for (var method :
+          new org.springframework.http.HttpMethod[] {
+            org.springframework.http.HttpMethod.POST,
+            org.springframework.http.HttpMethod.PUT,
+            org.springframework.http.HttpMethod.PATCH,
+            org.springframework.http.HttpMethod.DELETE
+          }) {
+        mvc.perform(
+                org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request(
+                        method, path)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{bad json"))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.code").value("UNAUTHENTICATED"));
+      }
+    }
   }
 
   @Test

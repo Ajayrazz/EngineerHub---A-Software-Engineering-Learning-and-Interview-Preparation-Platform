@@ -4,6 +4,8 @@ engineerhub:
     jwt:
       # Never contacted: the decoder is lazy and tests inject JWTs. Unroutable on purpose.
       issuer-uri: http://127.0.0.1:1/realms/test
+    # Test-only anonymous POST used to exercise the validation/error paths.
+    public-mutation-paths: /test-support/validate
   outbox:
     relay:
       poll-interval: 100ms # fast polling so tests do not wait

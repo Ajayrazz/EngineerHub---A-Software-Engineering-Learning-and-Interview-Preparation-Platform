@@ -23,6 +23,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 /**
  * Stateless OAuth2 resource server (Keycloak-issued JWTs).
  *
+ * <p><b>Defence in depth:</b> anonymous state-changing requests are rejected here (401) before
+ * Spring binds or validates the body — otherwise a protected endpoint would answer an anonymous
+ * caller with validation errors (400) instead of 401. Public mutations (webhooks...) must be listed
+ * explicitly in {@code engineerhub.security.public-mutation-paths}.
+ *
  * <p><b>Authorization model:</b> method security ({@code @PreAuthorize} / {@code @PermitAll}) is
  * the single enforcement point and every handler method must carry one of them — verified at build
  * time by {@code EndpointPolicyArchTest}. The URL layer is deliberately permissive so public
@@ -44,7 +49,8 @@ class SecurityConfig {
       HttpSecurity http,
       ProblemSecurityHandlers problemHandlers,
       JwtAuthenticationConverter jwtAuthenticationConverter,
-      SecurityProperties props)
+      SecurityProperties props,
+      java.util.List<AuthenticatedRequestGuard> guards)
       throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -56,7 +62,16 @@ class SecurityConfig {
                     .frameOptions(f -> f.deny())
                     .permissionsPolicyHeader(
                         p -> p.policy("geolocation=(), microphone=(), camera=()")))
-        .authorizeHttpRequests(a -> a.anyRequest().permitAll())
+        .authorizeHttpRequests(
+            a ->
+                a.requestMatchers(new AnonymousMutationMatcher(props.publicMutationPaths()))
+                    .authenticated()
+                    .anyRequest()
+                    .permitAll())
+        .addFilterAfter(
+            new AuthenticatedRequestGuardFilter(guards, problemHandlers),
+            org.springframework.security.oauth2.server.resource.web.authentication
+                .BearerTokenAuthenticationFilter.class)
         .exceptionHandling(
             e -> e.authenticationEntryPoint(problemHandlers).accessDeniedHandler(problemHandlers))
         .oauth2ResourceServer(

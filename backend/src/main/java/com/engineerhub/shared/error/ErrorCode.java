@@ -13,6 +13,7 @@ public enum ErrorCode {
   MALFORMED_REQUEST(HttpStatus.BAD_REQUEST, "Malformed request"),
   UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "Authentication required"),
   FORBIDDEN(HttpStatus.FORBIDDEN, "Access denied"),
+  ACCOUNT_SUSPENDED(HttpStatus.FORBIDDEN, "Account suspended"),
   ENTITLEMENT_REQUIRED(HttpStatus.FORBIDDEN, "Subscription required"),
   NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not found"),
   METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Method not allowed"),

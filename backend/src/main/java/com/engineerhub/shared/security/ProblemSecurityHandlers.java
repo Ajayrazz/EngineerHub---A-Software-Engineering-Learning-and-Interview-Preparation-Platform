@@ -69,6 +69,15 @@ class ProblemSecurityHandlers implements AuthenticationEntryPoint, AccessDeniedH
             request.getRequestURI()));
   }
 
+  /** Renders an {@link com.engineerhub.shared.error.ApiException} raised by a request guard. */
+  void deny(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      com.engineerhub.shared.error.ApiException e)
+      throws IOException {
+    write(response, Problems.of(e.code(), e.getMessage(), request.getRequestURI()));
+  }
+
   private void write(HttpServletResponse response, ProblemDetail pd) throws IOException {
     response.setStatus(pd.getStatus());
     response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);

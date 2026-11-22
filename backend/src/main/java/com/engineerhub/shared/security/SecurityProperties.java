@@ -12,12 +12,24 @@ import org.springframework.validation.annotation.Validated;
  * @param jwt token validation settings
  * @param cors browser cross-origin allowlist (empty = no CORS headers at all; the Next.js BFF calls
  *     the API server-side, so this normally stays empty)
+ * @param publicMutationPaths ant patterns of the (rare) state-changing endpoints that anonymous
+ *     callers may use, e.g. a payment webhook. Every other POST/PUT/PATCH/DELETE requires
+ *     authentication at the filter chain, BEFORE request binding/validation runs.
  * @param contentSecurityPolicy CSP header for API responses (JSON only → locked down; the local
  *     profile relaxes it so Swagger UI works)
  */
 @Validated
 @ConfigurationProperties("engineerhub.security")
-record SecurityProperties(@Valid Jwt jwt, Cors cors, @NotBlank String contentSecurityPolicy) {
+record SecurityProperties(
+    @Valid Jwt jwt,
+    Cors cors,
+    @NotBlank String contentSecurityPolicy,
+    List<String> publicMutationPaths) {
+
+  SecurityProperties {
+    publicMutationPaths =
+        publicMutationPaths == null ? List.of() : List.copyOf(publicMutationPaths);
+  }
 
   record Jwt(@NotBlank String issuerUri, @NotBlank String audience) {}
 

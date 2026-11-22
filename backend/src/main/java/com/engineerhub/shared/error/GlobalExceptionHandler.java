@@ -45,6 +45,16 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return respond(Problems.of(ex.code(), ex.getMessage(), request.getRequestURI()));
   }
 
+  /** Two concurrent edits of the same row: the loser gets a 409 and may retry with fresh data. */
+  @ExceptionHandler(org.springframework.orm.ObjectOptimisticLockingFailureException.class)
+  ResponseEntity<Object> handleOptimisticLock(Exception ex, HttpServletRequest request) {
+    return respond(
+        Problems.of(
+            ErrorCode.CONFLICT,
+            "The resource was modified concurrently. Reload and try again.",
+            request.getRequestURI()));
+  }
+
   @ExceptionHandler(ConstraintViolationException.class)
   ResponseEntity<Object> handleConstraintViolation(
       ConstraintViolationException ex, HttpServletRequest request) {
