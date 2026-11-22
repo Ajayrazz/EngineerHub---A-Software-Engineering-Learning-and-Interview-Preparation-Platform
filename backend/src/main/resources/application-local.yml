@@ -7,6 +7,12 @@ spring:
     username: ${APP_DB_USER:engineerhub_app}
     password: ${APP_DB_PASSWORD:dev-only-app-pw}
 
+  rabbitmq:
+    host: localhost
+    username: ${RABBITMQ_USER:engineerhub}
+    password: ${RABBITMQ_PASSWORD:dev-only-rabbit-pw}
+    virtual-host: ${RABBITMQ_VHOST:engineerhub}
+
 engineerhub:
   security:
     jwt:

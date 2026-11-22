@@ -25,6 +25,31 @@ spring:
         jdbc:
           time_zone: UTC
 
+  # --- RabbitMQ (required; no defaults — never fall back to guest/guest. See RabbitConnectionGuard) ---
+  rabbitmq:
+    host: ${RABBITMQ_HOST:}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+    publisher-confirm-type: correlated # the relay waits for the broker's confirm before marking an event published
+    template:
+      mandatory: true # required for returns to be reported
+    publisher-returns: true # unroutable messages are reported back (logged + counted), never silently ignored
+    listener:
+      simple:
+        acknowledge-mode: auto # ack on success; exception => retry, then dead-letter
+        default-requeue-rejected: false # rejected messages go to the dead-letter exchange, never hot-loop
+        prefetch: 10
+        retry:
+          enabled: true
+          max-retries: 2 # retries AFTER the first attempt (Boot 4 / Spring Framework 7 semantics) => 3 attempts in total
+          initial-interval: 500ms
+          multiplier: 2.0
+          max-interval: 5s
+
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -60,8 +85,17 @@ management:
         enabled: true
       show-details: never
 
-# --- Security (see SecurityProperties) ---
+# --- Transactional outbox (see shared.messaging) ---
 engineerhub:
+  outbox:
+    relay:
+      enabled: true # exactly the processes that should publish; safe to run on several (SKIP LOCKED)
+      poll-interval: 500ms
+      batch-size: 50
+      confirm-timeout: 5s
+    retention: 7d # published rows are purged after this
+
+# --- Security (see SecurityProperties) ---
   security:
     jwt:
       issuer-uri: ${KEYCLOAK_ISSUER_URI:} # required, e.g. http://localhost:8081/realms/engineerhub
