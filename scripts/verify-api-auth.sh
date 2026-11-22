@@ -96,6 +96,20 @@ expect "admin/ping: admin" 200 "$ADMIN" /api/v1/system/admin/ping
 expect "admin/ping: superadmin" 200 "$SUPER" /api/v1/system/admin/ping
 body "$LEARNER" /api/v1/system/admin/ping | jget "d['code']" | grep -qx FORBIDDEN && ok "403 body is problem+json code FORBIDDEN" || bad "403 problem body"
 
+echo "== Identity (/me): just-in-time provisioning, validation, anonymous writes"
+ME=$(body "$LEARNER" /api/v1/me)
+echo "$ME" | jget "d['username']=='learner' and d['status']=='active' and d['roles']==[]" | grep -qx True && ok "/me provisions + returns the learner (no staff roles)" || bad "/me learner: $ME"
+echo "$ME" | jget "__import__('uuid').UUID(d['id']).version==7" | grep -qx True && ok "user id is a UUIDv7" || bad "user id version"
+ME2=$(body "$LEARNER" /api/v1/me); [ "$(echo "$ME" | jget "d['id']")" = "$(echo "$ME2" | jget "d['id']")" ] && ok "repeat call returns the same user (idempotent)" || bad "/me not idempotent"
+body "$ADMIN" /api/v1/me | jget "d['roles']==['ADMIN']" | grep -qx True && ok "/me shows the admin role from the token" || bad "/me admin roles"
+expect "/me without token" 401 "" /api/v1/me
+for m in POST PUT PATCH DELETE; do
+  c=$(curl -s -o /dev/null -w '%{http_code}' -X "$m" -H 'content-type: application/json' -d '{bad json' "$API/api/v1/me/profile"); [ "$c" = 401 ] && ok "anonymous $m with a broken body -> 401 (not 400/404/405)" || bad "anonymous $m -> $c"
+done
+c=$(curl -s -o /dev/null -w '%{http_code}' -X PATCH -H "Authorization: Bearer $LEARNER" -H 'content-type: application/json' -d '{"website":"javascript:alert(1)"}' "$API/api/v1/me/profile"); [ "$c" = 400 ] && ok "javascript: link in the profile -> 400" || bad "javascript: link -> $c"
+c=$(curl -s -o /dev/null -w '%{http_code}' -X PATCH -H "Authorization: Bearer $LEARNER" -H 'content-type: application/json' -d '{"displayName":"Dev Learner","status":"suspended","email":"evil@x.test"}' "$API/api/v1/me/profile"); [ "$c" = 200 ] && ok "valid PATCH accepted; extra fields ignored" || bad "valid PATCH -> $c"
+body "$LEARNER" /api/v1/me | jget "d['status']=='active' and d['email']!='evil@x.test'" | grep -qx True && ok "mass assignment (status/email) had no effect" || bad "mass assignment!"
+
 echo "== Hardening"
 curl -s -D - -o /dev/null "$API/api/v1/system/ping" | tr -d '\r' > /tmp/eh_hdr.$$ 2>/dev/null
 grep -qi '^x-content-type-options: nosniff' /tmp/eh_hdr.$$ && ok "X-Content-Type-Options: nosniff" || bad "nosniff"

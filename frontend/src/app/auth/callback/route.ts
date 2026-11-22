@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loginCookie, sessionCookie } from "@/lib/auth/cookies";
 import { logEvent, NO_STORE } from "@/lib/auth/http";
+import { callApi } from "@/lib/auth/api";
 import { completeAuthorization } from "@/lib/auth/oidc";
 import { getEnv } from "@/lib/env";
 import { randomToken } from "@/lib/session/crypto";
@@ -65,6 +66,14 @@ export async function GET(request: NextRequest) {
       createdAt: now,
       refreshedAt: 0,
     });
+
+    // Provision the local user record (idempotent). Best effort: a failure here must not break the login,
+    // the next authenticated call provisions it anyway.
+    await callApi(tokens.access_token, "me", { signal: AbortSignal.timeout(3000) }).catch((error) =>
+      logEvent("warn", "user_provisioning_deferred", {
+        message: error instanceof Error ? error.message : "unknown",
+      }),
+    );
 
     const response = NextResponse.redirect(new URL(safeReturnTo(txn.returnTo), getEnv().APP_URL), {
       status: 302,

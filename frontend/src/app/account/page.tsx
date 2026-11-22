@@ -7,6 +7,7 @@ import { RefreshUnavailableError } from "@/lib/auth/refresh";
 import type { components } from "@/lib/api/schema";
 
 type WhoAmI = components["schemas"]["WhoAmI"];
+type Me = components["schemas"]["MeResponse"];
 
 export default async function AccountPage() {
   const auth = await currentSession();
@@ -32,9 +33,12 @@ export default async function AccountPage() {
 
   // Server-side call: the access token never leaves the server.
   let whoami: WhoAmI | null = null;
+  let me: Me | null = null;
   try {
     const response = await callApi(fresh.session.accessToken, "system/whoami");
     if (response.ok) whoami = (await response.json()) as WhoAmI;
+    const meResponse = await callApi(fresh.session.accessToken, "me");
+    if (meResponse.ok) me = (await meResponse.json()) as Me;
   } catch {
     whoami = null;
   }
@@ -47,6 +51,8 @@ export default async function AccountPage() {
         <dd data-testid="account-username">{fresh.session.username}</dd>
         <dt className="opacity-60">Name</dt>
         <dd>{fresh.session.name}</dd>
+        <dt className="opacity-60">User id</dt>
+        <dd data-testid="user-id">{me?.id ?? "unavailable"}</dd>
         <dt className="opacity-60">API subject</dt>
         <dd data-testid="api-subject">{whoami?.subject ?? "unavailable"}</dd>
         <dt className="opacity-60">Staff roles</dt>

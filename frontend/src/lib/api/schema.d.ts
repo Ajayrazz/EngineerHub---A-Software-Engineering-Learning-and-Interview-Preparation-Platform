@@ -4,6 +4,38 @@
  */
 
 export interface paths {
+    "/api/v1/me/preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updatePreferences"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateProfile"];
+        trace?: never;
+    };
     "/api/v1/system/whoami": {
         parameters: {
             query?: never;
@@ -52,10 +84,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        PreferencesRequest: {
+            timezone: string;
+            locale: string;
+        };
+        MeResponse: {
+            /** Format: uuid */
+            id?: string;
+            username?: string;
+            email?: string;
+            emailVerified?: boolean;
+            status?: string;
+            roles?: string[];
+            timezone?: string;
+            locale?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            profile?: components["schemas"]["Profile"];
+        };
+        Profile: {
+            displayName?: string;
+            bio?: string;
+            website?: string;
+            githubUrl?: string;
+            linkedinUrl?: string;
+        };
+        ProfileUpdateRequest: {
+            displayName?: string;
+            bio?: string;
+            website?: string;
+            githubUrl?: string;
+            linkedinUrl?: string;
+        };
         WhoAmI: {
             subject?: string;
             roles?: string[];
@@ -75,6 +155,54 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    updatePreferences: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferencesRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    updateProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfileUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
     whoami: {
         parameters: {
             query?: never;
@@ -131,6 +259,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Ping"];
+                };
+            };
+        };
+    };
+    me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MeResponse"];
                 };
             };
         };
