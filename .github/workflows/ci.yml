@@ -122,12 +122,14 @@ jobs:
       - name: Build API jar
         working-directory: backend
         run: ./mvnw -B -q package -DskipTests -DskipITs
-      - name: Start API against the dev stack and verify authentication/authorization with real Keycloak tokens
+      - name: Start API against the dev stack; verify authn/authz (real Keycloak tokens) and the outbox (real RabbitMQ)
         run: |
           set -a; . ./.env; set +a
           SPRING_PROFILES_ACTIVE=local java -jar backend/target/engineerhub-backend-0.1.0-SNAPSHOT.jar > api.log 2>&1 &
           for _ in $(seq 1 60); do curl -sf http://localhost:8080/actuator/health >/dev/null && break; sleep 2; done
           API_LOG=api.log ./scripts/verify-api-auth.sh
+          # Transactional outbox against the real RabbitMQ (also stops and restarts the broker container).
+          ./scripts/verify-messaging.sh
       - name: Dump API log on failure
         if: failure()
         run: tail -n 200 api.log || true

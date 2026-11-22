@@ -7,7 +7,7 @@ export JAVA_HOME := $(JDK21)
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify format api-update hooks scan frontend-check frontend-start e2e lint-scripts
+.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify msg-verify format api-update hooks scan frontend-check frontend-start e2e lint-scripts
 
 help: ## List commands
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-18s %s\n",$$1,$$2}'
@@ -84,6 +84,9 @@ dev-ps: ## Show stack status
 
 dev-verify: ## Verify the running stack end to end (scripts/verify-dev-stack.sh)
 	./scripts/verify-dev-stack.sh
+
+msg-verify: ## Live outbox check against the real RabbitMQ incl. a broker outage (STOPS+restarts the rabbitmq container; needs make dev-up + make backend-run)
+	./scripts/verify-messaging.sh
 
 api-verify: ## Live authn/authz check of the RUNNING API against real Keycloak tokens (needs make dev-up + make backend-run)
 	./scripts/verify-api-auth.sh
