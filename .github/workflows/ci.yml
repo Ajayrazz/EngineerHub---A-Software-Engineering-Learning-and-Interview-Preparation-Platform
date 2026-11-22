@@ -138,6 +138,63 @@ jobs:
         if: always()
         run: docker compose down -v
 
+  e2e:
+    name: "Browser E2E (Playwright, real Keycloak login through the Next.js BFF)"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Start the dev stack (Postgres, Redis, RabbitMQ, Keycloak, ...)
+        run: make dev-up
+      - name: Install frontend dependencies and the Chromium browser
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Build the API and the web app
+        run: |
+          (cd backend && ./mvnw -B -q package -DskipTests -DskipITs)
+          set -a; . ./.env; set +a
+          (cd frontend && npm run build)
+      - name: Start the API and the web app (production build)
+        run: |
+          set -a; . ./.env; set +a
+          SPRING_PROFILES_ACTIVE=local java -jar backend/target/engineerhub-backend-0.1.0-SNAPSHOT.jar > api.log 2>&1 &
+          (cd frontend && npm run start > ../web.log 2>&1 &)
+          for _ in $(seq 1 60); do
+            curl -sf http://localhost:8080/actuator/health >/dev/null && curl -sf -o /dev/null http://localhost:3000/ && exit 0
+            sleep 2
+          done
+          echo "services did not start"; tail -n 50 api.log web.log; exit 1
+      - name: Run the browser tests
+        run: make e2e
+      - name: Upload Playwright report and service logs on failure
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: e2e-diagnostics
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+            api.log
+            web.log
+          retention-days: 7
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
+
   workflow-lint:
     name: Workflow and shell script lint
     runs-on: ubuntu-24.04

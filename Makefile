@@ -7,7 +7,7 @@ export JAVA_HOME := $(JDK21)
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify format api-update hooks scan frontend-check lint-scripts
+.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify format api-update hooks scan frontend-check frontend-start e2e lint-scripts
 
 help: ## List commands
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-18s %s\n",$$1,$$2}'
@@ -24,8 +24,14 @@ backend-run: dev-env ## Run the API locally on :8080 (profile 'local'; needs `ma
 frontend-install: ## Install frontend deps from the lockfile
 	cd frontend && npm ci
 
-frontend-dev: ## Run Next.js dev server on :3000
-	cd frontend && npm run dev
+frontend-dev: dev-env ## Run the web app on :3000 (needs make dev-up; sources .env)
+	set -a && . ./.env && set +a && cd frontend && npm run dev
+
+frontend-start: dev-env ## Build and serve the PRODUCTION web build on :3000 (what the E2E tests run against)
+	set -a && . ./.env && set +a && cd frontend && npm run build && npm run start
+
+e2e: dev-env ## Playwright browser tests (needs make dev-up, make backend-run, make frontend-start)
+	set -a && . ./.env && set +a && cd frontend && E2E_CONTAINER_CONTROL=1 npx playwright test
 
 frontend-lint: ## Lint the frontend
 	cd frontend && npm run lint
@@ -57,8 +63,8 @@ scan: ## Security scans: secrets (gitleaks) + known-vulnerable dependencies (OSV
 	cd backend && ./mvnw -B -q org.cyclonedx:cyclonedx-maven-plugin:2.9.3:makeBom -DoutputFormat=json -DincludeTestScope=false
 	osv-scanner scan source -L backend/target/bom.json -L frontend/package-lock.json
 
-dev-env: ## Create .env from .env.example if missing (fake local values only)
-	@[ -f .env ] && echo ".env already exists" || (cp .env.example .env && echo "created .env from .env.example")
+dev-env: ## Create .env from .env.example, or append any newly added variables (fake local values only)
+	@./scripts/sync-env.sh
 
 dev-up: dev-env ## Start the local stack (Postgres, Redis, RabbitMQ, Keycloak, Mailpit, S3) and wait until healthy
 	docker compose up -d --wait --wait-timeout 240 postgres redis rabbitmq keycloak mailpit s3
