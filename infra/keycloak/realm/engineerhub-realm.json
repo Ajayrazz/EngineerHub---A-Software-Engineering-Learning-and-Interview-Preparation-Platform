@@ -1,0 +1,263 @@
+{
+  "realm": "engineerhub",
+  "displayName": "EngineerHub",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "verifyEmail": true,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "rememberMe": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "failureFactor": 5,
+  "waitIncrementSeconds": 60,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "maxDeltaTimeSeconds": 43200,
+  "passwordPolicy": "length(10) and notUsername and notEmail",
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 2592000,
+  "ssoSessionMaxLifespan": 7776000,
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
+  "smtpServer": {
+    "host": "mailpit",
+    "port": "1025",
+    "from": "no-reply@engineerhub.local",
+    "fromDisplayName": "EngineerHub",
+    "auth": "false",
+    "ssl": "false",
+    "starttls": "false"
+  },
+  "roles": {
+    "realm": [
+      {
+        "name": "SUPER_ADMIN",
+        "description": "Platform owner; all permissions"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Administrator"
+      },
+      {
+        "name": "CONTENT_MANAGER",
+        "description": "Manages and publishes content"
+      },
+      {
+        "name": "PROBLEM_SETTER",
+        "description": "Authors problems and test cases"
+      },
+      {
+        "name": "MODERATOR",
+        "description": "Moderates community content"
+      },
+      {
+        "name": "INSTRUCTOR",
+        "description": "Authors assigned courses"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "engineerhub-web",
+      "name": "EngineerHub web (Next.js BFF)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${KEYCLOAK_BFF_CLIENT_SECRET}",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:3000/auth/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:3000/",
+        "access.token.lifespan": "300"
+      },
+      "protocolMappers": [
+        {
+          "name": "engineerhub-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.custom.audience": "engineerhub-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "engineerhub-dev-cli",
+      "name": "DEV ONLY: scripted logins for API verification (password grant). Remove from any non-dev realm.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "protocolMappers": [
+        {
+          "name": "engineerhub-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.custom.audience": "engineerhub-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "engineerhub-dev-noaud",
+      "name": "DEV ONLY negative control: issues tokens WITHOUT the engineerhub-api audience (must be rejected by the API).",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "learner",
+      "email": "learner@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "Learner",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "superadmin",
+      "email": "superadmin@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "SuperAdmin",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "SUPER_ADMIN"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "admin",
+      "email": "admin@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "Admin",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "ADMIN"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "contentmanager",
+      "email": "contentmanager@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "ContentManager",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "CONTENT_MANAGER"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "problemsetter",
+      "email": "problemsetter@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "ProblemSetter",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "PROBLEM_SETTER"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "moderator",
+      "email": "moderator@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "Moderator",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "MODERATOR"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "instructor",
+      "email": "instructor@engineerhub.local",
+      "firstName": "Dev",
+      "lastName": "Instructor",
+      "enabled": true,
+      "emailVerified": true,
+      "realmRoles": [
+        "INSTRUCTOR"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Dev-Only-Pass-1!",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
