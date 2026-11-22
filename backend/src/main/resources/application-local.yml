@@ -1,0 +1,28 @@
+# Local development profile (SPRING_PROFILES_ACTIVE=local, set by `make backend-run`).
+# Defaults match the Docker Compose dev stack and .env.example (FAKE dev-only values).
+# NEVER use this profile in staging/production.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:${POSTGRES_HOST_PORT:5440}/${APP_DB_NAME:engineerhub}
+    username: ${APP_DB_USER:engineerhub_app}
+    password: ${APP_DB_PASSWORD:dev-only-app-pw}
+
+engineerhub:
+  security:
+    jwt:
+      issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/engineerhub}
+    # Swagger UI needs inline scripts/styles; acceptable for local only.
+    content-security-policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+logging:
+  structured:
+    format:
+      console: # blank = human-readable console in local development
+  pattern:
+    level: "%5p [%X{correlationId:-}]"

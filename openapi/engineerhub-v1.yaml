@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: EngineerHub API
+  description: Public REST API of the EngineerHub platform.
+  version: v1
+servers:
+- url: http://localhost
+  description: Generated server url
+paths:
+  /api/v1/system/whoami:
+    get:
+      tags:
+      - system-controller
+      operationId: whoami
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/WhoAmI"
+  /api/v1/system/ping:
+    get:
+      tags:
+      - system-controller
+      operationId: ping
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Ping"
+  /api/v1/system/admin/ping:
+    get:
+      tags:
+      - system-controller
+      operationId: adminPing
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Ping"
+components:
+  schemas:
+    WhoAmI:
+      type: object
+      properties:
+        subject:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    Ping:
+      type: object
+      properties:
+        status:
+          type: string
+        service:
+          type: string
+        time:
+          type: string
+          format: date-time
