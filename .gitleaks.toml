@@ -1,0 +1,14 @@
+# gitleaks configuration. Extends the default ruleset; allowlists only generated/ignored output.
+# Do NOT add allowlist entries for real-looking secrets. Fake dev values must carry the "dev-only" marker.
+title = "EngineerHub gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated / dependency / build output (all git-ignored)"
+paths = [
+  '''(^|/)\.next/''',
+  '''(^|/)node_modules/''',
+  '''(^|/)target/''',
+]

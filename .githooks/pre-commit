@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Fast local gate (enable with: make hooks). CI re-runs everything; this just stops obvious problems early.
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$STAGED" ] && exit 0
+
+# 1. Secrets — never skippable by absence of the tool.
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks is not installed (brew install gitleaks). Refusing to commit without a secret scan." >&2
+  exit 1
+fi
+gitleaks git --staged --no-banner --redact --config .gitleaks.toml
+
+# 2. Never commit local env files.
+if echo "$STAGED" | grep -E '(^|/)\.env($|\.)' | grep -vq '\.env\.example$'; then
+  echo "pre-commit: refusing to commit a .env file (only .env.example is allowed)." >&2
+  exit 1
+fi
+
+# 3. Formatting of staged frontend files.
+FE=$(echo "$STAGED" | grep -E '^frontend/.*\.(ts|tsx|js|jsx|mjs|json|css|md)$' | sed 's#^frontend/##' | grep -v '^src/lib/api/schema.d.ts$' || true)
+if [ -n "$FE" ]; then
+  (cd frontend && echo "$FE" | xargs npx prettier --check)
+fi
+
+# 4. Formatting of staged Java files.
+if echo "$STAGED" | grep -q '^backend/.*\.java$'; then
+  JDK21=$(/usr/libexec/java_home -v 21 2>/dev/null || true)
+  (cd backend && JAVA_HOME="${JDK21:-$JAVA_HOME}" ./mvnw -B -q spotless:check) || { echo "pre-commit: run 'make format'" >&2; exit 1; }
+fi
