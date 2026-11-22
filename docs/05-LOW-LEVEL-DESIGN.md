@@ -74,3 +74,6 @@ Global `@RestControllerAdvice` → RFC 9457 `application/problem+json` with stab
 
 ## 9. Frontend (see `11-FRONTEND-ARCHITECTURE.md`)
 ## 10. Judge worker internals (see `10-CODE-EXECUTION-ARCHITECTURE.md`)
+
+## Addendum (M0.6) — events as implemented
+Emit with `OutboxPublisher.publish(type, version, aggregateType, aggregateId, payload)` inside the business transaction; consume with `IdempotentEventHandler.handle(consumerName, message, event -> …)` from a `@RabbitListener`. Envelope: `{eventId, type, version, occurredAt, aggregateType, aggregateId, correlationId, payload}`; `type` = dotted lower-case routing key (validated `^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)+$`), payload must be a JSON **object**, bodies ≤ 256 KiB. The correlation id of the originating request travels in the envelope and AMQP headers and is restored in the consumer's logging context. See ADR-031/032.

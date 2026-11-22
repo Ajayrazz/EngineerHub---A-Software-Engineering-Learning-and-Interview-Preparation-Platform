@@ -68,3 +68,11 @@ Postgres: both DB users work, **cross-DB isolation**. Redis: auth required. Rabb
 
 ### Web app login (verified in M0.5)
 With the stack up, `make backend-run` (API :8080) and `make frontend-dev` (web :3000), open http://localhost:3000 → "Log in" → Keycloak → sign in as e.g. `learner` / `Dev-Only-Pass-1!` (or `admin`, `superadmin`, …). `make dev-env` now also *appends* variables newly added to `.env.example` to your existing `.env` (never overwrites). New variables for the web app: `APP_URL`, `REDIS_URL`, `SESSION_SECRET` (≥ 32 chars; derives the session encryption keys), optional `SESSION_IDLE_TTL_SECONDS` / `SESSION_ABSOLUTE_TTL_SECONDS`. `make e2e` includes a test that **stops and restarts the Keycloak container** (gated by `E2E_CONTAINER_CONTROL=1`, set by the Make target).
+
+### Messaging (verified in M0.6)
+`make msg-verify` runs 20 live checks of the transactional outbox against the real RabbitMQ — **it stops and restarts the `rabbitmq` container** (needs `make dev-up` + `make backend-run`). RabbitMQ management UI: http://localhost:15672 (user/password from `.env`, vhost `engineerhub`).
+
+**Runbook (manual, no tooling yet):**
+- *Outbox backlog:* `select count(*), min(created_at) from shared.outbox where published_at is null;` — growing = broker down or relay not running. Failing rows: `select id, event_type, attempts, last_error from shared.outbox where attempts > 0;`.
+- *Dead letters:* queue `<consumer-queue>.dlq` in the management UI (Get messages: the original message, its `messageId` = event id, and an `x-death` header with the reason). *Replay:* after fixing the cause, move them back to the events exchange with a Shovel or `rabbitmqadmin publish` (routing key = the event's `type`); the consumer's idempotency ledger makes a replay of an already-processed event harmless. A replay tool is a TODO.
+- *Stop publishing:* set `engineerhub.outbox.relay.enabled=false` and restart that process; events accumulate safely in PostgreSQL.

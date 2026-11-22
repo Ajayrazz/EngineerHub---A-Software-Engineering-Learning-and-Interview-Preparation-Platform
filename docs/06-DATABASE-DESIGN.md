@@ -153,3 +153,6 @@ Indexes derive from the query list in `07-API-SPECIFICATION.md`; each migration 
 - `invoices(id, payment_id, number UNIQUE, doc_type CHECK(receipt|tax_invoice|credit_note), snapshot jsonb, s3_key)`, `invoice_sequences(fy, last_no)`.
 - `refund_requests(id, payment_id, user_id, reason, details, status, assigned_to, decision_note, created_at, decided_at)`, `refunds(id, request_id NULL, payment_id, amount_minor, provider_refund_ref UNIQUE, status, approved_by, second_approver NULL, processed_at)`, `refund_policy_versions(id, policy jsonb, published_at, published_by)`.
 - `webhook_events` as before.
+
+## Addendum B (M0.6) — `shared.outbox` as implemented (Flyway V2)
+`id uuid PK` (= event id = AMQP messageId = idempotency key), `event_type`, `event_version ≥ 1`, `aggregate_type`, `aggregate_id`, `payload jsonb`, `correlation_id`, `occurred_at`, `created_at`, `published_at` (NULL = pending), `attempts`, `last_error` (≤ 500 chars, sanitized). Indexes: partial `idx_outbox_pending (created_at, id) WHERE published_at IS NULL` (the relay's hot query stays tiny) and partial `idx_outbox_published (published_at) WHERE published_at IS NOT NULL` (retention purge). Published rows are purged after 7 days (hourly job).

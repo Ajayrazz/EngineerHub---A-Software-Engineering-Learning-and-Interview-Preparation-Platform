@@ -12,7 +12,7 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 | Hibernate ORM | 7.4.5.Final | Verified (M0.4: `ddl-auto=validate` against Flyway schema, native upsert, JPQL delete) | |
 | Flyway | 12.4.0 (+ `flyway-database-postgresql`) | Verified (M0.4, PG 18.7) | Starter is `spring-boot-starter-flyway`; Maven Central has 13.x — **do not override** unless Boot supports it |
 | Jackson | 3.1.5 (`tools.jackson`) | Verified (problem+json writer) | Boot 4 moved to Jackson 3 — `tools.jackson.databind.ObjectMapper`; Spring's `ProblemDetail` serialises correctly |
-| Spring AMQP | 4.1.1 | Boot-managed | Used from M0.6 |
+| Spring AMQP | 4.1.1 (`spring-boot-starter-amqp`) | Verified (M0.6: confirms, returns, quorum queues, retry, DLX) | **Boot 4 renamed listener retry `max-attempts` → `max-retries` (retries after the first attempt); the old name is silently ignored.** Retry policy customizer bean type: `RabbitListenerRetrySettingsCustomizer` (`org.springframework.boot.retry.RetryPolicySettings`) |
 | Testcontainers | **2.0.5** | Verified (Postgres 18 IT on Docker Desktop/macOS) | Artifacts `testcontainers-junit-jupiter`, `testcontainers-postgresql`; package `org.testcontainers.postgresql.PostgreSQLContainer` |
 | Spring Modulith | **2.2.0** | Verified (`ModularityTests` passes on Boot 4.1.3) | Boot 4-compatible line |
 | springdoc-openapi | **3.2.1** | Verified with Boot 4.1.3 (OpenAPI 3.1 generation; contract test) | API docs/Swagger UI disabled by default; enabled by `local` profile and the contract test |
@@ -75,3 +75,5 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 
 ## Upgrade policy
 Boot-managed dependencies follow the Boot BOM; patch releases monthly after reading release notes; minor/major upgrades are separate milestones with a green `make verify`. Dependabot/Renovate added in M0.3.
+
+**M0.6:** RabbitMQ `rabbitmq:4.3.8-management` verified (quorum queues, publisher confirms, management API); Testcontainers `testcontainers-rabbitmq` 2.0.5 + `@ServiceConnection` verified (`org.testcontainers.rabbitmq.RabbitMQContainer`, `withAdminUser/withAdminPassword`); `spring-boot-starter-amqp-test` added. Boot 4 AMQP package: `org.springframework.boot.amqp.autoconfigure` (`RabbitProperties`, `RabbitConnectionDetails`). `RabbitProperties.Ssl` uses `determineEnabled()`.
