@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 /**
- * Full application context (real security chain, real Flyway migrations, real PostgreSQL 18 in
- * Docker). Name such classes {@code *IT}: they run in {@code mvn verify}, not in the fast unit
- * phase.
+ * Full application context (real security chain, real Flyway migrations, real PostgreSQL 18 and
+ * RabbitMQ in Docker). Name such classes {@code *IT}: they run in {@code mvn verify}, not in the
+ * fast unit phase.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,5 +21,5 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import(PostgresTestConfig.class)
+@Import({PostgresTestConfig.class, RabbitTestConfig.class, TestMessagingConfig.class})
 public @interface IntegrationTest {}

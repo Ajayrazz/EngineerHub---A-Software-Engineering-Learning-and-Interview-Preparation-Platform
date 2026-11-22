@@ -1,9 +1,12 @@
-# Profile used by integration tests (@IntegrationTest). The datasource comes from Testcontainers.
+# Profile used by integration tests (@IntegrationTest). Datasource and RabbitMQ come from Testcontainers.
 engineerhub:
   security:
     jwt:
       # Never contacted: the decoder is lazy and tests inject JWTs. Unroutable on purpose.
       issuer-uri: http://127.0.0.1:1/realms/test
+  outbox:
+    relay:
+      poll-interval: 100ms # fast polling so tests do not wait
 
 springdoc:
   # Test-only endpoints must never appear in the API contract.
