@@ -126,6 +126,7 @@ None (no code). No blockers for Phase 0–5. Phase 6 *live* payments are blocked
 - E2E selectors depend on Keycloak's default login-theme element ids (`#username`, `#password`, `#kc-login`).
 - The new CI `e2e` job is unproven on GitHub until pushed (see below).
 - Dependabot PRs #1–#5 still open (majors not merged blindly).
+- **CodeQL alert #1 (high) `java/spring-disabled-csrf-protection`** on `SecurityConfig` (`csrf.disable()`): a **false positive by design** — the API is a stateless bearer-token resource server with no cookies/session (ADR-025); the real CSRF defences are in the BFF (Origin + per-session token, tested). Left **open on purpose**: dismissing it ("won't fix"/"false positive" with that justification) is the owner's call. Do not "fix" it by hiding the call from the scanner.
 
 ## Next recommended task
 **M0.6** — transactional outbox → RabbitMQ → idempotent consumer: `shared.outbox` table (Flyway V2), relay (`FOR UPDATE SKIP LOCKED`, publisher confirms), durable topology with DLX/retry, a consumer using `IdempotencyService`, Testcontainers ITs with RabbitMQ (incl. duplicate delivery, crash-between-commit-and-publish, poison message → DLQ). That completes Phase 0; then **Phase 1** (identity & platform core: user provisioning on first login, roles/permissions tables, audit log, rate limiting). Still useful: your weekly hours (T-1).
