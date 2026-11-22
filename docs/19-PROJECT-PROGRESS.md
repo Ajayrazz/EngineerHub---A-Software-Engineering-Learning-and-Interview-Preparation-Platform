@@ -20,8 +20,11 @@ _Last updated: 2026-11-23_
 
 - **Phase 1 / M1.1 — Identity — DONE (2026-11-23).** Flyway V3 (`identity.users`, `identity.user_profiles`), JIT provisioning (atomic upsert, race-tested: 10 parallel first calls → 1 user + 1 event), `/me` profile + preferences API with strict validation (javascript:/http:/user-info links, control chars, mass assignment), suspension guard SPI, `UserDirectory` public API, ADR-033 + ADR-025 amendment (found by a test: anonymous writes got 400 before 401). 118 backend tests; live auth script 45 checks; 38 browser tests.
 
+- **Phase 1 / M1.2 — Authorization model — DONE (2026-11-23).** Flyway V4 permission catalog seeded from the docs/08 matrix; `Authorizer` (`@authz.can(...)`, deny-by-default, fail-closed); scoped grants that never exceed the role; `/me/permissions`; `AuthorizationMatrixIT` (every role × permission cell, scoped/expired/suspended/leftover grants, typo guard); mutation-checked (2 caught, 1 equivalent). ADR-034.
+- **Phase 1 / M1.3 — Audit log + admin API — DONE (2026-11-23).** Flyway V5 append-only hash-chained audit log written in the audited transaction; admin endpoints for users (search/page), status change (audited, immediate effect, never self), scoped grants (anti-escalation) and roles; audit search/verify. 147 backend tests (42 unit + 105 integration). Bug found by tests: invalid event name (`status-changed`) — the validator caught it. ADR-035.
+
 ## In progress
-Phase 1 continues: M1.2 authorization model (permissions, scoped grants, matrix tests), M1.3 audit log, M1.4 rate limiting + request-size limits, M1.5 Keycloak realm split + admin MFA, M1.6 admin shell.
+Phase 1 continues: M1.4 rate limiting + request-size limits, M1.5 Keycloak (realm split, admin MFA, role assignment via the Admin API), M1.6 admin shell UI.
 
 ## Pending
 Roadmap (doc 16) Phases 0–9 plus later items; content track.

@@ -156,3 +156,6 @@ Indexes derive from the query list in `07-API-SPECIFICATION.md`; each migration 
 
 ## Addendum B (M0.6) — `shared.outbox` as implemented (Flyway V2)
 `id uuid PK` (= event id = AMQP messageId = idempotency key), `event_type`, `event_version ≥ 1`, `aggregate_type`, `aggregate_id`, `payload jsonb`, `correlation_id`, `occurred_at`, `created_at`, `published_at` (NULL = pending), `attempts`, `last_error` (≤ 500 chars, sanitized). Indexes: partial `idx_outbox_pending (created_at, id) WHERE published_at IS NULL` (the relay's hot query stays tiny) and partial `idx_outbox_published (published_at) WHERE published_at IS NOT NULL` (retention purge). Published rows are purged after 7 days (hourly job).
+
+## Addendum C (M1.1–M1.3) — implemented tables
+`identity.users`, `identity.user_profiles` (V3); `identity.permissions`, `identity.role_permissions`, `identity.scoped_grants` (V4, seeded matrix); `admin.audit_logs` (V5: append-only triggers + hash chain). Constraints worth knowing: unique `keycloak_sub`, unique `lower(username)`, status CHECK, role CHECK (only the six staff roles), unique `(user_id, permission, resource_type, resource_id)` grants.

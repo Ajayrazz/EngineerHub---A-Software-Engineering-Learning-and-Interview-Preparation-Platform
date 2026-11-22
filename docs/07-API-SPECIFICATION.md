@@ -70,3 +70,6 @@ Admin 🛡: `/admin/billing/payments`, `/admin/billing/needs-review`, `/admin/bi
 
 ## Addendum C (M1.1) — implemented: identity
 `GET /api/v1/me` (provisions on first call) · `PATCH /api/v1/me/profile` (`displayName`, `bio`, `website`, `githubUrl`, `linkedinUrl`; null = unchanged, "" = clear; https-only links) · `PUT /api/v1/me/preferences` (`timezone` IANA, `locale` en). Errors: `ACCOUNT_SUSPENDED` (403) on every authenticated endpoint for suspended/deleted accounts; anonymous POST/PUT/PATCH/DELETE → 401.
+
+## Addendum D (M1.2–M1.3) — implemented: authorization and administration
+`GET /api/v1/me/permissions` · **Admin** (permission in brackets): `GET /admin/users?q&status&page&size` [user.read], `GET /admin/users/{id}` [user.read], `PUT /admin/users/{id}/status` {status: active|suspended, reason ≥ 5 chars} [user.suspend; never self], `GET|POST /admin/users/{id}/grants`, `DELETE /admin/users/{id}/grants/{grantId}` [role.grant.standard; permission must be grantable and held by the caller; ≤ 1 year expiry], `GET /admin/roles` [user.read], `GET /admin/audit-logs?actor&action&resourceType&resourceId&from&to&page&size` and `GET /admin/audit-logs/verify` [audit.read]. List endpoints cap `size` at 100; search is a prefix match with LIKE wildcards escaped.
