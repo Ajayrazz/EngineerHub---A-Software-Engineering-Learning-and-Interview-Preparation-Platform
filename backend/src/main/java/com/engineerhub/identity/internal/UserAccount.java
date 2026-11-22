@@ -84,6 +84,10 @@ class UserAccount {
     return createdAt;
   }
 
+  Instant lastLoginAt() {
+    return lastLoginAt;
+  }
+
   void changeStatus(UserStatus newStatus, Instant now) {
     this.status = newStatus.db();
     this.updatedAt = now;
