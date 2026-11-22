@@ -63,7 +63,7 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 | gitleaks | 8.30.1 | Verified (negative + positive controls) | CLI/container, not the marketplace action |
 | OSV-Scanner | 2.7.1 | Verified (positive control: log4j 2.14.1 → 8 vulns) | Scans SBOM + npm lockfile |
 | actionlint | 1.7.12 | Verified (catches planted errors) | |
-| GitHub Actions pinned | checkout v7.0.1, setup-java v6.3.0, setup-node v7.1.0, upload-artifact v7.0.2, codeql-action v4.39.4 | SHAs resolved from upstream tags; **workflows never executed on GitHub yet** | Dependabot keeps them current |
+| GitHub Actions pinned | checkout v7.0.1, setup-java v6.3.0, setup-node v7.1.0, upload-artifact v7.0.2, codeql-action v4.39.4 | SHAs resolved from upstream tags; **verified: all CI jobs + CodeQL green on GitHub (2026-11-23)** | Dependabot keeps them current |
 | Node for CI | `.nvmrc` = 24 | Not run locally (local Node is 25.x) | |
 
 ## Upgrade policy

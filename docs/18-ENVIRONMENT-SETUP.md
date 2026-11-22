@@ -13,7 +13,7 @@ make api-update    # after an intentional API change: regenerate openapi/enginee
 make scan          # gitleaks (secrets) + OSV (dependencies, via SBOM)
 make hooks         # enable git pre-commit hook (secret scan, .env guard, formatting)
 ```
-Integration tests need Docker running (Testcontainers starts a throw-away Postgres 18). The same gates run in `.github/workflows/ci.yml` — **not yet executed on GitHub** (no repository yet).
+Integration tests need Docker running (Testcontainers starts a throw-away Postgres 18). The same gates run in `.github/workflows/ci.yml` — verified green on GitHub-hosted Ubuntu runners (2026-11-23), including the live Keycloak auth checks.
 
 ## Local stack (verified in M0.2)
 ```bash
