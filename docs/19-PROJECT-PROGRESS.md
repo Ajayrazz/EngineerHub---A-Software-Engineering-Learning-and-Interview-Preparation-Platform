@@ -18,8 +18,10 @@ _Last updated: 2026-11-23_
 
 - **M0.6 — Transactional outbox → RabbitMQ → idempotent consumer — DONE (2026-11-23). PHASE 0 COMPLETE.** Flyway V2 `shared.outbox`; `OutboxPublisher` (fails outside a transaction); `OutboxRelay` (`SKIP LOCKED`, publisher confirms, persistent messages, exponential backoff, retention purge, metrics); validated envelope codec; durable quorum queues + DLQ topology; `IdempotentEventHandler` (ledger + handler commit/rollback together); fail-fast broker config (no `guest`, TLS unless localhost). **98 backend tests** (39 unit + 59 integration on real PostgreSQL 18 + RabbitMQ 4.3.8) incl. 6 concurrent relays × 200 events with zero duplicates, crash-between-confirm-and-commit (2 deliveries → 1 effect), poison messages → DLQ; 4 controls mutation-validated; **20 live checks** (`make msg-verify`) incl. stopping the RabbitMQ container mid-publish: nothing lost, no duplicates, auto-reconnect. Bugs found: null payload accepted by the codec, silently ignored Boot-4 retry property (4 attempts not 3), relay log/reconnect flood during outages. ADR-031/032.
 
+- **Phase 1 / M1.1 — Identity — DONE (2026-11-23).** Flyway V3 (`identity.users`, `identity.user_profiles`), JIT provisioning (atomic upsert, race-tested: 10 parallel first calls → 1 user + 1 event), `/me` profile + preferences API with strict validation (javascript:/http:/user-info links, control chars, mass assignment), suspension guard SPI, `UserDirectory` public API, ADR-033 + ADR-025 amendment (found by a test: anonymous writes got 400 before 401). 118 backend tests; live auth script 45 checks; 38 browser tests.
+
 ## In progress
-Nothing running. **Phase 0 is complete.** Next is **Phase 1 — Identity & platform core** (see docs/16).
+Phase 1 continues: M1.2 authorization model (permissions, scoped grants, matrix tests), M1.3 audit log, M1.4 rate limiting + request-size limits, M1.5 Keycloak realm split + admin MFA, M1.6 admin shell.
 
 ## Pending
 Roadmap (doc 16) Phases 0–9 plus later items; content track.

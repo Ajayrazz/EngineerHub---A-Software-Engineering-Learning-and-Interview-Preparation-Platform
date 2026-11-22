@@ -7,6 +7,42 @@ servers:
 - url: http://localhost
   description: Generated server url
 paths:
+  /api/v1/me/preferences:
+    put:
+      tags:
+      - me-controller
+      operationId: updatePreferences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PreferencesRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MeResponse"
+  /api/v1/me/profile:
+    patch:
+      tags:
+      - me-controller
+      operationId: updateProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdateRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MeResponse"
   /api/v1/system/whoami:
     get:
       tags:
@@ -43,8 +79,90 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Ping"
+  /api/v1/me:
+    get:
+      tags:
+      - me-controller
+      operationId: me
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MeResponse"
 components:
   schemas:
+    PreferencesRequest:
+      type: object
+      properties:
+        timezone:
+          type: string
+          minLength: 1
+        locale:
+          type: string
+          minLength: 1
+          pattern: ^en$
+      required:
+      - locale
+      - timezone
+    MeResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        status:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        timezone:
+          type: string
+        locale:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        profile:
+          $ref: "#/components/schemas/Profile"
+    Profile:
+      type: object
+      properties:
+        displayName:
+          type: string
+        bio:
+          type: string
+        website:
+          type: string
+        githubUrl:
+          type: string
+        linkedinUrl:
+          type: string
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        bio:
+          type: string
+          maxLength: 500
+          minLength: 0
+        website:
+          type: string
+        githubUrl:
+          type: string
+        linkedinUrl:
+          type: string
     WhoAmI:
       type: object
       properties:
