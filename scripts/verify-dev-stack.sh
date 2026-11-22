@@ -68,7 +68,7 @@ fi
 
 echo "== Mailpit"
 check "web/API up"  curl -sf http://localhost:8025/api/v1/info
-check "SMTP port 1025 open" sh -c "exec 3<>/dev/tcp/127.0.0.1/1025"
+check "SMTP port 1025 open" bash -c "exec 3<>/dev/tcp/127.0.0.1/1025"
 
 echo "== Object storage (S3-compatible)"
 S3LOG=$(dc logs s3-init 2>&1)
