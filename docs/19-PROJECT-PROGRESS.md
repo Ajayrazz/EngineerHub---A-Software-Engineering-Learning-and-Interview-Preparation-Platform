@@ -40,7 +40,9 @@ _Last updated: 2026-11-23_
 
 - **Phase 3 / M3.1 — Problem bank + authoring API — DONE (2026-11-23).** Flyway V8 (`problems` schema: problems, patterns, problem topics/patterns, versioned test cases, sources) and `/api/v1/admin/problems/**` (create/list/patch, tags, versioned test replacement, source, publish/unpublish/archive, patterns); snapshot publishing without hidden tests; verification gate. 12 integration tests + 5 unit tests; 5 mutants killed (hidden tests in snapshot, verification gate, version reset, test-count gate, source gate). ADR-044. **New Pending Decision P-9** (publishing before the judge exists; default: blocked). **Not verified:** large test data, performance; no way to reach `verified` yet (M3.3/Phase 4).
 
-Phase 3 plan (remaining): M3.2 authoring UI with test-case management, M3.3 validation harness design (reference + brute force + generator; executed in Phase 4), M3.4 public problem list/detail with filters, per-user status and bookmarks.
+- **Phase 3 / M3.2 — Problem authoring UI — DONE (2026-11-23).** Problem list/create, editor with details + live statement preview, tags and pattern creation, test-case table (validation, versioned save, reorder), learner preview (samples only), source/publish panel showing the verification block; scoped problem setters. 9 Playwright specs (e2e suite 83 passed) + 5 unit tests (122 total); a preview-leak mutation was caught. ADR-045. **Not verified:** accessibility, mobile, very large test sets.
+
+Phase 3 plan (remaining): M3.3 validation harness design (reference + brute force + generator; executed in Phase 4), M3.4 public problem list/detail with filters, per-user status and bookmarks.
 
 **Phase 2 exit criterion (author and publish a lesson end to end; a learner can read it): met** — CMS e2e publishes a lesson that the reader e2e shows to anonymous and signed-in learners, with premium gating enforced server-side (stub entitlement until M6.1). Carried forward from Phase 2: bulk Markdown/JSON import-export, revision history and second-reviewer workflow, media assets, sidebar filters, lesson search, bookmarks/notes/highlights, certificates (see ADR-043).
 
