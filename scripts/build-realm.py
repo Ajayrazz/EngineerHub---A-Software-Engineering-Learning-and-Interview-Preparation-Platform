@@ -13,7 +13,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent / "infra" / "keycloak"
 APPEND_KEYS = {"clients": "clientId", "users": "username", "authenticationFlows": "alias"}
-FORBIDDEN_BASE_KEYS = ("users",)
 SECRET_LIKE = re.compile(r"(secret|password)", re.I)
 NOT_SECRETS = {"passwordPolicy"}
 
@@ -43,9 +42,18 @@ def merge(base, over, path=""):
 
 def check_base(r):
     errs = []
-    for k in FORBIDDEN_BASE_KEYS:
-        if r.get(k):
-            errs.append(f"base must not define '{k}' (seed users belong to the dev overlay)")
+    # Only service-account users (no credentials) may live in the base; people are dev-overlay only.
+    allowed_mgmt_roles = {"view-users", "manage-users", "view-realm"}
+    svc_clients = {c["clientId"] for c in r.get("clients", []) if c.get("serviceAccountsEnabled")}
+    for u in r.get("users", []):
+        if u.get("serviceAccountClientId") not in svc_clients or u.get("credentials"):
+            errs.append(f"base must not define user '{u.get('username')}' (seed users belong to the dev overlay)")
+        extra = set(u.get("clientRoles", {}).get("realm-management", [])) - allowed_mgmt_roles
+        if extra or set(u.get("clientRoles", {})) - {"realm-management"} or u.get("realmRoles"):
+            errs.append(f"service account '{u.get('username')}' has more privileges than view-users/manage-users/view-realm: {sorted(extra)}")
+    for c in r.get("clients", []):
+        if c.get("serviceAccountsEnabled") and (c.get("standardFlowEnabled") or c.get("directAccessGrantsEnabled")):
+            errs.append(f"{c['clientId']}: a service-account client must not allow interactive or password flows")
     if r.get("sslRequired") != "external":
         errs.append("sslRequired must be 'external' or stricter")
     if not r.get("bruteForceProtected"):
@@ -120,7 +128,7 @@ def main():
         if errs:
             print("realm check FAILED:\n  - " + "\n  - ".join(errs))
             sys.exit(1)
-        print(f"realm check OK (base: {len(base['clients'])} client(s), 0 users; dev adds "
+        print(f"realm check OK (base: {len(base['clients'])} client(s), {len(base.get('users', []))} service account(s); dev adds "
               f"{len(merged['clients']) - len(base['clients'])} client(s), {len(merged.get('users', []))} users)")
     elif cmd == "build" and len(sys.argv) == 4 and sys.argv[2] == "dev":
         errs = check_base(base)

@@ -110,6 +110,32 @@ c=$(curl -s -o /dev/null -w '%{http_code}' -X PATCH -H "Authorization: Bearer $L
 c=$(curl -s -o /dev/null -w '%{http_code}' -X PATCH -H "Authorization: Bearer $LEARNER" -H 'content-type: application/json' -d '{"displayName":"Dev Learner","status":"suspended","email":"evil@x.test"}' "$API/api/v1/me/profile"); [ "$c" = 200 ] && ok "valid PATCH accepted; extra fields ignored" || bad "valid PATCH -> $c"
 body "$LEARNER" /api/v1/me | jget "d['status']=='active' and d['email']!='evil@x.test'" | grep -qx True && ok "mass assignment (status/email) had no effect" || bad "mass assignment!"
 
+echo "== Staff role assignment through the REAL Keycloak admin API"
+LEARNER_ID=$(body "$LEARNER" /api/v1/me | jget "d['id']")
+ADMIN_ID=$(body "$ADMIN" /api/v1/me | jget "d['id']")
+SUPER_ID=$(body "$SUPER" /api/v1/me | jget "d['id']")
+put_roles() { # token user-id json-roles -> status
+  curl -s -o /dev/null -w '%{http_code}' -X PUT -H "Authorization: Bearer $1" -H 'content-type: application/json' \
+    -d "{\"roles\":$3,\"reason\":\"live verification\"}" "$API/api/v1/admin/users/$2/roles"
+}
+has_role() { # user role -> True/False from a freshly issued token's claims
+  token engineerhub-dev-cli "$1" | python3 -c "
+import sys,json,base64
+t=sys.stdin.read().strip(); c=json.loads(base64.urlsafe_b64decode(t.split('.')[1]+'=='))
+print('$2' in c.get('realm_access',{}).get('roles',[]))" 2>/dev/null
+}
+c=$(put_roles "$LEARNER" "$ADMIN_ID" '["MODERATOR"]'); [ "$c" = 403 ] && ok "a learner cannot assign roles" || bad "learner assigning roles -> $c"
+c=$(put_roles "$ADMIN" "$LEARNER_ID" '["ADMIN"]'); [ "$c" = 403 ] && ok "an admin cannot grant ADMIN" || bad "admin granting ADMIN -> $c"
+c=$(put_roles "$ADMIN" "$LEARNER_ID" '["SUPER_ADMIN"]'); [ "$c" = 403 ] && ok "an admin cannot grant SUPER_ADMIN" || bad "admin granting SUPER_ADMIN -> $c"
+c=$(put_roles "$SUPER" "$SUPER_ID" '[]'); [ "$c" = 403 ] && ok "nobody can change their own roles" || bad "self role change -> $c"
+c=$(put_roles "$SUPER" "$LEARNER_ID" '["PROBLEM_SETTER"]'); [ "$c" = 200 ] && ok "super admin assigns PROBLEM_SETTER (Keycloak updated)" || bad "assign -> $c"
+[ "$(has_role learner PROBLEM_SETTER)" = True ] && ok "the learner's NEW token carries PROBLEM_SETTER" || bad "role missing from the new token"
+c=$(put_roles "$ADMIN" "$LEARNER_ID" '["PROBLEM_SETTER","MODERATOR"]'); [ "$c" = 200 ] && ok "an admin can add a non-administrator role" || bad "admin adding MODERATOR -> $c"
+c=$(curl -s -o /dev/null -w '%{http_code}' -X PUT -H "Authorization: Bearer $ADMIN" -H 'content-type: application/json' -d '{"status":"suspended","reason":"admin acting on an admin"}' "$API/api/v1/admin/users/$SUPER_ID/status"); [ "$c" = 403 ] && ok "an admin cannot suspend a super admin" || bad "admin suspending super admin -> $c"
+c=$(put_roles "$SUPER" "$LEARNER_ID" '[]'); [ "$c" = 200 ] && ok "roles removed again" || bad "remove -> $c"
+[ "$(has_role learner PROBLEM_SETTER)" = False ] && [ "$(has_role learner MODERATOR)" = False ] && ok "the learner's next token no longer carries them" || bad "roles still in token after removal"
+c=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $SUPER" "$API/api/v1/admin/audit-logs?action=user.roles.changed"); [ "$c" = 200 ] && ok "role changes are visible in the audit log" || bad "audit query -> $c"
+
 echo "== Hardening"
 curl -s -D - -o /dev/null "$API/api/v1/system/ping" | tr -d '\r' > /tmp/eh_hdr.$$ 2>/dev/null
 grep -qi '^x-content-type-options: nosniff' /tmp/eh_hdr.$$ && ok "X-Content-Type-Options: nosniff" || bad "nosniff"

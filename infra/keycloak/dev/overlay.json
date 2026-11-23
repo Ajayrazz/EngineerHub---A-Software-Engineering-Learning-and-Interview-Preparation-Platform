@@ -32,7 +32,10 @@
             "id.token.claim": "false"
           }
         }
-      ]
+      ],
+      "authenticationFlowBindingOverrides": {
+        "direct_grant": "6f1e2a6c-0000-4000-8000-00000000d0a1"
+      }
     },
     {
       "clientId": "engineerhub-dev-noaud",
@@ -43,7 +46,10 @@
       "standardFlowEnabled": false,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false
+      "serviceAccountsEnabled": false,
+      "authenticationFlowBindingOverrides": {
+        "direct_grant": "6f1e2a6c-0000-4000-8000-00000000d0a1"
+      }
     }
   ],
   "users": [
@@ -207,5 +213,31 @@
       ]
     }
   ],
-  "otpPolicyLookAheadWindow": 30
+  "otpPolicyLookAheadWindow": 30,
+  "authenticationFlows": [
+    {
+      "id": "6f1e2a6c-0000-4000-8000-00000000d0a1",
+      "alias": "dev-direct-grant-no-otp",
+      "description": "DEV ONLY: password grant without OTP for the scripted dev clients. Browser login keeps the staff TOTP requirement.",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "direct-grant-validate-username",
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        },
+        {
+          "authenticator": "direct-grant-validate-password",
+          "requirement": "REQUIRED",
+          "priority": 20,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        }
+      ]
+    }
+  ]
 }
