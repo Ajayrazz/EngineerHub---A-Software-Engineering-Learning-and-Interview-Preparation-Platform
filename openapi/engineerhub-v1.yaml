@@ -118,6 +118,36 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/RolesView"
+  /api/v1/admin/problems/{problemId}/validation/programs/{role}:
+    put:
+      tags:
+      - validation-controller
+      operationId: program
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: role
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProgramRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ValidationView"
   /api/v1/admin/problems/{problemId}/tests:
     get:
       tags:
@@ -424,6 +454,31 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/problems/{problemId}/validation/runs:
+    post:
+      tags:
+      - validation-controller
+      operationId: run
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RunRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RunView"
   /api/v1/admin/problems/{problemId}/unpublish:
     post:
       tags:
@@ -1225,6 +1280,25 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RoleView"
+  /api/v1/admin/problems/{problemId}/validation:
+    get:
+      tags:
+      - validation-controller
+      operationId: view
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ValidationView"
   /api/v1/admin/audit-logs:
     get:
       tags:
@@ -1486,6 +1560,84 @@ components:
           type: array
           items:
             type: string
+    ProgramRequest:
+      type: object
+      properties:
+        language:
+          type: string
+          minLength: 1
+          pattern: ^(java|python|cpp)$
+        source:
+          type: string
+          maxLength: 64000
+          minLength: 0
+      required:
+      - language
+      - source
+    ProgramView:
+      type: object
+      properties:
+        role:
+          type: string
+        language:
+          type: string
+        source:
+          type: string
+        sha256:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+    RunView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        testcaseVersion:
+          type: integer
+          format: int32
+        generatedCases:
+          type: integer
+          format: int32
+        testsChecked:
+          type: integer
+          format: int32
+        generatedChecked:
+          type: integer
+          format: int32
+        executor:
+          type: string
+        summary:
+          type: string
+        counterexample:
+          type: string
+        requestedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    ValidationView:
+      type: object
+      properties:
+        validationStatus:
+          type: string
+        testcaseVersion:
+          type: integer
+          format: int32
+        executorAvailable:
+          type: boolean
+        programs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProgramView"
+        runs:
+          type: array
+          items:
+            $ref: "#/components/schemas/RunView"
     TestInput:
       type: object
       properties:
@@ -1923,6 +2075,14 @@ components:
       - difficulty
       - slug
       - title
+    RunRequest:
+      type: object
+      properties:
+        generatedCases:
+          type: integer
+          format: int32
+          maximum: 500
+          minimum: 1
     PublishRequest:
       type: object
       properties:

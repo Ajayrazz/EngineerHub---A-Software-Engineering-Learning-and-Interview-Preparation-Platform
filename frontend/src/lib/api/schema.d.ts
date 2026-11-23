@@ -68,6 +68,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/problems/{problemId}/validation/programs/{role}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["program"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/problems/{problemId}/tests": {
         parameters: {
             query?: never;
@@ -222,6 +238,22 @@ export interface paths {
         get: operations["list"];
         put?: never;
         post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/validation/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["run"];
         delete?: never;
         options?: never;
         head?: never;
@@ -740,6 +772,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/problems/{problemId}/validation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["view"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/audit-logs": {
         parameters: {
             query?: never;
@@ -867,6 +915,46 @@ export interface components {
         };
         RolesView: {
             roles?: string[];
+        };
+        ProgramRequest: {
+            language: string;
+            source: string;
+        };
+        ProgramView: {
+            role?: string;
+            language?: string;
+            source?: string;
+            sha256?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        RunView: {
+            /** Format: uuid */
+            id?: string;
+            status?: string;
+            /** Format: int32 */
+            testcaseVersion?: number;
+            /** Format: int32 */
+            generatedCases?: number;
+            /** Format: int32 */
+            testsChecked?: number;
+            /** Format: int32 */
+            generatedChecked?: number;
+            executor?: string;
+            summary?: string;
+            counterexample?: string;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+        };
+        ValidationView: {
+            validationStatus?: string;
+            /** Format: int32 */
+            testcaseVersion?: number;
+            executorAvailable?: boolean;
+            programs?: components["schemas"]["ProgramView"][];
+            runs?: components["schemas"]["RunView"][];
         };
         TestInput: {
             input: string;
@@ -1071,6 +1159,10 @@ export interface components {
             title: string;
             difficulty: string;
             accessTier: string;
+        };
+        RunRequest: {
+            /** Format: int32 */
+            generatedCases?: number;
         };
         PublishRequest: {
             originalityConfirmed?: boolean;
@@ -1469,6 +1561,33 @@ export interface operations {
             };
         };
     };
+    program: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+                role: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProgramRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ValidationView"];
+                };
+            };
+        };
+    };
     tests: {
         parameters: {
             query?: never;
@@ -1786,6 +1905,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    run: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RunView"];
                 };
             };
         };
@@ -2674,6 +2819,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["RoleView"][];
+                };
+            };
+        };
+    };
+    view: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ValidationView"];
                 };
             };
         };

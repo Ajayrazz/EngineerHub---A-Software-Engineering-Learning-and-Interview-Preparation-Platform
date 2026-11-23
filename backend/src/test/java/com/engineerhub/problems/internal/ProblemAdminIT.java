@@ -454,7 +454,9 @@ class ProblemAdminIT {
     call(
             patch("/api/v1/admin/problems/" + id),
             admin,
-            "{\"timeLimitMs\":3000,\"expectedVersion\":%d}".formatted(v))
+            "{\"title\":\"renamed\",\"expectedVersion\":%d}"
+                .formatted(v)) // prose only: verification stays (limits resetting it is covered in
+        // ValidationIT)
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.validationStatus").value("verified"));
     call(

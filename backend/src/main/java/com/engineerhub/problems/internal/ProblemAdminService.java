@@ -55,6 +55,7 @@ class ProblemAdminService {
   private final OutboxPublisher events;
   private final UserDirectory directory;
   private final CatalogApi catalog;
+  private final ValidationService validation;
 
   ProblemAdminService(
       JdbcClient jdbc,
@@ -63,7 +64,8 @@ class ProblemAdminService {
       AuditLog audit,
       OutboxPublisher events,
       UserDirectory directory,
-      CatalogApi catalog) {
+      CatalogApi catalog,
+      ValidationService validation) {
     this.jdbc = jdbc;
     this.mapper = mapper;
     this.clock = clock;
@@ -71,6 +73,7 @@ class ProblemAdminService {
     this.events = events;
     this.directory = directory;
     this.catalog = catalog;
+    this.validation = validation;
   }
 
   private Timestamp now() {
@@ -258,7 +261,19 @@ class ProblemAdminService {
     if (p.hints() != null) {
       p.hints().forEach(h -> checkText("hint", h));
     }
-    // A different checker changes what "correct" means: the verification no longer applies.
+    // A different checker or different limits change what "correct" means: verification no longer
+    // applies.
+    var before =
+        jdbc.sql(
+                "select checker_type, time_limit_ms, memory_limit_mb from problems.problems where id = :id")
+            .param("id", id)
+            .query((rs, i) -> new Object[] {rs.getString(1), rs.getInt(2), rs.getInt(3)})
+            .optional();
+    boolean semanticsChanged =
+        before.isPresent()
+            && ((p.checkerType() != null && !p.checkerType().equals(before.get()[0]))
+                || (p.timeLimitMs() != null && !p.timeLimitMs().equals(before.get()[1]))
+                || (p.memoryLimitMb() != null && !p.memoryLimitMb().equals(before.get()[2])));
     int n =
         jdbc.sql(
                 """
@@ -268,7 +283,7 @@ class ProblemAdminService {
                   constraints_text = coalesce(:cons, constraints_text),
                   hints = coalesce(cast(:hints as jsonb), hints),
                   time_limit_ms = coalesce(:tl, time_limit_ms), memory_limit_mb = coalesce(:ml, memory_limit_mb),
-                  validation_status = case when cast(:checker as varchar) is not null and cast(:checker as varchar) <> checker_type then 'unverified' else validation_status end,
+                  validation_status = case when cast(:reset as boolean) then 'unverified' else validation_status end,
                   checker_type = coalesce(:checker, checker_type),
                   difficulty = coalesce(:diff, difficulty), access_tier = coalesce(:tier, access_tier),
                   version = version + 1, updated_at = :now
@@ -283,6 +298,7 @@ class ProblemAdminService {
             .param("tl", p.timeLimitMs())
             .param("ml", p.memoryLimitMb())
             .param("checker", p.checkerType())
+            .param("reset", semanticsChanged)
             .param("diff", p.difficulty())
             .param("tier", p.accessTier())
             .param("now", now())
@@ -291,6 +307,9 @@ class ProblemAdminService {
             .update();
     if (n == 0) {
       throw conflictOrMissing(id);
+    }
+    if (semanticsChanged) {
+      validation.markActiveStale(id, "The checker or the limits changed.");
     }
     return problem(id);
   }
@@ -376,6 +395,7 @@ class ProblemAdminService {
     if (n == 0) {
       throw conflictOrMissing(id);
     }
+    validation.markActiveStale(id, "The test set changed.");
     int version = expectedVersion + 1;
     int ordinal = 1;
     for (var t : tests) {

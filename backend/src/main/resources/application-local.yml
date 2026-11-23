@@ -20,6 +20,13 @@ spring:
     virtual-host: ${RABBITMQ_VHOST:engineerhub}
 
 engineerhub:
+  limits:
+    rate:
+      # Local development and the browser E2E suite issue many requests as a handful of users; production keeps
+      # the defaults from application.yml (300 / 60 / 120 per minute).
+      read-per-window: 6000
+      write-per-window: 1200
+      admin-per-window: 2400
   security:
     jwt:
       issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/engineerhub}
