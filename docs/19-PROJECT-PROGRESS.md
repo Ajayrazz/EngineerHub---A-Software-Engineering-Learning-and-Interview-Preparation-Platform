@@ -28,7 +28,9 @@ _Last updated: 2026-11-23_
 
 - **Phase 1 / M1.5 — Keycloak: realm split, staff MFA, role assignment — DONE (2026-11-23).** Realm = prod-safe base + dev overlay with a drift/safety check in `make verify` (13 mutations caught); TOTP required for all six staff roles in the browser flow (3 new Playwright specs + OTP in the login helper; disabling the OTP step makes them fail); `GET/PUT /admin/users/{id}/roles` via a least-privilege service account (client HTTP contract test, 10 integration tests, revert-path unit test, 3 guard mutants killed, 11 new live checks → `api-verify` 55/55); an admin can no longer suspend an administrator. Bugs found on the way: first-login provisioning raced on the username index (and a username clash was a 500) → race-safe insert + 409; BFF shared login bucket throttled everyone → 30x ceiling. ADR-037, ADR-038. **Not verified:** production Keycloak (HTTPS/hostname), authenticator-loss recovery, WebAuthn/step-up, immediate effect of a role removal (<= 5 min token lifetime).
 
-Phase 1 continues: M1.6 admin shell UI.
+- **Phase 1 / M1.6 — Admin shell UI — DONE (2026-11-23).** Overview, users (search/filter/paging), user detail (status, staff roles, scoped grants) and audit log with chain verification; server-side gating (404 for non-admins), mutations through the BFF with CSRF, API refusals surfaced. 12 new Playwright tests + 7 unit tests (e2e suite 55 passed twice in a row; 98 frontend unit tests); gate removal mutation caught. ADR-039. **Not verified:** accessibility, mobile layout, behaviour over HTTPS.
+
+**Phase 1 exit criterion (role-based admin access proven by tests): met** — API authorization matrix (IT), live checks against real tokens (`api-verify` 55), and browser E2E for every role boundary. Remaining Phase 1 leftovers are listed under Open items.
 
 ## Pending
 Roadmap (doc 16) Phases 0–9 plus later items; content track.
