@@ -10,18 +10,21 @@ export function canEnterAdmin(global: readonly string[], scoped: readonly string
     global.includes("user.read") ||
     global.includes("audit.read") ||
     global.includes("course.edit") ||
-    scoped.includes("course.edit")
+    global.includes("problem.edit") ||
+    scoped.includes("course.edit") ||
+    scoped.includes("problem.edit")
   );
 }
 
-/** Does the caller hold `permission` globally (or, for course.edit only, scoped to some course)? */
+/** Does the caller hold `permission` globally (or, for the editing permissions, scoped to some resource)? */
 export function holds(
   global: readonly string[],
   scoped: readonly string[],
   permission: string,
 ): boolean {
   return (
-    global.includes(permission) || (permission === "course.edit" && scoped.includes(permission))
+    global.includes(permission) ||
+    ((permission === "course.edit" || permission === "problem.edit") && scoped.includes(permission))
   );
 }
 

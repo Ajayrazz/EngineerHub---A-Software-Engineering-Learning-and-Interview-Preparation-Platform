@@ -5,7 +5,7 @@ describe("canEnterAdmin", () => {
   it("lets course editors in, globally or through a scoped grant", () => {
     expect(canEnterAdmin(["course.edit"])).toBe(true);
     expect(canEnterAdmin([], ["course.edit"])).toBe(true);
-    expect(canEnterAdmin([], ["problem.edit"])).toBe(false);
+    expect(canEnterAdmin([], ["moderation.manage"])).toBe(false);
   });
   it("needs user.read or audit.read", () => {
     expect(canEnterAdmin(["user.read"])).toBe(true);
@@ -31,6 +31,9 @@ describe("holds", () => {
   it("treats only course.edit as satisfiable by a scoped capability", () => {
     expect(holds([], ["course.edit"], "course.edit")).toBe(true);
     expect(holds([], ["course.edit"], "user.read")).toBe(false);
+    expect(holds([], ["problem.edit"], "problem.edit")).toBe(true);
+    expect(holds([], ["problem.edit"], "course.edit")).toBe(false);
+    expect(canEnterAdmin([], ["problem.edit"])).toBe(true);
     expect(holds(["user.read"], [], "user.read")).toBe(true);
   });
 });

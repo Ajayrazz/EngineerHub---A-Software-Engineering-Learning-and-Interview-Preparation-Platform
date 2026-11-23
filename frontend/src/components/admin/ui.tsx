@@ -13,7 +13,7 @@ export function AdminShell({
   children,
 }: {
   title: string;
-  active: "home" | "users" | "courses" | "audit";
+  active: "home" | "users" | "courses" | "problems" | "audit";
   global: readonly string[];
   scoped?: readonly string[];
   children: ReactNode;
@@ -34,6 +34,8 @@ export function AdminShell({
         {global.includes("user.read") && link("/admin/users", "Users", "users")}
         {(global.includes("course.edit") || scoped.includes("course.edit")) &&
           link("/admin/courses", "Courses", "courses")}
+        {(global.includes("problem.edit") || scoped.includes("problem.edit")) &&
+          link("/admin/problems", "Problems", "problems")}
         {global.includes("audit.read") && link("/admin/audit", "Audit log", "audit")}
         <Link href="/account" className="ml-auto text-sm opacity-70 hover:underline">
           Account

@@ -27,6 +27,14 @@ export default async function AdminHome() {
             — write, preview and publish lessons
           </li>
         )}
+        {(ctx.global.includes("problem.edit") || ctx.scoped.includes("problem.edit")) && (
+          <li>
+            <Link className="underline" href="/admin/problems">
+              Problems
+            </Link>{" "}
+            — author problems and test cases
+          </li>
+        )}
         {ctx.global.includes("audit.read") && (
           <li>
             <Link className="underline" href="/admin/audit">
