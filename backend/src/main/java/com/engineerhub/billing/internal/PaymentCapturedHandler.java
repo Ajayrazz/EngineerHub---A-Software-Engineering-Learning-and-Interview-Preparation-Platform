@@ -120,6 +120,27 @@ class PaymentCapturedHandler {
       // transaction)
     }
 
+    Period period = appendPeriod(userId, (UUID) i[2], (String) i[3], paymentId, now);
+    Instant end = period.end();
+    UUID periodId = period.id();
+    jdbc.sql(
+            "update billing.purchase_intents set status = 'paid', updated_at = :now where id = :id")
+        .param("now", Timestamp.from(now))
+        .param("id", intentId)
+        .update();
+
+    publishGranted(userId, paymentId, "intentId", intentId, c.amountMinor(), c.currency(), period);
+    return "granted";
+  }
+
+  record Period(UUID id, Instant end) {}
+
+  /**
+   * Appends the immutable access period for one captured payment (the overlap rule P-1: starts when
+   * the latest running period ends; month/year are UTC calendar months/years). Shared by passes and
+   * subscription renewals, so both modes grant access through exactly this code.
+   */
+  private Period appendPeriod(UUID userId, UUID planId, String unit, UUID paymentId, Instant now) {
     Instant latestEnd =
         jdbc.sql(
                 "select max(ap.ends_at) from billing.access_periods ap join billing.plan_entitlements pe on pe.plan_id = ap.plan_id where ap.user_id = :u and pe.entitlement_code = 'premium_content' and ap.revoked_at is null and ap.ends_at > :now")
@@ -131,24 +152,29 @@ class PaymentCapturedHandler {
             .orElse(null);
     Instant start = latestEnd != null && latestEnd.isAfter(now) ? latestEnd : now;
     var z = start.atZone(ZoneOffset.UTC);
-    Instant end = ("year".equals(i[3]) ? z.plusYears(1) : z.plusMonths(1)).toInstant();
+    Instant end = ("year".equals(unit) ? z.plusYears(1) : z.plusMonths(1)).toInstant();
     UUID periodId = Ids.newId();
     jdbc.sql(
             "insert into billing.access_periods (id, user_id, plan_id, starts_at, ends_at, source_type, source_ref, created_at) values (:id, :u, :pl, :s, :e, 'payment', :ref, :now)")
         .param("id", periodId)
         .param("u", userId)
-        .param("pl", i[2])
+        .param("pl", planId)
         .param("s", Timestamp.from(start))
         .param("e", Timestamp.from(end))
         .param("ref", paymentId.toString())
         .param("now", Timestamp.from(now))
         .update();
-    jdbc.sql(
-            "update billing.purchase_intents set status = 'paid', updated_at = :now where id = :id")
-        .param("now", Timestamp.from(now))
-        .param("id", intentId)
-        .update();
+    return new Period(periodId, end);
+  }
 
+  private void publishGranted(
+      UUID userId,
+      UUID paymentId,
+      String sourceKey,
+      UUID sourceId,
+      long amount,
+      String currency,
+      Period period) {
     events.publish(
         "billing.payment.succeeded",
         1,
@@ -159,18 +185,109 @@ class PaymentCapturedHandler {
             userId,
             "paymentId",
             paymentId,
-            "intentId",
-            intentId,
+            sourceKey,
+            sourceId,
             "amountMinor",
-            c.amountMinor(),
+            amount,
             "currency",
-            c.currency()));
+            currency));
     events.publish(
         "billing.access.granted",
         1,
         "user",
         userId.toString(),
-        Map.of("userId", userId, "periodId", periodId, "endsAt", end.toString()));
+        Map.of("userId", userId, "periodId", period.id(), "endsAt", period.end().toString()));
+  }
+
+  record Charge(
+      String provider,
+      String subscriptionRef,
+      String paymentRef,
+      long amountMinor,
+      String currency) {}
+
+  /**
+   * A successful subscription charge (initial or renewal): the same steps as a pass, against the
+   * subscription's price snapshot. Money that was taken is ALWAYS turned into access, even when the
+   * subscription is already cancelled locally (events are unordered); only an amount or currency
+   * mismatch withholds access and flags the subscription for review.
+   *
+   * @return granted, duplicate, unknown_subscription, amount_mismatch
+   */
+  @Transactional
+  String subscriptionCharged(Charge c) {
+    var sub =
+        jdbc.sql(
+                "select id, user_id, plan_id, period_unit, currency, amount_minor from billing.subscriptions where provider = :p and provider_subscription_ref = :r for update")
+            .param("p", c.provider())
+            .param("r", c.subscriptionRef())
+            .query(
+                (rs, i) ->
+                    new Object[] {
+                      rs.getObject(1, UUID.class),
+                      rs.getObject(2, UUID.class),
+                      rs.getObject(3, UUID.class),
+                      rs.getString(4),
+                      rs.getString(5),
+                      rs.getLong(6)
+                    })
+            .optional();
+    if (sub.isEmpty()) {
+      log.warn("Subscription charge for an unknown subscription ignored");
+      return "unknown_subscription";
+    }
+    Object[] s = sub.get();
+    UUID subscriptionId = (UUID) s[0];
+    UUID userId = (UUID) s[1];
+    boolean known =
+        jdbc.sql(
+                    "select count(*) from billing.payments where provider = :p and provider_payment_ref = :r")
+                .param("p", c.provider())
+                .param("r", c.paymentRef())
+                .query(Long.class)
+                .single()
+            > 0;
+    if (known) {
+      return "duplicate";
+    }
+    Instant now = clock.instant();
+    if (!c.currency().equals(s[4]) || c.amountMinor() != (Long) s[5]) {
+      jdbc.sql(
+              "update billing.subscriptions set status = 'needs_review', updated_at = :now where id = :id")
+          .param("now", Timestamp.from(now))
+          .param("id", subscriptionId)
+          .update();
+      log.warn(
+          "Subscription charge amount/currency does not match subscription {}; flagged for review, no access granted",
+          subscriptionId);
+      return "amount_mismatch";
+    }
+    UUID paymentId = Ids.newId();
+    int inserted =
+        jdbc.sql(
+                "insert into billing.payments (id, subscription_id, user_id, provider, provider_payment_ref, amount_minor, currency, status, captured_at, created_at) values (:id, :s, :u, :p, :r, :a, :c, 'captured', :now, :now) on conflict (provider, provider_payment_ref) do nothing")
+            .param("id", paymentId)
+            .param("s", subscriptionId)
+            .param("u", userId)
+            .param("p", c.provider())
+            .param("r", c.paymentRef())
+            .param("a", c.amountMinor())
+            .param("c", c.currency())
+            .param("now", Timestamp.from(now))
+            .update();
+    if (inserted == 0) {
+      return "duplicate";
+    }
+    Period period = appendPeriod(userId, (UUID) s[2], (String) s[3], paymentId, now);
+    // a successful charge confirms a subscription that was waiting or failing; it never revives a
+    // cancelled one and never touches cancel_scheduled
+    jdbc.sql(
+            "update billing.subscriptions set status = 'active', updated_at = :now where id = :id and status in ('created','pending','past_due')")
+        .param("now", Timestamp.from(now))
+        .param("id", subscriptionId)
+        .update();
+    publishGranted(
+        userId, paymentId, "subscriptionId", subscriptionId, c.amountMinor(), c.currency(), period);
     return "granted";
   }
 

@@ -104,4 +104,36 @@ class RazorpaySignaturesTest {
     assertThat(new RazorpayProperties("test", "rzp_test_abc", "s", "").webhookConfigured())
         .isFalse();
   }
+
+  // payment_id|subscription_id (note the order: the reverse of the order flow), computed with
+  // Python
+  private static final String SUBSCRIPTION =
+      "0e354a8fd853b3fb45e92bdfe0325961df1fc73eca0baab88dd8ff273010cd9e";
+
+  @Test
+  void subscriptionSignatureIsOverPaymentIdThenSubscriptionId() {
+    assertThat(
+            RazorpaySignatures.subscriptionValid(
+                "sub_secret_for_test", "sub_TEST456", "pay_TEST123", SUBSCRIPTION))
+        .isTrue();
+    // the order flow's construction (first id first) must NOT verify a subscription signature
+    assertThat(
+            RazorpaySignatures.subscriptionValid(
+                "sub_secret_for_test", "pay_TEST123", "sub_TEST456", SUBSCRIPTION))
+        .isFalse();
+    assertThat(
+            RazorpaySignatures.subscriptionValid(
+                "sub_secret_for_test", "sub_TEST457", "pay_TEST123", SUBSCRIPTION))
+        .isFalse();
+    assertThat(
+            RazorpaySignatures.subscriptionValid(
+                "other_secret", "sub_TEST456", "pay_TEST123", SUBSCRIPTION))
+        .isFalse();
+    assertThat(RazorpaySignatures.subscriptionValid("", "sub_TEST456", "pay_TEST123", SUBSCRIPTION))
+        .isFalse();
+    assertThat(
+            RazorpaySignatures.subscriptionValid(
+                "sub_secret_for_test", "sub_TEST456", "pay_TEST123", null))
+        .isFalse();
+  }
 }

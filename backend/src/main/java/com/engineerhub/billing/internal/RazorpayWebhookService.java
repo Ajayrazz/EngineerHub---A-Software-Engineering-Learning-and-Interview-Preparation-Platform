@@ -33,18 +33,21 @@ class RazorpayWebhookService {
   private final ObjectMapper mapper;
   private final PaymentProvider provider;
   private final PaymentCapturedHandler handler;
+  private final SubscriptionLifecycle lifecycle;
 
   RazorpayWebhookService(
       JdbcClient jdbc,
       Clock clock,
       ObjectMapper mapper,
       PaymentProvider provider,
-      PaymentCapturedHandler handler) {
+      PaymentCapturedHandler handler,
+      SubscriptionLifecycle lifecycle) {
     this.jdbc = jdbc;
     this.clock = clock;
     this.mapper = mapper;
     this.provider = provider;
     this.handler = handler;
+    this.lifecycle = lifecycle;
   }
 
   @Transactional
@@ -93,7 +96,9 @@ class RazorpayWebhookService {
         switch (type) {
           case "payment.captured", "order.paid" -> captured(event);
           case "payment.failed" -> failed(event);
-          default -> "ignored";
+          case "subscription.charged" -> subscriptionCharged(event);
+          default ->
+              SubscriptionLifecycle.handles(type) ? subscriptionEvent(type, event) : "ignored";
         };
     jdbc.sql(
             "update billing.webhook_events set processed_at = :now, outcome = :o where provider = 'razorpay' and event_id = :id")
@@ -121,6 +126,32 @@ class RazorpayWebhookService {
     return handler.handle(
         new PaymentCapturedHandler.Captured(
             "razorpay", paymentId, orderId, pay.path("amount").asLong(), currency));
+  }
+
+  private String subscriptionCharged(JsonNode event) {
+    JsonNode payload = event.path("payload");
+    JsonNode pay = payload.path("payment").path("entity");
+    String subscriptionId = payload.path("subscription").path("entity").path("id").asString("");
+    String paymentId = pay.path("id").asString("");
+    String currency = pay.path("currency").asString("");
+    if (!"captured".equals(pay.path("status").asString(""))) {
+      return "ignored_not_captured";
+    }
+    if (subscriptionId.isBlank()
+        || paymentId.isBlank()
+        || currency.isBlank()
+        || !pay.path("amount").canConvertToLong()) {
+      return "ignored_malformed";
+    }
+    return handler.subscriptionCharged(
+        new PaymentCapturedHandler.Charge(
+            "razorpay", subscriptionId, paymentId, pay.path("amount").asLong(), currency));
+  }
+
+  private String subscriptionEvent(String type, JsonNode event) {
+    String subscriptionId =
+        event.path("payload").path("subscription").path("entity").path("id").asString("");
+    return subscriptionId.isBlank() ? "ignored_malformed" : lifecycle.apply(type, subscriptionId);
   }
 
   private String failed(JsonNode event) {

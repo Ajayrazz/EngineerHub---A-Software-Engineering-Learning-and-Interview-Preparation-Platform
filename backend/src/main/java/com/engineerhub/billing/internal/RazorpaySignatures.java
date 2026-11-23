@@ -10,7 +10,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * HMAC-SHA256 signature checks of Razorpay (verified against its documentation): checkout callback
- * = {@code HMAC(order_id + "|" + payment_id, key_secret)}; webhook = {@code HMAC(raw body,
+ * = {@code HMAC(order_id + "|" + payment_id, key_secret)}, subscription checkout callback = {@code
+ * HMAC(payment_id + "|" + subscription_id, key_secret)}; webhook = {@code HMAC(raw body,
  * webhook_secret)}. Comparison is constant-time and a missing or malformed signature is simply "not
  * valid".
  */
@@ -35,6 +36,17 @@ final class RazorpaySignatures {
     }
     return constantTimeEquals(
         hmacHex(keySecret, (orderId + "|" + paymentId).getBytes(StandardCharsets.UTF_8)),
+        signature);
+  }
+
+  /** Subscription checkout: {@code HMAC(payment_id + "|" + subscription_id, key_secret)}. */
+  static boolean subscriptionValid(
+      String keySecret, String subscriptionId, String paymentId, String signature) {
+    if (keySecret == null || keySecret.isBlank() || subscriptionId == null || paymentId == null) {
+      return false;
+    }
+    return constantTimeEquals(
+        hmacHex(keySecret, (paymentId + "|" + subscriptionId).getBytes(StandardCharsets.UTF_8)),
         signature);
   }
 

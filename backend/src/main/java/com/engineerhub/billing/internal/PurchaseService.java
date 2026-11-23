@@ -95,9 +95,6 @@ class PurchaseService {
     boolean purchasable = p.purchasable();
     if (!purchasable) {
       note = "This price is not available.";
-    } else if (!p.mode().equals("ONE_TIME")) {
-      purchasable = false;
-      note = "Auto-renewing plans are not available yet.";
     } else if (!provider.configured()) {
       purchasable = false;
       note = "Online payment is not available yet.";
@@ -159,7 +156,8 @@ class PurchaseService {
                 throw ApiException.conflict("This price is not available.");
               }
               if (!p.mode().equals("ONE_TIME")) {
-                throw ApiException.conflict("Auto-renewing plans are not available yet.");
+                throw ApiException.conflict(
+                    "This price auto-renews: start it as a subscription, not a one-time purchase.");
               }
               long recent =
                   jdbc.sql(

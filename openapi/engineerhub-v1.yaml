@@ -462,11 +462,79 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/CourseProgress"
+  /api/v1/billing/subscriptions:
+    post:
+      tags:
+      - subscription-controller
+      operationId: start
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscribeRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SubscriptionCheckout"
+  /api/v1/billing/subscriptions/{id}/confirm:
+    post:
+      tags:
+      - subscription-controller
+      operationId: confirm
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionConfirmRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SubscriptionConfirmView"
+  /api/v1/billing/subscriptions/{id}/cancel:
+    post:
+      tags:
+      - subscription-controller
+      operationId: cancel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SubscriptionView"
   /api/v1/billing/purchases:
     post:
       tags:
       - purchase-controller
-      operationId: start
+      operationId: start_1
       parameters:
       - name: Idempotency-Key
         in: header
@@ -490,7 +558,7 @@ paths:
     post:
       tags:
       - purchase-controller
-      operationId: confirm
+      operationId: confirm_1
       parameters:
       - name: intentId
         in: path
@@ -1695,6 +1763,25 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PublicLesson"
+  /api/v1/billing/subscriptions/{id}:
+    get:
+      tags:
+      - subscription-controller
+      operationId: view
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SubscriptionView"
   /api/v1/billing/quote:
     get:
       tags:
@@ -1833,7 +1920,7 @@ paths:
     get:
       tags:
       - validation-controller
-      operationId: view
+      operationId: view_1
       parameters:
       - name: problemId
         in: path
@@ -2625,6 +2712,88 @@ components:
           format: int64
         active:
           type: boolean
+    SubscribeRequest:
+      type: object
+      properties:
+        planPriceId:
+          type: string
+          format: uuid
+      required:
+      - planPriceId
+    SubscriptionCheckout:
+      type: object
+      properties:
+        subscriptionId:
+          type: string
+          format: uuid
+        providerSubscriptionId:
+          type: string
+        keyId:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        periodUnit:
+          type: string
+        planName:
+          type: string
+        mode:
+          type: string
+    SubscriptionConfirmRequest:
+      type: object
+      properties:
+        razorpaySubscriptionId:
+          type: string
+          maxLength: 60
+          minLength: 0
+          pattern: "^sub_[A-Za-z0-9]+$"
+        razorpayPaymentId:
+          type: string
+          maxLength: 60
+          minLength: 0
+          pattern: "^pay_[A-Za-z0-9]+$"
+        razorpaySignature:
+          type: string
+          maxLength: 128
+          minLength: 0
+          pattern: "^[A-Fa-f0-9]+$"
+      required:
+      - razorpayPaymentId
+      - razorpaySignature
+      - razorpaySubscriptionId
+    SubscriptionConfirmView:
+      type: object
+      properties:
+        signatureValid:
+          type: boolean
+        subscription:
+          $ref: "#/components/schemas/SubscriptionView"
+    SubscriptionView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        planName:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        periodUnit:
+          type: string
+        cancelScheduled:
+          type: boolean
+        paid:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
     PurchaseRequest:
       type: object
       properties:
@@ -3358,6 +3527,8 @@ components:
         renewalWindowDays:
           type: integer
           format: int32
+        subscription:
+          $ref: "#/components/schemas/SubscriptionSummary"
         payments:
           type: array
           items:
@@ -3378,6 +3549,26 @@ components:
         status:
           type: string
         capturedAt:
+          type: string
+          format: date-time
+    SubscriptionSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        planName:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        periodUnit:
+          type: string
+        renewsOn:
           type: string
           format: date-time
     PublicCourse:

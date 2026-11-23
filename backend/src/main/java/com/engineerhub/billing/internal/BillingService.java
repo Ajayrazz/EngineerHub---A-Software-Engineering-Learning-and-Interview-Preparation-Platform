@@ -11,6 +11,7 @@ import com.engineerhub.billing.internal.BillingDtos.PlanPatch;
 import com.engineerhub.billing.internal.BillingDtos.PlanView;
 import com.engineerhub.billing.internal.BillingDtos.PriceCreate;
 import com.engineerhub.billing.internal.BillingDtos.PriceView;
+import com.engineerhub.billing.internal.BillingDtos.SubscriptionSummary;
 import com.engineerhub.identity.Authorizer;
 import com.engineerhub.identity.UserDirectory;
 import com.engineerhub.shared.audit.AuditEvent;
@@ -461,12 +462,15 @@ class BillingService implements EntitlementService {
   BillingSummary summary(UUID userId) {
     Instant now = clock.instant();
     Instant validThrough = premiumCoverageEnd(userId, now);
+    SubscriptionSummary subscription = liveSubscription(userId, validThrough);
+    boolean autoRenewing = subscription != null && subscription.status().equals("active");
     String status;
     Long daysRemaining = null;
     boolean renewalDue = false;
     if (validThrough != null) {
       daysRemaining = (Duration.between(now, validThrough).getSeconds() + 86_399) / 86_400;
-      renewalDue = daysRemaining <= renewalWindowDays;
+      // an actively auto-renewing subscription renews by itself: no "renew now" reminder
+      renewalDue = !autoRenewing && daysRemaining <= renewalWindowDays;
       status = renewalDue ? "EXPIRING_SOON" : "ACTIVE";
     } else {
       boolean everHad =
@@ -488,8 +492,9 @@ class BillingService implements EntitlementService {
                 """
                 select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at
                 from billing.payments pay
-                join billing.purchase_intents i on i.id = pay.intent_id
-                join billing.plans pl on pl.id = i.plan_id
+                left join billing.purchase_intents i on i.id = pay.intent_id
+                left join billing.subscriptions sub on sub.id = pay.subscription_id
+                join billing.plans pl on pl.id = coalesce(i.plan_id, sub.plan_id)
                 where pay.user_id = :u order by pay.captured_at desc, pay.id limit 50
                 """)
             .param("u", userId)
@@ -510,6 +515,31 @@ class BillingService implements EntitlementService {
         daysRemaining,
         renewalDue,
         renewalWindowDays,
+        subscription,
         payments);
+  }
+
+  /** The newest subscription that is paid up, failing or scheduled to end; null when none. */
+  private SubscriptionSummary liveSubscription(UUID userId, Instant validThrough) {
+    return jdbc.sql(
+            """
+            select s.id, s.status, p.name, s.amount_minor, s.currency, s.period_unit
+            from billing.subscriptions s join billing.plans p on p.id = s.plan_id
+            where s.user_id = :u and s.status in ('active','past_due','cancel_scheduled')
+            order by s.created_at desc limit 1
+            """)
+        .param("u", userId)
+        .query(
+            (rs, i) ->
+                new SubscriptionSummary(
+                    rs.getObject(1, UUID.class),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getLong(4),
+                    rs.getString(5).strip(),
+                    rs.getString(6),
+                    "active".equals(rs.getString(2)) ? validThrough : null))
+        .optional()
+        .orElse(null);
   }
 }

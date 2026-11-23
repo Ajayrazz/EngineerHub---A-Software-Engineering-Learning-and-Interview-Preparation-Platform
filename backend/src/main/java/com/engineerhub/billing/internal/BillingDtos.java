@@ -84,6 +84,19 @@ final class BillingDtos {
       String status,
       Instant capturedAt) {}
 
+  /**
+   * The user's running auto-renewing subscription. {@code renewsOn} is set only while it will
+   * really renew (status active); a cancel-scheduled one just runs to the valid-through date.
+   */
+  record SubscriptionSummary(
+      UUID id,
+      String status,
+      String planName,
+      long amountMinor,
+      String currency,
+      String periodUnit,
+      Instant renewsOn) {}
+
   /** Status is ACTIVE, EXPIRING_SOON, EXPIRED or NONE; amounts are tax-inclusive minor units. */
   record BillingSummary(
       String status,
@@ -92,5 +105,6 @@ final class BillingDtos {
       Long daysRemaining,
       boolean renewalDue,
       int renewalWindowDays,
+      SubscriptionSummary subscription,
       List<PaymentView> payments) {}
 }

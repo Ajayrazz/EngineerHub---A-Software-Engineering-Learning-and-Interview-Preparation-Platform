@@ -212,8 +212,9 @@ class PurchaseIT {
     call(get("/api/v1/billing/quote?planPriceId=" + c[2]), null, null)
         .andExpect(jsonPath("$.amountInclTaxMinor").value(299900));
     call(get("/api/v1/billing/quote?planPriceId=" + c[3]), null, null)
-        .andExpect(jsonPath("$.purchasable").value(false))
-        .andExpect(jsonPath("$.note").value("Auto-renewing plans are not available yet."));
+        .andExpect(jsonPath("$.purchasable").value(true))
+        .andExpect(jsonPath("$.billingMode").value("RECURRING"))
+        .andExpect(jsonPath("$.amountInclTaxMinor").value(24900));
     call(get("/api/v1/billing/quote?planPriceId=" + UUID.randomUUID()), null, null)
         .andExpect(status().isNotFound());
     call(get("/api/v1/billing/quote?planPriceId=not-a-uuid"), null, null)

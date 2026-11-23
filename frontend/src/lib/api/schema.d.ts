@@ -260,7 +260,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/billing/purchases": {
+    "/api/v1/billing/subscriptions": {
         parameters: {
             query?: never;
             header?: never;
@@ -276,7 +276,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/billing/purchases/{intentId}/confirm": {
+    "/api/v1/billing/subscriptions/{id}/confirm": {
         parameters: {
             query?: never;
             header?: never;
@@ -286,6 +286,54 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["confirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/subscriptions/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/purchases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["start_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/purchases/{intentId}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["confirm_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1044,6 +1092,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/billing/subscriptions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["view"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/billing/quote": {
         parameters: {
             query?: never;
@@ -1163,7 +1227,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["view"];
+        get: operations["view_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1556,6 +1620,45 @@ export interface components {
             amountInclTaxMinor?: number;
             active?: boolean;
         };
+        SubscribeRequest: {
+            /** Format: uuid */
+            planPriceId: string;
+        };
+        SubscriptionCheckout: {
+            /** Format: uuid */
+            subscriptionId?: string;
+            providerSubscriptionId?: string;
+            keyId?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            periodUnit?: string;
+            planName?: string;
+            mode?: string;
+        };
+        SubscriptionConfirmRequest: {
+            razorpaySubscriptionId: string;
+            razorpayPaymentId: string;
+            razorpaySignature: string;
+        };
+        SubscriptionConfirmView: {
+            signatureValid?: boolean;
+            subscription?: components["schemas"]["SubscriptionView"];
+        };
+        SubscriptionView: {
+            /** Format: uuid */
+            id?: string;
+            status?: string;
+            planName?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            periodUnit?: string;
+            cancelScheduled?: boolean;
+            paid?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+        };
         PurchaseRequest: {
             /** Format: uuid */
             planPriceId: string;
@@ -1882,6 +1985,7 @@ export interface components {
             renewalDue?: boolean;
             /** Format: int32 */
             renewalWindowDays?: number;
+            subscription?: components["schemas"]["SubscriptionSummary"];
             payments?: components["schemas"]["PaymentView"][];
         };
         PaymentView: {
@@ -1894,6 +1998,18 @@ export interface components {
             status?: string;
             /** Format: date-time */
             capturedAt?: string;
+        };
+        SubscriptionSummary: {
+            /** Format: uuid */
+            id?: string;
+            status?: string;
+            planName?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            periodUnit?: string;
+            /** Format: date-time */
+            renewsOn?: string;
         };
         PublicCourse: {
             slug?: string;
@@ -2551,6 +2667,80 @@ export interface operations {
         };
         requestBody: {
             content: {
+                "application/json": components["schemas"]["SubscribeRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionCheckout"];
+                };
+            };
+        };
+    };
+    confirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubscriptionConfirmRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionConfirmView"];
+                };
+            };
+        };
+    };
+    cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionView"];
+                };
+            };
+        };
+    };
+    start_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
                 "application/json": components["schemas"]["PurchaseRequest"];
             };
         };
@@ -2566,7 +2756,7 @@ export interface operations {
             };
         };
     };
-    confirm: {
+    confirm_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -3903,6 +4093,28 @@ export interface operations {
             };
         };
     };
+    view: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionView"];
+                };
+            };
+        };
+    };
     quote: {
         parameters: {
             query: {
@@ -4054,7 +4266,7 @@ export interface operations {
             };
         };
     };
-    view: {
+    view_1: {
         parameters: {
             query?: never;
             header?: never;

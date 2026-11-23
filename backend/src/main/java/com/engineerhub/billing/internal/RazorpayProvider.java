@@ -93,6 +93,82 @@ class RazorpayProvider implements PaymentProvider {
   }
 
   @Override
+  public String createPlan(String period, long amountMinor, String currency, String name) {
+    requireConfigured();
+    JsonNode r =
+        call(
+            "/plans",
+            Map.of(
+                "period",
+                "year".equals(period) ? "yearly" : "monthly",
+                "interval",
+                1,
+                "item",
+                Map.of("name", name, "amount", amountMinor, "currency", currency)));
+    if (r == null
+        || !r.hasNonNull("id")
+        || r.path("item").path("amount").asLong(-1) != amountMinor) {
+      throw unavailable(new RestClientException("unexpected plan response"));
+    }
+    return r.get("id").asString();
+  }
+
+  @Override
+  public ProviderSubscription createSubscription(
+      String planRef, int totalCycles, Map<String, String> notes) {
+    requireConfigured();
+    JsonNode r =
+        call(
+            "/subscriptions",
+            Map.of("plan_id", planRef, "total_count", totalCycles, "notes", notes));
+    if (r == null || !r.hasNonNull("id") || !planRef.equals(r.path("plan_id").asString())) {
+      throw unavailable(new RestClientException("unexpected subscription response"));
+    }
+    return new ProviderSubscription(r.get("id").asString());
+  }
+
+  @Override
+  public void cancelSubscriptionAtCycleEnd(String subscriptionRef) {
+    requireConfigured();
+    call("/subscriptions/" + subscriptionRef + "/cancel", Map.of("cancel_at_cycle_end", true));
+  }
+
+  @Override
+  public boolean verifySubscriptionSignature(
+      String subscriptionRef, String paymentId, String signature) {
+    return RazorpaySignatures.subscriptionValid(
+        props.keySecret(), subscriptionRef, paymentId, signature);
+  }
+
+  private void requireConfigured() {
+    if (!configured()) {
+      throw new ApiException(ErrorCode.SERVICE_UNAVAILABLE, "Online payment is not available yet.");
+    }
+  }
+
+  private JsonNode call(String path, Map<String, Object> body) {
+    try {
+      return http.post()
+          .uri(path)
+          .headers(h -> h.setBasicAuth(props.keyId(), props.keySecret()))
+          .contentType(MediaType.APPLICATION_JSON)
+          .body(body)
+          .retrieve()
+          .body(JsonNode.class);
+    } catch (RestClientException e) {
+      throw unavailable(e);
+    }
+  }
+
+  private static ApiException unavailable(RestClientException e) {
+    log.warn("Razorpay call failed: {}", e.getClass().getSimpleName()); // class only
+    return new ApiException(
+        ErrorCode.SERVICE_UNAVAILABLE,
+        "The payment provider is temporarily unavailable. Please retry shortly.",
+        e);
+  }
+
+  @Override
   public boolean verifyCheckoutSignature(String orderId, String paymentId, String signature) {
     return RazorpaySignatures.checkoutValid(props.keySecret(), orderId, paymentId, signature);
   }

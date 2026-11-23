@@ -27,6 +27,17 @@ class FakeRazorpayProvider extends RazorpayProvider {
 
   private static final AtomicInteger SEQ = new AtomicInteger();
 
+  record Plan(String planId, String period, long amountMinor, String currency, String name) {}
+
+  record Subscription(
+      String subscriptionId, String planId, int totalCycles, Map<String, String> notes) {}
+
+  final List<Plan> plans = new CopyOnWriteArrayList<>();
+  final List<Subscription> subscriptions = new CopyOnWriteArrayList<>();
+  final List<String> cancelledAtCycleEnd = new CopyOnWriteArrayList<>();
+  volatile boolean failNextSubscription = false;
+  volatile boolean failNextCancel = false;
+
   volatile boolean disabled = false;
   volatile boolean failNext = false;
   final List<Order> orders = new CopyOnWriteArrayList<>();
@@ -39,6 +50,49 @@ class FakeRazorpayProvider extends RazorpayProvider {
     disabled = false;
     failNext = false;
     orders.clear();
+    plans.clear();
+    subscriptions.clear();
+    cancelledAtCycleEnd.clear();
+    failNextSubscription = false;
+    failNextCancel = false;
+  }
+
+  private static ApiException unavailable() {
+    return new ApiException(
+        ErrorCode.SERVICE_UNAVAILABLE,
+        "The payment provider is temporarily unavailable. Please retry shortly.");
+  }
+
+  @Override
+  public String createPlan(String period, long amountMinor, String currency, String name) {
+    if (!configured() || failNextSubscription) {
+      failNextSubscription = false;
+      throw unavailable();
+    }
+    String id = "plan_IT" + SEQ.incrementAndGet() + Long.toString(System.nanoTime(), 36);
+    plans.add(new Plan(id, period, amountMinor, currency, name));
+    return id;
+  }
+
+  @Override
+  public ProviderSubscription createSubscription(
+      String planRef, int totalCycles, Map<String, String> notes) {
+    if (!configured() || failNextSubscription) {
+      failNextSubscription = false;
+      throw unavailable();
+    }
+    String id = "sub_IT" + SEQ.incrementAndGet() + Long.toString(System.nanoTime(), 36);
+    subscriptions.add(new Subscription(id, planRef, totalCycles, notes));
+    return new ProviderSubscription(id);
+  }
+
+  @Override
+  public void cancelSubscriptionAtCycleEnd(String subscriptionRef) {
+    if (failNextCancel) {
+      failNextCancel = false;
+      throw unavailable();
+    }
+    cancelledAtCycleEnd.add(subscriptionRef);
   }
 
   @Override
