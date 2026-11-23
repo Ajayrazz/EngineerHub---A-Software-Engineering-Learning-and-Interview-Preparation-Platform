@@ -1,6 +1,6 @@
 # 21 — Payments, Subscriptions, Tax & Refunds (Razorpay, India-first)
 
-Status: **Design; M6.1 implemented (plans, tax-inclusive prices, access periods, entitlement decision, admin grants; see ADR-049). Payments, Razorpay, webhooks, tax, invoices and refunds are not implemented.** Razorpay-specific details come from my knowledge of its public API and **must be verified against current Razorpay docs at the start of Phase 5**. Items marked **Pending Decision** are deliberately not assumed.
+Status: **Design; M6.1 and M6.2 implemented (M6.2 only against a test double and signed simulations: see ADR-050 for what is verified) (plans, tax-inclusive prices, access periods, entitlement decision, admin grants; see ADR-049). Payments, Razorpay, webhooks, tax, invoices and refunds are not implemented.** Razorpay-specific details come from my knowledge of its public API and **must be verified against current Razorpay docs at the start of Phase 5**. Items marked **Pending Decision** are deliberately not assumed.
 
 Updated 2026-11-23 per product-owner decisions: all four purchase options, tax-inclusive pricing, configurable GST, test-mode-only until legal/KYC finalized, configurable refund policy with admin workflow.
 
