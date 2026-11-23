@@ -34,7 +34,9 @@ _Last updated: 2026-11-23_
 
 - **Phase 2 / M2.2 — Public reader API with server-side gating — DONE (2026-11-23).** Public topics, course list (filters/paging/escaped search), course outline and lesson endpoints serving only published snapshots; premium bodies need the server-side entitlement check (`403 ENTITLEMENT_REQUIRED`, no body); new `billing` module with `EntitlementService` + a stub (staff only, scoped for instructors) until M6.1; cache headers by audience. 12 integration tests; 4 mutants killed; 6 live checks added to `api-verify`. ADR-041. **Not verified:** CDN behaviour, load, real entitlements. CI found a test-isolation flake caused by the new tests (events left in the shared outbox consumed the fault injected by `OutboxFaultInjectionIT`); that test now starts from a drained outbox.
 
-Phase 2 plan (remaining): M2.3 admin CMS UI (markdown editor + preview, reorder, validation; needs the markdown-renderer ADR), M2.4 reader UI with progress/resume.
+- **Phase 2 / M2.3 — Admin CMS UI — DONE (2026-11-23).** Course list/create, course editor (details, outline with section/lesson reordering, publish/unpublish/archive), lesson editor (settings, markdown/code/callout blocks with live preview and client-side validation, content source, originality-confirmed publish, "unpublished changes" indicator); scoped instructors see only their courses. New libraries `react-markdown` 10.1.0 + `remark-gfm` 4.0.1 (ADR-042). 11 Playwright specs + 14 unit tests (e2e suite 66 passed; 112 unit tests); a Markdown-safety mutation was caught. **Not verified:** accessibility, mobile layout, very large lessons, HTTPS.
+
+Phase 2 plan (remaining): M2.4 reader UI with progress/resume (public SSR pages).
 
 **Phase 1 exit criterion (role-based admin access proven by tests): met** — API authorization matrix (IT), live checks against real tokens (`api-verify` 55), and browser E2E for every role boundary. Remaining Phase 1 leftovers are listed under Open items.
 

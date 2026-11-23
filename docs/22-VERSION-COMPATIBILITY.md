@@ -39,6 +39,7 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 | redis (node-redis) | 6.3.1 | Verified against Redis 8 (SET NX/EX, GETDEL, EVAL, KEEPTTL) | |
 | zod | 4.6.x | Verified (`z.url()`, `z.coerce`) | Server env validation |
 | server-only | 0.0.1 | Verified | |
+| react-markdown / remark-gfm | **10.1.0** / **4.0.1** (exact pins) | Verified (M2.3: renders on React 19.3; hostile-HTML, `javascript:` link and image tests; `npm audit` clean) | MIT. No `rehype-raw`: raw HTML must stay inert (ADR-042) |
 | Vitest | 4.1.12 | Verified | npm shows 5.x as latest; 4.x was resolved by the install and works — 5.x not evaluated |
 | @playwright/test | 1.65.1 + Chromium | Verified (local + needs CI run) | Only Chromium installed/tested |
 | shadcn/ui, TanStack Query, Zustand, RHF, Monaco, Recharts, Framer Motion, TipTap | — | **Not yet added / not checked** | Added when their first feature needs them; each verified against React 19.3 / Next 16.4 at that time |
