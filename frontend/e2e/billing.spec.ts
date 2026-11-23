@@ -176,6 +176,26 @@ test("premium content is locked for a learner until an admin grants access, and 
   );
 });
 
+test("without payment credentials the pricing page offers no purchase, and the CSP admits the provider only there", async ({
+  browser,
+}) => {
+  const anon = await newPage(browser);
+  await anon.goto("/pricing");
+  await expect(anon.getByTestId("payments-note")).toBeVisible();
+  await expect(anon.getByTestId("buy-start")).toHaveCount(0); // payments are not configured in the dev stack
+
+  const csp = async (path: string) =>
+    (await anon.request.get(path)).headers()["content-security-policy"] ?? "";
+  const pricing = await csp("/pricing");
+  expect(pricing).toContain("frame-src https://checkout.razorpay.com");
+  expect(pricing).not.toMatch(/script-src[^;]*razorpay/);
+  for (const path of ["/", "/courses", "/problems"]) {
+    const other = await csp(path);
+    expect(other, path).not.toContain("razorpay");
+    expect(other, path).toContain("frame-src 'none'");
+  }
+});
+
 test("the access page needs a login", async ({ browser }) => {
   const anon = await newPage(browser);
   await anon.goto("/billing");
