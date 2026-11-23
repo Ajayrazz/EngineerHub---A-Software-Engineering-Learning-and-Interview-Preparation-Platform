@@ -36,7 +36,9 @@ _Last updated: 2026-11-23_
 
 - **Phase 2 / M2.3 — Admin CMS UI — DONE (2026-11-23).** Course list/create, course editor (details, outline with section/lesson reordering, publish/unpublish/archive), lesson editor (settings, markdown/code/callout blocks with live preview and client-side validation, content source, originality-confirmed publish, "unpublished changes" indicator); scoped instructors see only their courses. New libraries `react-markdown` 10.1.0 + `remark-gfm` 4.0.1 (ADR-042). 11 Playwright specs + 14 unit tests (e2e suite 66 passed; 112 unit tests); a Markdown-safety mutation was caught. **Not verified:** accessibility, mobile layout, very large lessons, HTTPS.
 
-Phase 2 plan (remaining): M2.4 reader UI with progress/resume (public SSR pages).
+- **Phase 2 / M2.4 — Reader UI + progress — DONE (2026-11-23).** Flyway V7 + `learning` module (enroll, per-lesson progress, resume, my enrollments, completion events) behind a new `CatalogApi`; public SSR reader (course list/filters, course outline with Enroll/Continue, lesson page with sidebar ticks, TOC, previous/next, mark complete, locked-premium panel, My courses). 10 backend integration tests (4 mutants killed after two survived and tests were strengthened), 8 Playwright specs (e2e suite 74 passed), 5 new unit tests (117 total). ADR-043. **Not verified:** accessibility, mobile layout, behaviour over HTTPS, load.
+
+**Phase 2 exit criterion (author and publish a lesson end to end; a learner can read it): met** — CMS e2e publishes a lesson that the reader e2e shows to anonymous and signed-in learners, with premium gating enforced server-side (stub entitlement until M6.1). Carried forward from Phase 2: bulk Markdown/JSON import-export, revision history and second-reviewer workflow, media assets, sidebar filters, lesson search, bookmarks/notes/highlights, certificates (see ADR-043).
 
 **Phase 1 exit criterion (role-based admin access proven by tests): met** — API authorization matrix (IT), live checks against real tokens (`api-verify` 55), and browser E2E for every role boundary. Remaining Phase 1 leftovers are listed under Open items.
 
