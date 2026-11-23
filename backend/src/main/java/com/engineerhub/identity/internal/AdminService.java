@@ -44,6 +44,7 @@ class AdminService {
   private final UserStatusCache statusCache;
   private final PermissionCatalog catalog;
   private final Clock clock;
+  private final RoleAssignmentService roleAssignment;
 
   AdminService(
       JdbcClient jdbc,
@@ -54,7 +55,8 @@ class AdminService {
       OutboxPublisher events,
       UserStatusCache statusCache,
       PermissionCatalog catalog,
-      Clock clock) {
+      Clock clock,
+      RoleAssignmentService roleAssignment) {
     this.jdbc = jdbc;
     this.users = users;
     this.directory = directory;
@@ -64,6 +66,7 @@ class AdminService {
     this.statusCache = statusCache;
     this.catalog = catalog;
     this.clock = clock;
+    this.roleAssignment = roleAssignment;
   }
 
   // ------------------------------------------------------------------ users
@@ -138,6 +141,8 @@ class AdminService {
     }
     UserAccount target =
         users.findById(targetId).orElseThrow(() -> ApiException.notFound("User not found."));
+    roleAssignment.assertMayModerate(
+        actor, target); // only a super admin may act on an administrator
     UserStatus old = target.status();
     UserStatus next = UserStatus.fromDb(newStatusDb);
     if (old == UserStatus.PENDING_DELETION || old == UserStatus.DELETED) {

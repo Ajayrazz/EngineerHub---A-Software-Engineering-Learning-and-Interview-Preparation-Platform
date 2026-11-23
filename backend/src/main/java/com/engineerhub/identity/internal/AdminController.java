@@ -3,6 +3,8 @@ package com.engineerhub.identity.internal;
 import com.engineerhub.identity.internal.AdminDtos.GrantRequest;
 import com.engineerhub.identity.internal.AdminDtos.GrantView;
 import com.engineerhub.identity.internal.AdminDtos.RoleView;
+import com.engineerhub.identity.internal.AdminDtos.RolesChangeRequest;
+import com.engineerhub.identity.internal.AdminDtos.RolesView;
 import com.engineerhub.identity.internal.AdminDtos.StatusChangeRequest;
 import com.engineerhub.identity.internal.AdminDtos.UserPage;
 import com.engineerhub.identity.internal.AdminDtos.UserView;
@@ -31,9 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
 class AdminController {
 
   private final AdminService service;
+  private final RoleAssignmentService roleAssignment;
 
-  AdminController(AdminService service) {
+  AdminController(AdminService service, RoleAssignmentService roleAssignment) {
     this.service = service;
+    this.roleAssignment = roleAssignment;
   }
 
   @GetMapping("/users")
@@ -82,6 +86,22 @@ class AdminController {
   @PreAuthorize("@authz.can('role.grant.standard')")
   void revoke(Authentication authentication, @PathVariable UUID id, @PathVariable UUID grantId) {
     service.revoke(authentication, id, grantId);
+  }
+
+  @GetMapping("/users/{id}/roles")
+  @PreAuthorize("@authz.can('user.read')")
+  RolesView rolesOf(@PathVariable UUID id) {
+    return new RolesView(roleAssignment.rolesOf(id));
+  }
+
+  @PutMapping("/users/{id}/roles")
+  @PreAuthorize("@authz.can('role.grant.standard')")
+  RolesView setRoles(
+      Authentication authentication,
+      @PathVariable UUID id,
+      @Valid @RequestBody RolesChangeRequest request) {
+    return new RolesView(
+        roleAssignment.change(authentication, id, request.roles(), request.reason()));
   }
 
   @GetMapping("/roles")

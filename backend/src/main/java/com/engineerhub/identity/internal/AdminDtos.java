@@ -50,5 +50,13 @@ final class AdminDtos {
       Instant grantedAt,
       Instant expiresAt) {}
 
+  record RolesView(List<String> roles) {}
+
+  record RolesChangeRequest(
+      @jakarta.validation.constraints.NotNull @Size(max = 6)
+          List<@NotBlank @Pattern(regexp = "^[A-Z_]{3,30}$", message = "invalid role") String>
+              roles,
+      @NotBlank @Size(min = 5, max = 500) @PlainText String reason) {}
+
   record RoleView(String role, List<String> global, List<String> scoped) {}
 }

@@ -95,6 +95,10 @@ management:
 
 # --- Transactional outbox (see shared.messaging) ---
 engineerhub:
+  keycloak:
+    admin: # service-account client for role management (blank = role management refused)
+      client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:}
+      client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET:}
   limits:
     max-request-bytes: 1048576 # 1 MiB; larger bodies get 413 before any parsing (code submissions will use a lower per-route cap)
     rate:

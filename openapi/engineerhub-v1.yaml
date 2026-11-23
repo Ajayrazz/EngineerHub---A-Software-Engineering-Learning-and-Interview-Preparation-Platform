@@ -50,6 +50,49 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/UserView"
+  /api/v1/admin/users/{id}/roles:
+    get:
+      tags:
+      - admin-controller
+      operationId: rolesOf
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RolesView"
+    put:
+      tags:
+      - admin-controller
+      operationId: setRoles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RolesChangeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RolesView"
   /api/v1/admin/users/{id}/grants:
     get:
       tags:
@@ -426,6 +469,31 @@ components:
         lastLoginAt:
           type: string
           format: date-time
+    RolesChangeRequest:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            pattern: "^[A-Z_]{3,30}$"
+          maxItems: 6
+          minItems: 0
+        reason:
+          type: string
+          maxLength: 500
+          minLength: 5
+      required:
+      - reason
+      - roles
+    RolesView:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
     GrantRequest:
       type: object
       properties:
