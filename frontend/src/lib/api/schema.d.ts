@@ -212,6 +212,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/tax": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["settings"];
+        put: operations["update_1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/billing/plans/{planId}/entitlements": {
         parameters: {
             query?: never;
@@ -596,6 +612,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/tax/rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/billing/plans": {
         parameters: {
             query?: never;
@@ -722,6 +754,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["patchLesson"];
+        trace?: never;
+    };
+    "/api/v1/admin/billing/tax/rules/{ruleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["rule"];
         trace?: never;
     };
     "/api/v1/admin/billing/plans/{planId}": {
@@ -940,6 +988,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["mine"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/payments/{paymentId}/document": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["document"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1598,6 +1662,37 @@ export interface components {
             /** Format: int32 */
             expectedVersion: number;
         };
+        TaxSettingsRequest: {
+            mode: string;
+            sellerLegalName?: string;
+            sellerAddress?: string;
+            sellerState?: string;
+            sellerGstin?: string;
+            sacCode?: string;
+        };
+        TaxRuleView: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            /** Format: int32 */
+            rateBps?: number;
+            /** Format: date */
+            validFrom?: string;
+            /** Format: date */
+            validTo?: string;
+            active?: boolean;
+        };
+        TaxSettingsView: {
+            mode?: string;
+            sellerLegalName?: string;
+            sellerAddress?: string;
+            sellerState?: string;
+            sellerGstin?: string;
+            sacCode?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            rules?: components["schemas"]["TaxRuleView"][];
+        };
         EntitlementsRequest: {
             codes: string[];
         };
@@ -1771,6 +1866,15 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
+        TaxRuleCreate: {
+            name: string;
+            /** Format: int32 */
+            rateBps?: number;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
+        };
         PlanCreate: {
             code: string;
             name: string;
@@ -1831,6 +1935,9 @@ export interface components {
             sectionId?: string;
             /** Format: int32 */
             expectedVersion: number;
+        };
+        TaxRulePatch: {
+            active: boolean;
         };
         PlanPatch: {
             name?: string;
@@ -1986,6 +2093,7 @@ export interface components {
             /** Format: int32 */
             renewalWindowDays?: number;
             subscription?: components["schemas"]["SubscriptionSummary"];
+            documentsAvailable?: boolean;
             payments?: components["schemas"]["PaymentView"][];
         };
         PaymentView: {
@@ -1998,6 +2106,7 @@ export interface components {
             status?: string;
             /** Format: date-time */
             capturedAt?: string;
+            documentNumber?: string;
         };
         SubscriptionSummary: {
             /** Format: uuid */
@@ -2575,6 +2684,50 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LessonView"];
+                };
+            };
+        };
+    };
+    settings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxSettingsView"];
+                };
+            };
+        };
+    };
+    update_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaxSettingsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxSettingsView"];
                 };
             };
         };
@@ -3252,6 +3405,30 @@ export interface operations {
             };
         };
     };
+    addRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaxRuleCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxSettingsView"];
+                };
+            };
+        };
+    };
     plans: {
         parameters: {
             query?: never;
@@ -3589,6 +3766,32 @@ export interface operations {
             };
         };
     };
+    rule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                ruleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaxRulePatch"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxSettingsView"];
+                };
+            };
+        };
+    };
     patch_2: {
         parameters: {
             query?: never;
@@ -3895,6 +4098,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PermissionsResponse"];
+                };
+            };
+        };
+    };
+    document: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                paymentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
                 };
             };
         };

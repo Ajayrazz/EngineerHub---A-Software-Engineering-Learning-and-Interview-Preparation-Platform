@@ -10,6 +10,10 @@ import com.engineerhub.billing.internal.BillingDtos.PlanView;
 import com.engineerhub.billing.internal.BillingDtos.PriceCreate;
 import com.engineerhub.billing.internal.BillingDtos.PricePatch;
 import com.engineerhub.billing.internal.BillingDtos.RevokeRequest;
+import com.engineerhub.billing.internal.TaxDtos.TaxRuleCreate;
+import com.engineerhub.billing.internal.TaxDtos.TaxRulePatch;
+import com.engineerhub.billing.internal.TaxDtos.TaxSettingsRequest;
+import com.engineerhub.billing.internal.TaxDtos.TaxSettingsView;
 import com.engineerhub.identity.UserDirectory;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
@@ -155,5 +159,65 @@ class BillingAdminController {
       @PathVariable UUID periodId,
       @Valid @RequestBody RevokeRequest request) {
     return service.revoke(actor, periodId, request.reason());
+  }
+}
+
+/**
+ * Tax configuration and the owner's own receipts. Tax settings need the global {@code
+ * billing.manage}; a document is downloadable only by the owner of the payment.
+ */
+@RestController
+@RequestMapping("/api/v1")
+class TaxAndDocumentController {
+
+  private final TaxService tax;
+  private final DocumentService documents;
+
+  TaxAndDocumentController(TaxService tax, DocumentService documents) {
+    this.tax = tax;
+    this.documents = documents;
+  }
+
+  @GetMapping("/admin/billing/tax")
+  @PreAuthorize("@authz.can('billing.manage')")
+  TaxSettingsView settings() {
+    return tax.get();
+  }
+
+  @PutMapping("/admin/billing/tax")
+  @PreAuthorize("@authz.can('billing.manage')")
+  TaxSettingsView update(Authentication actor, @Valid @RequestBody TaxSettingsRequest request) {
+    return tax.update(actor, request);
+  }
+
+  @PostMapping("/admin/billing/tax/rules")
+  @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("@authz.can('billing.manage')")
+  TaxSettingsView addRule(Authentication actor, @Valid @RequestBody TaxRuleCreate request) {
+    return tax.addRule(actor, request);
+  }
+
+  @PatchMapping("/admin/billing/tax/rules/{ruleId}")
+  @PreAuthorize("@authz.can('billing.manage')")
+  TaxSettingsView rule(
+      Authentication actor, @PathVariable UUID ruleId, @Valid @RequestBody TaxRulePatch request) {
+    return tax.setRuleActive(actor, ruleId, request.active());
+  }
+
+  /** The receipt or tax invoice of one of the caller's own payments, as a PDF download. */
+  @GetMapping("/me/payments/{paymentId}/document")
+  @PreAuthorize("isAuthenticated()")
+  ResponseEntity<byte[]> document(Authentication authentication, @PathVariable UUID paymentId) {
+    DocumentService.PdfFile f = documents.pdfFor(authentication, paymentId);
+    return ResponseEntity.ok()
+        .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
+        .header(
+            org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+            org.springframework.http.ContentDisposition.attachment()
+                .filename(f.filename())
+                .build()
+                .toString())
+        .cacheControl(CacheControl.noStore())
+        .body(f.bytes());
   }
 }

@@ -36,11 +36,14 @@ class PaymentCapturedHandler {
   private final JdbcClient jdbc;
   private final Clock clock;
   private final OutboxPublisher events;
+  private final DocumentService documents;
 
-  PaymentCapturedHandler(JdbcClient jdbc, Clock clock, OutboxPublisher events) {
+  PaymentCapturedHandler(
+      JdbcClient jdbc, Clock clock, OutboxPublisher events, DocumentService documents) {
     this.jdbc = jdbc;
     this.clock = clock;
     this.events = events;
+    this.documents = documents;
   }
 
   /**
@@ -130,6 +133,7 @@ class PaymentCapturedHandler {
         .update();
 
     publishGranted(userId, paymentId, "intentId", intentId, c.amountMinor(), c.currency(), period);
+    documents.issueIfConfigured(paymentId); // no-op while tax is UNCONFIGURED
     return "granted";
   }
 
@@ -288,6 +292,7 @@ class PaymentCapturedHandler {
         .update();
     publishGranted(
         userId, paymentId, "subscriptionId", subscriptionId, c.amountMinor(), c.currency(), period);
+    documents.issueIfConfigured(paymentId);
     return "granted";
   }
 

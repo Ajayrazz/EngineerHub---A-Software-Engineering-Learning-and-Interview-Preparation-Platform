@@ -82,7 +82,8 @@ final class BillingDtos {
       long amountMinor,
       String currency,
       String status,
-      Instant capturedAt) {}
+      Instant capturedAt,
+      String documentNumber) {}
 
   /**
    * The user's running auto-renewing subscription. {@code renewsOn} is set only while it will
@@ -106,5 +107,6 @@ final class BillingDtos {
       boolean renewalDue,
       int renewalWindowDays,
       SubscriptionSummary subscription,
+      boolean documentsAvailable,
       List<PaymentView> payments) {}
 }

@@ -22,6 +22,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring-modulith.version>2.2.0</spring-modulith.version>
     <springdoc.version>3.2.1</springdoc.version>
+    <pdfbox.version>3.0.8</pdfbox.version>
     <spotless.version>3.12.0</spotless.version>
     <google-java-format.version>1.36.1</google-java-format.version>
   </properties>
@@ -75,6 +76,18 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>${pdfbox.version}</version>
+      <exclusions>
+        <!-- Spring's spring-jcl already provides the commons-logging API -->
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>

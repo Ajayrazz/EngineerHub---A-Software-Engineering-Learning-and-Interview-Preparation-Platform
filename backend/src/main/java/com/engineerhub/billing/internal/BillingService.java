@@ -490,11 +490,12 @@ class BillingService implements EntitlementService {
     List<PaymentView> payments =
         jdbc.sql(
                 """
-                select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at
+                select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at, d.doc_number
                 from billing.payments pay
                 left join billing.purchase_intents i on i.id = pay.intent_id
                 left join billing.subscriptions sub on sub.id = pay.subscription_id
                 join billing.plans pl on pl.id = coalesce(i.plan_id, sub.plan_id)
+                left join billing.documents d on d.payment_id = pay.id
                 where pay.user_id = :u order by pay.captured_at desc, pay.id limit 50
                 """)
             .param("u", userId)
@@ -506,8 +507,13 @@ class BillingService implements EntitlementService {
                         rs.getLong(3),
                         rs.getString(4).strip(),
                         rs.getString(5),
-                        rs.getTimestamp(6).toInstant()))
+                        rs.getTimestamp(6).toInstant(),
+                        rs.getString(7)))
             .list();
+    boolean documentsAvailable =
+        jdbc.sql("select tax_mode <> 'UNCONFIGURED' from billing.tax_settings where id = 1")
+            .query(Boolean.class)
+            .single();
     return new BillingSummary(
         status,
         validThrough != null,
@@ -516,6 +522,7 @@ class BillingService implements EntitlementService {
         renewalDue,
         renewalWindowDays,
         subscription,
+        documentsAvailable,
         payments);
   }
 
