@@ -85,7 +85,9 @@ Matrix is encoded as seed data (`roles`, `permissions`, `role_permissions`) and 
 
 **Live checks (`scripts/verify-api-auth.sh`, 33 checks with real RS256 tokens):** garbage token, **tampered signature**, **a learner token whose payload was edited to claim SUPER_ADMIN (privilege escalation)**, **valid token with the wrong audience**, **token from a different realm** → all 401; learner/moderator → 403 on admin endpoint; admin/superadmin → 200; Keycloak built-in roles filtered; no tokens/passwords in logs.
 
-**Dev-only Keycloak clients** (in the dev realm export only; must not exist in staging/prod realms): `engineerhub-dev-cli` (password grant, used by the verification script) and `engineerhub-dev-noaud` (negative control issuing tokens without the API audience).
+**Realm as code (M1.5):** `infra/keycloak/base/realm.json` (prod-safe) + `infra/keycloak/dev/overlay.json` (dev only), merged by `scripts/build-realm.py`; `make realm-check` guards the base (ADR-037). Staff MFA: all six staff roles carry the `STAFF_MFA` marker and the browser flow requires TOTP for it. Role assignment: `GET/PUT /api/v1/admin/users/{id}/roles` through the `engineerhub-admin-svc` service account (ADR-038).
+
+**Dev-only Keycloak clients** (in the dev overlay only; must not exist in staging/prod realms): `engineerhub-dev-cli` (password grant, used by the verification script) and `engineerhub-dev-noaud` (negative control issuing tokens without the API audience).
 
 **Not implemented yet (tracked):** refresh/revocation checks for admin-class tokens (`token_version`/denylist, §4 rule 4); rate limiting and brute-force at API level (Phase 1); request-size limits (Phase 1, together with rate limiting); permission/scoped-grant tables and `@authz.can(...)` evaluator (Phase 1); BFF session/PKCE login (M0.5); admin MFA and step-up auth (Phase 1); separate management port for actuator.
 
