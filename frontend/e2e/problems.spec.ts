@@ -161,6 +161,55 @@ test.describe("authoring", () => {
     await expect(page.getByTestId("problem-status")).toHaveText("draft");
   });
 
+  test("verification: programs are stored, a run is recorded as unavailable without a judge, nothing becomes verified", async ({
+    browser,
+  }) => {
+    const page = await newPage(browser, "admin");
+    await page.goto(problemUrl);
+    const panel = page.getByRole("region", { name: "Verification" });
+    await expect(page.getByTestId("no-executor")).toBeVisible();
+
+    await page.getByTestId("validation-run").click();
+    await expect(
+      page.getByRole("alert").filter({ hasText: "Add the reference solution" }),
+    ).toBeVisible();
+
+    const sources: Record<string, string> = {
+      reference: "a, b = map(int, input().split())\nprint(a + b)",
+      brute:
+        "a, b = map(int, input().split())\ns = 0\nfor _ in range(abs(a)): s += 1 if a > 0 else -1\nprint(s + b)",
+      generator:
+        "import random\nrandom.seed(int(input()))\nprint(random.randint(-9, 9), random.randint(-9, 9))",
+    };
+    const titles: Record<string, string> = {
+      reference: "Reference solution",
+      brute: "Brute-force solution",
+      generator: "Input generator",
+    };
+    for (const role of ["reference", "brute", "generator"]) {
+      await panel.getByLabel(`${titles[role]} source`).fill(sources[role]);
+      await page.getByTestId(`save-${role}`).click();
+      await expect(
+        page.getByRole("status").filter({ hasText: `${titles[role]} saved` }),
+      ).toBeVisible();
+    }
+    await page.reload();
+    await expect(panel.getByLabel("Reference solution source")).toHaveValue(/print\(a \+ b\)/);
+
+    await page.getByTestId("validation-run").click();
+    await expect(page.getByTestId("run-status").first()).toHaveText("unavailable");
+    await expect(page.getByTestId("validation-runs")).toContainText("No code execution backend");
+    await expect(page.getByTestId("validation-status")).toHaveText("not verified");
+
+    // changing a program is recorded and verification stays reset
+    await panel.getByLabel("Brute-force solution source").fill(sources.brute + "\n# tweaked");
+    await page.getByTestId("save-brute").click();
+    await expect(
+      page.getByRole("status").filter({ hasText: "Brute-force solution saved" }),
+    ).toBeVisible();
+    await expect(page.getByTestId("validation-status")).toHaveText("not verified");
+  });
+
   test("two editors: the second save of the details is rejected", async ({ browser }) => {
     const a = await newPage(browser, "admin");
     const b = await newPage(browser, "admin");

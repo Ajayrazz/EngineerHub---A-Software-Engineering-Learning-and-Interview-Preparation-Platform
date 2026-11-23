@@ -14,10 +14,12 @@ import {
   type TestRow,
 } from "@/lib/problems/tests";
 import { adminFetch } from "./admin-fetch";
+import { ValidationPanel } from "./validation-panel";
 import { Notice, btn, input, when } from "./ui";
 
 type ProblemView = components["schemas"]["ProblemView"];
 type TestsView = components["schemas"]["TestsView"];
+type ValidationView = components["schemas"]["ValidationView"];
 type TagView = components["schemas"]["TagView"];
 type TopicView = components["schemas"]["TopicView"];
 type Flash = { kind: "ok" | "error"; text: string } | null;
@@ -30,6 +32,7 @@ export function ProblemEditor({
   patterns: initialPatterns,
   initial,
   initialTests,
+  initialValidation,
 }: {
   csrfToken: string;
   canPublish: boolean;
@@ -38,6 +41,7 @@ export function ProblemEditor({
   patterns: TagView[];
   initial: ProblemView;
   initialTests: TestsView;
+  initialValidation: ValidationView;
 }) {
   const [problem, setProblem] = useState(initial);
   const [testsMeta, setTestsMeta] = useState({
@@ -164,6 +168,14 @@ export function ProblemEditor({
             testcaseVersion: data.testcaseVersion ?? 0,
           }));
         }}
+      />
+
+      <ValidationPanel
+        csrfToken={csrfToken}
+        problemId={problem.id ?? ""}
+        testsVersion={testsMeta.version}
+        initial={initialValidation}
+        onStatus={(s) => setTestsMeta((m) => ({ ...m, validation: s }))}
       />
 
       <Preview problem={problem} samples={savedRows.filter((r) => r.sample)} />
