@@ -28,27 +28,67 @@
     "realm": [
       {
         "name": "SUPER_ADMIN",
-        "description": "Platform owner; all permissions"
+        "description": "Platform owner; all permissions",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
       },
       {
         "name": "ADMIN",
-        "description": "Administrator"
+        "description": "Administrator",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
       },
       {
         "name": "CONTENT_MANAGER",
-        "description": "Manages and publishes content"
+        "description": "Manages and publishes content",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
       },
       {
         "name": "PROBLEM_SETTER",
-        "description": "Authors problems and test cases"
+        "description": "Authors problems and test cases",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
       },
       {
         "name": "MODERATOR",
-        "description": "Moderates community content"
+        "description": "Moderates community content",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
       },
       {
         "name": "INSTRUCTOR",
-        "description": "Authors assigned courses"
+        "description": "Authors assigned courses",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "STAFF_MFA"
+          ]
+        }
+      },
+      {
+        "name": "STAFF_MFA",
+        "description": "Marker included in every staff role: its holders must use TOTP at login. Never assign directly; the API ignores it."
       }
     ]
   },
@@ -101,5 +141,97 @@
     "password": "${SMTP_PASSWORD}",
     "ssl": "false",
     "starttls": "true"
-  }
+  },
+  "authenticationFlows": [
+    {
+      "alias": "browser-staff-mfa",
+      "description": "Browser login; holders of STAFF_MFA must also pass TOTP",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": false,
+          "authenticator": "auth-cookie",
+          "requirement": "ALTERNATIVE",
+          "priority": 10
+        },
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": false,
+          "authenticator": "identity-provider-redirector",
+          "requirement": "ALTERNATIVE",
+          "priority": 25
+        },
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": true,
+          "requirement": "ALTERNATIVE",
+          "priority": 30,
+          "flowAlias": "browser-staff-mfa forms"
+        }
+      ]
+    },
+    {
+      "alias": "browser-staff-mfa forms",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": false,
+          "authenticator": "auth-username-password-form",
+          "requirement": "REQUIRED",
+          "priority": 10
+        },
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": true,
+          "requirement": "CONDITIONAL",
+          "priority": 20,
+          "flowAlias": "browser-staff-mfa otp"
+        }
+      ]
+    },
+    {
+      "alias": "browser-staff-mfa otp",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": false,
+          "authenticator": "conditional-user-role",
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "authenticatorConfig": "staff-requires-mfa"
+        },
+        {
+          "userSetupAllowed": false,
+          "autheticatorFlow": false,
+          "authenticator": "auth-otp-form",
+          "requirement": "REQUIRED",
+          "priority": 20
+        }
+      ]
+    }
+  ],
+  "authenticatorConfig": [
+    {
+      "alias": "staff-requires-mfa",
+      "config": {
+        "condUserRole": "STAFF_MFA",
+        "negate": "false"
+      }
+    }
+  ],
+  "browserFlow": "browser-staff-mfa",
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "otpPolicyLookAheadWindow": 1
 }

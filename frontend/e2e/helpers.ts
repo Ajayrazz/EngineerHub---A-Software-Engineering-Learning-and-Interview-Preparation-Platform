@@ -2,11 +2,40 @@ import { expect, type APIRequestContext, type BrowserContext, type Page } from "
 import { createRedisClient, redisKeyValueStore } from "../src/lib/session/redis-kv";
 import { deriveKeys, keyFor } from "../src/lib/session/crypto";
 import { SessionStore } from "../src/lib/session/store";
+import { DEV_TOTP_SEED, totp } from "./totp";
 
 export const PASSWORD = "Dev-Only-Pass-1!"; // fake dev password from the Keycloak dev realm
 export const SESSION_COOKIE = "eh_session"; // plain name: tests run over http://localhost
 export const LOGIN_COOKIE = "eh_login";
 export const APP_ORIGIN = process.env.APP_URL ?? "http://localhost:3000";
+
+const lastOtpStep = new Map<string, number>();
+
+/**
+ * Keycloak rejects a TOTP code whose time step was already used (replay protection), and tests log the
+ * same user in repeatedly within one 30 s window. So each login uses a strictly later step than the
+ * previous one for that user (the dev realm widens the look-ahead window to allow it), retrying once
+ * more if a step was consumed elsewhere.
+ */
+async function answerOtp(page: Page, username: string) {
+  const now = Date.now();
+  const current = Math.floor(now / 1000 / 30);
+  let step = Math.max(current, (lastOtpStep.get(username) ?? 0) + 1);
+  for (let attempt = 0; attempt < 3; attempt++, step++) {
+    await page.locator("#otp").fill(totp(DEV_TOTP_SEED, now, step - current));
+    lastOtpStep.set(username, step);
+    await page.locator("#kc-login").click();
+    const result = await Promise.race([
+      page.waitForURL((url) => url.origin === APP_ORIGIN, { timeout: 15_000 }).then(() => "ok"),
+      page
+        .getByText("Invalid authenticator code")
+        .waitFor({ timeout: 15_000 })
+        .then(() => "retry"),
+    ]);
+    if (result === "ok") return;
+  }
+  throw new Error(`OTP for ${username} was rejected three times`);
+}
 
 /** Logs in through the real Keycloak UI and lands on `returnTo`. */
 export async function login(page: Page, username: string, returnTo = "/account") {
@@ -14,6 +43,15 @@ export async function login(page: Page, username: string, returnTo = "/account")
   await page.locator("#username").fill(username);
   await page.locator("#password").fill(PASSWORD);
   await page.locator("#kc-login").click();
+  // Staff accounts must pass TOTP (docs/08): answer the second step when Keycloak asks for it.
+  const otp = page.locator("#otp");
+  const next = await Promise.race([
+    otp.waitFor({ state: "visible", timeout: 15_000 }).then(() => "otp" as const),
+    page
+      .waitForURL((url) => url.origin === APP_ORIGIN, { timeout: 15_000 })
+      .then(() => "app" as const),
+  ]);
+  if (next === "otp") await answerOtp(page, username);
   await page.waitForURL((url) => url.origin === APP_ORIGIN, { timeout: 20_000 });
 }
 

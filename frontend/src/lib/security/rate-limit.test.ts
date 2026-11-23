@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MemoryKv } from "../testing/memory-kv";
-import { checkRateLimit, clientAddress } from "./rate-limit";
+import { checkRateLimit, clientAddress, effectiveLimit } from "./rate-limit";
 
 describe("checkRateLimit", () => {
   it("allows up to the limit, then blocks with the remaining window", async () => {
@@ -39,6 +39,13 @@ describe("checkRateLimit", () => {
     const d = await checkRateLimit(kv, "x", "a", 1, 60, () => reported++);
     expect(d.allowed).toBe(true);
     expect(reported).toBe(1);
+  });
+});
+
+describe("effectiveLimit", () => {
+  it("gives the unattributed shared bucket a far higher ceiling than a single client", () => {
+    expect(effectiveLimit("203.0.113.9", 20)).toBe(20);
+    expect(effectiveLimit("shared", 20)).toBeGreaterThanOrEqual(400);
   });
 });
 

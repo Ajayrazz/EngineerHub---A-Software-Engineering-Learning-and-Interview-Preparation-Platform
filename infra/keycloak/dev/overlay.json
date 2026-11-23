@@ -1,5 +1,5 @@
 {
-  "_comment": "DEV ONLY. Fake users and scripted-login clients; merged over base/realm.json by scripts/build-realm.py. Must never reach staging/production.",
+  "_comment": "DEV ONLY. Fake users and scripted-login clients; merged over base/realm.json by scripts/build-realm.py. Must never reach staging/production. Staff dev users carry a fixed fake TOTP seed (see frontend/e2e/totp.ts). otpPolicyLookAheadWindow is widened so repeated test logins can use later TOTP steps; the base keeps 1.",
   "smtpServer": {
     "host": "mailpit",
     "port": "1025",
@@ -77,6 +77,12 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     },
@@ -95,6 +101,12 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     },
@@ -113,6 +125,12 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     },
@@ -131,6 +149,12 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     },
@@ -149,6 +173,12 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     },
@@ -167,8 +197,15 @@
           "type": "password",
           "value": "Dev-Only-Pass-1!",
           "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "dev authenticator",
+          "secretData": "{\"value\": \"dev-only-totp-seed-01\"}",
+          "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"period\": 30, \"algorithm\": \"HmacSHA1\", \"counter\": 0}"
         }
       ]
     }
-  ]
+  ],
+  "otpPolicyLookAheadWindow": 30
 }

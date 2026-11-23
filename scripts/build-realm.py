@@ -69,6 +69,34 @@ def check_base(r):
             sec = c.get("secret", "")
             if sec and not re.fullmatch(r"\$\{[A-Z_]+\}", sec):
                 errs.append(f"{cid}: client secret must be an env placeholder, not a literal")
+    # Staff MFA: every staff role must include the STAFF_MFA marker and the browser flow must require OTP for it.
+    staff = {"SUPER_ADMIN", "ADMIN", "CONTENT_MANAGER", "PROBLEM_SETTER", "MODERATOR", "INSTRUCTOR"}
+    realm_roles = {x["name"]: x for x in r.get("roles", {}).get("realm", [])}
+    for name in sorted(staff):
+        comp = realm_roles.get(name, {}).get("composites", {}).get("realm", [])
+        if "STAFF_MFA" not in comp:
+            errs.append(f"staff role {name} must include STAFF_MFA (admin MFA)")
+    flows = {f["alias"]: f for f in r.get("authenticationFlows", [])}
+    cfg = {c["alias"]: c["config"] for c in r.get("authenticatorConfig", [])}
+    top = flows.get(r.get("browserFlow", ""))
+    if not top or not top.get("topLevel"):
+        errs.append("browserFlow must be the custom staff-MFA flow")
+    else:
+        def walk(alias, seen=()):
+            for e in flows.get(alias, {}).get("authenticationExecutions", []):
+                yield alias, e
+                if e.get("flowAlias") and e["flowAlias"] not in seen:
+                    yield from walk(e["flowAlias"], seen + (alias,))
+        found = False
+        for _, e in walk(top["alias"]):
+            if e.get("authenticator") == "auth-otp-form" and e.get("requirement") == "REQUIRED":
+                found = True
+        cond = [e for _, e in walk(top["alias"]) if e.get("authenticator") == "conditional-user-role"]
+        if not found:
+            errs.append("browser flow has no REQUIRED auth-otp-form")
+        if not any(cfg.get(e.get("authenticatorConfig", ""), {}).get("condUserRole") == "STAFF_MFA"
+                   and cfg[e["authenticatorConfig"]].get("negate") != "true" for e in cond):
+            errs.append("browser flow must gate OTP on role STAFF_MFA (not negated)")
     s = r.get("smtpServer", {})
     for k in ("host", "port", "from", "user", "password"):
         v = s.get(k, "")
