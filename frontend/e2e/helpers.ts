@@ -2,6 +2,8 @@ import { expect, type APIRequestContext, type BrowserContext, type Page } from "
 import { createRedisClient, redisKeyValueStore } from "../src/lib/session/redis-kv";
 import { deriveKeys, keyFor } from "../src/lib/session/crypto";
 import { SessionStore } from "../src/lib/session/store";
+import fs from "node:fs";
+import path from "node:path";
 import { DEV_TOTP_SEED, totp } from "./totp";
 
 export const PASSWORD = "Dev-Only-Pass-1!"; // fake dev password from the Keycloak dev realm
@@ -9,7 +11,21 @@ export const SESSION_COOKIE = "eh_session"; // plain name: tests run over http:/
 export const LOGIN_COOKIE = "eh_login";
 export const APP_ORIGIN = process.env.APP_URL ?? "http://localhost:3000";
 
-const lastOtpStep = new Map<string, number>();
+// Persisted between runs: Keycloak remembers the last step each user used, so a fresh process must
+// continue after it (the dev realm's wide look-ahead window leaves room for hundreds of logins).
+const OTP_STATE = path.join(__dirname, ".otp-state.json");
+function readOtpState(): Record<string, number> {
+  try {
+    return JSON.parse(fs.readFileSync(OTP_STATE, "utf8")) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+function rememberOtpStep(username: string, step: number) {
+  const state = readOtpState();
+  state[username] = Math.max(state[username] ?? 0, step);
+  fs.writeFileSync(OTP_STATE, JSON.stringify(state));
+}
 
 /**
  * Keycloak rejects a TOTP code whose time step was already used (replay protection), and tests log the
@@ -17,13 +33,18 @@ const lastOtpStep = new Map<string, number>();
  * previous one for that user (the dev realm widens the look-ahead window to allow it), retrying once
  * more if a step was consumed elsewhere.
  */
-async function answerOtp(page: Page, username: string) {
+/** The next unused TOTP code for a user (recorded as used, so later calls move on). */
+export function nextOtpCode(username: string): string {
   const now = Date.now();
   const current = Math.floor(now / 1000 / 30);
-  let step = Math.max(current, (lastOtpStep.get(username) ?? 0) + 1);
-  for (let attempt = 0; attempt < 3; attempt++, step++) {
-    await page.locator("#otp").fill(totp(DEV_TOTP_SEED, now, step - current));
-    lastOtpStep.set(username, step);
+  const step = Math.max(current, (readOtpState()[username] ?? 0) + 1);
+  rememberOtpStep(username, step);
+  return totp(DEV_TOTP_SEED, now, step - current);
+}
+
+async function answerOtp(page: Page, username: string) {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    await page.locator("#otp").fill(nextOtpCode(username));
     await page.locator("#kc-login").click();
     const result = await Promise.race([
       page.waitForURL((url) => url.origin === APP_ORIGIN, { timeout: 15_000 }).then(() => "ok"),
@@ -34,7 +55,7 @@ async function answerOtp(page: Page, username: string) {
     ]);
     if (result === "ok") return;
   }
-  throw new Error(`OTP for ${username} was rejected three times`);
+  throw new Error(`OTP for ${username} was rejected five times`);
 }
 
 /** Logs in through the real Keycloak UI and lands on `returnTo`. */

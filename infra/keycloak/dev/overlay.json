@@ -213,7 +213,7 @@
       ]
     }
   ],
-  "otpPolicyLookAheadWindow": 30,
+  "otpPolicyLookAheadWindow": 500,
   "authenticationFlows": [
     {
       "id": "6f1e2a6c-0000-4000-8000-00000000d0a1",

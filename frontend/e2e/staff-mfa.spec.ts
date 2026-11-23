@@ -1,6 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { APP_ORIGIN, PASSWORD, SESSION_COOKIE, login } from "./helpers";
-import { DEV_TOTP_SEED, totp } from "./totp";
+import { APP_ORIGIN, PASSWORD, SESSION_COOKIE, login, nextOtpCode } from "./helpers";
 
 /** Staff roles must pass TOTP in the browser login (realm flow `browser-staff-mfa`, docs/08). */
 
@@ -40,9 +39,7 @@ test.describe("staff MFA", () => {
   });
 
   test("a code that was already used cannot be replayed", async ({ browser }) => {
-    const now = Date.now();
-    const step = 2; // later than any step other tests use for this account
-    const code = totp(DEV_TOTP_SEED, now, step);
+    const code = nextOtpCode("moderator"); // one code, used twice
 
     const first = await (await browser.newContext()).newPage();
     await passwordStep(first, "moderator");
