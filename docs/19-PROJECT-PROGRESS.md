@@ -30,6 +30,10 @@ _Last updated: 2026-11-23_
 
 - **Phase 1 / M1.6 — Admin shell UI — DONE (2026-11-23).** Overview, users (search/filter/paging), user detail (status, staff roles, scoped grants) and audit log with chain verification; server-side gating (404 for non-admins), mutations through the BFF with CSRF, API refusals surfaced. 12 new Playwright tests + 7 unit tests (e2e suite 55 passed twice in a row; 98 frontend unit tests); gate removal mutation caught. ADR-039. **Not verified:** accessibility, mobile layout, behaviour over HTTPS.
 
+- **Phase 2 / M2.1 — Catalog backend + authoring workflow — DONE (2026-11-23).** Flyway V6 (`catalog` schema: topics with the 31-topic seed, courses, sections, lessons, content blocks, content sources); authoring API under `/api/v1/admin/courses/**` (course/section/lesson CRUD, reorder, blocks, source, publish/unpublish, archive); draft + published-snapshot model, publish gate, optimistic concurrency, scoped instructor access. 10 integration tests (authorization table for every endpoint × role incl. scoped instructor, workflow + snapshot isolation, gates, validation, concurrency, cross-course isolation, reorder/delete rules) + 6 unit tests; 3 mutants killed (one survived first: the no-source gate was masked by the empty-blocks gate, test fixed). ADR-040. **Not verified:** performance with large courses; the reader side (M2.2).
+
+Phase 2 plan: M2.2 public reader API + server-side gating (stub entitlement), M2.3 admin CMS UI, M2.4 reader UI with progress/resume.
+
 **Phase 1 exit criterion (role-based admin access proven by tests): met** — API authorization matrix (IT), live checks against real tokens (`api-verify` 55), and browser E2E for every role boundary. Remaining Phase 1 leftovers are listed under Open items.
 
 ## Pending
