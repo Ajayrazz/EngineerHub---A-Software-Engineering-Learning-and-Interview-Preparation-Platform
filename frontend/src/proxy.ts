@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { buildCsp, isCheckoutPath } from "@/lib/security/csp";
 
 /**
  * Per-request Content-Security-Policy with a nonce (Next.js applies the nonce to its own scripts/styles).
@@ -11,19 +12,13 @@ export function proxy(request: NextRequest) {
   const issuerOrigin = safeOrigin(process.env.KEYCLOAK_ISSUER_URI);
   const secure = process.env.APP_URL?.startsWith("https:") ?? false;
 
-  const csp = [
-    "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ""}`,
-    `style-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-inline'" : ""}`,
-    "img-src 'self' blob: data:",
-    "font-src 'self'",
-    "connect-src 'self'",
-    "object-src 'none'",
-    "base-uri 'self'",
-    `form-action 'self'${issuerOrigin ? ` ${issuerOrigin}` : ""}`,
-    "frame-ancestors 'none'",
-    ...(secure ? ["upgrade-insecure-requests"] : []),
-  ].join("; ");
+  const csp = buildCsp({
+    nonce,
+    isDev,
+    issuerOrigin,
+    secure,
+    checkout: isCheckoutPath(request.nextUrl.pathname),
+  });
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { BuyButton } from "@/components/billing/buy-button";
 import { ReaderShell } from "@/components/reader/ui";
 import { describePrice } from "@/lib/billing/format";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
 
 type Plan = components["schemas"]["PlanView"];
+type Config = components["schemas"]["PaymentsConfig"];
 
 export const metadata: Metadata = {
   title: "Pricing · EngineerHub",
@@ -13,14 +15,25 @@ export const metadata: Metadata = {
 
 export default async function PricingPage() {
   const session = await readerSession();
-  const plans = await readerGet<Plan[]>("plans");
+  const [plans, config] = await Promise.all([
+    readerGet<Plan[]>("plans"),
+    readerGet<Config>("billing/config"),
+  ]);
+  const enabled = config.ok && config.data.paymentsEnabled === true;
   return (
     <ReaderShell username={session?.username}>
       <h1 className="text-2xl font-semibold">Pricing</h1>
-      <p className="rounded border p-3 text-sm" data-testid="payments-note">
-        Online payment is not available yet. Prices below are final amounts; when payments open, the
-        amount you see is the amount you pay.
-      </p>
+      {enabled ? (
+        <p className="rounded border border-amber-500/60 p-3 text-sm" data-testid="test-mode-note">
+          <strong>Test mode.</strong> Payments run against the payment provider&apos;s test
+          environment: no real money is charged. The amount you see is the final amount you pay.
+        </p>
+      ) : (
+        <p className="rounded border p-3 text-sm" data-testid="payments-note">
+          Online payment is not available yet. Prices below are final amounts; when payments open,
+          the amount you see is the amount you pay.
+        </p>
+      )}
       {!plans.ok ? (
         <p role="alert" className="text-sm">
           Pricing could not be loaded. Please try again shortly.
@@ -37,10 +50,16 @@ export default async function PricingPage() {
               {(p.entitlements ?? []).includes("premium_content") && (
                 <p className="text-sm">Includes all premium lessons and problems.</p>
               )}
-              <ul className="flex flex-col gap-1 text-sm">
+              <ul className="flex flex-col gap-3 text-sm">
                 {(p.prices ?? []).map((price) => (
-                  <li key={price.id} data-testid="price">
-                    {describePrice(price)}
+                  <li key={price.id} className="flex flex-col gap-1" data-testid="price">
+                    <span>{describePrice(price)}</span>
+                    {enabled && price.billingMode === "ONE_TIME" && price.id && (
+                      <BuyButton csrfToken={session?.csrfToken ?? null} planPriceId={price.id} />
+                    )}
+                    {enabled && price.billingMode === "RECURRING" && (
+                      <span className="opacity-70">Auto-renewing plans are not available yet.</span>
+                    )}
                   </li>
                 ))}
               </ul>
