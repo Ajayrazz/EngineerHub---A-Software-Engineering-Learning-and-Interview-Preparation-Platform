@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { describePrice, formatDate, formatInr, toMinor } from "./format";
+import {
+  accessHeadline,
+  describePrice,
+  formatDate,
+  formatInr,
+  paymentStatusLabel,
+  renewalReminder,
+  toMinor,
+} from "./format";
 
 describe("billing format", () => {
   it("formats minor units as rupees with Indian grouping", () => {
@@ -39,5 +47,44 @@ describe("billing format", () => {
     expect(formatDate("2026-03-10T12:00:00Z")).toBe("2026-03-10");
     expect(formatDate(undefined)).toBe("—");
     expect(formatDate("not a date")).toBe("—");
+  });
+
+  it("words the headline per status and keeps 'Free plan' for people without access", () => {
+    expect(accessHeadline({ status: "ACTIVE", validThrough: "2026-03-10T12:00:00Z" })).toBe(
+      "Premium access until 2026-03-10",
+    );
+    expect(accessHeadline({ status: "EXPIRING_SOON", validThrough: "2026-03-10T12:00:00Z" })).toBe(
+      "Premium access until 2026-03-10",
+    );
+    expect(accessHeadline({ status: "EXPIRED" })).toBe("Your premium access has ended");
+    expect(accessHeadline({ status: "NONE" })).toBe("Free plan");
+    expect(accessHeadline({})).toBe("Free plan");
+  });
+
+  it("reminds only when access is expiring or has ended", () => {
+    expect(renewalReminder({ status: "ACTIVE", daysRemaining: 20 })).toBeNull();
+    expect(renewalReminder({ status: "NONE" })).toBeNull();
+    expect(renewalReminder({ status: "EXPIRED" })).toContain("has ended");
+    const soon = renewalReminder({
+      status: "EXPIRING_SOON",
+      renewalDue: true,
+      daysRemaining: 3,
+      validThrough: "2026-03-10T12:00:00Z",
+    });
+    expect(soon).toContain("in 3 days");
+    expect(soon).toContain("2026-03-10");
+    expect(soon).toContain("not renew automatically");
+    expect(
+      renewalReminder({ status: "EXPIRING_SOON", renewalDue: true, daysRemaining: 1 }),
+    ).toContain("within a day");
+    // a stale/inconsistent flag never produces a reminder on its own
+    expect(renewalReminder({ status: "ACTIVE", renewalDue: true, daysRemaining: 2 })).toBeNull();
+  });
+
+  it("labels payment statuses and never shows a raw provider value", () => {
+    expect(paymentStatusLabel("captured")).toBe("paid");
+    expect(paymentStatusLabel("partially_refunded")).toBe("partially refunded");
+    expect(paymentStatusLabel("weird")).toBe("unknown");
+    expect(paymentStatusLabel(undefined)).toBe("unknown");
   });
 });

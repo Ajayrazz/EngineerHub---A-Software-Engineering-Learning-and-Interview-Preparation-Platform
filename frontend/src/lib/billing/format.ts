@@ -25,3 +25,44 @@ export function formatDate(iso?: string): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? "—" : d.toISOString().slice(0, 10);
 }
+
+type SummaryLike = {
+  status?: string;
+  validThrough?: string;
+  daysRemaining?: number;
+  renewalDue?: boolean;
+};
+
+/** Headline for the billing page. "Free plan" is kept verbatim for people who never had (or lost) access. */
+export function accessHeadline(s: SummaryLike): string {
+  switch (s.status) {
+    case "ACTIVE":
+    case "EXPIRING_SOON":
+      return `Premium access until ${formatDate(s.validThrough)}`;
+    case "EXPIRED":
+      return "Your premium access has ended";
+    default:
+      return "Free plan";
+  }
+}
+
+/** Renewal reminder text, or null when there is nothing to remind about. Access never auto-renews for passes. */
+export function renewalReminder(s: SummaryLike): string | null {
+  if (s.status === "EXPIRED") return "Your access has ended. Renew to get premium content back.";
+  if (s.status === "EXPIRING_SOON" && s.renewalDue) {
+    const d = s.daysRemaining ?? 0;
+    const when = d <= 1 ? "within a day" : `in ${d} days`;
+    return `Your premium access ends ${when} (${formatDate(s.validThrough)}) and will not renew automatically. Renew now to keep it without a gap.`;
+  }
+  return null;
+}
+
+const PAYMENT_STATUS: Record<string, string> = {
+  captured: "paid",
+  refunded: "refunded",
+  partially_refunded: "partially refunded",
+};
+
+export function paymentStatusLabel(status?: string): string {
+  return PAYMENT_STATUS[status ?? ""] ?? "unknown";
+}

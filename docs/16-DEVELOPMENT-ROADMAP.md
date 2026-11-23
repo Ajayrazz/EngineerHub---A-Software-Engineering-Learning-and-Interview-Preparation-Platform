@@ -60,7 +60,7 @@ Solved counts, daily activity, streaks, course progress counters via events; use
 ### Phase 6 — Billing, all four purchase models (≈7–9; Razorpay test mode)
 - **M6.1** Plans/prices (tax-inclusive), entitlement model, `AccessPeriod`, EntitlementService + gating everywhere (replaces stub).
 - **M6.2** Razorpay provider adapter (test mode), quote → order → checkout, webhook verify/dedupe, `PaymentCapturedHandler` — **monthly & annual passes working end-to-end**.
-- **M6.3** Billing page (validity, status), expiry sweeper, reminders.
+- **M6.3** Billing page (validity, status, payment history) and in-app renewal reminder — **done**. Expiry sweeper and e-mail reminders deliberately not built (ADR-051); they need mail infrastructure and your decision.
 - **M6.4** Recurring subscriptions (monthly/annual): create/authenticate, `subscription.charged` into the same handler, cancel-at-cycle-end, failed payment → PAST_DUE → grace → expiry.
 - **M6.5** Tax config model (`UNCONFIGURED/DISABLED/ENABLED`), invoices/receipts PDF, credit notes.
 - **M6.6** Refund requests + admin review/process + auto-flags + configurable policy text.

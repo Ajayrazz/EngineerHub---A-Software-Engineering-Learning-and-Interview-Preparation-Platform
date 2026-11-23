@@ -3,62 +3,125 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
 import { ReaderShell } from "@/components/reader/ui";
-import { formatDate } from "@/lib/billing/format";
+import {
+  accessHeadline,
+  formatDate,
+  formatInr,
+  paymentStatusLabel,
+  renewalReminder,
+} from "@/lib/billing/format";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
 
 type Access = components["schemas"]["AccessView"];
+type Summary = components["schemas"]["BillingSummary"];
 
 export const metadata: Metadata = { title: "My access · EngineerHub" };
 
 export default async function BillingPage() {
   const session = await readerSession();
   if (!session) redirect("/auth/login?returnTo=/billing");
-  const r = await readerGet<Access>("me/access", session.accessToken);
+  const [summary, access] = await Promise.all([
+    readerGet<Summary>("me/billing", session.accessToken),
+    readerGet<Access>("me/access", session.accessToken),
+  ]);
+  const reminder = summary.ok ? renewalReminder(summary.data) : null;
   return (
     <ReaderShell username={session.username}>
       <h1 className="text-2xl font-semibold">My access</h1>
-      {!r.ok ? (
+      {!summary.ok || !access.ok ? (
         <Notice kind="error">Your access could not be loaded. Please try again shortly.</Notice>
       ) : (
         <>
           <p className="text-lg" data-testid="access-state">
-            {r.data.premium
-              ? `Premium access until ${formatDate(r.data.validThrough)}`
-              : "Free plan"}
+            {accessHeadline(summary.data)}
           </p>
-          {!r.data.premium && (
+          {reminder && (
+            <div
+              role="status"
+              className="rounded border border-amber-500/60 px-3 py-2 text-sm"
+              data-testid="renewal-reminder"
+            >
+              <p>{reminder}</p>
+              <p className="mt-1">
+                <Link className="underline" href="/pricing" data-testid="renew-link">
+                  Renew
+                </Link>
+              </p>
+            </div>
+          )}
+          {!summary.data.premium && !reminder && (
             <p className="text-sm">
               <Link className="underline" href="/pricing">
                 See pricing
               </Link>
             </p>
           )}
-          {(r.data.periods ?? []).length > 0 && (
-            <table className="w-full text-left text-sm" data-testid="periods">
-              <thead>
-                <tr className="border-b opacity-70">
-                  <th className="py-2">Plan</th>
-                  <th>From</th>
-                  <th>Until</th>
-                  <th>Source</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(r.data.periods ?? []).map((p) => (
-                  <tr key={p.id} className="border-b" data-testid="period">
-                    <td className="py-2">{p.planName}</td>
-                    <td>{formatDate(p.startsAt)}</td>
-                    <td>{formatDate(p.endsAt)}</td>
-                    <td>
-                      {p.sourceType === "admin_grant" ? "granted by EngineerHub" : p.sourceType}
-                    </td>
-                    <td>{p.revoked ? "revoked" : "active or expired"}</td>
+          <section aria-labelledby="payments-h" className="space-y-2">
+            <h2 id="payments-h" className="text-lg font-medium">
+              Payments
+            </h2>
+            {(summary.data.payments ?? []).length === 0 ? (
+              <p className="text-sm opacity-70" data-testid="no-payments">
+                No payments yet.
+              </p>
+            ) : (
+              <table className="w-full text-left text-sm" data-testid="payments">
+                <thead>
+                  <tr className="border-b opacity-70">
+                    <th className="py-2">Date</th>
+                    <th>Plan</th>
+                    <th>Amount (incl. taxes)</th>
+                    <th>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {(summary.data.payments ?? []).map((p) => (
+                    <tr key={p.id} className="border-b" data-testid="payment">
+                      <td className="py-2">{formatDate(p.capturedAt)}</td>
+                      <td>{p.planName}</td>
+                      <td>{formatInr(p.amountMinor ?? 0)}</td>
+                      <td>{paymentStatusLabel(p.status)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
+          {(access.data.periods ?? []).length > 0 && (
+            <section aria-labelledby="periods-h" className="space-y-2">
+              <h2 id="periods-h" className="text-lg font-medium">
+                Access periods
+              </h2>
+              <table className="w-full text-left text-sm" data-testid="periods">
+                <thead>
+                  <tr className="border-b opacity-70">
+                    <th className="py-2">Plan</th>
+                    <th>From</th>
+                    <th>Until</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(access.data.periods ?? []).map((p) => (
+                    <tr key={p.id} className="border-b" data-testid="period">
+                      <td className="py-2">{p.planName}</td>
+                      <td>{formatDate(p.startsAt)}</td>
+                      <td>{formatDate(p.endsAt)}</td>
+                      <td>
+                        {p.sourceType === "admin_grant"
+                          ? "granted by EngineerHub"
+                          : p.sourceType === "payment"
+                            ? "purchase"
+                            : p.sourceType}
+                      </td>
+                      <td>{p.revoked ? "revoked" : "active or expired"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
           )}
         </>
       )}

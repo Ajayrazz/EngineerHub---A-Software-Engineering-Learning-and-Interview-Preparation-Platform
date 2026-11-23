@@ -143,6 +143,8 @@ test("premium content is locked for a learner until an admin grants access, and 
   expect(await learner.content()).not.toContain(SECRET);
   await learner.goto("/billing");
   await expect(learner.getByTestId("access-state")).toHaveText("Free plan");
+  await expect(learner.getByTestId("no-payments")).toBeVisible();
+  await expect(learner.getByTestId("renewal-reminder")).toHaveCount(0);
 
   // the admin grants 30 days from the user's page
   const admin = await newPage(browser, "admin");
@@ -158,6 +160,7 @@ test("premium content is locked for a learner until an admin grants access, and 
 
   await learner.goto("/billing");
   await expect(learner.getByTestId("access-state")).toContainText("Premium access until");
+  await expect(learner.getByTestId("renewal-reminder")).toHaveCount(0); // 30 days is outside the window
   await expect(learner.getByTestId("period").filter({ hasText: planName })).toContainText(planName);
   await learner.goto(`/courses/${courseSlug}/lessons/deep`);
   await expect(learner.getByTestId("lesson-body")).toContainText(SECRET);
@@ -174,6 +177,34 @@ test("premium content is locked for a learner until an admin grants access, and 
   await expect(learner.getByTestId("period").filter({ hasText: planName })).toContainText(
     "revoked",
   );
+});
+
+test("a learner whose access is about to end sees a renewal reminder that leads to pricing", async ({
+  browser,
+}) => {
+  const admin = await newPage(browser, "admin");
+  const call = await api(admin.request);
+  const id = (await call("get", "admin/users?q=learner")).items.find(
+    (u: { username: string }) => u.username === "learner",
+  ).id;
+  const plan = (await call("get", "admin/billing/plans")).find(
+    (p: { code: string }) => p.code === planCode,
+  );
+  await call("post", `admin/billing/users/${id}/access-grants`, {
+    planId: plan.id,
+    days: 3,
+    reason: "e2e: short grant to show the reminder",
+  });
+  await admin.context().close();
+
+  const learner = await newPage(browser, "learner");
+  await learner.goto("/billing");
+  await expect(learner.getByTestId("access-state")).toContainText("Premium access until");
+  const reminder = learner.getByTestId("renewal-reminder");
+  await expect(reminder).toContainText("in 3 days");
+  await expect(reminder).toContainText("will not renew automatically");
+  await learner.getByTestId("renew-link").click();
+  await expect(learner).toHaveURL(/\/pricing$/);
 });
 
 test("without payment credentials the pricing page offers no purchase, and the CSP admits the provider only there", async ({
