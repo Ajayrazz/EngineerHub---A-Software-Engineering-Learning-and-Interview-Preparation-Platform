@@ -32,7 +32,9 @@ _Last updated: 2026-11-23_
 
 - **Phase 2 / M2.1 — Catalog backend + authoring workflow — DONE (2026-11-23).** Flyway V6 (`catalog` schema: topics with the 31-topic seed, courses, sections, lessons, content blocks, content sources); authoring API under `/api/v1/admin/courses/**` (course/section/lesson CRUD, reorder, blocks, source, publish/unpublish, archive); draft + published-snapshot model, publish gate, optimistic concurrency, scoped instructor access. 10 integration tests (authorization table for every endpoint × role incl. scoped instructor, workflow + snapshot isolation, gates, validation, concurrency, cross-course isolation, reorder/delete rules) + 6 unit tests; 3 mutants killed (one survived first: the no-source gate was masked by the empty-blocks gate, test fixed). ADR-040. **Not verified:** performance with large courses; the reader side (M2.2).
 
-Phase 2 plan: M2.2 public reader API + server-side gating (stub entitlement), M2.3 admin CMS UI, M2.4 reader UI with progress/resume.
+- **Phase 2 / M2.2 — Public reader API with server-side gating — DONE (2026-11-23).** Public topics, course list (filters/paging/escaped search), course outline and lesson endpoints serving only published snapshots; premium bodies need the server-side entitlement check (`403 ENTITLEMENT_REQUIRED`, no body); new `billing` module with `EntitlementService` + a stub (staff only, scoped for instructors) until M6.1; cache headers by audience. 12 integration tests; 4 mutants killed; 6 live checks added to `api-verify`. ADR-041. **Not verified:** CDN behaviour, load, real entitlements.
+
+Phase 2 plan (remaining): M2.3 admin CMS UI (markdown editor + preview, reorder, validation; needs the markdown-renderer ADR), M2.4 reader UI with progress/resume.
 
 **Phase 1 exit criterion (role-based admin access proven by tests): met** — API authorization matrix (IT), live checks against real tokens (`api-verify` 55), and browser E2E for every role boundary. Remaining Phase 1 leftovers are listed under Open items.
 
