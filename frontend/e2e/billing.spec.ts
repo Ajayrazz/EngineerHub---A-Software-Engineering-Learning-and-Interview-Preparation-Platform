@@ -273,6 +273,8 @@ test("an auto-renewing subscriber sees the renewal date and no renew-now reminde
 test("an admin configures documents, and a payer downloads a receipt only once they are allowed", async ({
   browser,
 }) => {
+  // logging in provisions the local user: on a fresh database the admin search below finds nobody otherwise
+  const payer = await newPage(browser, "instructor");
   const admin = await newPage(browser, "admin");
   const call = await api(admin.request);
   await call("put", "admin/billing/tax", { mode: "UNCONFIGURED" }); // a known start, whatever a failed run left
@@ -295,7 +297,6 @@ test("an admin configures documents, and a payer downloads a receipt only once t
   seedPayment({ paymentId, subscriptionId, userId });
 
   try {
-    const payer = await newPage(browser, "instructor");
     await payer.goto("/billing");
     const row = payer.getByTestId("payment").first();
     await expect(row).toContainText(/₹\s?2,999\.00/);
