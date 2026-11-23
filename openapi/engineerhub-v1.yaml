@@ -641,6 +641,20 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LessonView"
+  /api/v1/topics:
+    get:
+      tags:
+      - catalog-reader-controller
+      operationId: topics
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TopicView"
   /api/v1/system/whoami:
     get:
       tags:
@@ -701,6 +715,94 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PermissionsResponse"
+  /api/v1/courses:
+    get:
+      tags:
+      - catalog-reader-controller
+      operationId: courses_1
+      parameters:
+      - name: topic
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: difficulty
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tier
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicCoursePage"
+  /api/v1/courses/{slug}:
+    get:
+      tags:
+      - catalog-reader-controller
+      operationId: course_1
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicCourseDetail"
+  /api/v1/courses/{slug}/lessons/{lessonSlug}:
+    get:
+      tags:
+      - catalog-reader-controller
+      operationId: lesson_1
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lessonSlug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicLesson"
   /api/v1/admin/users:
     get:
       tags:
@@ -761,7 +863,7 @@ paths:
     get:
       tags:
       - course-admin-controller
-      operationId: topics
+      operationId: topics_1
       responses:
         "200":
           description: OK
@@ -1390,6 +1492,19 @@ components:
           format: int32
       required:
       - expectedVersion
+    TopicView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
     WhoAmI:
       type: object
       properties:
@@ -1433,6 +1548,136 @@ components:
           type: string
         resourceId:
           type: string
+    PublicCourse:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        topic:
+          $ref: "#/components/schemas/PublicTopic"
+        difficulty:
+          type: string
+        accessTier:
+          type: string
+        estMinutes:
+          type: integer
+          format: int32
+        lessonCount:
+          type: integer
+          format: int32
+        publishedAt:
+          type: string
+          format: date-time
+    PublicCoursePage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicCourse"
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+    PublicTopic:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+    PublicCourseDetail:
+      type: object
+      properties:
+        course:
+          $ref: "#/components/schemas/PublicCourse"
+        id:
+          type: string
+          format: uuid
+        sections:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicOutlineSection"
+    PublicOutlineLesson:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        position:
+          type: integer
+          format: int32
+        accessTier:
+          type: string
+        freePreview:
+          type: boolean
+        estReadMin:
+          type: integer
+          format: int32
+    PublicOutlineSection:
+      type: object
+      properties:
+        title:
+          type: string
+        position:
+          type: integer
+          format: int32
+        lessons:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicOutlineLesson"
+    PublicBlock:
+      type: object
+      properties:
+        type:
+          type: string
+        data:
+          type: object
+          additionalProperties: {}
+    PublicLesson:
+      type: object
+      properties:
+        courseSlug:
+          type: string
+        slug:
+          type: string
+        title:
+          type: string
+        accessTier:
+          type: string
+        freePreview:
+          type: boolean
+        estReadMin:
+          type: integer
+          format: int32
+        blocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicBlock"
+        previous:
+          $ref: "#/components/schemas/PublicLessonRef"
+        next:
+          $ref: "#/components/schemas/PublicLessonRef"
+        publishedAt:
+          type: string
+          format: date-time
+    PublicLessonRef:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
     UserPage:
       type: object
       properties:
@@ -1449,19 +1694,6 @@ components:
         total:
           type: integer
           format: int64
-    TopicView:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        slug:
-          type: string
-        name:
-          type: string
-        position:
-          type: integer
-          format: int32
     RoleView:
       type: object
       properties:

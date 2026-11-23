@@ -324,6 +324,22 @@ export interface paths {
         patch: operations["patchLesson"];
         trace?: never;
     };
+    "/api/v1/topics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["topics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/system/whoami": {
         parameters: {
             query?: never;
@@ -404,6 +420,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/courses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["courses_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/courses/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/courses/{slug}/lessons/{lessonSlug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["lesson_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/users": {
         parameters: {
             query?: never;
@@ -443,7 +507,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["topics"];
+        get: operations["topics_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -749,6 +813,14 @@ export interface components {
             /** Format: int32 */
             expectedVersion: number;
         };
+        TopicView: {
+            /** Format: uuid */
+            id?: string;
+            slug?: string;
+            name?: string;
+            /** Format: int32 */
+            position?: number;
+        };
         WhoAmI: {
             subject?: string;
             roles?: string[];
@@ -769,6 +841,79 @@ export interface components {
             resourceType?: string;
             resourceId?: string;
         };
+        PublicCourse: {
+            slug?: string;
+            title?: string;
+            description?: string;
+            topic?: components["schemas"]["PublicTopic"];
+            difficulty?: string;
+            accessTier?: string;
+            /** Format: int32 */
+            estMinutes?: number;
+            /** Format: int32 */
+            lessonCount?: number;
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        PublicCoursePage: {
+            items?: components["schemas"]["PublicCourse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total?: number;
+        };
+        PublicTopic: {
+            slug?: string;
+            name?: string;
+        };
+        PublicCourseDetail: {
+            course?: components["schemas"]["PublicCourse"];
+            /** Format: uuid */
+            id?: string;
+            sections?: components["schemas"]["PublicOutlineSection"][];
+        };
+        PublicOutlineLesson: {
+            slug?: string;
+            title?: string;
+            /** Format: int32 */
+            position?: number;
+            accessTier?: string;
+            freePreview?: boolean;
+            /** Format: int32 */
+            estReadMin?: number;
+        };
+        PublicOutlineSection: {
+            title?: string;
+            /** Format: int32 */
+            position?: number;
+            lessons?: components["schemas"]["PublicOutlineLesson"][];
+        };
+        PublicBlock: {
+            type?: string;
+            data?: {
+                [key: string]: unknown;
+            };
+        };
+        PublicLesson: {
+            courseSlug?: string;
+            slug?: string;
+            title?: string;
+            accessTier?: string;
+            freePreview?: boolean;
+            /** Format: int32 */
+            estReadMin?: number;
+            blocks?: components["schemas"]["PublicBlock"][];
+            previous?: components["schemas"]["PublicLessonRef"];
+            next?: components["schemas"]["PublicLessonRef"];
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        PublicLessonRef: {
+            slug?: string;
+            title?: string;
+        };
         UserPage: {
             items?: components["schemas"]["UserView"][];
             /** Format: int32 */
@@ -777,14 +922,6 @@ export interface components {
             size?: number;
             /** Format: int64 */
             total?: number;
-        };
-        TopicView: {
-            /** Format: uuid */
-            id?: string;
-            slug?: string;
-            name?: string;
-            /** Format: int32 */
-            position?: number;
         };
         RoleView: {
             role?: string;
@@ -1500,6 +1637,26 @@ export interface operations {
             };
         };
     };
+    topics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TopicView"][];
+                };
+            };
+        };
+    };
     whoami: {
         parameters: {
             query?: never;
@@ -1600,6 +1757,78 @@ export interface operations {
             };
         };
     };
+    courses_1: {
+        parameters: {
+            query?: {
+                topic?: string;
+                difficulty?: string;
+                tier?: string;
+                q?: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicCoursePage"];
+                };
+            };
+        };
+    };
+    course_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicCourseDetail"];
+                };
+            };
+        };
+    };
+    lesson_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                lessonSlug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicLesson"];
+                };
+            };
+        };
+    };
     users: {
         parameters: {
             query?: {
@@ -1647,7 +1876,7 @@ export interface operations {
             };
         };
     };
-    topics: {
+    topics_1: {
         parameters: {
             query?: never;
             header?: never;

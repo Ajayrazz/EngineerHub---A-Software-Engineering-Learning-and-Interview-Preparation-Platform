@@ -136,6 +136,14 @@ c=$(put_roles "$SUPER" "$LEARNER_ID" '[]'); [ "$c" = 200 ] && ok "roles removed 
 [ "$(has_role learner PROBLEM_SETTER)" = False ] && [ "$(has_role learner MODERATOR)" = False ] && ok "the learner's next token no longer carries them" || bad "roles still in token after removal"
 c=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $SUPER" "$API/api/v1/admin/audit-logs?action=user.roles.changed"); [ "$c" = 200 ] && ok "role changes are visible in the audit log" || bad "audit query -> $c"
 
+echo "== Public catalog (no login)"
+expect "GET /courses without a token" 200 "" "/api/v1/courses"
+expect "GET /topics without a token" 200 "" "/api/v1/topics"
+expect "unknown course is a 404" 404 "" "/api/v1/courses/no-such-course"
+expect "admin course list still needs a token" 401 "" "/api/v1/admin/courses"
+expect "admin course list refused for a learner" 403 "$LEARNER" "/api/v1/admin/courses"
+expect "admin course list allowed for an admin" 200 "$ADMIN" "/api/v1/admin/courses"
+
 echo "== Hardening"
 curl -s -D - -o /dev/null "$API/api/v1/system/ping" | tr -d '\r' > /tmp/eh_hdr.$$ 2>/dev/null
 grep -qi '^x-content-type-options: nosniff' /tmp/eh_hdr.$$ && ok "X-Content-Type-Options: nosniff" || bad "nosniff"
