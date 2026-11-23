@@ -38,6 +38,20 @@ class CatalogApiImpl implements CatalogApi {
   }
 
   @Override
+  public Map<UUID, Topic> topics(Collection<UUID> topicIds) {
+    Map<UUID, Topic> out = new LinkedHashMap<>();
+    if (topicIds.isEmpty()) {
+      return out;
+    }
+    jdbc.sql("select id, slug, name from catalog.topics where id in (:ids)")
+        .param("ids", List.copyOf(topicIds))
+        .query((rs, i) -> new Topic(rs.getObject(1, UUID.class), rs.getString(2), rs.getString(3)))
+        .list()
+        .forEach(t -> out.put(t.id(), t));
+    return out;
+  }
+
+  @Override
   public Optional<PublishedCourse> publishedCourse(UUID courseId) {
     return jdbc.sql(
             "select id, slug, title from catalog.courses where id = :id and status = 'published'")

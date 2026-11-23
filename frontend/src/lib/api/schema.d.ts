@@ -68,6 +68,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/problems/{problemId}/tests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["tests"];
+        put: operations["replaceTests"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["tags"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/source": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["source"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/courses/{courseId}/sections/{sectionId}/lessons/order": {
         parameters: {
             query?: never;
@@ -108,7 +156,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["source"];
+        put: operations["source_1"];
         post?: never;
         delete?: never;
         options?: never;
@@ -164,6 +212,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/problems": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list"];
+        put?: never;
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/unpublish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["unpublish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/problems/{problemId}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["archive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/patterns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["patterns"];
+        put?: never;
+        post: operations["createPattern"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/courses": {
         parameters: {
             query?: never;
@@ -173,7 +301,7 @@ export interface paths {
         };
         get: operations["courses"];
         put?: never;
-        post: operations["create"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -189,7 +317,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["unpublish"];
+        post: operations["unpublish_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -221,7 +349,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["publish"];
+        post: operations["publish_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -285,7 +413,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["archive"];
+        post: operations["archive_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -308,6 +436,22 @@ export interface paths {
         patch: operations["updateProfile"];
         trace?: never;
     };
+    "/api/v1/admin/problems/{problemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["problem"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["patch"];
+        trace?: never;
+    };
     "/api/v1/admin/courses/{courseId}": {
         parameters: {
             query?: never;
@@ -321,7 +465,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["patch"];
+        patch: operations["patch_1"];
         trace?: never;
     };
     "/api/v1/admin/courses/{courseId}/sections/{sectionId}": {
@@ -724,6 +868,93 @@ export interface components {
         RolesView: {
             roles?: string[];
         };
+        TestInput: {
+            input: string;
+            expected: string;
+            sample?: boolean;
+            explanation?: string;
+        };
+        TestsRequest: {
+            tests: components["schemas"]["TestInput"][];
+            /** Format: int32 */
+            expectedTestcaseVersion: number;
+        };
+        TestView: {
+            /** Format: int32 */
+            ordinal?: number;
+            sample?: boolean;
+            input?: string;
+            expected?: string;
+            explanation?: string;
+        };
+        TestsView: {
+            /** Format: int32 */
+            testcaseVersion?: number;
+            validationStatus?: string;
+            tests?: components["schemas"]["TestView"][];
+        };
+        TagsRequest: {
+            topicIds: string[];
+            patternIds: string[];
+        };
+        ProblemView: {
+            /** Format: uuid */
+            id?: string;
+            slug?: string;
+            title?: string;
+            status?: string;
+            difficulty?: string;
+            accessTier?: string;
+            statement?: string;
+            inputFormat?: string;
+            outputFormat?: string;
+            constraints?: string;
+            hints?: string[];
+            /** Format: int32 */
+            timeLimitMs?: number;
+            /** Format: int32 */
+            memoryLimitMb?: number;
+            checkerType?: string;
+            /** Format: int32 */
+            version?: number;
+            /** Format: int32 */
+            testcaseVersion?: number;
+            /** Format: int32 */
+            sampleCount?: number;
+            /** Format: int32 */
+            hiddenCount?: number;
+            validationStatus?: string;
+            /** Format: date-time */
+            publishedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            hasUnpublishedChanges?: boolean;
+            topics?: components["schemas"]["TagView"][];
+            patterns?: components["schemas"]["TagView"][];
+            source?: components["schemas"]["SourceView"];
+        };
+        SourceView: {
+            kind?: string;
+            license?: string;
+            attribution?: string;
+            sourceUrl?: string;
+            /** Format: uuid */
+            reviewedBy?: string;
+            /** Format: date-time */
+            reviewedAt?: string;
+        };
+        TagView: {
+            /** Format: uuid */
+            id?: string;
+            slug?: string;
+            name?: string;
+        };
+        SourceRequest: {
+            kind: string;
+            license?: string;
+            attribution?: string;
+            sourceUrl?: string;
+        };
         OrderRequest: {
             ids: string[];
         };
@@ -772,12 +1003,6 @@ export interface components {
             position?: number;
             lessons?: components["schemas"]["LessonSummary"][];
         };
-        SourceRequest: {
-            kind: string;
-            license?: string;
-            attribution?: string;
-            sourceUrl?: string;
-        };
         BlockView: {
             type?: string;
             /** Format: int32 */
@@ -810,16 +1035,6 @@ export interface components {
             blocks?: components["schemas"]["BlockView"][];
             source?: components["schemas"]["SourceView"];
         };
-        SourceView: {
-            kind?: string;
-            license?: string;
-            attribution?: string;
-            sourceUrl?: string;
-            /** Format: uuid */
-            reviewedBy?: string;
-            /** Format: date-time */
-            reviewedAt?: string;
-        };
         BlockInput: {
             type: string;
             data: {
@@ -851,6 +1066,19 @@ export interface components {
             /** Format: date-time */
             expiresAt?: string;
         };
+        ProblemCreate: {
+            slug: string;
+            title: string;
+            difficulty: string;
+            accessTier: string;
+        };
+        PublishRequest: {
+            originalityConfirmed?: boolean;
+        };
+        PatternCreate: {
+            slug: string;
+            name: string;
+        };
         CourseCreate: {
             slug: string;
             title: string;
@@ -870,15 +1098,29 @@ export interface components {
             title: string;
             accessTier?: string;
         };
-        PublishRequest: {
-            originalityConfirmed?: boolean;
-        };
         ProfileUpdateRequest: {
             displayName?: string;
             bio?: string;
             website?: string;
             githubUrl?: string;
             linkedinUrl?: string;
+        };
+        ProblemPatch: {
+            title?: string;
+            statement?: string;
+            inputFormat?: string;
+            outputFormat?: string;
+            constraints?: string;
+            hints?: string[];
+            /** Format: int32 */
+            timeLimitMs?: number;
+            /** Format: int32 */
+            memoryLimitMb?: number;
+            checkerType?: string;
+            difficulty?: string;
+            accessTier?: string;
+            /** Format: int32 */
+            expectedVersion: number;
         };
         CoursePatch: {
             title?: string;
@@ -1039,6 +1281,18 @@ export interface components {
             role?: string;
             global?: string[];
             scoped?: string[];
+        };
+        ProblemListItem: {
+            /** Format: uuid */
+            id?: string;
+            slug?: string;
+            title?: string;
+            status?: string;
+            difficulty?: string;
+            accessTier?: string;
+            validationStatus?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
         CourseListItem: {
             /** Format: uuid */
@@ -1215,6 +1469,106 @@ export interface operations {
             };
         };
     };
+    tests: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TestsView"];
+                };
+            };
+        };
+    };
+    replaceTests: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TestsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TestsView"];
+                };
+            };
+        };
+    };
+    tags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TagsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    source: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SourceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
     reorderLessons: {
         parameters: {
             query?: never;
@@ -1268,7 +1622,7 @@ export interface operations {
             };
         };
     };
-    source: {
+    source_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1392,6 +1746,164 @@ export interface operations {
             };
         };
     };
+    list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemListItem"][];
+                };
+            };
+        };
+    };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProblemCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    unpublish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    archive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    patterns: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TagView"][];
+                };
+            };
+        };
+    };
+    createPattern: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatternCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TagView"];
+                };
+            };
+        };
+    };
     courses: {
         parameters: {
             query?: never;
@@ -1412,7 +1924,7 @@ export interface operations {
             };
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1436,7 +1948,7 @@ export interface operations {
             };
         };
     };
-    unpublish: {
+    unpublish_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1484,7 +1996,7 @@ export interface operations {
             };
         };
     };
-    publish: {
+    publish_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1582,7 +2094,7 @@ export interface operations {
             };
         };
     };
-    archive: {
+    archive_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1628,6 +2140,54 @@ export interface operations {
             };
         };
     };
+    problem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
+    patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                problemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProblemPatch"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemView"];
+                };
+            };
+        };
+    };
     course: {
         parameters: {
             query?: never;
@@ -1650,7 +2210,7 @@ export interface operations {
             };
         };
     };
-    patch: {
+    patch_1: {
         parameters: {
             query?: never;
             header?: never;

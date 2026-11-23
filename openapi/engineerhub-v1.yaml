@@ -118,6 +118,99 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/RolesView"
+  /api/v1/admin/problems/{problemId}/tests:
+    get:
+      tags:
+      - problem-admin-controller
+      operationId: tests
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TestsView"
+    put:
+      tags:
+      - problem-admin-controller
+      operationId: replaceTests
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestsRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TestsView"
+  /api/v1/admin/problems/{problemId}/tags:
+    put:
+      tags:
+      - problem-admin-controller
+      operationId: tags
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagsRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/problems/{problemId}/source:
+    put:
+      tags:
+      - problem-admin-controller
+      operationId: source
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SourceRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
   /api/v1/admin/courses/{courseId}/sections/{sectionId}/lessons/order:
     put:
       tags:
@@ -178,7 +271,7 @@ paths:
     put:
       tags:
       - course-admin-controller
-      operationId: source
+      operationId: source_1
       parameters:
       - name: courseId
         in: path
@@ -300,6 +393,131 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/GrantView"
+  /api/v1/admin/problems:
+    get:
+      tags:
+      - problem-admin-controller
+      operationId: list
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProblemListItem"
+    post:
+      tags:
+      - problem-admin-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProblemCreate"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/problems/{problemId}/unpublish:
+    post:
+      tags:
+      - problem-admin-controller
+      operationId: unpublish
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/problems/{problemId}/publish:
+    post:
+      tags:
+      - problem-admin-controller
+      operationId: publish
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/problems/{problemId}/archive:
+    post:
+      tags:
+      - problem-admin-controller
+      operationId: archive
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+  /api/v1/admin/patterns:
+    get:
+      tags:
+      - problem-admin-controller
+      operationId: patterns
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TagView"
+    post:
+      tags:
+      - problem-admin-controller
+      operationId: createPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatternCreate"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TagView"
   /api/v1/admin/courses:
     get:
       tags:
@@ -317,7 +535,7 @@ paths:
     post:
       tags:
       - course-admin-controller
-      operationId: create
+      operationId: create_1
       requestBody:
         content:
           application/json:
@@ -335,7 +553,7 @@ paths:
     post:
       tags:
       - course-admin-controller
-      operationId: unpublish
+      operationId: unpublish_1
       parameters:
       - name: courseId
         in: path
@@ -379,7 +597,7 @@ paths:
     post:
       tags:
       - course-admin-controller
-      operationId: publish
+      operationId: publish_1
       parameters:
       - name: courseId
         in: path
@@ -479,7 +697,7 @@ paths:
     post:
       tags:
       - course-admin-controller
-      operationId: archive
+      operationId: archive_1
       parameters:
       - name: courseId
         in: path
@@ -512,6 +730,49 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/MeResponse"
+  /api/v1/admin/problems/{problemId}:
+    get:
+      tags:
+      - problem-admin-controller
+      operationId: problem
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
+    patch:
+      tags:
+      - problem-admin-controller
+      operationId: patch
+      parameters:
+      - name: problemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProblemPatch"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemView"
   /api/v1/admin/courses/{courseId}:
     get:
       tags:
@@ -534,7 +795,7 @@ paths:
     patch:
       tags:
       - course-admin-controller
-      operationId: patch
+      operationId: patch_1
       parameters:
       - name: courseId
         in: path
@@ -1225,6 +1486,204 @@ components:
           type: array
           items:
             type: string
+    TestInput:
+      type: object
+      properties:
+        input:
+          type: string
+          maxLength: 100000
+          minLength: 0
+        expected:
+          type: string
+          maxLength: 100000
+          minLength: 0
+        sample:
+          type: boolean
+        explanation:
+          type: string
+          maxLength: 2000
+          minLength: 0
+      required:
+      - expected
+      - input
+    TestsRequest:
+      type: object
+      properties:
+        tests:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestInput"
+          maxItems: 200
+          minItems: 0
+        expectedTestcaseVersion:
+          type: integer
+          format: int32
+      required:
+      - expectedTestcaseVersion
+      - tests
+    TestView:
+      type: object
+      properties:
+        ordinal:
+          type: integer
+          format: int32
+        sample:
+          type: boolean
+        input:
+          type: string
+        expected:
+          type: string
+        explanation:
+          type: string
+    TestsView:
+      type: object
+      properties:
+        testcaseVersion:
+          type: integer
+          format: int32
+        validationStatus:
+          type: string
+        tests:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestView"
+    TagsRequest:
+      type: object
+      properties:
+        topicIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          minItems: 0
+        patternIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          minItems: 0
+      required:
+      - patternIds
+      - topicIds
+    ProblemView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        difficulty:
+          type: string
+        accessTier:
+          type: string
+        statement:
+          type: string
+        inputFormat:
+          type: string
+        outputFormat:
+          type: string
+        constraints:
+          type: string
+        hints:
+          type: array
+          items:
+            type: string
+        timeLimitMs:
+          type: integer
+          format: int32
+        memoryLimitMb:
+          type: integer
+          format: int32
+        checkerType:
+          type: string
+        version:
+          type: integer
+          format: int32
+        testcaseVersion:
+          type: integer
+          format: int32
+        sampleCount:
+          type: integer
+          format: int32
+        hiddenCount:
+          type: integer
+          format: int32
+        validationStatus:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        hasUnpublishedChanges:
+          type: boolean
+        topics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TagView"
+        patterns:
+          type: array
+          items:
+            $ref: "#/components/schemas/TagView"
+        source:
+          $ref: "#/components/schemas/SourceView"
+    SourceView:
+      type: object
+      properties:
+        kind:
+          type: string
+        license:
+          type: string
+        attribution:
+          type: string
+        sourceUrl:
+          type: string
+        reviewedBy:
+          type: string
+          format: uuid
+        reviewedAt:
+          type: string
+          format: date-time
+    TagView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        name:
+          type: string
+    SourceRequest:
+      type: object
+      properties:
+        kind:
+          type: string
+          minLength: 1
+          pattern: ^(original|licensed|open_license|ai_assisted)$
+        license:
+          type: string
+          maxLength: 60
+          minLength: 0
+        attribution:
+          type: string
+          maxLength: 300
+          minLength: 0
+        sourceUrl:
+          type: string
+          maxLength: 500
+          minLength: 0
+          pattern: ^(https://\S+)?$
+      required:
+      - kind
     OrderRequest:
       type: object
       properties:
@@ -1316,28 +1775,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LessonSummary"
-    SourceRequest:
-      type: object
-      properties:
-        kind:
-          type: string
-          minLength: 1
-          pattern: ^(original|licensed|open_license|ai_assisted)$
-        license:
-          type: string
-          maxLength: 60
-          minLength: 0
-        attribution:
-          type: string
-          maxLength: 300
-          minLength: 0
-        sourceUrl:
-          type: string
-          maxLength: 500
-          minLength: 0
-          pattern: ^(https://\S+)?$
-      required:
-      - kind
     BlockView:
       type: object
       properties:
@@ -1391,23 +1828,6 @@ components:
             $ref: "#/components/schemas/BlockView"
         source:
           $ref: "#/components/schemas/SourceView"
-    SourceView:
-      type: object
-      properties:
-        kind:
-          type: string
-        license:
-          type: string
-        attribution:
-          type: string
-        sourceUrl:
-          type: string
-        reviewedBy:
-          type: string
-          format: uuid
-        reviewedAt:
-          type: string
-          format: date-time
     BlockInput:
       type: object
       properties:
@@ -1478,6 +1898,51 @@ components:
         expiresAt:
           type: string
           format: date-time
+    ProblemCreate:
+      type: object
+      properties:
+        slug:
+          type: string
+          maxLength: 80
+          minLength: 0
+          pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
+        title:
+          type: string
+          maxLength: 200
+          minLength: 0
+        difficulty:
+          type: string
+          minLength: 1
+          pattern: ^(easy|medium|hard)$
+        accessTier:
+          type: string
+          minLength: 1
+          pattern: ^(free|premium)$
+      required:
+      - accessTier
+      - difficulty
+      - slug
+      - title
+    PublishRequest:
+      type: object
+      properties:
+        originalityConfirmed:
+          type: boolean
+    PatternCreate:
+      type: object
+      properties:
+        slug:
+          type: string
+          maxLength: 60
+          minLength: 0
+          pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
+        name:
+          type: string
+          maxLength: 100
+          minLength: 0
+      required:
+      - name
+      - slug
     CourseCreate:
       type: object
       properties:
@@ -1541,11 +2006,6 @@ components:
       - sectionId
       - slug
       - title
-    PublishRequest:
-      type: object
-      properties:
-        originalityConfirmed:
-          type: boolean
     ProfileUpdateRequest:
       type: object
       properties:
@@ -1563,6 +2023,61 @@ components:
           type: string
         linkedinUrl:
           type: string
+    ProblemPatch:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+        statement:
+          type: string
+          maxLength: 50000
+          minLength: 0
+        inputFormat:
+          type: string
+          maxLength: 5000
+          minLength: 0
+        outputFormat:
+          type: string
+          maxLength: 5000
+          minLength: 0
+        constraints:
+          type: string
+          maxLength: 5000
+          minLength: 0
+        hints:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+            minLength: 1
+          maxItems: 5
+          minItems: 0
+        timeLimitMs:
+          type: integer
+          format: int32
+          maximum: 20000
+          minimum: 100
+        memoryLimitMb:
+          type: integer
+          format: int32
+          maximum: 2048
+          minimum: 16
+        checkerType:
+          type: string
+          pattern: ^(exact|token|float)$
+        difficulty:
+          type: string
+          pattern: ^(easy|medium|hard)$
+        accessTier:
+          type: string
+          pattern: ^(free|premium)$
+        expectedVersion:
+          type: integer
+          format: int32
+      required:
+      - expectedVersion
     CoursePatch:
       type: object
       properties:
@@ -1870,6 +2385,27 @@ components:
           type: array
           items:
             type: string
+    ProblemListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        slug:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        difficulty:
+          type: string
+        accessTier:
+          type: string
+        validationStatus:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
     CourseListItem:
       type: object
       properties:

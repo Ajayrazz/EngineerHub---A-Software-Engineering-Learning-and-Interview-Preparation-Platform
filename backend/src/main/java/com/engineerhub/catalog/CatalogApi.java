@@ -24,6 +24,11 @@ public interface CatalogApi {
       String accessTier,
       boolean freePreview) {}
 
+  record Topic(UUID id, String slug, String name) {}
+
+  /** Topics with these ids, by id (ids that do not exist are absent from the result). */
+  Map<UUID, Topic> topics(Collection<UUID> topicIds);
+
   Optional<PublishedCourse> publishedCourse(UUID courseId);
 
   Optional<PublishedLesson> publishedLesson(UUID lessonId);
