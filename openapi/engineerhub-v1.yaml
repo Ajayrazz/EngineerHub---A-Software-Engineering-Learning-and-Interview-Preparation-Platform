@@ -7,6 +7,33 @@ servers:
 - url: http://localhost
   description: Generated server url
 paths:
+  /api/v1/problems/{slug}/bookmark:
+    put:
+      tags:
+      - problem-reader-controller
+      operationId: bookmark
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - problem-reader-controller
+      operationId: unbookmark
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
   /api/v1/me/preferences:
     put:
       tags:
@@ -1051,6 +1078,134 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Ping"
+  /api/v1/problems:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: list_1
+      parameters:
+      - name: difficulty
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: topic
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: pattern
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tier
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicProblemPage"
+  /api/v1/problems/{slug}:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: detail
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicProblem"
+  /api/v1/problems/random:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: random
+      parameters:
+      - name: difficulty
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: topic
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: pattern
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: tier
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: unsolved
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RandomPick"
+  /api/v1/patterns:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: patterns_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PublicPattern"
   /api/v1/me:
     get:
       tags:
@@ -1063,6 +1218,18 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/MeResponse"
+  /api/v1/me/problems/states:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: states
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ProblemStates"
   /api/v1/me/permissions:
     get:
       tags:
@@ -1108,6 +1275,20 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/CourseProgress"
+  /api/v1/me/bookmarks:
+    get:
+      tags:
+      - problem-reader-controller
+      operationId: bookmarks
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PublicProblemItem"
   /api/v1/courses:
     get:
       tags:
@@ -2329,6 +2510,135 @@ components:
         time:
           type: string
           format: date-time
+    PublicProblemItem:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        difficulty:
+          type: string
+        accessTier:
+          type: string
+        topics:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicTag"
+        patterns:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicTag"
+        publishedAt:
+          type: string
+          format: date-time
+    PublicProblemPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicProblemItem"
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+    PublicTag:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+    PublicProblem:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        difficulty:
+          type: string
+        accessTier:
+          type: string
+        statement:
+          type: string
+        inputFormat:
+          type: string
+        outputFormat:
+          type: string
+        constraints:
+          type: string
+        hints:
+          type: array
+          items:
+            type: string
+        timeLimitMs:
+          type: integer
+          format: int32
+        memoryLimitMb:
+          type: integer
+          format: int32
+        topics:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicTag"
+        patterns:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicTag"
+        samples:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicSample"
+        publishedAt:
+          type: string
+          format: date-time
+    PublicSample:
+      type: object
+      properties:
+        input:
+          type: string
+        expected:
+          type: string
+        explanation:
+          type: string
+    RandomPick:
+      type: object
+      properties:
+        slug:
+          type: string
+    PublicPattern:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        problemCount:
+          type: integer
+          format: int64
+    ProblemState:
+      type: object
+      properties:
+        slug:
+          type: string
+        status:
+          type: string
+        bookmarked:
+          type: boolean
+    ProblemStates:
+      type: object
+      properties:
+        states:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProblemState"
     PermissionsResponse:
       type: object
       properties:

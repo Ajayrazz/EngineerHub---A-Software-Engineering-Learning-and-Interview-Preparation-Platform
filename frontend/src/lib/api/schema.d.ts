@@ -4,6 +4,22 @@
  */
 
 export interface paths {
+    "/api/v1/problems/{slug}/bookmark": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["bookmark"];
+        post?: never;
+        delete: operations["unbookmark"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me/preferences": {
         parameters: {
             query?: never;
@@ -596,6 +612,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/problems": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/problems/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/problems/random": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["random"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patterns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["patterns_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me": {
         parameters: {
             query?: never;
@@ -604,6 +684,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/problems/states": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["states"];
         put?: never;
         post?: never;
         delete?: never;
@@ -652,6 +748,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["progress"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/bookmarks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["bookmarks"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1256,6 +1368,71 @@ export interface components {
             /** Format: date-time */
             time?: string;
         };
+        PublicProblemItem: {
+            slug?: string;
+            title?: string;
+            difficulty?: string;
+            accessTier?: string;
+            topics?: components["schemas"]["PublicTag"][];
+            patterns?: components["schemas"]["PublicTag"][];
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        PublicProblemPage: {
+            items?: components["schemas"]["PublicProblemItem"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total?: number;
+        };
+        PublicTag: {
+            slug?: string;
+            name?: string;
+        };
+        PublicProblem: {
+            slug?: string;
+            title?: string;
+            difficulty?: string;
+            accessTier?: string;
+            statement?: string;
+            inputFormat?: string;
+            outputFormat?: string;
+            constraints?: string;
+            hints?: string[];
+            /** Format: int32 */
+            timeLimitMs?: number;
+            /** Format: int32 */
+            memoryLimitMb?: number;
+            topics?: components["schemas"]["PublicTag"][];
+            patterns?: components["schemas"]["PublicTag"][];
+            samples?: components["schemas"]["PublicSample"][];
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        PublicSample: {
+            input?: string;
+            expected?: string;
+            explanation?: string;
+        };
+        RandomPick: {
+            slug?: string;
+        };
+        PublicPattern: {
+            slug?: string;
+            name?: string;
+            /** Format: int64 */
+            problemCount?: number;
+        };
+        ProblemState: {
+            slug?: string;
+            status?: string;
+            bookmarked?: boolean;
+        };
+        ProblemStates: {
+            states?: components["schemas"]["ProblemState"][];
+        };
         PermissionsResponse: {
             global?: string[];
             scopedCapabilities?: string[];
@@ -1437,6 +1614,46 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    bookmark: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    unbookmark: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     updatePreferences: {
         parameters: {
             query?: never;
@@ -2582,6 +2799,103 @@ export interface operations {
             };
         };
     };
+    list_1: {
+        parameters: {
+            query?: {
+                difficulty?: string;
+                topic?: string;
+                pattern?: string;
+                tier?: string;
+                q?: string;
+                sort?: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicProblemPage"];
+                };
+            };
+        };
+    };
+    detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicProblem"];
+                };
+            };
+        };
+    };
+    random: {
+        parameters: {
+            query?: {
+                difficulty?: string;
+                topic?: string;
+                pattern?: string;
+                tier?: string;
+                unsolved?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RandomPick"];
+                };
+            };
+        };
+    };
+    patterns_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicPattern"][];
+                };
+            };
+        };
+    };
     me: {
         parameters: {
             query?: never;
@@ -2598,6 +2912,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    states: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProblemStates"];
                 };
             };
         };
@@ -2660,6 +2994,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CourseProgress"];
+                };
+            };
+        };
+    };
+    bookmarks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicProblemItem"][];
                 };
             };
         };

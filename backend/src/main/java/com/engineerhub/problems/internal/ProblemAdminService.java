@@ -506,6 +506,7 @@ class ProblemAdminService {
     Map<String, Object> snapshot = new LinkedHashMap<>();
     snapshot.put("title", draft.title());
     snapshot.put("difficulty", draft.difficulty());
+    snapshot.put("accessTier", draft.accessTier());
     snapshot.put("statement", draft.statement());
     snapshot.put("inputFormat", draft.inputFormat());
     snapshot.put("outputFormat", draft.outputFormat());
