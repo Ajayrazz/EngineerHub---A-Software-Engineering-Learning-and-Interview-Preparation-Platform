@@ -5,13 +5,20 @@ engineerhub:
       # Never contacted: the decoder is lazy and tests inject JWTs. Unroutable on purpose.
       issuer-uri: http://127.0.0.1:1/realms/test
     # Test-only anonymous POST used to exercise the validation/error paths.
-    public-mutation-paths: /test-support/validate
+    public-mutation-paths: /test-support/validate,/api/v1/webhooks/razorpay
   limits:
     rate:
       # generous so unrelated tests never trip it; RateLimitIT overrides these
       read-per-window: 100000
       write-per-window: 100000
       admin-per-window: 100000
+  billing:
+    razorpay:
+      # fake TEST values: the provider's order call is replaced by a test double, the signature code is real
+      mode: test
+      key-id: rzp_test_ITkeyid0001
+      key-secret: it-key-secret-not-real
+      webhook-secret: it-webhook-secret-not-real
   outbox:
     relay:
       poll-interval: 100ms # fast polling so tests do not wait

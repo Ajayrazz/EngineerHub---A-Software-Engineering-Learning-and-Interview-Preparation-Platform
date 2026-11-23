@@ -228,6 +228,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/webhooks/razorpay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["receive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/courses/{courseId}/enroll": {
         parameters: {
             query?: never;
@@ -238,6 +254,38 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["enroll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/purchases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["start"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/purchases/{intentId}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["confirm"];
         delete?: never;
         options?: never;
         head?: never;
@@ -980,6 +1028,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/billing/quote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["quote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/purchases/{intentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["status"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/billing/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["config"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/users": {
         parameters: {
             query?: never;
@@ -1444,6 +1540,41 @@ export interface components {
             amountInclTaxMinor?: number;
             active?: boolean;
         };
+        PurchaseRequest: {
+            /** Format: uuid */
+            planPriceId: string;
+        };
+        CheckoutView: {
+            /** Format: uuid */
+            intentId?: string;
+            orderId?: string;
+            keyId?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            planName?: string;
+            mode?: string;
+        };
+        ConfirmRequest: {
+            razorpayOrderId: string;
+            razorpayPaymentId: string;
+            razorpaySignature: string;
+        };
+        ConfirmView: {
+            signatureValid?: boolean;
+            intent?: components["schemas"]["IntentView"];
+        };
+        IntentView: {
+            /** Format: uuid */
+            intentId?: string;
+            status?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            planName?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
         GrantRequest: {
             permission: string;
             resourceType: string;
@@ -1801,6 +1932,22 @@ export interface components {
         PublicLessonRef: {
             slug?: string;
             title?: string;
+        };
+        QuoteView: {
+            /** Format: uuid */
+            planPriceId?: string;
+            planName?: string;
+            billingMode?: string;
+            periodUnit?: string;
+            currency?: string;
+            /** Format: int64 */
+            amountInclTaxMinor?: number;
+            purchasable?: boolean;
+            note?: string;
+        };
+        PaymentsConfig: {
+            paymentsEnabled?: boolean;
+            mode?: string;
         };
         UserPage: {
             items?: components["schemas"]["UserView"][];
@@ -2303,6 +2450,35 @@ export interface operations {
             };
         };
     };
+    receive: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Razorpay-Signature"?: string;
+                "X-Razorpay-Event-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+    };
     enroll: {
         parameters: {
             query?: never;
@@ -2321,6 +2497,58 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CourseProgress"];
+                };
+            };
+        };
+    };
+    start: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CheckoutView"];
+                };
+            };
+        };
+    };
+    confirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                intentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfirmView"];
                 };
             };
         };
@@ -3612,6 +3840,70 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PublicLesson"];
+                };
+            };
+        };
+    };
+    quote: {
+        parameters: {
+            query: {
+                planPriceId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteView"];
+                };
+            };
+        };
+    };
+    status: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                intentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["IntentView"];
+                };
+            };
+        };
+    };
+    config: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentsConfig"];
                 };
             };
         };
