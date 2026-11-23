@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
 import { CancelSubscription } from "@/components/billing/cancel-subscription";
+import { ReceiptLink } from "@/components/billing/receipt-link";
 import { ReaderShell } from "@/components/reader/ui";
 import {
   accessHeadline,
@@ -99,6 +100,7 @@ export default async function BillingPage() {
                     <th>Plan</th>
                     <th>Amount (incl. taxes)</th>
                     <th>Status</th>
+                    <th>Receipt</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -108,6 +110,13 @@ export default async function BillingPage() {
                       <td>{p.planName}</td>
                       <td>{formatInr(p.amountMinor ?? 0)}</td>
                       <td>{paymentStatusLabel(p.status)}</td>
+                      <td>
+                        {p.id && (p.documentNumber || summary.data.documentsAvailable) ? (
+                          <ReceiptLink paymentId={p.id} label={p.documentNumber ?? "Get receipt"} />
+                        ) : (
+                          <span className="opacity-70">Not available yet</span>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

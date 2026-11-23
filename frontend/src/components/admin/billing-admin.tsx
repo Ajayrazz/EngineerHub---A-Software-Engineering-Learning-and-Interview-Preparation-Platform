@@ -43,8 +43,9 @@ export function BillingAdmin({ csrfToken, plans }: { csrfToken: string; plans: P
     <div className="flex flex-col gap-6">
       <p className="rounded border p-3 text-sm opacity-80">
         No plans exist until you create them: names and prices are your decision. Amounts are final,
-        tax-inclusive prices in rupees. Tax is not configured, so no tax is shown anywhere. Online
-        payment arrives in a later milestone; until then access is granted by an admin.
+        tax-inclusive prices in rupees. Receipts and tax invoices follow the tax settings further
+        down this page. Learners can pay online once payment credentials are configured; you can
+        also grant access by hand from a user&apos;s page.
       </p>
       {flash && <Notice kind={flash.kind}>{flash.text}</Notice>}
 

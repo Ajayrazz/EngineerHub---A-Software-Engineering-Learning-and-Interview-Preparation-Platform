@@ -25,6 +25,7 @@ const FORWARD_RESPONSE_HEADERS = [
   "retry-after",
   "x-correlation-id",
   "content-language",
+  "content-disposition", // receipt downloads carry their filename
 ] as const;
 
 type Ctx = RouteContext<"/api/proxy/[...path]">;

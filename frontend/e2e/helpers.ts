@@ -181,3 +181,16 @@ export function deleteSubscription(subscriptionId: string) {
   if (!UUID_RE.test(subscriptionId)) throw new Error("bad id");
   psql(`delete from billing.subscriptions where id = '${subscriptionId}'`);
 }
+
+/**
+ * Records a captured payment of a subscription, the way the webhook would. NOTE: once a receipt has been issued for
+ * it, neither the payment nor its subscription can be deleted (documents are immutable by design), so only use it
+ * with a persona no other test counts payments for.
+ */
+export function seedPayment(args: { paymentId: string; subscriptionId: string; userId: string }) {
+  for (const id of [args.paymentId, args.subscriptionId, args.userId])
+    if (!UUID_RE.test(id)) throw new Error("bad id");
+  psql(
+    `insert into billing.payments (id, subscription_id, user_id, provider, provider_payment_ref, amount_minor, currency, status, captured_at, created_at) select '${args.paymentId}', id, user_id, 'razorpay', 'pay_e2e_${args.paymentId.slice(0, 8)}', amount_minor, currency, 'captured', now(), now() from billing.subscriptions where id = '${args.subscriptionId}' and user_id = '${args.userId}'`,
+  );
+}

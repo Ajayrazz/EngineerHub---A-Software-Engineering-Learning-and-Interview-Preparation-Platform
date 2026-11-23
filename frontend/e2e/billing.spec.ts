@@ -4,6 +4,7 @@ import {
   csrfToken,
   deleteSubscription,
   login,
+  seedPayment,
   seedSubscription,
   setSubscriptionStatus,
 } from "./helpers";
@@ -31,7 +32,7 @@ async function api(request: APIRequestContext) {
     "x-csrf-token": await csrfToken(request),
     "content-type": "application/json",
   };
-  return async (method: "get" | "post" | "put", path: string, data?: unknown) => {
+  return async (method: "get" | "post" | "put" | "patch", path: string, data?: unknown) => {
     const r = await request[method](`/api/proxy/${path}`, { headers, data });
     expect(r.status(), `${method} ${path}`).toBeLessThan(300);
     return r.json();
@@ -266,6 +267,105 @@ test("an auto-renewing subscriber sees the renewal date and no renew-now reminde
     await expect(learner.getByTestId("cancel-start")).toHaveCount(0);
   } finally {
     deleteSubscription(subscriptionId);
+  }
+});
+
+test("an admin configures documents, and a payer downloads a receipt only once they are allowed", async ({
+  browser,
+}) => {
+  const admin = await newPage(browser, "admin");
+  const call = await api(admin.request);
+  await call("put", "admin/billing/tax", { mode: "UNCONFIGURED" }); // a known start, whatever a failed run left
+  const userId = (await call("get", "admin/users?q=instructor")).items.find(
+    (u: { username: string }) => u.username === "instructor",
+  ).id;
+  const plan = (await call("get", "admin/billing/plans")).find(
+    (p: { code: string }) => p.code === planCode,
+  );
+  const price = plan.prices.find((p: { billingMode: string }) => p.billingMode === "RECURRING");
+  const subscriptionId = crypto.randomUUID();
+  seedSubscription({
+    subscriptionId,
+    userId,
+    planId: plan.id,
+    planPriceId: price.id,
+    status: "cancelled",
+  });
+  const paymentId = crypto.randomUUID();
+  seedPayment({ paymentId, subscriptionId, userId });
+
+  try {
+    const payer = await newPage(browser, "instructor");
+    await payer.goto("/billing");
+    const row = payer.getByTestId("payment").first();
+    await expect(row).toContainText(/₹\s?2,999\.00/);
+    await expect(row).toContainText("Not available yet"); // nothing is issued while tax is unconfigured
+
+    // the admin page states what is and is not decided, and refuses incomplete tax invoices
+    await admin.goto("/admin/billing");
+    const panel = admin.getByRole("region", { name: "Tax and documents" });
+    await expect(panel).toContainText("not tax advice");
+    // no rate is ever assumed: nothing active exists until the owner adds one (earlier runs only switch theirs off)
+    const start = await call("get", "admin/billing/tax");
+    expect((start.rules ?? []).filter((r: { active: boolean }) => r.active)).toHaveLength(0);
+    expect(start.mode).toBe("UNCONFIGURED");
+    await panel.getByRole("radio", { name: /Tax invoices/ }).check();
+    await expect(panel.getByTestId("tax-problems")).toContainText("ENABLED needs");
+    await expect(panel.getByTestId("tax-save")).toBeDisabled();
+
+    // receipts (no tax wording) are the choice that needs no tax details
+    await panel.getByRole("radio", { name: /No tax: receipts/ }).check();
+    await expect(panel.getByTestId("tax-save")).toBeEnabled();
+    await panel.getByTestId("tax-save").click();
+    await expect(admin.getByRole("status").filter({ hasText: "Tax settings saved" })).toBeVisible();
+
+    await payer.reload();
+    const download = payer.waitForEvent("download");
+    await payer.getByTestId("payment").first().getByTestId("receipt-download").click();
+    const file = await download;
+    expect(file.suggestedFilename()).toMatch(/^RCPT-\d{4}-\d{2}-\d{6}\.pdf$/);
+    const stream = await file.createReadStream();
+    const head: Buffer[] = [];
+    for await (const chunk of stream) {
+      head.push(chunk as Buffer);
+      break;
+    }
+    expect(Buffer.concat(head).subarray(0, 5).toString("ascii")).toBe("%PDF-");
+
+    // from now on the page shows the issued number
+    await payer.reload();
+    await expect(
+      payer.getByTestId("payment").first().getByTestId("receipt-download"),
+    ).toContainText(/^RCPT\/\d{4}-\d{2}\/\d{6}$/);
+    // a rule is entered as a percentage and stored exactly; full tax-invoice details unlock "Tax invoices"
+    await admin.goto("/admin/billing");
+    const rules = admin.getByRole("region", { name: "Tax and documents" });
+    await rules.locator('input[name="rule-name"]').fill("E2E example tax");
+    await rules.locator('input[name="rule-rate"]').fill("5.25");
+    await rules.locator('input[name="rule-from"]').fill("2020-01-01");
+    await rules.getByTestId("rule-add").click();
+    await expect(admin.getByRole("status").filter({ hasText: "Rule added" })).toBeVisible();
+    await expect(
+      rules.getByTestId("tax-rule").filter({ hasText: "E2E example tax" }).first(),
+    ).toContainText("5.25%");
+    await rules.getByRole("radio", { name: /Tax invoices/ }).check();
+    await expect(rules.getByTestId("tax-problems")).not.toContainText(
+      "at least one active tax rule",
+    );
+    await expect(rules.getByTestId("tax-problems")).toContainText("ENABLED needs the legal name");
+
+    // someone else cannot fetch it: it looks exactly like a missing payment
+    const other = await newPage(browser, "learner");
+    const theirs = await other.request.get(`/api/proxy/me/payments/${paymentId}/document`);
+    expect(theirs.status()).toBe(404);
+    await other.context().close();
+  } finally {
+    await call("put", "admin/billing/tax", { mode: "UNCONFIGURED" });
+    const tax = await call("get", "admin/billing/tax");
+    for (const r of tax.rules ?? [])
+      if (r.active && r.name === "E2E example tax")
+        await call("patch", `admin/billing/tax/rules/${r.id}`, { active: false });
+    await admin.context().close();
   }
 });
 
