@@ -38,6 +38,22 @@ class UserDirectoryImpl implements UserDirectory {
     return users.findById(id).map(UserDirectoryImpl::ref);
   }
 
+  @Override
+  @Transactional(readOnly = true)
+  public java.time.ZoneId zoneOf(UUID userId) {
+    return users
+        .findById(userId)
+        .map(
+            u -> {
+              try {
+                return java.time.ZoneId.of(u.timezone());
+              } catch (RuntimeException e) {
+                return java.time.ZoneOffset.UTC;
+              }
+            })
+        .orElse(java.time.ZoneOffset.UTC);
+  }
+
   private static UserRef ref(UserAccount u) {
     return new UserRef(u.id(), u.username(), u.status() == UserStatus.ACTIVE);
   }

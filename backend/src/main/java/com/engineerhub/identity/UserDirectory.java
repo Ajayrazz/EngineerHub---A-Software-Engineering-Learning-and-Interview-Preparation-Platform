@@ -15,4 +15,7 @@ public interface UserDirectory {
   Optional<UserRef> findBySubject(String keycloakSubject);
 
   Optional<UserRef> findById(java.util.UUID id);
+
+  /** The user's IANA time zone (drives "what day is it for them"); UTC if unknown or invalid. */
+  java.time.ZoneId zoneOf(java.util.UUID userId);
 }

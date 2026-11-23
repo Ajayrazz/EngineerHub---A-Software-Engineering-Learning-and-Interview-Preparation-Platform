@@ -740,6 +740,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["dashboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me/courses/{courseId}/progress": {
         parameters: {
             query?: never;
@@ -1459,6 +1475,32 @@ export interface components {
             /** Format: int32 */
             percent?: number;
             completed?: boolean;
+        };
+        DashboardResponse: {
+            streak?: components["schemas"]["StreakView"];
+            timezone?: string;
+            /** Format: date */
+            today?: string;
+            /** Format: int64 */
+            lessonsCompleted?: number;
+            /** Format: int64 */
+            coursesCompleted?: number;
+            activity?: components["schemas"]["DayView"][];
+        };
+        DayView: {
+            /** Format: date */
+            day?: string;
+            /** Format: int32 */
+            lessonsCompleted?: number;
+        };
+        StreakView: {
+            /** Format: int32 */
+            current?: number;
+            /** Format: int32 */
+            longest?: number;
+            /** Format: date */
+            lastActiveDay?: string;
+            activeToday?: boolean;
         };
         PublicCourse: {
             slug?: string;
@@ -2972,6 +3014,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["EnrollmentView"][];
+                };
+            };
+        };
+    };
+    dashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DashboardResponse"];
                 };
             };
         };

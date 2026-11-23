@@ -1256,6 +1256,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/EnrollmentView"
+  /api/v1/me/dashboard:
+    get:
+      tags:
+      - dashboard-controller
+      operationId: dashboard
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DashboardResponse"
   /api/v1/me/courses/{courseId}/progress:
     get:
       tags:
@@ -2689,6 +2701,49 @@ components:
           type: integer
           format: int32
         completed:
+          type: boolean
+    DashboardResponse:
+      type: object
+      properties:
+        streak:
+          $ref: "#/components/schemas/StreakView"
+        timezone:
+          type: string
+        today:
+          type: string
+          format: date
+        lessonsCompleted:
+          type: integer
+          format: int64
+        coursesCompleted:
+          type: integer
+          format: int64
+        activity:
+          type: array
+          items:
+            $ref: "#/components/schemas/DayView"
+    DayView:
+      type: object
+      properties:
+        day:
+          type: string
+          format: date
+        lessonsCompleted:
+          type: integer
+          format: int32
+    StreakView:
+      type: object
+      properties:
+        current:
+          type: integer
+          format: int32
+        longest:
+          type: integer
+          format: int32
+        lastActiveDay:
+          type: string
+          format: date
+        activeToday:
           type: boolean
     PublicCourse:
       type: object
