@@ -36,6 +36,10 @@ export default async function Home(props: PageProps<"/">) {
         <Link href="/my-courses" className="underline">
           My courses
         </Link>
+        {" · "}
+        <Link href="/problems" className="underline" data-testid="browse-problems">
+          Problems
+        </Link>
       </p>
       {auth ? (
         <section className="space-y-4" aria-label="Signed in">

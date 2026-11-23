@@ -26,6 +26,12 @@ export function ReaderShell({
           <Link href="/my-courses" className="hover:underline">
             My courses
           </Link>
+          <Link href="/problems" className="hover:underline">
+            Problems
+          </Link>
+          <Link href="/my-problems" className="hover:underline">
+            My problems
+          </Link>
           <span className="ml-auto flex items-center gap-3">
             {username ? (
               <Link href="/account" className="hover:underline" data-testid="nav-user">
