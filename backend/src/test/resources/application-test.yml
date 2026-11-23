@@ -6,6 +6,12 @@ engineerhub:
       issuer-uri: http://127.0.0.1:1/realms/test
     # Test-only anonymous POST used to exercise the validation/error paths.
     public-mutation-paths: /test-support/validate
+  limits:
+    rate:
+      # generous so unrelated tests never trip it; RateLimitIT overrides these
+      read-per-window: 100000
+      write-per-window: 100000
+      admin-per-window: 100000
   outbox:
     relay:
       poll-interval: 100ms # fast polling so tests do not wait

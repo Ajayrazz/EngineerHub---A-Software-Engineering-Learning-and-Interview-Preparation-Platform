@@ -25,6 +25,14 @@ spring:
         jdbc:
           time_zone: UTC
 
+  # --- Redis (rate limiting; required unless engineerhub.limits.rate.enabled=false) ---
+  data:
+    redis:
+      host: ${REDIS_HOST:}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 500ms # a slow Redis must never stall requests (the limiter fails open)
+
   # --- RabbitMQ (required; no defaults — never fall back to guest/guest. See RabbitConnectionGuard) ---
   rabbitmq:
     host: ${RABBITMQ_HOST:}
@@ -87,6 +95,14 @@ management:
 
 # --- Transactional outbox (see shared.messaging) ---
 engineerhub:
+  limits:
+    max-request-bytes: 1048576 # 1 MiB; larger bodies get 413 before any parsing (code submissions will use a lower per-route cap)
+    rate:
+      enabled: true
+      window: 60s
+      read-per-window: 300 # GET/HEAD per principal (user, or client address when anonymous)
+      write-per-window: 60 # POST/PUT/PATCH/DELETE
+      admin-per-window: 120 # everything under /api/v1/admin
   outbox:
     relay:
       enabled: true # exactly the processes that should publish; safe to run on several (SKIP LOCKED)

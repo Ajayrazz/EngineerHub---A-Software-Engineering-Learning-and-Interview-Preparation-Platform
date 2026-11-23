@@ -21,5 +21,10 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import({PostgresTestConfig.class, RabbitTestConfig.class, TestMessagingConfig.class})
+@Import({
+  PostgresTestConfig.class,
+  RabbitTestConfig.class,
+  RedisTestConfig.class,
+  TestMessagingConfig.class
+})
 public @interface IntegrationTest {}

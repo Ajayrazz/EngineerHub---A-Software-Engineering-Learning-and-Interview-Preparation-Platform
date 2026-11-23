@@ -50,7 +50,8 @@ class SecurityConfig {
       ProblemSecurityHandlers problemHandlers,
       JwtAuthenticationConverter jwtAuthenticationConverter,
       SecurityProperties props,
-      java.util.List<AuthenticatedRequestGuard> guards)
+      java.util.List<AuthenticatedRequestGuard> guards,
+      com.engineerhub.shared.limits.RateLimitFilter rateLimitFilter)
       throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -72,6 +73,7 @@ class SecurityConfig {
             new AuthenticatedRequestGuardFilter(guards, problemHandlers),
             org.springframework.security.oauth2.server.resource.web.authentication
                 .BearerTokenAuthenticationFilter.class)
+        .addFilterAfter(rateLimitFilter, AuthenticatedRequestGuardFilter.class)
         .exceptionHandling(
             e -> e.authenticationEntryPoint(problemHandlers).accessDeniedHandler(problemHandlers))
         .oauth2ResourceServer(

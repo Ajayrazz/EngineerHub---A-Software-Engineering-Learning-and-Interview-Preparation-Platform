@@ -7,6 +7,12 @@ spring:
     username: ${APP_DB_USER:engineerhub_app}
     password: ${APP_DB_PASSWORD:dev-only-app-pw}
 
+  data:
+    redis:
+      host: localhost
+      port: ${REDIS_HOST_PORT:6380}
+      password: ${REDIS_PASSWORD:dev-only-redis-pw}
+
   rabbitmq:
     host: localhost
     username: ${RABBITMQ_USER:engineerhub}
