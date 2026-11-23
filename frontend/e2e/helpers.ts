@@ -2,6 +2,7 @@ import { expect, type APIRequestContext, type BrowserContext, type Page } from "
 import { createRedisClient, redisKeyValueStore } from "../src/lib/session/redis-kv";
 import { deriveKeys, keyFor } from "../src/lib/session/crypto";
 import { SessionStore } from "../src/lib/session/store";
+import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { DEV_TOTP_SEED, totp } from "./totp";
@@ -115,4 +116,21 @@ export async function trackCspViolations(page: Page) {
     );
   });
   return () => page.evaluate(() => (window as unknown as { __csp: string[] }).__csp);
+}
+
+/**
+ * Test-only shortcut for "verified" test data. The real path is the validation harness executed by the judge
+ * (Phase 4); until then nothing can set the flag through the API, so E2E sets it directly in the dev database.
+ * Needs the Docker stack (E2E_CONTAINER_CONTROL=1, set by `make e2e` and CI).
+ */
+export function markProblemVerified(problemId: string) {
+  if (process.env.E2E_CONTAINER_CONTROL !== "1") throw new Error("set E2E_CONTAINER_CONTROL=1");
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(problemId))
+    throw new Error("bad id");
+  const user = process.env.APP_DB_USER ?? "engineerhub_app";
+  const db = process.env.APP_DB_NAME ?? "engineerhub";
+  execSync(
+    `docker compose exec -T postgres psql -U ${user} -d ${db} -c "update problems.problems set validation_status = 'verified' where id = '${problemId}'"`,
+    { cwd: path.join(__dirname, "..", ".."), stdio: "pipe" },
+  );
 }
