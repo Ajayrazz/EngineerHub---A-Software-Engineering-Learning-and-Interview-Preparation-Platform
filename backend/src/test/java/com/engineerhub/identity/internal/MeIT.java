@@ -104,6 +104,20 @@ class MeIT {
   }
 
   @Test
+  void aDifferentIdentityWithAnExistingUsernameGetsAConflictNotAServerError() throws Exception {
+    String name = "dup" + Ids.newId().toString().substring(24);
+    String firstSub = newSub();
+    UUID first = me(user(firstSub, name, name + "@example.test"));
+
+    mvc.perform(get("/api/v1/me").with(user(newSub(), name.toUpperCase(), name + "2@example.test")))
+        .andExpect(status().isConflict())
+        .andExpect(jsonPath("$.code").value("CONFLICT"));
+
+    // The original account is untouched and still works.
+    assertThat(me(user(firstSub, name, name + "@example.test"))).isEqualTo(first);
+  }
+
+  @Test
   void idsAreTimeOrderedUuidV7() throws Exception {
     UUID id = me(user(newSub(), "grace", "grace@example.test"));
     assertThat(id.version()).isEqualTo(7);

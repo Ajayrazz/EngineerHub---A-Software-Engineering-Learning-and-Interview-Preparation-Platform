@@ -52,42 +52,17 @@ class UserProvisioner {
     boolean emailVerified = Boolean.TRUE.equals(jwt.getClaimAsBoolean("email_verified"));
     Instant now = clock.instant();
 
-    var upserted =
-        jdbc.sql(
-                """
-                insert into identity.users
-                  (id, keycloak_sub, username, email, email_verified, created_at, updated_at, last_login_at)
-                values (:id, :sub, :username, :email, :ev, :now, :now, :now)
-                on conflict (keycloak_sub) do update set
-                  username = excluded.username, email = excluded.email,
-                  email_verified = excluded.email_verified, last_login_at = excluded.last_login_at,
-                  updated_at = excluded.updated_at, version = identity.users.version + 1
-                where identity.users.username is distinct from excluded.username
-                   or identity.users.email is distinct from excluded.email
-                   or identity.users.email_verified is distinct from excluded.email_verified
-                   or identity.users.last_login_at < excluded.last_login_at - interval '5 minutes'
-                returning id, (xmax = 0) as created
-                """)
-            .param("id", Ids.newId())
-            .param("sub", sub)
-            .param("username", username)
-            .param("email", email)
-            .param("ev", emailVerified)
-            .param("now", java.sql.Timestamp.from(now))
-            .query(
-                (rs, i) ->
-                    new Provisioned(rs.getObject("id", UUID.class), rs.getBoolean("created")))
-            .optional();
-
-    if (upserted.isEmpty()) { // existing row, nothing changed: just read its id
-      UUID id =
-          jdbc.sql("select id from identity.users where keycloak_sub = :sub")
-              .param("sub", sub)
-              .query(UUID.class)
-              .single();
-      return new Provisioned(id, false);
+    Provisioned result;
+    try {
+      result = insertOrSync(sub, username, email, emailVerified, now);
+    } catch (org.springframework.dao.DuplicateKeyException e) {
+      // Another local account already owns this username under a different Keycloak identity (e.g.
+      // the
+      // identity was deleted and re-created). Never merge by name: report it instead of a 500.
+      throw new com.engineerhub.shared.error.ApiException(
+          com.engineerhub.shared.error.ErrorCode.CONFLICT,
+          "This username is already linked to a different account. Please contact support.");
     }
-    Provisioned result = upserted.get();
     if (result.created()) {
       jdbc.sql(
               "insert into identity.user_profiles (user_id, updated_at) values (:id, :now) on conflict do nothing")
@@ -104,6 +79,68 @@ class UserProvisioner {
     }
     statusCache.evict(sub);
     return result;
+  }
+
+  /**
+   * Creates the user, or brings an existing one in sync. Concurrent first requests for the same
+   * subject race on the unique indexes: {@code on conflict do nothing} lets the loser fall through
+   * to the winner's committed row; a username clash with a <i>different</i> subject surfaces as
+   * DuplicateKeyException from the update path or as "no row for this subject" after a failed
+   * insert.
+   */
+  private Provisioned insertOrSync(
+      String sub, String username, String email, boolean emailVerified, Instant now) {
+    var ts = java.sql.Timestamp.from(now);
+    var inserted =
+        jdbc.sql(
+                """
+                insert into identity.users
+                  (id, keycloak_sub, username, email, email_verified, created_at, updated_at, last_login_at)
+                values (:id, :sub, :username, :email, :ev, :now, :now, :now)
+                on conflict do nothing
+                returning id
+                """)
+            .param("id", Ids.newId())
+            .param("sub", sub)
+            .param("username", username)
+            .param("email", email)
+            .param("ev", emailVerified)
+            .param("now", ts)
+            .query(UUID.class)
+            .optional();
+    if (inserted.isPresent()) {
+      return new Provisioned(inserted.get(), true);
+    }
+    // Existing subject (or the concurrent winner): sync changed claims, rewriting at most every 5
+    // min.
+    jdbc.sql(
+            """
+            update identity.users set
+              username = :username, email = :email, email_verified = :ev,
+              last_login_at = :now, updated_at = :now, version = version + 1
+            where keycloak_sub = :sub
+              and (username is distinct from cast(:username as varchar)
+                or email is distinct from cast(:email as varchar)
+                or email_verified is distinct from cast(:ev as boolean)
+                or last_login_at < cast(:now as timestamptz) - interval '5 minutes')
+            """)
+        .param("sub", sub)
+        .param("username", username)
+        .param("email", email)
+        .param("ev", emailVerified)
+        .param("now", ts)
+        .update();
+    return jdbc.sql("select id from identity.users where keycloak_sub = :sub")
+        .param("sub", sub)
+        .query(UUID.class)
+        .optional()
+        .map(id -> new Provisioned(id, false))
+        // Insert was skipped by a conflict, yet no row has this subject: the username is taken.
+        .orElseThrow(
+            () ->
+                new com.engineerhub.shared.error.ApiException(
+                    com.engineerhub.shared.error.ErrorCode.CONFLICT,
+                    "This username is already linked to a different account. Please contact support."));
   }
 
   private static String clip(String value, int max) {
