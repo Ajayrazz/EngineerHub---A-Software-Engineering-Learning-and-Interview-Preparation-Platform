@@ -42,6 +42,10 @@ class OutboxFaultInjectionIT {
 
   @Test
   void crashBetweenBrokerConfirmAndCommitCausesADuplicateDeliveryButASingleEffect() {
+    // Other tests share this outbox; an event still in flight would consume the injected crash
+    // instead
+    // of this test's own event. Start from a drained outbox.
+    await(() -> support.pending() == 0);
     relay.setPaused(true);
     doThrow(new RuntimeException("simulated crash after the broker confirmed, before commit"))
         .doCallRealMethod()
