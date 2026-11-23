@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { AccessPanel } from "@/components/admin/access-panel";
 import { UserAdmin } from "@/components/admin/user-admin";
 import { AdminShell, Notice, when } from "@/components/admin/ui";
 import { isUuid } from "@/lib/admin/policy";
@@ -9,17 +10,24 @@ type UserView = components["schemas"]["UserView"];
 type RolesView = components["schemas"]["RolesView"];
 type GrantView = components["schemas"]["GrantView"];
 type RoleView = components["schemas"]["RoleView"];
+type PlanView = components["schemas"]["PlanView"];
+type AccessView = components["schemas"]["AccessView"];
 
 export default async function UserPage({ params }: PageProps<"/admin/users/[id]">) {
   const { id } = await params;
   if (!isUuid(id)) notFound();
   const ctx = await adminContext(`/admin/users/${id}`, "user.read");
 
-  const [user, roles, grants, catalog] = await Promise.all([
+  const canBilling = ctx.global.includes("billing.manage");
+  const [user, roles, grants, catalog, plans, access] = await Promise.all([
     apiGet<UserView>(ctx, `admin/users/${id}`),
     apiGet<RolesView>(ctx, `admin/users/${id}/roles`),
     apiGet<GrantView[]>(ctx, `admin/users/${id}/grants`),
     apiGet<RoleView[]>(ctx, "admin/roles"),
+    canBilling ? apiGet<PlanView[]>(ctx, "admin/billing/plans") : Promise.resolve(null),
+    canBilling
+      ? apiGet<AccessView>(ctx, `admin/billing/users/${id}/access`)
+      : Promise.resolve(null),
   ]);
   if (!user.ok) {
     if (user.status === 404) notFound();
@@ -46,6 +54,14 @@ export default async function UserPage({ params }: PageProps<"/admin/users/[id]"
         <dt className="opacity-60">Last login</dt>
         <dd>{when(u.lastLoginAt)}</dd>
       </dl>
+      {plans?.ok && access?.ok && (
+        <AccessPanel
+          csrfToken={ctx.csrfToken}
+          userId={id}
+          plans={plans.data}
+          access={access.data}
+        />
+      )}
       <UserAdmin
         csrfToken={ctx.csrfToken}
         global={ctx.global}

@@ -54,7 +54,11 @@ export default async function ProblemPage({ params }: PageProps<"/problems/[slug
           <h1 className="text-2xl font-semibold">Premium problem</h1>
           <p className="font-medium">This problem is part of the premium content.</p>
           <p className="text-sm opacity-80">
-            Premium plans are not available yet. Free problems stay open to everyone.
+            Online purchase is not available yet; see the{" "}
+            <Link className="underline" href="/pricing">
+              pricing page
+            </Link>
+            . Free problems stay open to everyone.
           </p>
           {!session && (
             <p className="text-sm">

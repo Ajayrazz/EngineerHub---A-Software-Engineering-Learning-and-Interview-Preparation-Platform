@@ -35,7 +35,15 @@ export function ReaderShell({
           <Link href="/my-problems" className="hover:underline">
             My problems
           </Link>
+          <Link href="/pricing" className="hover:underline">
+            Pricing
+          </Link>
           <span className="ml-auto flex items-center gap-3">
+            {username && (
+              <Link href="/billing" className="hover:underline">
+                My access
+              </Link>
+            )}
             {username ? (
               <Link href="/account" className="hover:underline" data-testid="nav-user">
                 {username}

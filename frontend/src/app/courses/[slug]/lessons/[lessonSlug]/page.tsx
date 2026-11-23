@@ -116,8 +116,11 @@ export default async function LessonPage({
             >
               <p className="font-medium">This lesson is part of the premium content.</p>
               <p className="text-sm opacity-80">
-                Premium plans are not available yet. Free lessons and previews stay open to
-                everyone.
+                Online purchase is not available yet; see the{" "}
+                <Link className="underline" href="/pricing">
+                  pricing page
+                </Link>
+                . Free lessons and previews stay open to everyone.
               </p>
               {!session && (
                 <p className="text-sm">

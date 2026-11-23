@@ -35,6 +35,14 @@ export default async function AdminHome() {
             — author problems and test cases
           </li>
         )}
+        {ctx.global.includes("billing.manage") && (
+          <li>
+            <Link className="underline" href="/admin/billing">
+              Billing
+            </Link>{" "}
+            — plans, prices and premium access
+          </li>
+        )}
         {ctx.global.includes("audit.read") && (
           <li>
             <Link className="underline" href="/admin/audit">
