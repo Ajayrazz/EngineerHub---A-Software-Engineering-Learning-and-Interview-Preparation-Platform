@@ -2,7 +2,9 @@ package com.engineerhub.billing.internal;
 
 import com.engineerhub.billing.EntitlementService;
 import com.engineerhub.billing.internal.BillingDtos.AccessView;
+import com.engineerhub.billing.internal.BillingDtos.BillingSummary;
 import com.engineerhub.billing.internal.BillingDtos.GrantRequest;
+import com.engineerhub.billing.internal.BillingDtos.PaymentView;
 import com.engineerhub.billing.internal.BillingDtos.PeriodView;
 import com.engineerhub.billing.internal.BillingDtos.PlanCreate;
 import com.engineerhub.billing.internal.BillingDtos.PlanPatch;
@@ -54,6 +56,7 @@ class BillingService implements EntitlementService {
   private final UserDirectory directory;
   private final AuditLog audit;
   private final OutboxPublisher events;
+  private final int renewalWindowDays;
 
   BillingService(
       JdbcClient jdbc,
@@ -61,13 +64,17 @@ class BillingService implements EntitlementService {
       Authorizer authz,
       UserDirectory directory,
       AuditLog audit,
-      OutboxPublisher events) {
+      OutboxPublisher events,
+      @org.springframework.beans.factory.annotation.Value(
+              "${engineerhub.billing.renewal-window-days:7}")
+          int renewalWindowDays) {
     this.jdbc = jdbc;
     this.clock = clock;
     this.authz = authz;
     this.directory = directory;
     this.audit = audit;
     this.events = events;
+    this.renewalWindowDays = renewalWindowDays;
   }
 
   private Timestamp now() {
@@ -405,15 +412,104 @@ class BillingService implements EntitlementService {
                         rs.getString(8),
                         rs.getTimestamp(9).toInstant())))
         .list();
-    Instant validThrough =
+    Instant validThrough = premiumCoverageEnd(userId, now);
+    return new AccessView(validThrough != null, validThrough, List.copyOf(periods.values()));
+  }
+
+  /**
+   * End of the user's <em>contiguous</em> premium coverage from {@code now}, or null when no
+   * premium period is running. Purchases made while access is running are queued to start when the
+   * current period ends (docs/21 overlap rule), so the date to show is the end of the whole chain,
+   * not of the period that happens to be running.
+   */
+  private Instant premiumCoverageEnd(UUID userId, Instant now) {
+    List<Instant[]> ranges =
         jdbc.sql(
-                "select max(ap.ends_at) from billing.access_periods ap join billing.plan_entitlements pe on pe.plan_id = ap.plan_id where ap.user_id = :u and pe.entitlement_code = 'premium_content' and ap.revoked_at is null and ap.starts_at <= :now and :now < ap.ends_at")
+                """
+                select ap.starts_at, ap.ends_at from billing.access_periods ap
+                join billing.plan_entitlements pe on pe.plan_id = ap.plan_id
+                where ap.user_id = :u and pe.entitlement_code = 'premium_content'
+                  and ap.revoked_at is null and ap.ends_at > :now
+                order by ap.starts_at, ap.ends_at
+                """)
             .param("u", userId)
             .param("now", Timestamp.from(now))
-            .query(Timestamp.class)
-            .optional()
-            .map(Timestamp::toInstant)
-            .orElse(null);
-    return new AccessView(validThrough != null, validThrough, List.copyOf(periods.values()));
+            .query(
+                (rs, i) ->
+                    new Instant[] {rs.getTimestamp(1).toInstant(), rs.getTimestamp(2).toInstant()})
+            .list();
+    return coverageEnd(now, ranges);
+  }
+
+  /** Pure chain walk: extends from {@code now} through every period that starts by the cursor. */
+  static Instant coverageEnd(Instant now, List<Instant[]> sortedRanges) {
+    Instant cursor = now;
+    for (Instant[] r : sortedRanges) {
+      if (!r[0].isAfter(cursor) && r[1].isAfter(cursor)) {
+        cursor = r[1];
+      }
+    }
+    return cursor.isAfter(now) ? cursor : null;
+  }
+
+  /**
+   * The learner's billing page: validity, status, renewal window and payment history. Status is
+   * derived at read time (no stored flag to go stale): ACTIVE, EXPIRING_SOON (inside the renewal
+   * window), EXPIRED (had paid or granted premium access that has ended) or NONE.
+   */
+  @Transactional(readOnly = true)
+  BillingSummary summary(UUID userId) {
+    Instant now = clock.instant();
+    Instant validThrough = premiumCoverageEnd(userId, now);
+    String status;
+    Long daysRemaining = null;
+    boolean renewalDue = false;
+    if (validThrough != null) {
+      daysRemaining = (Duration.between(now, validThrough).getSeconds() + 86_399) / 86_400;
+      renewalDue = daysRemaining <= renewalWindowDays;
+      status = renewalDue ? "EXPIRING_SOON" : "ACTIVE";
+    } else {
+      boolean everHad =
+          jdbc.sql(
+                  """
+                  select exists (select 1 from billing.access_periods ap
+                    join billing.plan_entitlements pe on pe.plan_id = ap.plan_id
+                    where ap.user_id = :u and pe.entitlement_code = 'premium_content'
+                      and ap.revoked_at is null and ap.ends_at <= :now)
+                  """)
+              .param("u", userId)
+              .param("now", Timestamp.from(now))
+              .query(Boolean.class)
+              .single();
+      status = everHad ? "EXPIRED" : "NONE";
+    }
+    List<PaymentView> payments =
+        jdbc.sql(
+                """
+                select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at
+                from billing.payments pay
+                join billing.purchase_intents i on i.id = pay.intent_id
+                join billing.plans pl on pl.id = i.plan_id
+                where pay.user_id = :u order by pay.captured_at desc, pay.id limit 50
+                """)
+            .param("u", userId)
+            .query(
+                (rs, i) ->
+                    new PaymentView(
+                        rs.getObject(1, UUID.class),
+                        rs.getString(2),
+                        rs.getLong(3),
+                        rs.getString(4).strip(),
+                        rs.getString(5),
+                        rs.getTimestamp(6).toInstant()))
+            .list();
+    return new BillingSummary(
+        status,
+        validThrough != null,
+        validThrough,
+        daysRemaining,
+        renewalDue,
+        renewalWindowDays,
+        payments);
   }
 }

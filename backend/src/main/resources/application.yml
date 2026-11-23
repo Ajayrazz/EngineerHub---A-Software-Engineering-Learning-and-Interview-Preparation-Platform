@@ -96,6 +96,7 @@ management:
 # --- Transactional outbox (see shared.messaging) ---
 engineerhub:
   billing:
+    renewal-window-days: ${BILLING_RENEWAL_WINDOW_DAYS:7} # "Renew" reminder appears this many days before access ends (default, not a decision)
     razorpay:
       # TEST MODE ONLY until the Live Readiness Gate (docs/21 §9): live keys are refused at startup.
       mode: ${RAZORPAY_MODE:test}

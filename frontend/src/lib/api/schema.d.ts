@@ -964,6 +964,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["myBilling"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me/access": {
         parameters: {
             query?: never;
@@ -1855,6 +1871,29 @@ export interface components {
             /** Format: date */
             lastActiveDay?: string;
             activeToday?: boolean;
+        };
+        BillingSummary: {
+            status?: string;
+            premium?: boolean;
+            /** Format: date-time */
+            validThrough?: string;
+            /** Format: int64 */
+            daysRemaining?: number;
+            renewalDue?: boolean;
+            /** Format: int32 */
+            renewalWindowDays?: number;
+            payments?: components["schemas"]["PaymentView"][];
+        };
+        PaymentView: {
+            /** Format: uuid */
+            id?: string;
+            planName?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            status?: string;
+            /** Format: date-time */
+            capturedAt?: string;
         };
         PublicCourse: {
             slug?: string;
@@ -3748,6 +3787,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PublicProblemItem"][];
+                };
+            };
+        };
+    };
+    myBilling: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingSummary"];
                 };
             };
         };

@@ -546,4 +546,184 @@ class BillingIT {
     lesson(who(sub(), "MODERATOR")).andExpect(status().isForbidden());
     lesson(null).andExpect(status().isForbidden());
   }
+
+  // ------------------------------------------------------------------ M6.3: the billing summary
+
+  private void period(String userId, String planId, long startOffsetHours, long endOffsetHours) {
+    insertPeriod(userId, planId, startOffsetHours, endOffsetHours, false);
+  }
+
+  private void insertPeriod(
+      String userId, String planId, long startOffsetHours, long endOffsetHours, boolean revoked) {
+    // one shared hour-aligned base so periods meant to touch really touch
+    java.time.Instant now =
+        java.time.Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
+    jdbc.sql(
+            """
+            insert into billing.access_periods (id, user_id, plan_id, starts_at, ends_at, source_type, reason, revoked_at, revoked_by, created_at)
+            values (:id, :u, :p, :s, :e, 'admin_grant', 'summary test', :ra, :rb, :now)
+            """)
+        .param("id", Ids.newId())
+        .param("u", UUID.fromString(userId))
+        .param("p", UUID.fromString(planId))
+        .param("s", java.sql.Timestamp.from(now.plus(java.time.Duration.ofHours(startOffsetHours))))
+        .param("e", java.sql.Timestamp.from(now.plus(java.time.Duration.ofHours(endOffsetHours))))
+        .param("ra", revoked ? java.sql.Timestamp.from(now) : null, java.sql.Types.TIMESTAMP)
+        .param("rb", revoked ? Ids.newId() : null, java.sql.Types.OTHER)
+        .param("now", java.sql.Timestamp.from(now))
+        .update();
+  }
+
+  private JsonNode summary(JwtRequestPostProcessor u) throws Exception {
+    return json(call(get("/api/v1/me/billing"), u, null).andExpect(status().isOk()));
+  }
+
+  @Test
+  void summaryNeedsAuthentication() throws Exception {
+    call(get("/api/v1/me/billing"), null, null).andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void summaryIsNeverCachedAndStartsAsNone() throws Exception {
+    JwtRequestPostProcessor u = who(sub());
+    call(get("/api/v1/me/billing"), u, null)
+        .andExpect(status().isOk())
+        .andExpect(header().string("Cache-Control", Matchers.containsString("no-store")));
+    JsonNode s = summary(u);
+    assertThat(s.get("status").asString()).isEqualTo("NONE");
+    assertThat(s.get("premium").asBoolean()).isFalse();
+    assertThat(s.get("renewalDue").asBoolean()).isFalse();
+    assertThat(s.path("validThrough").isMissingNode()).isTrue();
+    assertThat(s.get("payments")).isEmpty();
+    assertThat(s.get("renewalWindowDays").asInt()).isEqualTo(7);
+  }
+
+  @Test
+  void statusFollowsTheRenewalWindowBoundary() throws Exception {
+    String plan = plan(true);
+    // 8 days left: still ACTIVE; 7 days left: inside the window; 3 days: expiring.
+    for (Object[] c :
+        new Object[][] {
+          {8 * 24L, "ACTIVE", false, 8},
+          {7 * 24L, "EXPIRING_SOON", true, 7},
+          {3 * 24L, "EXPIRING_SOON", true, 3},
+        }) {
+      JwtRequestPostProcessor u = who(sub());
+      String id = userId(u);
+      period(id, plan, -1, (Long) c[0]);
+      JsonNode s = summary(u);
+      assertThat(s.get("status").asString()).as("%s hours", c[0]).isEqualTo(c[1]);
+      assertThat(s.get("renewalDue").asBoolean()).isEqualTo(c[2]);
+      assertThat(s.get("premium").asBoolean()).isTrue();
+      assertThat(s.get("daysRemaining").asInt()).isEqualTo(c[3]);
+    }
+  }
+
+  @Test
+  void expiredAndRevokedOnlyAreDistinguished() throws Exception {
+    String plan = plan(true);
+    JwtRequestPostProcessor ended = who(sub());
+    period(userId(ended), plan, -72, -1);
+    JsonNode s = summary(ended);
+    assertThat(s.get("status").asString()).isEqualTo("EXPIRED");
+    assertThat(s.get("premium").asBoolean()).isFalse();
+    assertThat(s.path("daysRemaining").isMissingNode()).isTrue();
+    assertThat(s.get("renewalDue").asBoolean()).isFalse();
+
+    JwtRequestPostProcessor revoked = who(sub());
+    insertPeriod(userId(revoked), plan, -1, 240, true);
+    assertThat(summary(revoked).get("status").asString()).isEqualTo("NONE");
+    // revoked AND already ended: still NONE, a revoked period is not "expired access"
+    JwtRequestPostProcessor revokedEnded = who(sub());
+    insertPeriod(userId(revokedEnded), plan, -72, -1, true);
+    assertThat(summary(revokedEnded).get("status").asString()).isEqualTo("NONE");
+
+    // a period of a plan WITHOUT the premium entitlement never counts
+    JwtRequestPostProcessor other = who(sub());
+    period(userId(other), plan(false), -1, 240);
+    assertThat(summary(other).get("status").asString()).isEqualTo("NONE");
+  }
+
+  @Test
+  void queuedPurchaseExtendsTheDisplayedDateButAGapDoesNot() throws Exception {
+    String plan = plan(true);
+    JwtRequestPostProcessor chained = who(sub());
+    String c = userId(chained);
+    period(c, plan, -1, 48); // running, ends in 2 days
+    period(c, plan, 48, 48 + 30 * 24); // queued to start when the first ends
+    JsonNode s = summary(chained);
+    assertThat(s.get("status").asString()).isEqualTo("ACTIVE"); // 32 days away, not "expiring"
+    assertThat(s.get("daysRemaining").asInt()).isEqualTo(32);
+    assertThat(json(call(get("/api/v1/me/access"), chained, null)).get("validThrough").asString())
+        .isEqualTo(s.get("validThrough").asString());
+
+    JwtRequestPostProcessor gap = who(sub());
+    String g = userId(gap);
+    period(g, plan, -1, 48);
+    period(g, plan, 48 + 5 * 24, 48 + 35 * 24); // starts 5 days after the first ends
+    JsonNode t = summary(gap);
+    assertThat(t.get("status").asString()).isEqualTo("EXPIRING_SOON");
+    assertThat(t.get("daysRemaining").asInt()).isEqualTo(2);
+  }
+
+  @Test
+  void paymentHistoryIsOwnNewestFirstAndCarriesNoProviderReferences() throws Exception {
+    String plan = plan(true);
+    String price =
+        json(call(
+                    post("/api/v1/admin/billing/plans/" + plan + "/prices"),
+                    admin,
+                    "{\"billingMode\":\"ONE_TIME\",\"periodUnit\":\"month\",\"amountInclTaxMinor\":29900}")
+                .andExpect(status().isCreated()))
+            .get("prices")
+            .get(0)
+            .get("id")
+            .asString();
+    JwtRequestPostProcessor mine = who(sub());
+    JwtRequestPostProcessor theirs = who(sub());
+    String m = userId(mine);
+    String t = userId(theirs);
+    payment(m, plan, price, "pay_old_" + Ids.newId(), -48);
+    payment(m, plan, price, "pay_new_" + Ids.newId(), -1);
+    payment(t, plan, price, "pay_other_" + Ids.newId(), -2);
+
+    var res = call(get("/api/v1/me/billing"), mine, null).andExpect(status().isOk());
+    String raw = res.andReturn().getResponse().getContentAsString();
+    JsonNode s = mapper.readTree(raw);
+    assertThat(s.get("payments")).hasSize(2);
+    assertThat(s.get("payments").get(0).get("amountMinor").asLong()).isEqualTo(29900);
+    assertThat(s.get("payments").get(0).get("currency").asString()).isEqualTo("INR");
+    assertThat(s.get("payments").get(0).get("capturedAt").asString())
+        .isGreaterThan(s.get("payments").get(1).get("capturedAt").asString());
+    assertThat(raw).doesNotContain("pay_").doesNotContain("order_").doesNotContain(t);
+    assertThat(summary(theirs).get("payments")).hasSize(1);
+  }
+
+  private void payment(String userId, String planId, String priceId, String ref, long hours) {
+    java.time.Instant at = java.time.Instant.now().plus(java.time.Duration.ofHours(hours));
+    UUID intent = Ids.newId();
+    jdbc.sql(
+            """
+            insert into billing.purchase_intents (id, user_id, plan_id, plan_price_id, billing_mode, period_unit, currency, amount_minor, status, provider, provider_order_ref, created_at, expires_at, updated_at)
+            values (:i, :u, :p, :pp, 'ONE_TIME', 'month', 'INR', 29900, 'paid', 'razorpay', :o, :at, :at, :at)
+            """)
+        .param("i", intent)
+        .param("u", UUID.fromString(userId))
+        .param("p", UUID.fromString(planId))
+        .param("pp", UUID.fromString(priceId))
+        .param("o", "order_" + ref)
+        .param("at", java.sql.Timestamp.from(at))
+        .update();
+    jdbc.sql(
+            """
+            insert into billing.payments (id, intent_id, user_id, provider, provider_payment_ref, amount_minor, currency, status, captured_at, created_at)
+            values (:id, :i, :u, 'razorpay', :r, 29900, 'INR', 'captured', :at, :at)
+            """)
+        .param("id", Ids.newId())
+        .param("i", intent)
+        .param("u", UUID.fromString(userId))
+        .param("r", ref)
+        .param("at", java.sql.Timestamp.from(at))
+        .update();
+  }
 }

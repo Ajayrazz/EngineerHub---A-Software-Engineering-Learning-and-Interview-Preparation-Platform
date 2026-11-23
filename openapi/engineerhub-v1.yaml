@@ -1583,6 +1583,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PublicProblemItem"
+  /api/v1/me/billing:
+    get:
+      tags:
+      - public-billing-controller
+      operationId: myBilling
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BillingSummary"
   /api/v1/me/access:
     get:
       tags:
@@ -3328,6 +3340,46 @@ components:
           format: date
         activeToday:
           type: boolean
+    BillingSummary:
+      type: object
+      properties:
+        status:
+          type: string
+        premium:
+          type: boolean
+        validThrough:
+          type: string
+          format: date-time
+        daysRemaining:
+          type: integer
+          format: int64
+        renewalDue:
+          type: boolean
+        renewalWindowDays:
+          type: integer
+          format: int32
+        payments:
+          type: array
+          items:
+            $ref: "#/components/schemas/PaymentView"
+    PaymentView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        planName:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        status:
+          type: string
+        capturedAt:
+          type: string
+          format: date-time
     PublicCourse:
       type: object
       properties:

@@ -75,4 +75,22 @@ final class BillingDtos {
       Instant createdAt) {}
 
   record AccessView(boolean premium, Instant validThrough, List<PeriodView> periods) {}
+
+  record PaymentView(
+      UUID id,
+      String planName,
+      long amountMinor,
+      String currency,
+      String status,
+      Instant capturedAt) {}
+
+  /** Status is ACTIVE, EXPIRING_SOON, EXPIRED or NONE; amounts are tax-inclusive minor units. */
+  record BillingSummary(
+      String status,
+      boolean premium,
+      Instant validThrough,
+      Long daysRemaining,
+      boolean renewalDue,
+      int renewalWindowDays,
+      List<PaymentView> payments) {}
 }

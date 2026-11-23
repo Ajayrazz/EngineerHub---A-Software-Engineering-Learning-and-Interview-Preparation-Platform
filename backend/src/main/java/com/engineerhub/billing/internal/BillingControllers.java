@@ -1,6 +1,7 @@
 package com.engineerhub.billing.internal;
 
 import com.engineerhub.billing.internal.BillingDtos.AccessView;
+import com.engineerhub.billing.internal.BillingDtos.BillingSummary;
 import com.engineerhub.billing.internal.BillingDtos.EntitlementsRequest;
 import com.engineerhub.billing.internal.BillingDtos.GrantRequest;
 import com.engineerhub.billing.internal.BillingDtos.PlanCreate;
@@ -63,6 +64,15 @@ class PublicBillingController {
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
         .body(service.access(directory.current(authentication).id()));
+  }
+
+  /** The caller's billing page: validity, status, renewal window and payment history. */
+  @GetMapping("/me/billing")
+  @PreAuthorize("isAuthenticated()")
+  ResponseEntity<BillingSummary> myBilling(Authentication authentication) {
+    return ResponseEntity.ok()
+        .cacheControl(CacheControl.noStore())
+        .body(service.summary(directory.current(authentication).id()));
   }
 }
 
