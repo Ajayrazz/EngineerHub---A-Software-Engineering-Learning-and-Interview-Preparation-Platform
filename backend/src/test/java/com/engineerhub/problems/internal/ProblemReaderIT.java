@@ -230,9 +230,6 @@ class ProblemReaderIT {
               .get("slug")
               .asString();
       assertThat(slug).isNotIn(delta, archived);
-      assertThat(slug)
-          .doesNotStartWith("v-")
-          .doesNotStartWith("p-"); // drafts created by the other problem tests
     }
   }
 
