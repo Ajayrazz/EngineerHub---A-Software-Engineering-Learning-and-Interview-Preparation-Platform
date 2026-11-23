@@ -50,7 +50,11 @@ class AuditLogImpl implements AuditLog {
         || blank(e.resourceId())) {
       throw new IllegalArgumentException("incomplete audit entry");
     }
-    Instant at = clock.instant();
+    // PostgreSQL stores microseconds. A JVM clock with nanosecond precision (Linux) would make the
+    // hashed
+    // timestamp differ from the stored one and break verification, so truncate before hashing AND
+    // inserting.
+    Instant at = clock.instant().truncatedTo(java.time.temporal.ChronoUnit.MICROS);
     String roles =
         actor.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)

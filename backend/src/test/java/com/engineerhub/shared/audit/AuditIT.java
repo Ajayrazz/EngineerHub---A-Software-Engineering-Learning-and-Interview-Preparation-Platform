@@ -76,6 +76,29 @@ class AuditIT {
     }
   }
 
+  /**
+   * Regression: on Linux the JVM clock has nanosecond precision, PostgreSQL stores microseconds.
+   * Unless the timestamp is truncated before hashing, the chain "verifies" fine on macOS
+   * (microsecond clock) and breaks on every Linux/CI run. A nanosecond-precision clock reproduces
+   * it on any OS.
+   */
+  @Test
+  void nanosecondPrecisionClocksDoNotBreakTheChain() {
+    java.time.Clock nanos =
+        java.time.Clock.fixed(
+            java.time.Instant.parse("2026-11-23T01:02:03.123456789Z"), java.time.ZoneOffset.UTC);
+    AuditLogImpl withNanos = new AuditLogImpl(jdbc, nanos);
+    String resource = "nanos-" + Ids.newId();
+    new TransactionTemplate(txm)
+        .executeWithoutResult(
+            s ->
+                withNanos.record(
+                    actor("kc-audit", "ADMIN"),
+                    null,
+                    AuditEvent.of("test.nanos", "test", resource)));
+    assertThat(verifier.verify().ok()).isTrue();
+  }
+
   @Test
   void anEntryExistsIfAndOnlyIfTheSurroundingTransactionCommits() {
     String resource = "rollback-" + Ids.newId();
