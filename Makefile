@@ -66,7 +66,13 @@ scan: ## Security scans: secrets (gitleaks) + known-vulnerable dependencies (OSV
 dev-env: ## Create .env from .env.example, or append any newly added variables (fake local values only)
 	@./scripts/sync-env.sh
 
-dev-up: dev-env ## Start the local stack (Postgres, Redis, RabbitMQ, Keycloak, Mailpit, S3) and wait until healthy
+realm-check: ## Guard the prod-safe Keycloak realm base (no users, no dev clients, no localhost/wildcards, no literal secrets)
+	python3 scripts/build-realm.py check
+
+realm-dev: realm-check ## Build the dev realm import (base + dev overlay) into infra/keycloak/build/dev
+	python3 scripts/build-realm.py build dev infra/keycloak/build/dev
+
+dev-up: dev-env realm-dev ## Start the local stack (Postgres, Redis, RabbitMQ, Keycloak, Mailpit, S3) and wait until healthy
 	docker compose up -d --wait --wait-timeout 240 postgres redis rabbitmq keycloak mailpit s3
 	docker compose up s3-init   # one-shot job: creates buckets, exits 0 (kept so its log can be verified)
 
@@ -93,4 +99,4 @@ api-verify: ## Live authn/authz check of the RUNNING API against real Keycloak t
 
 test: backend-test frontend-check ## All automated checks available today
 
-verify: test frontend-build ## Everything CI should run (grows as milestones land)
+verify: realm-check test frontend-build ## Everything CI should run (grows as milestones land)

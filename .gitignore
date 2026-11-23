@@ -34,3 +34,6 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/blob-report/
 frontend/playwright/.cache/
+
+# generated Keycloak realm import (scripts/build-realm.py)
+/infra/keycloak/build/

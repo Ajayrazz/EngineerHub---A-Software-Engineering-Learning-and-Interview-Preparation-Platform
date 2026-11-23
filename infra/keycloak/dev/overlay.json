@@ -1,29 +1,5 @@
 {
-  "realm": "engineerhub",
-  "displayName": "EngineerHub",
-  "enabled": true,
-  "sslRequired": "external",
-  "registrationAllowed": true,
-  "registrationEmailAsUsername": false,
-  "loginWithEmailAllowed": true,
-  "duplicateEmailsAllowed": false,
-  "verifyEmail": true,
-  "resetPasswordAllowed": true,
-  "editUsernameAllowed": false,
-  "rememberMe": false,
-  "bruteForceProtected": true,
-  "permanentLockout": false,
-  "failureFactor": 5,
-  "waitIncrementSeconds": 60,
-  "maxFailureWaitSeconds": 900,
-  "minimumQuickLoginWaitSeconds": 60,
-  "maxDeltaTimeSeconds": 43200,
-  "passwordPolicy": "length(10) and notUsername and notEmail",
-  "accessTokenLifespan": 300,
-  "ssoSessionIdleTimeout": 2592000,
-  "ssoSessionMaxLifespan": 7776000,
-  "revokeRefreshToken": true,
-  "refreshTokenMaxReuse": 0,
+  "_comment": "DEV ONLY. Fake users and scripted-login clients; merged over base/realm.json by scripts/build-realm.py. Must never reach staging/production.",
   "smtpServer": {
     "host": "mailpit",
     "port": "1025",
@@ -33,72 +9,7 @@
     "ssl": "false",
     "starttls": "false"
   },
-  "roles": {
-    "realm": [
-      {
-        "name": "SUPER_ADMIN",
-        "description": "Platform owner; all permissions"
-      },
-      {
-        "name": "ADMIN",
-        "description": "Administrator"
-      },
-      {
-        "name": "CONTENT_MANAGER",
-        "description": "Manages and publishes content"
-      },
-      {
-        "name": "PROBLEM_SETTER",
-        "description": "Authors problems and test cases"
-      },
-      {
-        "name": "MODERATOR",
-        "description": "Moderates community content"
-      },
-      {
-        "name": "INSTRUCTOR",
-        "description": "Authors assigned courses"
-      }
-    ]
-  },
   "clients": [
-    {
-      "clientId": "engineerhub-web",
-      "name": "EngineerHub web (Next.js BFF)",
-      "enabled": true,
-      "protocol": "openid-connect",
-      "publicClient": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "${KEYCLOAK_BFF_CLIENT_SECRET}",
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
-      "redirectUris": [
-        "http://localhost:3000/auth/callback"
-      ],
-      "webOrigins": [
-        "http://localhost:3000"
-      ],
-      "attributes": {
-        "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "http://localhost:3000/",
-        "access.token.lifespan": "300"
-      },
-      "protocolMappers": [
-        {
-          "name": "engineerhub-api-audience",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-audience-mapper",
-          "consentRequired": false,
-          "config": {
-            "included.custom.audience": "engineerhub-api",
-            "access.token.claim": "true",
-            "id.token.claim": "false"
-          }
-        }
-      ]
-    },
     {
       "clientId": "engineerhub-dev-cli",
       "name": "DEV ONLY: scripted logins for API verification (password grant). Remove from any non-dev realm.",
