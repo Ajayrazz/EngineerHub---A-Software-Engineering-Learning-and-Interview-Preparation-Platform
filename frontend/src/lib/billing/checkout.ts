@@ -60,3 +60,45 @@ export function statusMessage(status: string | undefined): string {
 export function pollDelaysMs(): number[] {
   return [...Array(10).fill(1000), ...Array(10).fill(2000), ...Array(12).fill(5000)].slice(0, 32);
 }
+
+export type SubscriptionCheckout = components["schemas"]["SubscriptionCheckout"];
+
+/** Razorpay Checkout options for a subscription, built only from what the server returned. */
+export function razorpaySubscriptionOptions(c: SubscriptionCheckout) {
+  return {
+    key: c.keyId ?? "",
+    subscription_id: c.providerSubscriptionId ?? "",
+    name: "EngineerHub",
+    description: c.planName ?? "",
+  };
+}
+
+/**
+ * What polling a subscription tells us. "paid" means the server recorded a verified charge (the only moment access
+ * exists); the other settled outcomes stop polling.
+ */
+export function subscriptionOutcome(v: {
+  status?: string;
+  paid?: boolean;
+}): "paid" | "needs_review" | "failed" | null {
+  if (v.paid) return "paid";
+  if (v.status === "needs_review") return "needs_review";
+  if (v.status === "failed" || v.status === "cancelled" || v.status === "completed")
+    return "failed";
+  return null;
+}
+
+export function subscriptionMessage(
+  outcome: "paid" | "needs_review" | "failed" | "waiting",
+): string {
+  switch (outcome) {
+    case "paid":
+      return "Subscription active. Your premium access is on.";
+    case "needs_review":
+      return "We received a payment that does not match this plan and need to review it before activating access. Please keep your payment reference.";
+    case "failed":
+      return "The subscription could not be started. You have not been charged; you can try again.";
+    default:
+      return "Your subscription is being confirmed. Access appears as soon as the payment provider confirms the first payment.";
+  }
+}

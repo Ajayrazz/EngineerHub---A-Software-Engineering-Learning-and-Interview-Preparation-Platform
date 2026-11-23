@@ -66,3 +66,34 @@ const PAYMENT_STATUS: Record<string, string> = {
 export function paymentStatusLabel(status?: string): string {
   return PAYMENT_STATUS[status ?? ""] ?? "unknown";
 }
+
+type SubscriptionLike = {
+  status?: string;
+  amountMinor?: number;
+  periodUnit?: string;
+  renewsOn?: string;
+};
+
+/** One honest sentence about the user's auto-renewing subscription. Cancelling never refunds or ends paid access. */
+export function subscriptionNote(sub: SubscriptionLike, validThrough?: string): string {
+  const price = `${formatInr(sub.amountMinor ?? 0)} per ${sub.periodUnit ?? "period"}`;
+  switch (sub.status) {
+    case "active":
+      return `Renews on ${formatDate(sub.renewsOn ?? validThrough)} for ${price}. You can cancel any time; cancelling stops future renewals and does not refund the current period.`;
+    case "past_due":
+      return `The last renewal payment did not go through. Your access continues until ${formatDate(validThrough)} and ends then unless a retry by the payment provider succeeds.`;
+    case "cancel_scheduled":
+      return `Auto-renew is off. Your access continues until ${formatDate(validThrough)} and will not renew.`;
+    default:
+      return "";
+  }
+}
+
+/** Shown before paying for an auto-renewing price: the amount now, how it repeats and how to stop it. */
+export function subscribeQuoteText(q: {
+  amountInclTaxMinor?: number;
+  periodUnit?: string;
+}): string {
+  const amount = formatInr(q.amountInclTaxMinor ?? 0);
+  return `You will pay ${amount} now (final price) and ${amount} every ${q.periodUnit ?? "period"} until you cancel. Cancel any time under My access; cancelling does not refund the current period.`;
+}

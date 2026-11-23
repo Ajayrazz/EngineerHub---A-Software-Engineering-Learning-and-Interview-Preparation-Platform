@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { btn } from "@/components/admin/ui";
 import {
-  CHECKOUT_SCRIPT,
   isFinal,
   newIdempotencyKey,
   pollDelaysMs,
@@ -14,33 +13,11 @@ import {
   type Stage,
 } from "@/lib/billing/checkout";
 import { formatInr } from "@/lib/billing/format";
+import { loadCheckout } from "@/lib/billing/razorpay";
 import type { components } from "@/lib/api/schema";
 
 type Quote = components["schemas"]["QuoteView"];
 type Intent = components["schemas"]["IntentView"];
-
-type RazorpayCtor = new (options: Record<string, unknown>) => {
-  open(): void;
-  on(event: string, cb: (response: unknown) => void): void;
-};
-declare global {
-  interface Window {
-    Razorpay?: RazorpayCtor;
-  }
-}
-
-function loadCheckout(): Promise<RazorpayCtor> {
-  if (window.Razorpay) return Promise.resolve(window.Razorpay);
-  return new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = CHECKOUT_SCRIPT;
-    s.async = true;
-    s.onload = () =>
-      window.Razorpay ? resolve(window.Razorpay) : reject(new Error("checkout unavailable"));
-    s.onerror = () => reject(new Error("checkout could not be loaded"));
-    document.head.appendChild(s);
-  });
-}
 
 /**
  * Buy flow for one price: show the server's final amount first, create the order, open Razorpay Checkout, tell the

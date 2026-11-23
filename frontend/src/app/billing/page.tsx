@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
+import { CancelSubscription } from "@/components/billing/cancel-subscription";
 import { ReaderShell } from "@/components/reader/ui";
 import {
   accessHeadline,
@@ -9,6 +10,7 @@ import {
   formatInr,
   paymentStatusLabel,
   renewalReminder,
+  subscriptionNote,
 } from "@/lib/billing/format";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
@@ -56,6 +58,30 @@ export default async function BillingPage() {
                 See pricing
               </Link>
             </p>
+          )}
+          {summary.data.subscription && (
+            <section
+              aria-labelledby="subscription-h"
+              className="space-y-2"
+              data-testid="subscription"
+            >
+              <h2 id="subscription-h" className="text-lg font-medium">
+                Auto-renewing subscription
+              </h2>
+              <p className="text-sm" data-testid="subscription-state">
+                {summary.data.subscription.planName}:{" "}
+                {subscriptionNote(summary.data.subscription, summary.data.validThrough)}
+              </p>
+              {(summary.data.subscription.status === "active" ||
+                summary.data.subscription.status === "past_due") &&
+                summary.data.subscription.id && (
+                  <CancelSubscription
+                    csrfToken={session.csrfToken}
+                    subscriptionId={summary.data.subscription.id}
+                    accessUntil={formatDate(summary.data.validThrough)}
+                  />
+                )}
+            </section>
           )}
           <section aria-labelledby="payments-h" className="space-y-2">
             <h2 id="payments-h" className="text-lg font-medium">

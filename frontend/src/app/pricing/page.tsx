@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BuyButton } from "@/components/billing/buy-button";
+import { SubscribeButton } from "@/components/billing/subscribe-button";
 import { ReaderShell } from "@/components/reader/ui";
 import { describePrice } from "@/lib/billing/format";
 import type { components } from "@/lib/api/schema";
@@ -57,8 +58,11 @@ export default async function PricingPage() {
                     {enabled && price.billingMode === "ONE_TIME" && price.id && (
                       <BuyButton csrfToken={session?.csrfToken ?? null} planPriceId={price.id} />
                     )}
-                    {enabled && price.billingMode === "RECURRING" && (
-                      <span className="opacity-70">Auto-renewing plans are not available yet.</span>
+                    {enabled && price.billingMode === "RECURRING" && price.id && (
+                      <SubscribeButton
+                        csrfToken={session?.csrfToken ?? null}
+                        planPriceId={price.id}
+                      />
                     )}
                   </li>
                 ))}

@@ -6,6 +6,8 @@ import {
   formatInr,
   paymentStatusLabel,
   renewalReminder,
+  subscribeQuoteText,
+  subscriptionNote,
   toMinor,
 } from "./format";
 
@@ -86,5 +88,28 @@ describe("billing format", () => {
     expect(paymentStatusLabel("partially_refunded")).toBe("partially refunded");
     expect(paymentStatusLabel("weird")).toBe("unknown");
     expect(paymentStatusLabel(undefined)).toBe("unknown");
+  });
+
+  it("describes each subscription state honestly", () => {
+    const sub = { amountMinor: 24900, periodUnit: "month", renewsOn: "2026-04-10T00:00:00Z" };
+    const active = subscriptionNote({ ...sub, status: "active" }, "2026-04-10T00:00:00Z");
+    expect(active).toContain("Renews on 2026-04-10");
+    expect(active.replace(/\s/g, "")).toContain("₹249.00permonth");
+    expect(active).toContain("does not refund the current period");
+    const due = subscriptionNote({ ...sub, status: "past_due" }, "2026-04-10T00:00:00Z");
+    expect(due).toContain("did not go through");
+    expect(due).toContain("2026-04-10");
+    expect(due).not.toContain("Renews on");
+    const off = subscriptionNote({ ...sub, status: "cancel_scheduled" }, "2026-04-10T00:00:00Z");
+    expect(off).toContain("Auto-renew is off");
+    expect(off).toContain("will not renew");
+    expect(subscriptionNote({ ...sub, status: "weird" })).toBe("");
+  });
+
+  it("states the repeating amount and how to stop before anyone pays", () => {
+    const text = subscribeQuoteText({ amountInclTaxMinor: 24900, periodUnit: "month" });
+    expect(text.replace(/\s/g, "")).toContain("₹249.00now");
+    expect(text).toContain("every month until you cancel");
+    expect(text).toContain("does not refund");
   });
 });

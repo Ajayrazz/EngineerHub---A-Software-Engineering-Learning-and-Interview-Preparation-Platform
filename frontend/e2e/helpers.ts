@@ -134,3 +134,50 @@ export function markProblemVerified(problemId: string) {
     { cwd: path.join(__dirname, "..", ".."), stdio: "pipe" },
   );
 }
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+function psql(statement: string) {
+  if (process.env.E2E_CONTAINER_CONTROL !== "1") throw new Error("set E2E_CONTAINER_CONTROL=1");
+  const user = process.env.APP_DB_USER ?? "engineerhub_app";
+  const db = process.env.APP_DB_NAME ?? "engineerhub";
+  execSync(
+    `docker compose exec -T postgres psql -U ${user} -d ${db} -v ON_ERROR_STOP=1 -c "${statement}"`,
+    {
+      cwd: path.join(__dirname, "..", ".."),
+      stdio: "pipe",
+    },
+  );
+}
+
+const SUBSCRIPTION_STATUSES = ["active", "past_due", "cancel_scheduled", "cancelled"];
+
+/**
+ * Creates a subscription row for a user, the way the webhook-driven flow would leave it. Real checkout needs the
+ * payment provider's test keys, so the browser tests seed the state they want to look at. Docker only.
+ */
+export function seedSubscription(args: {
+  subscriptionId: string;
+  userId: string;
+  planId: string;
+  planPriceId: string;
+  status: string;
+}) {
+  for (const id of [args.subscriptionId, args.userId, args.planId, args.planPriceId])
+    if (!UUID_RE.test(id)) throw new Error("bad id");
+  if (!SUBSCRIPTION_STATUSES.includes(args.status)) throw new Error("bad status");
+  psql(
+    `insert into billing.subscriptions (id, user_id, plan_id, plan_price_id, period_unit, currency, amount_minor, status, provider, provider_subscription_ref, created_at, updated_at) select '${args.subscriptionId}', '${args.userId}', '${args.planId}', '${args.planPriceId}', period_unit, currency, amount_incl_tax_minor, '${args.status}', 'razorpay', 'sub_e2e_${args.subscriptionId.slice(0, 8)}', now(), now() from billing.plan_prices where id = '${args.planPriceId}'`,
+  );
+}
+
+export function setSubscriptionStatus(subscriptionId: string, status: string) {
+  if (!UUID_RE.test(subscriptionId)) throw new Error("bad id");
+  if (!SUBSCRIPTION_STATUSES.includes(status)) throw new Error("bad status");
+  psql(`update billing.subscriptions set status = '${status}' where id = '${subscriptionId}'`);
+}
+
+export function deleteSubscription(subscriptionId: string) {
+  if (!UUID_RE.test(subscriptionId)) throw new Error("bad id");
+  psql(`delete from billing.subscriptions where id = '${subscriptionId}'`);
+}

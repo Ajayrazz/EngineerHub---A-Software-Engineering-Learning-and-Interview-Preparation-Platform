@@ -4,7 +4,10 @@ import {
   newIdempotencyKey,
   pollDelaysMs,
   razorpayOptions,
+  razorpaySubscriptionOptions,
   statusMessage,
+  subscriptionMessage,
+  subscriptionOutcome,
 } from "./checkout";
 
 describe("checkout helpers", () => {
@@ -66,5 +69,43 @@ describe("checkout helpers", () => {
     const total = d.reduce((a, b) => a + b, 0);
     expect(total).toBeGreaterThan(60_000);
     expect(total).toBeLessThan(150_000);
+  });
+
+  it("builds subscription checkout options only from the server's data", () => {
+    expect(
+      razorpaySubscriptionOptions({
+        subscriptionId: "s",
+        providerSubscriptionId: "sub_abc",
+        keyId: "rzp_test_k",
+        amountMinor: 24900,
+        currency: "INR",
+        periodUnit: "month",
+        planName: "Premium",
+        mode: "test",
+      }),
+    ).toEqual({
+      key: "rzp_test_k",
+      subscription_id: "sub_abc",
+      name: "EngineerHub",
+      description: "Premium",
+    });
+  });
+
+  it("treats a subscription as successful only once the server recorded a charge", () => {
+    expect(subscriptionOutcome({ status: "pending", paid: false })).toBeNull();
+    expect(subscriptionOutcome({ status: "active", paid: false })).toBeNull(); // activated, not yet charged
+    expect(subscriptionOutcome({ status: "active", paid: true })).toBe("paid");
+    expect(subscriptionOutcome({ status: "cancel_scheduled", paid: true })).toBe("paid");
+    expect(subscriptionOutcome({ status: "needs_review", paid: false })).toBe("needs_review");
+    for (const status of ["failed", "cancelled", "completed"])
+      expect(subscriptionOutcome({ status, paid: false }), status).toBe("failed");
+    expect(subscriptionOutcome({})).toBeNull();
+  });
+
+  it("words every subscription outcome", () => {
+    expect(subscriptionMessage("paid")).toContain("active");
+    expect(subscriptionMessage("failed")).toContain("not been charged");
+    expect(subscriptionMessage("needs_review")).toContain("review");
+    expect(subscriptionMessage("waiting")).toContain("being confirmed");
   });
 });

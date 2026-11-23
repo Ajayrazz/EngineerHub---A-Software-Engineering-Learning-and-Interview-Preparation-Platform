@@ -1,5 +1,12 @@
 import { expect, test, type APIRequestContext, type Browser, type Page } from "@playwright/test";
-import { APP_ORIGIN, csrfToken, login } from "./helpers";
+import {
+  APP_ORIGIN,
+  csrfToken,
+  deleteSubscription,
+  login,
+  seedSubscription,
+  setSubscriptionStatus,
+} from "./helpers";
 
 /** Plans, prices, admin-granted access and the real entitlement gating premium content. */
 
@@ -50,7 +57,6 @@ async function revokeLearnerAccess(browser: Browser) {
 test.beforeAll(async ({ browser }) => {
   await revokeLearnerAccess(browser); // the learner starts without premium access
   const admin = await newPage(browser, "admin");
-  const call = await api(admin.request);
   // a premium lesson to gate
   const manager = await newPage(browser, "contentmanager");
   const m = await api(manager.request);
@@ -205,6 +211,62 @@ test("a learner whose access is about to end sees a renewal reminder that leads 
   await expect(reminder).toContainText("will not renew automatically");
   await learner.getByTestId("renew-link").click();
   await expect(learner).toHaveURL(/\/pricing$/);
+});
+
+test("an auto-renewing subscriber sees the renewal date and no renew-now reminder, and cancelling fails safely while payments are off", async ({
+  browser,
+}) => {
+  await revokeLearnerAccess(browser);
+  const admin = await newPage(browser, "admin");
+  const call = await api(admin.request);
+  const learnerId = (await call("get", "admin/users?q=learner")).items.find(
+    (u: { username: string }) => u.username === "learner",
+  ).id;
+  const plan = (await call("get", "admin/billing/plans")).find(
+    (p: { code: string }) => p.code === planCode,
+  );
+  const price = plan.prices.find((p: { billingMode: string }) => p.billingMode === "RECURRING");
+  // 3 days left: inside the renewal window, but the subscription renews by itself
+  await call("post", `admin/billing/users/${learnerId}/access-grants`, {
+    planId: plan.id,
+    days: 3,
+    reason: "e2e: paid-up cycle of a subscription",
+  });
+  await admin.context().close();
+
+  const subscriptionId = crypto.randomUUID();
+  seedSubscription({
+    subscriptionId,
+    userId: learnerId,
+    planId: plan.id,
+    planPriceId: price.id,
+    status: "active",
+  });
+  try {
+    const learner = await newPage(browser, "learner");
+    await learner.goto("/billing");
+    const state = learner.getByTestId("subscription-state");
+    await expect(state).toContainText("Renews on");
+    await expect(state).toContainText(/₹\s?2,999\.00 per year/);
+    await expect(learner.getByTestId("renewal-reminder")).toHaveCount(0);
+
+    // payments are off in the dev stack: the provider cannot be told, so nothing may change
+    await learner.getByTestId("cancel-start").click();
+    await expect(learner.getByTestId("cancel-confirm")).toContainText("not refunded");
+    await learner.getByTestId("cancel-yes").click();
+    await expect(learner.getByTestId("cancel-error")).toContainText("Nothing changed");
+    await learner.reload();
+    await expect(learner.getByTestId("subscription-state")).toContainText("Renews on");
+
+    // once auto-renew is off the reminder returns, and there is nothing left to cancel
+    setSubscriptionStatus(subscriptionId, "cancel_scheduled");
+    await learner.reload();
+    await expect(learner.getByTestId("subscription-state")).toContainText("Auto-renew is off");
+    await expect(learner.getByTestId("renewal-reminder")).toContainText("in 3 days");
+    await expect(learner.getByTestId("cancel-start")).toHaveCount(0);
+  } finally {
+    deleteSubscription(subscriptionId);
+  }
 });
 
 test("without payment credentials the pricing page offers no purchase, and the CSP admits the provider only there", async ({
