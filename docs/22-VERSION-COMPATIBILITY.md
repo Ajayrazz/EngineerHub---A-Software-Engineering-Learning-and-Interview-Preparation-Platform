@@ -15,6 +15,7 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 | Spring AMQP | 4.1.1 (`spring-boot-starter-amqp`) | Verified (M0.6: confirms, returns, quorum queues, retry, DLX) | **Boot 4 renamed listener retry `max-attempts` → `max-retries` (retries after the first attempt); the old name is silently ignored.** Retry policy customizer bean type: `RabbitListenerRetrySettingsCustomizer` (`org.springframework.boot.retry.RetryPolicySettings`) |
 | Testcontainers | **2.0.5** | Verified (Postgres 18 IT on Docker Desktop/macOS) | Artifacts `testcontainers-junit-jupiter`, `testcontainers-postgresql`; package `org.testcontainers.postgresql.PostgreSQLContainer` |
 | Spring Modulith | **2.2.0** | Verified (`ModularityTests` passes on Boot 4.1.3) | Boot 4-compatible line |
+| Apache PDFBox | **3.0.8** (Apache-2.0, pure Java, built-in fonts, no native code; its `commons-logging` is excluded because Spring's `spring-jcl` provides the API) | Verified 2026-11-24: renders and re-reads receipts/invoices in tests on Java 21 / Boot 4.1.3; OSV scan in CI | ADR-053. Used only to draw our own text; never to parse untrusted PDFs in production code |
 | springdoc-openapi | **3.2.1** | Verified with Boot 4.1.3 (OpenAPI 3.1 generation; contract test) | API docs/Swagger UI disabled by default; enabled by `local` profile and the contract test |
 | MapStruct | 1.6.3 stable (1.7.0 is Beta) | Not yet added | Use stable only |
 | Bucket4j | 8.23.0 | Not yet added | Verify with Boot 4 when rate limiting lands (Phase 1) |
