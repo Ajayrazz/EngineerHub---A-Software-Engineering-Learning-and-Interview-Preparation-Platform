@@ -141,7 +141,7 @@ class CatalogReaderService {
     Map<UUID, PublicOutlineSection> sections = new LinkedHashMap<>();
     Map<UUID, List<PublicOutlineLesson>> lessons = new LinkedHashMap<>();
     jdbc.sql(
-            "select s.id, s.title, s.position, l.slug, l.title, l.position, l.access_tier, l.free_preview, l.est_read_min"
+            "select s.id, s.title, s.position, l.slug, l.title, l.position, l.access_tier, l.free_preview, l.est_read_min, l.id"
                 + " from catalog.sections s join catalog.lessons l on l.section_id = s.id and l.status = 'published'"
                 + " where s.course_id = :c order by s.position, l.position")
         .param("c", id)
@@ -154,6 +154,7 @@ class CatalogReaderService {
                   .get(sid)
                   .add(
                       new PublicOutlineLesson(
+                          rs.getObject(10, UUID.class),
                           rs.getString(4),
                           rs.getString(5),
                           rs.getInt(6),
@@ -244,6 +245,7 @@ class CatalogReaderService {
     }
     PublicLesson out =
         new PublicLesson(
+            lessonId,
             courseSlug,
             lessonSlug,
             snapshot.get("title").asString(),

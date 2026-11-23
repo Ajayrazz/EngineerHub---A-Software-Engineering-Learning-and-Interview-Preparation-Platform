@@ -20,6 +20,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lessons/{lessonId}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/users/{id}/status": {
         parameters: {
             query?: never;
@@ -110,6 +126,22 @@ export interface paths {
         get?: never;
         put: operations["blocks"];
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/courses/{courseId}/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["enroll"];
         delete?: never;
         options?: never;
         head?: never;
@@ -420,6 +452,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/enrollments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["enrollments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/courses/{courseId}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["progress"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/courses": {
         parameters: {
             query?: never;
@@ -608,6 +672,33 @@ export interface components {
             website?: string;
             githubUrl?: string;
             linkedinUrl?: string;
+        };
+        ProgressUpdate: {
+            status: string;
+            /** Format: int32 */
+            scrollPct?: number;
+        };
+        CourseProgress: {
+            /** Format: uuid */
+            courseId?: string;
+            enrolled?: boolean;
+            /** Format: int32 */
+            totalLessons?: number;
+            /** Format: int32 */
+            completedLessons?: number;
+            /** Format: int32 */
+            percent?: number;
+            completed?: boolean;
+            completedLessonIds?: string[];
+            resume?: components["schemas"]["ResumeTarget"];
+            /** Format: date-time */
+            enrolledAt?: string;
+        };
+        ResumeTarget: {
+            /** Format: uuid */
+            lessonId?: string;
+            lessonSlug?: string;
+            lessonTitle?: string;
         };
         StatusChangeRequest: {
             status: string;
@@ -841,6 +932,23 @@ export interface components {
             resourceType?: string;
             resourceId?: string;
         };
+        EnrollmentView: {
+            /** Format: uuid */
+            courseId?: string;
+            courseSlug?: string;
+            courseTitle?: string;
+            /** Format: date-time */
+            enrolledAt?: string;
+            /** Format: date-time */
+            lastActivityAt?: string;
+            /** Format: int32 */
+            totalLessons?: number;
+            /** Format: int32 */
+            completedLessons?: number;
+            /** Format: int32 */
+            percent?: number;
+            completed?: boolean;
+        };
         PublicCourse: {
             slug?: string;
             title?: string;
@@ -875,6 +983,8 @@ export interface components {
             sections?: components["schemas"]["PublicOutlineSection"][];
         };
         PublicOutlineLesson: {
+            /** Format: uuid */
+            id?: string;
             slug?: string;
             title?: string;
             /** Format: int32 */
@@ -897,6 +1007,8 @@ export interface components {
             };
         };
         PublicLesson: {
+            /** Format: uuid */
+            id?: string;
             courseSlug?: string;
             slug?: string;
             title?: string;
@@ -999,6 +1111,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProgressUpdate"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CourseProgress"];
                 };
             };
         };
@@ -1180,6 +1318,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LessonView"];
+                };
+            };
+        };
+    };
+    enroll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                courseId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CourseProgress"];
                 };
             };
         };
@@ -1753,6 +1913,48 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PermissionsResponse"];
+                };
+            };
+        };
+    };
+    enrollments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EnrollmentView"][];
+                };
+            };
+        };
+    };
+    progress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                courseId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CourseProgress"];
                 };
             };
         };

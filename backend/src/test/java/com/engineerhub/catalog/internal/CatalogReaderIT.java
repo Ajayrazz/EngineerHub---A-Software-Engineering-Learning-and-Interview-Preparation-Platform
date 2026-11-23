@@ -277,6 +277,7 @@ class CatalogReaderIT {
         .doesNotContain("FREE-BODY")
         .doesNotContain("PREMIUM-SECRET")
         .doesNotContain(lessonDraft);
+    assertThat(c.get("sections").get(0).get("lessons").get(0).get("id").asString()).isNotBlank();
     assertThat(c.get("sections").get(0).get("lessons").get(0).get("accessTier").asString())
         .isEqualTo("free");
     assertThat(c.get("sections").get(1).get("lessons").get(0).get("freePreview").asBoolean())

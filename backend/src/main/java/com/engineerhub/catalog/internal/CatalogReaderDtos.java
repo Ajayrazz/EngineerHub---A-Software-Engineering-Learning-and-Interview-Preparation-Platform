@@ -29,6 +29,7 @@ final class CatalogReaderDtos {
   record PublicCoursePage(List<PublicCourse> items, int page, int size, long total) {}
 
   record PublicOutlineLesson(
+      UUID id,
       String slug,
       String title,
       int position,
@@ -45,6 +46,7 @@ final class CatalogReaderDtos {
   record PublicLessonRef(String slug, String title) {}
 
   record PublicLesson(
+      UUID id,
       String courseSlug,
       String slug,
       String title,

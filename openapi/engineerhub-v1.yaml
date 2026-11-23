@@ -25,6 +25,31 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/MeResponse"
+  /api/v1/lessons/{lessonId}/progress:
+    put:
+      tags:
+      - learning-controller
+      operationId: update
+      parameters:
+      - name: lessonId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProgressUpdate"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CourseProgress"
   /api/v1/admin/users/{id}/status:
     put:
       tags:
@@ -211,6 +236,25 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LessonView"
+  /api/v1/courses/{courseId}/enroll:
+    post:
+      tags:
+      - learning-controller
+      operationId: enroll
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CourseProgress"
   /api/v1/admin/users/{id}/grants:
     get:
       tags:
@@ -715,6 +759,39 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PermissionsResponse"
+  /api/v1/me/enrollments:
+    get:
+      tags:
+      - learning-controller
+      operationId: enrollments
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnrollmentView"
+  /api/v1/me/courses/{courseId}/progress:
+    get:
+      tags:
+      - learning-controller
+      operationId: progress
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CourseProgress"
   /api/v1/courses:
     get:
       tags:
@@ -1033,6 +1110,59 @@ components:
         githubUrl:
           type: string
         linkedinUrl:
+          type: string
+    ProgressUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          minLength: 1
+          pattern: ^(in_progress|completed)$
+        scrollPct:
+          type: integer
+          format: int32
+          maximum: 100
+          minimum: 0
+      required:
+      - status
+    CourseProgress:
+      type: object
+      properties:
+        courseId:
+          type: string
+          format: uuid
+        enrolled:
+          type: boolean
+        totalLessons:
+          type: integer
+          format: int32
+        completedLessons:
+          type: integer
+          format: int32
+        percent:
+          type: integer
+          format: int32
+        completed:
+          type: boolean
+        completedLessonIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        resume:
+          $ref: "#/components/schemas/ResumeTarget"
+        enrolledAt:
+          type: string
+          format: date-time
+    ResumeTarget:
+      type: object
+      properties:
+        lessonId:
+          type: string
+          format: uuid
+        lessonSlug:
+          type: string
+        lessonTitle:
           type: string
     StatusChangeRequest:
       type: object
@@ -1548,6 +1678,33 @@ components:
           type: string
         resourceId:
           type: string
+    EnrollmentView:
+      type: object
+      properties:
+        courseId:
+          type: string
+          format: uuid
+        courseSlug:
+          type: string
+        courseTitle:
+          type: string
+        enrolledAt:
+          type: string
+          format: date-time
+        lastActivityAt:
+          type: string
+          format: date-time
+        totalLessons:
+          type: integer
+          format: int32
+        completedLessons:
+          type: integer
+          format: int32
+        percent:
+          type: integer
+          format: int32
+        completed:
+          type: boolean
     PublicCourse:
       type: object
       properties:
@@ -1610,6 +1767,9 @@ components:
     PublicOutlineLesson:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         slug:
           type: string
         title:
@@ -1647,6 +1807,9 @@ components:
     PublicLesson:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         courseSlug:
           type: string
         slug:
