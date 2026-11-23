@@ -212,6 +212,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/plans/{planId}/entitlements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["entitlements"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/courses/{courseId}/enroll": {
         parameters: {
             query?: never;
@@ -468,6 +484,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/users/{userId}/access-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["grant_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["plans"];
+        put?: never;
+        post: operations["create_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/plans/{planId}/prices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addPrice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/access-periods/{periodId}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me/profile": {
         parameters: {
             query?: never;
@@ -546,6 +626,38 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["patchLesson"];
+        trace?: never;
+    };
+    "/api/v1/admin/billing/plans/{planId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["patch_2"];
+        trace?: never;
+    };
+    "/api/v1/admin/billing/plans/{planId}/prices/{priceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["price"];
         trace?: never;
     };
     "/api/v1/topics": {
@@ -652,6 +764,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["random"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["plans_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -788,6 +916,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["myAccess"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/courses": {
         parameters: {
             query?: never;
@@ -916,6 +1060,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/users/{userId}/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["access"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/audit-logs": {
         parameters: {
             query?: never;
@@ -958,7 +1118,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["revoke"];
+        delete: operations["revoke_1"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1262,6 +1422,28 @@ export interface components {
             /** Format: int32 */
             expectedVersion: number;
         };
+        EntitlementsRequest: {
+            codes: string[];
+        };
+        PlanView: {
+            /** Format: uuid */
+            id?: string;
+            code?: string;
+            name?: string;
+            active?: boolean;
+            entitlements?: string[];
+            prices?: components["schemas"]["PriceView"][];
+        };
+        PriceView: {
+            /** Format: uuid */
+            id?: string;
+            billingMode?: string;
+            periodUnit?: string;
+            currency?: string;
+            /** Format: int64 */
+            amountInclTaxMinor?: number;
+            active?: boolean;
+        };
         GrantRequest: {
             permission: string;
             resourceType: string;
@@ -1318,6 +1500,40 @@ export interface components {
             title: string;
             accessTier?: string;
         };
+        AccessView: {
+            premium?: boolean;
+            /** Format: date-time */
+            validThrough?: string;
+            periods?: components["schemas"]["PeriodView"][];
+        };
+        PeriodView: {
+            /** Format: uuid */
+            id?: string;
+            planName?: string;
+            /** Format: date-time */
+            startsAt?: string;
+            /** Format: date-time */
+            endsAt?: string;
+            sourceType?: string;
+            revoked?: boolean;
+            revokedReason?: string;
+            reason?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        PlanCreate: {
+            code: string;
+            name: string;
+        };
+        PriceCreate: {
+            billingMode: string;
+            periodUnit: string;
+            /** Format: int64 */
+            amountInclTaxMinor?: number;
+        };
+        RevokeRequest: {
+            reason: string;
+        };
         ProfileUpdateRequest: {
             displayName?: string;
             bio?: string;
@@ -1365,6 +1581,13 @@ export interface components {
             sectionId?: string;
             /** Format: int32 */
             expectedVersion: number;
+        };
+        PlanPatch: {
+            name?: string;
+            active?: boolean;
+        };
+        PricePatch: {
+            active: boolean;
         };
         TopicView: {
             /** Format: uuid */
@@ -2054,6 +2277,32 @@ export interface operations {
             };
         };
     };
+    entitlements: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EntitlementsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
     enroll: {
         parameters: {
             query?: never;
@@ -2520,6 +2769,128 @@ export interface operations {
             };
         };
     };
+    grant_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessView"];
+                };
+            };
+        };
+    };
+    plans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"][];
+                };
+            };
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlanCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
+    addPrice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PriceCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
+    revoke: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                periodId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevokeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessView"];
+                };
+            };
+        };
+    };
     updateProfile: {
         parameters: {
             query?: never;
@@ -2761,6 +3132,59 @@ export interface operations {
             };
         };
     };
+    patch_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlanPatch"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
+    price: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planId: string;
+                priceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PricePatch"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
     topics: {
         parameters: {
             query?: never;
@@ -2914,6 +3338,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["RandomPick"];
+                };
+            };
+        };
+    };
+    plans_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlanView"][];
                 };
             };
         };
@@ -3076,6 +3520,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PublicProblemItem"][];
+                };
+            };
+        };
+    };
+    myAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessView"];
                 };
             };
         };
@@ -3261,6 +3725,28 @@ export interface operations {
             };
         };
     };
+    access: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessView"];
+                };
+            };
+        };
+    };
     search: {
         parameters: {
             query?: {
@@ -3310,7 +3796,7 @@ export interface operations {
             };
         };
     };
-    revoke: {
+    revoke_1: {
         parameters: {
             query?: never;
             header?: never;
