@@ -28,6 +28,15 @@ export default async function Home(props: PageProps<"/">) {
           {error}
         </p>
       )}
+      <p>
+        <Link href="/courses" className="underline" data-testid="browse-courses">
+          Browse courses
+        </Link>
+        {" · "}
+        <Link href="/my-courses" className="underline">
+          My courses
+        </Link>
+      </p>
       {auth ? (
         <section className="space-y-4" aria-label="Signed in">
           <p data-testid="signed-in">

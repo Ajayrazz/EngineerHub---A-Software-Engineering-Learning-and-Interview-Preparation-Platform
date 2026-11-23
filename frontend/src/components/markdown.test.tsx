@@ -59,3 +59,15 @@ describe("Markdown (author content is data, never markup)", () => {
     expect(out).toContain("[image: diagram]");
   });
 });
+
+describe("Markdown heading ids", () => {
+  it("adds prefixed, de-duplicated ids only when asked", () => {
+    const withIds = renderToStaticMarkup(
+      <Markdown text={"## Setup\n\n## Setup\n\n### `Code` heading"} idPrefix="b0" />,
+    );
+    expect(withIds).toContain('<h2 id="b0-setup">Setup</h2>');
+    expect(withIds).toContain('<h2 id="b0-setup-1">Setup</h2>');
+    expect(withIds).toContain('id="b0-code-heading"');
+    expect(html("## Setup")).not.toContain("id=");
+  });
+});
