@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loginCookie } from "@/lib/auth/cookies";
+import { limitByClient } from "@/lib/auth/limit";
 import { logEvent, NO_STORE } from "@/lib/auth/http";
 import { startAuthorization } from "@/lib/auth/oidc";
 import { getEnv } from "@/lib/env";
@@ -10,6 +11,8 @@ export const dynamic = "force-dynamic";
 
 /** Starts Authorization Code + PKCE: stores verifier/nonce server-side and redirects to Keycloak. */
 export async function GET(request: NextRequest) {
+  const limited = await limitByClient(request, "login", 20);
+  if (limited) return limited;
   try {
     const returnTo = safeReturnTo(request.nextUrl.searchParams.get("returnTo"));
     const { url, state, transaction } = await startAuthorization(returnTo);

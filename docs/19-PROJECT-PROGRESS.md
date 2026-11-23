@@ -24,7 +24,9 @@ _Last updated: 2026-11-23_
 - **Phase 1 / M1.3 — Audit log + admin API — DONE (2026-11-23).** Flyway V5 append-only hash-chained audit log written in the audited transaction; admin endpoints for users (search/page), status change (audited, immediate effect, never self), scoped grants (anti-escalation) and roles; audit search/verify. 147 backend tests (42 unit + 105 integration). Bug found by tests: invalid event name (`status-changed`) — the validator caught it. ADR-035.
 
 ## In progress
-Phase 1 continues: M1.4 rate limiting + request-size limits, M1.5 Keycloak (realm split, admin MFA, role assignment via the Admin API), M1.6 admin shell UI.
+- **Phase 1 / M1.4 — Rate limiting + request-size limits — DONE (2026-11-23).** API: Redis fixed-window quotas per user/address (read/write/admin), 429 problem+json with Retry-After, fail-open; 1 MiB body cap (413, also for chunked). BFF: per-client limits on /auth/login and /auth/callback. 12 new backend tests (8 IT on a real Redis container, 4 unit) + 7 BFF unit tests; live check against the dev Redis. ADR-036. **Not verified:** behaviour behind a real reverse proxy (client-address trust is a hosting-dependent setting); BFF limiter has no browser E2E; no load test.
+
+Phase 1 continues: M1.5 Keycloak (realm split, admin MFA, role assignment via the Admin API), M1.6 admin shell UI.
 
 ## Pending
 Roadmap (doc 16) Phases 0–9 plus later items; content track.

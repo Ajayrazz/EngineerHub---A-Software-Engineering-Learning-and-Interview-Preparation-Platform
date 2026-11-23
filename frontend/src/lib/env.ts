@@ -16,6 +16,8 @@ const schema = z.object({
   REDIS_URL: z.string().regex(/^rediss?:\/\//, "must start with redis:// or rediss://"),
   /** Master secret for session encryption and key MACs (rotate = all sessions invalid). */
   SESSION_SECRET: z.string().min(32),
+  /** Honour X-Forwarded-For for per-client rate limiting; only set behind a proxy that overwrites it. */
+  TRUST_PROXY_HEADERS: z.stringbool().default(false),
   SESSION_IDLE_TTL_SECONDS: z.coerce
     .number()
     .int()

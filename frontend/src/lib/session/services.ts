@@ -25,6 +25,11 @@ function getRedis(): Promise<RedisClient> {
   return g.__ehRedis;
 }
 
+/** The shared key-value store (rate limiting etc.). */
+export async function getKeyValueStore() {
+  return redisKeyValueStore(await getRedis());
+}
+
 export async function getSessionStore(): Promise<SessionStore> {
   if (!g.__ehStore) {
     const env = getEnv();

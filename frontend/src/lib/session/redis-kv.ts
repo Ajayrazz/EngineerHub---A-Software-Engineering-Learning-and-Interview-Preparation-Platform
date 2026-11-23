@@ -13,6 +13,9 @@ export type RedisClient = ReturnType<typeof createRedisClient>;
 // Compare-and-delete must be atomic so one request can never release another's lock.
 const RELEASE_LOCK_LUA = `if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end`;
 
+// INCR + arm the expiry on first use in one atomic call, so a counter can never outlive its window.
+const INCR_LUA = `local c = redis.call("incr", KEYS[1]) if c == 1 then redis.call("expire", KEYS[1], ARGV[1]) end return {c, redis.call("ttl", KEYS[1])}`;
+
 /** Adapts a node-redis client to {@link KeyValueStore}. */
 export function redisKeyValueStore(client: RedisClient): KeyValueStore {
   return {
@@ -29,6 +32,13 @@ export function redisKeyValueStore(client: RedisClient): KeyValueStore {
     },
     setNx: async (key, value, ttlSeconds) =>
       (await client.set(key, value, { NX: true, EX: ttlSeconds })) === "OK",
+    incr: async (key, ttlSeconds) => {
+      const [count, ttl] = (await client.eval(INCR_LUA, {
+        keys: [key],
+        arguments: [String(ttlSeconds)],
+      })) as [number, number];
+      return { count: Number(count), ttl: Math.max(1, Number(ttl)) };
+    },
     delIfEquals: async (key, value) =>
       Number(await client.eval(RELEASE_LOCK_LUA, { keys: [key], arguments: [value] })) === 1,
   };

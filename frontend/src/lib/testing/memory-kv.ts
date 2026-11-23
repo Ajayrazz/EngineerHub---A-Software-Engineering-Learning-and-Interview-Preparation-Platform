@@ -37,6 +37,13 @@ export class MemoryKv implements KeyValueStore {
     this.data.set(key, { value, expiresAt: this.nowSeconds() + ttl });
     return true;
   }
+  async incr(key: string, ttl: number) {
+    const e = this.live(key);
+    const count = Number(e?.value ?? 0) + 1;
+    const expiresAt = e ? e.expiresAt : this.nowSeconds() + ttl;
+    this.data.set(key, { value: String(count), expiresAt });
+    return { count, ttl: Math.max(1, expiresAt - this.nowSeconds()) };
+  }
   async delIfEquals(key: string, value: string) {
     if (this.live(key)?.value === value) {
       this.data.delete(key);

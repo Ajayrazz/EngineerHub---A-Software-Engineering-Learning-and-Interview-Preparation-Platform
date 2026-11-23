@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loginCookie, sessionCookie } from "@/lib/auth/cookies";
+import { limitByClient } from "@/lib/auth/limit";
 import { logEvent, NO_STORE } from "@/lib/auth/http";
 import { callApi } from "@/lib/auth/api";
 import { completeAuthorization } from "@/lib/auth/oidc";
@@ -21,6 +22,8 @@ function failure(code: "login_failed" | "access_denied") {
 }
 
 export async function GET(request: NextRequest) {
+  const limited = await limitByClient(request, "callback", 30);
+  if (limited) return limited;
   const params = request.nextUrl.searchParams;
   const state = params.get("state") ?? "";
 

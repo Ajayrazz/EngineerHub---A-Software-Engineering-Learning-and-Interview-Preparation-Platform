@@ -18,6 +18,8 @@ export interface KeyValueStore {
   expire(key: string, ttlSeconds: number): Promise<void>;
   /** SET NX EX: true if this call created the key. */
   setNx(key: string, value: string, ttlSeconds: number): Promise<boolean>;
+  /** Atomically increment a counter; the TTL is armed when it is created. Returns the new count and the seconds left. */
+  incr(key: string, ttlSeconds: number): Promise<{ count: number; ttl: number }>;
   /** Delete only if the value still equals `value` (safe lock release). */
   delIfEquals(key: string, value: string): Promise<boolean>;
 }
