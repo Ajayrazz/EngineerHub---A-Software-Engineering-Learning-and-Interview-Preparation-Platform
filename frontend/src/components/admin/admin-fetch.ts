@@ -9,7 +9,7 @@ export type ActionResult = { ok: true } | { ok: false; message: string };
 export async function adminFetch(
   csrfToken: string,
   path: string,
-  method: "PUT" | "POST" | "DELETE" | "GET",
+  method: "PUT" | "POST" | "PATCH" | "DELETE" | "GET",
   body?: unknown,
 ): Promise<ActionResult & { data?: unknown }> {
   try {

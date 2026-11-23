@@ -5,7 +5,7 @@ import { adminContext } from "@/lib/admin/server";
 export default async function AdminHome() {
   const ctx = await adminContext("/admin");
   return (
-    <AdminShell title="Administration" active="home" global={ctx.global}>
+    <AdminShell title="Administration" active="home" global={ctx.global} scoped={ctx.scoped}>
       <p data-testid="admin-welcome" className="text-sm opacity-80">
         Signed in as {ctx.username}. Everything you do here is checked again by the API and recorded
         in the audit log.
@@ -17,6 +17,14 @@ export default async function AdminHome() {
               Users
             </Link>{" "}
             — search accounts, change status, staff roles and scoped grants
+          </li>
+        )}
+        {(ctx.global.includes("course.edit") || ctx.scoped.includes("course.edit")) && (
+          <li>
+            <Link className="underline" href="/admin/courses">
+              Courses
+            </Link>{" "}
+            — write, preview and publish lessons
           </li>
         )}
         {ctx.global.includes("audit.read") && (

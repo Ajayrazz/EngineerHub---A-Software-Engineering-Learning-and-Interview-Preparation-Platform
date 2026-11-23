@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { canEditRole, canEnterAdmin, isUuid, pageParam, query } from "./policy";
+import { canEditRole, canEnterAdmin, holds, isUuid, pageParam, query } from "./policy";
 
 describe("canEnterAdmin", () => {
+  it("lets course editors in, globally or through a scoped grant", () => {
+    expect(canEnterAdmin(["course.edit"])).toBe(true);
+    expect(canEnterAdmin([], ["course.edit"])).toBe(true);
+    expect(canEnterAdmin([], ["problem.edit"])).toBe(false);
+  });
   it("needs user.read or audit.read", () => {
     expect(canEnterAdmin(["user.read"])).toBe(true);
     expect(canEnterAdmin(["audit.read"])).toBe(true);
@@ -19,6 +24,14 @@ describe("canEditRole", () => {
   it("needs role.grant.all for administrator roles", () => {
     expect(canEditRole(["role.grant.standard", "role.grant.all"], "ADMIN")).toBe(true);
     expect(canEditRole([], "MODERATOR")).toBe(false);
+  });
+});
+
+describe("holds", () => {
+  it("treats only course.edit as satisfiable by a scoped capability", () => {
+    expect(holds([], ["course.edit"], "course.edit")).toBe(true);
+    expect(holds([], ["course.edit"], "user.read")).toBe(false);
+    expect(holds(["user.read"], [], "user.read")).toBe(true);
   });
 });
 

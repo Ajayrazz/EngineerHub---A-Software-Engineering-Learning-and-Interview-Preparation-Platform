@@ -11,7 +11,7 @@ const one = (v: string | string[] | undefined) => (typeof v === "string" ? v.sli
 
 export default async function AuditPage({ searchParams }: PageProps<"/admin/audit">) {
   const sp = await searchParams;
-  const ctx = await adminContext("/admin/audit");
+  const ctx = await adminContext("/admin/audit", "audit.read");
   if (!ctx.global.includes("audit.read")) {
     return (
       <AdminShell title="Audit log" active="audit" global={ctx.global}>

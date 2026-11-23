@@ -9,11 +9,13 @@ export function AdminShell({
   title,
   active,
   global,
+  scoped = [],
   children,
 }: {
   title: string;
-  active: "home" | "users" | "audit";
+  active: "home" | "users" | "courses" | "audit";
   global: readonly string[];
+  scoped?: readonly string[];
   children: ReactNode;
 }) {
   const link = (href: string, label: string, key: typeof active) => (
@@ -30,6 +32,8 @@ export function AdminShell({
         <span className="mr-2 font-semibold">Admin</span>
         {link("/admin", "Overview", "home")}
         {global.includes("user.read") && link("/admin/users", "Users", "users")}
+        {(global.includes("course.edit") || scoped.includes("course.edit")) &&
+          link("/admin/courses", "Courses", "courses")}
         {global.includes("audit.read") && link("/admin/audit", "Audit log", "audit")}
         <Link href="/account" className="ml-auto text-sm opacity-70 hover:underline">
           Account

@@ -13,7 +13,7 @@ type RoleView = components["schemas"]["RoleView"];
 export default async function UserPage({ params }: PageProps<"/admin/users/[id]">) {
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  const ctx = await adminContext(`/admin/users/${id}`);
+  const ctx = await adminContext(`/admin/users/${id}`, "user.read");
 
   const [user, roles, grants, catalog] = await Promise.all([
     apiGet<UserView>(ctx, `admin/users/${id}`),

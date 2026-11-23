@@ -9,7 +9,7 @@ const STATUSES = ["active", "suspended"];
 
 export default async function UsersPage({ searchParams }: PageProps<"/admin/users">) {
   const sp = await searchParams;
-  const ctx = await adminContext("/admin/users");
+  const ctx = await adminContext("/admin/users", "user.read");
   const q = typeof sp.q === "string" ? sp.q.slice(0, 100) : "";
   const status = typeof sp.status === "string" && STATUSES.includes(sp.status) ? sp.status : "";
   const page = pageParam(sp.page);

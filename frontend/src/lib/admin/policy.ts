@@ -5,8 +5,24 @@
 export const PRIVILEGED_ROLES = ["SUPER_ADMIN", "ADMIN"] as const;
 
 /** Who gets to see the admin area at all (others get a plain 404, so its existence is not advertised). */
-export function canEnterAdmin(global: readonly string[]): boolean {
-  return global.includes("user.read") || global.includes("audit.read");
+export function canEnterAdmin(global: readonly string[], scoped: readonly string[] = []): boolean {
+  return (
+    global.includes("user.read") ||
+    global.includes("audit.read") ||
+    global.includes("course.edit") ||
+    scoped.includes("course.edit")
+  );
+}
+
+/** Does the caller hold `permission` globally (or, for course.edit only, scoped to some course)? */
+export function holds(
+  global: readonly string[],
+  scoped: readonly string[],
+  permission: string,
+): boolean {
+  return (
+    global.includes(permission) || (permission === "course.edit" && scoped.includes(permission))
+  );
 }
 
 /** May the actor toggle this staff role? Administrator roles need the super-admin permission. */
