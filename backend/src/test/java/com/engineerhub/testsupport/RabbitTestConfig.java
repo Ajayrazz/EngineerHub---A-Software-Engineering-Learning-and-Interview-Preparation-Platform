@@ -17,7 +17,7 @@ public class RabbitTestConfig {
   public static final String ADMIN_PASSWORD = "eh_test_pw";
 
   private static final RabbitMQContainer RABBIT =
-      new RabbitMQContainer("rabbitmq:4.3.8-management")
+      new RabbitMQContainer("rabbitmq:4.4.1-management")
           .withAdminUser(ADMIN_USER)
           .withAdminPassword(ADMIN_PASSWORD);
 

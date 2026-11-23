@@ -51,7 +51,7 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 |---|---|---|---|
 | PostgreSQL | `postgres:18` → 18.7 | Verified (`make dev-verify`) | PG 18 image requires volume mounted at `/var/lib/postgresql` (not `/data`). PG 19 reported by one source only → not used. pgvector (`pgvector/pgvector:pg18` exists) deferred to AI phase |
 | Redis | `redis:8` | Verified | |
-| RabbitMQ | `rabbitmq:4.3.8-management` | Verified (starts, vhost, auth) | AMQP client interplay with Spring AMQP 4.1.1 verified in M0.6 |
+| RabbitMQ | `rabbitmq:4.4.1-management` | Verified (2026-11-24: all 39 messaging/event integration tests incl. quorum queues, DLQ, publisher confirms, fault injection; live outage check) | Upgraded from 4.3.8 (originally verified in M0.6 with Spring AMQP 4.1.1) |
 | Keycloak | `quay.io/keycloak/keycloak:26.8.2` | Verified: import, admin API, email | Uses `KC_BOOTSTRAP_ADMIN_*` (26.x); health on management port 9000 |
 | Mailpit | `axllent/mailpit:v1.34.0` | Verified | Replaces MailHog |
 | S3-compatible | `rustfs/rustfs:1.0.6` | Partially verified (bucket create/list only) | Replaces MinIO (no community images published). Apache-2.0 |
@@ -77,4 +77,4 @@ _Established 2026-11-23 (milestone M0.1). Sources: Maven Central metadata, npm r
 ## Upgrade policy
 Boot-managed dependencies follow the Boot BOM; patch releases monthly after reading release notes; minor/major upgrades are separate milestones with a green `make verify`. Dependabot/Renovate added in M0.3.
 
-**M0.6:** RabbitMQ `rabbitmq:4.3.8-management` verified (quorum queues, publisher confirms, management API); Testcontainers `testcontainers-rabbitmq` 2.0.5 + `@ServiceConnection` verified (`org.testcontainers.rabbitmq.RabbitMQContainer`, `withAdminUser/withAdminPassword`); `spring-boot-starter-amqp-test` added. Boot 4 AMQP package: `org.springframework.boot.amqp.autoconfigure` (`RabbitProperties`, `RabbitConnectionDetails`). `RabbitProperties.Ssl` uses `determineEnabled()`.
+**M0.6:** RabbitMQ `rabbitmq:4.3.8-management` verified (since upgraded to 4.4.1, see the infrastructure table) (quorum queues, publisher confirms, management API); Testcontainers `testcontainers-rabbitmq` 2.0.5 + `@ServiceConnection` verified (`org.testcontainers.rabbitmq.RabbitMQContainer`, `withAdminUser/withAdminPassword`); `spring-boot-starter-amqp-test` added. Boot 4 AMQP package: `org.springframework.boot.amqp.autoconfigure` (`RabbitProperties`, `RabbitConnectionDetails`). `RabbitProperties.Ssl` uses `determineEnabled()`.

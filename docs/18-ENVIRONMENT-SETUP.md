@@ -33,7 +33,7 @@ First start pulls images (a few minutes) and needs ~2–3 GB of Docker RAM (Dock
 |---|---|---|---|
 | PostgreSQL | `postgres:18` (18.7 at verification) | **5440** (`POSTGRES_HOST_PORT`) | Two DBs/users created by `infra/postgres/init`: `engineerhub` (app) and `keycloak` (isolated; app user cannot connect to it) |
 | Redis | `redis:8` | **6380** (`REDIS_HOST_PORT`) | Password required, AOF on |
-| RabbitMQ | `rabbitmq:4.3.8-management` | 5672, UI http://localhost:15672 | vhost `engineerhub`; default `guest` account disabled |
+| RabbitMQ | `rabbitmq:4.4.1-management` | 5672, UI http://localhost:15672 | vhost `engineerhub`; default `guest` account disabled |
 | Keycloak | `quay.io/keycloak/keycloak:26.8.2` | http://localhost:8081 | `start-dev` (dev mode, plain HTTP). Realm `engineerhub` built by `make realm-dev` from `infra/keycloak/base/realm.json` (prod-safe) + `infra/keycloak/dev/overlay.json` (fake users, dev clients) into the gitignored `infra/keycloak/build/dev/` |
 | Mailpit | `axllent/mailpit:v1.34.0` | SMTP 1025, UI http://localhost:8025 | Replaces MailHog (unmaintained) |
 | S3-compatible store | `rustfs/rustfs:1.0.6` (Apache-2.0) | API 9000, console 9001 | Replaces MinIO (MinIO no longer publishes community images). Buckets `engineerhub-media`, `engineerhub-testdata` created by `s3-init`. App code talks plain S3 API only (ADR-019), so this is swappable |
