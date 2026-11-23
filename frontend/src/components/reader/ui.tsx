@@ -20,6 +20,9 @@ export function ReaderShell({
           <Link href="/" className="font-semibold">
             EngineerHub
           </Link>
+          <Link href="/dashboard" className="hover:underline">
+            Dashboard
+          </Link>
           <Link href="/courses" className="hover:underline">
             Courses
           </Link>

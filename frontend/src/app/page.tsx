@@ -29,6 +29,10 @@ export default async function Home(props: PageProps<"/">) {
         </p>
       )}
       <p>
+        <Link href="/dashboard" className="underline" data-testid="dashboard-link">
+          Dashboard
+        </Link>
+        {" · "}
         <Link href="/courses" className="underline" data-testid="browse-courses">
           Browse courses
         </Link>
