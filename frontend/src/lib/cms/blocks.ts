@@ -42,7 +42,16 @@ export const QUIZ_TYPES: { value: QuizType; label: string }[] = [
   { value: "multi", label: "Several correct answers" },
   { value: "true_false", label: "True / false" },
 ];
-export const LANGUAGES = ["java", "python", "cpp", "text"] as const;
+export const LANGUAGES = [
+  "java",
+  "python",
+  "cpp",
+  "csharp",
+  "go",
+  "javascript",
+  "typescript",
+  "text",
+] as const;
 export const CALLOUT_KINDS = ["info", "warning", "tip"] as const;
 
 let counter = 0;

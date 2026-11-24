@@ -145,10 +145,16 @@ new["adv"] = [
    [Q("Updating one value and querying a range sum in O(log n) each is the job of:", ["A Fenwick tree", "A plain array", "A stack", "A queue"], 0, "Both operations walk O(log n) nodes.")]),
 ]
 
+import courses_dsa_welcome as WL
+import lang_java, lang_python, lang_cpp, lang_csharp, lang_go, lang_js, lang_ts
+class LANG:
+    JAVA, PYTHON, CPP = lang_java.JAVA, lang_python.PYTHON, lang_cpp.CPP
+    CSHARP, GO, JS, TS = lang_csharp.CSHARP, lang_go.GO, lang_js.JS, lang_ts.TS
+
 layout = [
  ("Welcome", keep("course-introduction", "course-roadmap")),
  ("Coding Interview Strategy", keep("how-coding-interviews-work", "communicating-while-you-solve", "recognising-the-pattern")),
- ("Programming Fundamentals", new["lang"]),
+ ("Programming Fundamentals", [LANG.JAVA, LANG.PYTHON, LANG.CPP, LANG.CSHARP, LANG.GO, LANG.JS, LANG.TS]),
  ("DSA Warmup", new["warm"]),
  ("Big O Notation", keep("big-o-in-plain-words", "best-worst-and-space")),
  ("Math Fundamentals", new["math"]),
@@ -180,7 +186,6 @@ layout = [
 ]
 used = {l["slug"] for _, ls in layout for l in ls}
 assert set(old) <= used, set(old) - used
-import courses_dsa_welcome as WL
 _override = {l["slug"]: l for l in (WL.INTRO, WL.ROADMAP, WL.HOW, WL.COMM, WL.PATTERN)}
 layout = [(t, [_override.get(l["slug"], l) for l in ls]) for t, ls in layout]
 DSA_FULL = {**DSA, "sections": [{"title": t, "lessons": ls} for t, ls in layout]}

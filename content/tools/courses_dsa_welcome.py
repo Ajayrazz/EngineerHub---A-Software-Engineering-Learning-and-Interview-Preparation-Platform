@@ -93,7 +93,7 @@ Many lessons and problems are free. Some are premium; premium lessons show a loc
 
 **Do I need to learn every chapter?** No. The roadmap shows which chapters matter most if time is short.
 
-**Which language should I use?** The one you know best. The *Choosing a language* lesson lists what to learn in each.
+**Which language should I use?** The one you know best. The *Programming Fundamentals* chapter has a detailed lesson for each of seven languages: Java, Python, C++, C#, Go, JavaScript and TypeScript.
 
 **What if I get stuck?** That is normal and useful. Use the hints in order, take a break, and write down what you tried. Being stuck is where the learning happens.
 

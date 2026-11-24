@@ -82,7 +82,7 @@
       "blocks": [
        [
         "md",
-        "## Welcome\n\nThis course is a complete, structured path through **data structures and algorithms (DSA)**, written for one goal: helping you solve coding-interview problems you have never seen before, calmly and in a clear order. You do not need to be a genius, and you do not need to have studied computer science. You need curiosity, a language you can write simple programs in, and a regular habit of practice.\n\n### Who this course is for\n\n- **Students and new graduates** preparing for their first software job.\n- **Working engineers** who have not touched algorithms for years and want a refresher before interviewing.\n- **Career switchers** who can code but have never been taught the vocabulary of complexity, hashing, recursion and graphs.\n- **Anyone who wants to think more clearly about programs**: the habits you build here (define the problem, find a pattern, test on edge cases) help in everyday engineering too.\n\n### What you need before you start\n\n| You should be able to... | If not |\n|---|---|\n| Write a small program with variables, `if` and loops in one language | Start with the *Programming Fundamentals* and *DSA Warmup* chapters |\n| Read and write arrays (lists) and strings | Chapters *Arrays* and *Strings* cover them from scratch |\n| Use a terminal or an editor | Any editor works; our practice problems use plain input and output |\n\nNo special math is required. The *Math Fundamentals* chapter explains the few ideas (logarithms, remainders, primes) the rest of the course relies on.\n\n## What you will be able to do at the end\n\nBy the last chapter you should be able to:\n\n1. **Estimate the cost** of a solution (time and memory) before writing it, and say why it is fast enough.\n2. **Choose a data structure** on purpose: array, hash map, stack, queue, heap, tree, graph, trie.\n3. **Recognise the pattern** behind a problem (two pointers, sliding window, binary search on the answer, BFS, dynamic programming...) from a few clues.\n4. **Turn an idea into correct code**, including the edge cases that cause most bugs.\n5. **Explain your thinking out loud**, which is half of what an interviewer scores.\n\n## How the course is organised\n\nThe list on the left is the **table of contents**. It is grouped into chapters, and every chapter has short lessons.\n\n| Part | Chapters | What it gives you |\n|---|---|---|\n| **Getting ready** | Welcome, Coding Interview Strategy, Programming Fundamentals, DSA Warmup | How interviews work, and the programming muscle memory everything else needs |\n| **Measuring and tools** | Big O, Math Fundamentals, Sorting Algorithms | A language for speed and the building blocks you will reuse |\n| **Core techniques** | Arrays, Strings, Bit Manipulation, Hash Tables, Two Pointers, Sliding Window, Prefix Sum, Kadane's Algorithm, Binary Search, Matrix | The patterns that solve most array and string problems |\n| **Data structures** | Linked List, Stacks, Queues, Recursion and Backtracking, Binary Tree, BST, Heaps, Intervals, Tries, Data Structure Design | Structures that organise data, and the problems they unlock |\n| **Advanced ideas** | Greedy, Graphs, Dynamic Programming, Advanced Topics | The topics that separate a good interview from a great one |\n\n## What every lesson contains\n\n- **A concept explained in plain language**, with a small example and short code.\n- **A visualization** where seeing the algorithm run helps: step forward and back, change the speed, and try your own input.\n- **A quiz** with explanations after you answer, so mistakes teach you something.\n- **Practice problems** in our problem bank, with graded hints (a nudge first, the full idea last) and example inputs and outputs.\n- **A \"Mark as complete\" button**. Your progress percentage at the top of the sidebar updates as you finish lessons.\n\n## How to learn from this course (and actually remember it)\n\nReading is the easy part. These habits turn reading into skill.\n\n1. **Predict before you look.** When a lesson poses a problem, pause and try it for five to ten minutes before reading the idea. Even a wrong attempt makes the explanation stick.\n2. **Do the visualization with a pencil.** Run the animation once, then run your own small input by hand and compare.\n3. **Write the code yourself.** Do not copy and paste. Typing it out reveals the off-by-one mistakes that reading hides.\n4. **Keep an error log.** For every problem you miss, write one line: what the problem was, which idea you missed, and what clue should have pointed to it. Re-read the log weekly.\n5. **Space your reviews.** Revisit a solved problem after 1 day, 1 week and 1 month. If you can still solve it quickly, it is learned.\n6. **Practise out loud.** Explain your approach to a rubber duck, a friend, or a recording. Clear speech is clear thinking.\n7. **Time yourself sometimes.** Once a week, solve a medium problem in 30 minutes with no hints, as in a real interview.\n\n### A good study session (60 to 90 minutes)\n\n| Minutes | Activity |\n|---|---|\n| 0 - 10 | Review yesterday's error log and one old problem |\n| 10 - 30 | Read the new lesson and run its visualization |\n| 30 - 70 | Solve two practice problems without peeking; use hints only after a real attempt |\n| 70 - 80 | Write the error-log entries; note the pattern and the clue |\n| 80 - 90 | Take the lesson quiz and mark the lesson complete |\n\n## Ways to improve faster\n\n- **Depth beats breadth.** Solving 10 problems of one pattern until it feels easy beats touching 50 patterns once.\n- **Always state complexity.** After every solution say, out loud, \"time O(...), space O(...), because...\". This becomes automatic.\n- **Compare approaches.** For each problem, write the simple approach first, then the better one, and note what changed (usually a data structure).\n- **Test like a skeptic.** Before running code, test it by hand on an empty input, one element, duplicates, negative numbers and the maximum size.\n- **Rest.** Sleep and short breaks consolidate memory. A rested 45 minutes beats an exhausted three hours.\n\n## Free and premium content\n\nMany lessons and problems are free. Some are premium; premium lessons show a lock in the sidebar, and some offer a free preview. See the *Pricing* page for plans.\n\n## Common questions\n\n**How long will it take?** See the *Course roadmap* lesson for plans from two weeks to six months, with hours per chapter.\n\n**Do I need to learn every chapter?** No. The roadmap shows which chapters matter most if time is short.\n\n**Which language should I use?** The one you know best. The *Choosing a language* lesson lists what to learn in each.\n\n**What if I get stuck?** That is normal and useful. Use the hints in order, take a break, and write down what you tried. Being stuck is where the learning happens.\n\n**When will I feel ready?** Usually when you can solve a new medium problem in about 30 minutes while explaining your thinking, and your error log is mostly repeats you now catch yourself.\n\nReady? Open the next lesson, the *Course roadmap*, and choose your plan."
+        "## Welcome\n\nThis course is a complete, structured path through **data structures and algorithms (DSA)**, written for one goal: helping you solve coding-interview problems you have never seen before, calmly and in a clear order. You do not need to be a genius, and you do not need to have studied computer science. You need curiosity, a language you can write simple programs in, and a regular habit of practice.\n\n### Who this course is for\n\n- **Students and new graduates** preparing for their first software job.\n- **Working engineers** who have not touched algorithms for years and want a refresher before interviewing.\n- **Career switchers** who can code but have never been taught the vocabulary of complexity, hashing, recursion and graphs.\n- **Anyone who wants to think more clearly about programs**: the habits you build here (define the problem, find a pattern, test on edge cases) help in everyday engineering too.\n\n### What you need before you start\n\n| You should be able to... | If not |\n|---|---|\n| Write a small program with variables, `if` and loops in one language | Start with the *Programming Fundamentals* and *DSA Warmup* chapters |\n| Read and write arrays (lists) and strings | Chapters *Arrays* and *Strings* cover them from scratch |\n| Use a terminal or an editor | Any editor works; our practice problems use plain input and output |\n\nNo special math is required. The *Math Fundamentals* chapter explains the few ideas (logarithms, remainders, primes) the rest of the course relies on.\n\n## What you will be able to do at the end\n\nBy the last chapter you should be able to:\n\n1. **Estimate the cost** of a solution (time and memory) before writing it, and say why it is fast enough.\n2. **Choose a data structure** on purpose: array, hash map, stack, queue, heap, tree, graph, trie.\n3. **Recognise the pattern** behind a problem (two pointers, sliding window, binary search on the answer, BFS, dynamic programming...) from a few clues.\n4. **Turn an idea into correct code**, including the edge cases that cause most bugs.\n5. **Explain your thinking out loud**, which is half of what an interviewer scores.\n\n## How the course is organised\n\nThe list on the left is the **table of contents**. It is grouped into chapters, and every chapter has short lessons.\n\n| Part | Chapters | What it gives you |\n|---|---|---|\n| **Getting ready** | Welcome, Coding Interview Strategy, Programming Fundamentals, DSA Warmup | How interviews work, and the programming muscle memory everything else needs |\n| **Measuring and tools** | Big O, Math Fundamentals, Sorting Algorithms | A language for speed and the building blocks you will reuse |\n| **Core techniques** | Arrays, Strings, Bit Manipulation, Hash Tables, Two Pointers, Sliding Window, Prefix Sum, Kadane's Algorithm, Binary Search, Matrix | The patterns that solve most array and string problems |\n| **Data structures** | Linked List, Stacks, Queues, Recursion and Backtracking, Binary Tree, BST, Heaps, Intervals, Tries, Data Structure Design | Structures that organise data, and the problems they unlock |\n| **Advanced ideas** | Greedy, Graphs, Dynamic Programming, Advanced Topics | The topics that separate a good interview from a great one |\n\n## What every lesson contains\n\n- **A concept explained in plain language**, with a small example and short code.\n- **A visualization** where seeing the algorithm run helps: step forward and back, change the speed, and try your own input.\n- **A quiz** with explanations after you answer, so mistakes teach you something.\n- **Practice problems** in our problem bank, with graded hints (a nudge first, the full idea last) and example inputs and outputs.\n- **A \"Mark as complete\" button**. Your progress percentage at the top of the sidebar updates as you finish lessons.\n\n## How to learn from this course (and actually remember it)\n\nReading is the easy part. These habits turn reading into skill.\n\n1. **Predict before you look.** When a lesson poses a problem, pause and try it for five to ten minutes before reading the idea. Even a wrong attempt makes the explanation stick.\n2. **Do the visualization with a pencil.** Run the animation once, then run your own small input by hand and compare.\n3. **Write the code yourself.** Do not copy and paste. Typing it out reveals the off-by-one mistakes that reading hides.\n4. **Keep an error log.** For every problem you miss, write one line: what the problem was, which idea you missed, and what clue should have pointed to it. Re-read the log weekly.\n5. **Space your reviews.** Revisit a solved problem after 1 day, 1 week and 1 month. If you can still solve it quickly, it is learned.\n6. **Practise out loud.** Explain your approach to a rubber duck, a friend, or a recording. Clear speech is clear thinking.\n7. **Time yourself sometimes.** Once a week, solve a medium problem in 30 minutes with no hints, as in a real interview.\n\n### A good study session (60 to 90 minutes)\n\n| Minutes | Activity |\n|---|---|\n| 0 - 10 | Review yesterday's error log and one old problem |\n| 10 - 30 | Read the new lesson and run its visualization |\n| 30 - 70 | Solve two practice problems without peeking; use hints only after a real attempt |\n| 70 - 80 | Write the error-log entries; note the pattern and the clue |\n| 80 - 90 | Take the lesson quiz and mark the lesson complete |\n\n## Ways to improve faster\n\n- **Depth beats breadth.** Solving 10 problems of one pattern until it feels easy beats touching 50 patterns once.\n- **Always state complexity.** After every solution say, out loud, \"time O(...), space O(...), because...\". This becomes automatic.\n- **Compare approaches.** For each problem, write the simple approach first, then the better one, and note what changed (usually a data structure).\n- **Test like a skeptic.** Before running code, test it by hand on an empty input, one element, duplicates, negative numbers and the maximum size.\n- **Rest.** Sleep and short breaks consolidate memory. A rested 45 minutes beats an exhausted three hours.\n\n## Free and premium content\n\nMany lessons and problems are free. Some are premium; premium lessons show a lock in the sidebar, and some offer a free preview. See the *Pricing* page for plans.\n\n## Common questions\n\n**How long will it take?** See the *Course roadmap* lesson for plans from two weeks to six months, with hours per chapter.\n\n**Do I need to learn every chapter?** No. The roadmap shows which chapters matter most if time is short.\n\n**Which language should I use?** The one you know best. The *Programming Fundamentals* chapter has a detailed lesson for each of seven languages: Java, Python, C++, C#, Go, JavaScript and TypeScript.\n\n**What if I get stuck?** That is normal and useful. Use the hints in order, take a break, and write down what you tried. Being stuck is where the learning happens.\n\n**When will I feel ready?** Usually when you can solve a new medium problem in about 30 minutes while explaining your thinking, and your error log is mostly repeats you now catch yourself.\n\nReady? Open the next lesson, the *Course roadmap*, and choose your plan."
        ],
        [
         "tip",
@@ -451,64 +451,1237 @@
     "title": "Programming Fundamentals",
     "lessons": [
      {
-      "slug": "choosing-a-language",
-      "title": "Choosing a language for DSA",
+      "slug": "java-for-dsa",
+      "title": "Java for DSA",
       "tier": "free",
-      "minutes": 7,
-      "md": "## Pick one and know it well\n\nInterviews let you choose a language. **Python** is the shortest to write; **Java** and **C#** are explicit and common in industry; **C++** gives control and a rich standard library; **Go**, **JavaScript** and **TypeScript** are popular for backend and web roles.\n\nWhatever you choose, learn its **built-in tools** cold: dynamic arrays, hash map and set, sorting with a key, a heap, a queue or deque, and string building. Knowing them saves interview minutes.",
+      "minutes": 30,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "What matters most when choosing a language for interviews?",
+        "prompt": "Why must you use `.equals` for strings in Java?",
         "options": [
-         "Knowing it and its standard library well",
-         "Using the newest one",
-         "Using the longest syntax",
-         "Never switching"
+         "`==` compares references, not content",
+         "`==` is slower",
+         "`.equals` is shorter",
+         "Strings are numbers"
         ],
         "correct": [
          0
         ],
-        "explanation": "Fluency beats novelty.",
+        "explanation": "Two equal strings can be different objects.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which class is the recommended stack and queue in modern Java?",
+        "options": [
+         "ArrayDeque",
+         "Stack",
+         "Vector",
+         "Hashtable"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "ArrayDeque is faster and has a cleaner API than Stack.",
+        "type": "single"
+       },
+       {
+        "prompt": "`(a, b) -> a - b` as a comparator is risky because:",
+        "options": [
+         "Subtraction can overflow",
+         "It is too slow",
+         "It cannot compile",
+         "It sorts descending"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use Integer.compare(a, b).",
+        "type": "single"
+       },
+       {
+        "prompt": "A PriorityQueue in Java is by default a:",
+        "options": [
+         "Min-heap",
+         "Max-heap",
+         "Sorted list",
+         "Hash set"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Pass Comparator.reverseOrder() for a max-heap.",
+        "type": "single"
+       },
+       {
+        "prompt": "To avoid int overflow when multiplying two ints into a long you:",
+        "options": [
+         "Cast one operand to long before multiplying",
+         "Cast the result after multiplying",
+         "Use float",
+         "Do nothing"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The multiplication itself must happen in long.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Why Java for interviews?\n\nJava is a **statically typed, compiled, garbage-collected** language that runs on the JVM. Most large companies use it in production, so interviewers are comfortable reading it, and its standard library (the *Java Collections Framework*) already contains almost every data structure you need: dynamic arrays, hash maps, sorted maps, heaps, deques.\n\n| Strengths | Weaknesses |\n|---|---|\n| Rich, well-named collections | More typing than Python (boilerplate) |\n| Static types catch many bugs before you run | No operator overloading: comparing strings needs `.equals` |\n| Predictable performance | Generics cannot hold primitives (boxing cost) |\n| Great for object-oriented design questions | Integer overflow wraps silently |\n\nThis lesson walks through everything you need to solve DSA problems in Java: the program skeleton, types, strings, arrays, every collection, sorting, node classes and the performance facts to quote in an interview. All programs below are complete: copy one, run it, change it.\n\n## 1. The program skeleton and reading input\n\nEvery Java program lives in a class with a `main` method. Practice problems read from standard input; `Scanner` is easy, `BufferedReader` is faster for large input.\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.io.*;\nimport java.util.*;\n\npublic class Main {\n    public static void main(String[] args) throws IOException {\n        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));\n        StringTokenizer st = new StringTokenizer(in.readLine());\n        int n = Integer.parseInt(st.nextToken());\n        int k = Integer.parseInt(st.nextToken());\n\n        st = new StringTokenizer(in.readLine());\n        long sum = 0;\n        for (int i = 0; i < n; i++) sum += Integer.parseInt(st.nextToken());\n\n        System.out.println(\"n=\" + n + \" k=\" + k + \" sum=\" + sum);\n    }\n}",
+        "Fast input with BufferedReader and StringTokenizer"
+       ],
+       [
+        "md",
+        "Use `System.out.println` for output. For many lines, collect into a `StringBuilder` and print once; thousands of `println` calls are slow.\n\n## 2. Types, variables and overflow\n\n| Type | Size | Range / use |\n|---|---|---|\n| `byte`, `short` | 8, 16 bits | rarely needed |\n| `int` | 32 bits | about ±2.1 × 10⁹ (default integer) |\n| `long` | 64 bits | about ±9.2 × 10¹⁸; use for sums and products |\n| `double` | 64 bits | decimals (not exact) |\n| `boolean` | 1 bit logically | `true` / `false` |\n| `char` | 16 bits | one UTF-16 character; behaves like a number |\n\nThe most common Java bug in interviews is **`int` overflow**: `int` arithmetic wraps around silently. Use `long` when a sum or product can exceed about two billion, and add `L` to literals (`1_000_000_007L`).\n"
+       ],
+       [
+        "code",
+        "java",
+        "public class Main {\n    public static void main(String[] args) {\n        int big = Integer.MAX_VALUE;          // 2147483647\n        System.out.println(big + 1);          // wraps to -2147483648\n        long safe = (long) big + 1;           // cast BEFORE adding\n        System.out.println(safe);             // 2147483648\n\n        System.out.println(7 / 2);            // 3  (integer division)\n        System.out.println(7 / 2.0);          // 3.5\n        System.out.println(-7 % 3);           // -1 (remainder keeps the sign of the dividend)\n        System.out.println(Math.floorMod(-7, 3)); // 2 (the \"mathematical\" modulo)\n\n        final int MOD = 1_000_000_007;\n        long x = 123456789L * 987654321L % MOD;\n        System.out.println(x);\n    }\n}",
+        "Overflow, division and modulo"
+       ],
+       [
+        "md",
+        "## 3. Control flow and methods\n\nJava has `if/else`, `switch`, `for`, enhanced `for (T x : collection)`, `while`, `do/while`, `break`, `continue` and labelled breaks for nested loops. Methods are declared with a return type; make helpers `static` inside `Main`. Arguments are passed **by value**; for objects the value is a reference, so a method can mutate the object's contents but cannot make the caller's variable point elsewhere.\n\n## 4. Strings\n\n`String` is **immutable**: every change creates a new string. Building a string with `+=` in a loop is O(n²); use `StringBuilder`.\n\n| Task | Code |\n|---|---|\n| Length, char at index | `s.length()`, `s.charAt(i)` |\n| Compare content | `s.equals(t)` (never `==`) |\n| Substring `[a, b)` | `s.substring(a, b)` |\n| Search | `s.indexOf(\"ab\")`, `s.contains(\"ab\")` |\n| Split / join | `s.split(\" \")`, `String.join(\",\", list)` |\n| To char array and back | `s.toCharArray()`, `new String(chars)` |\n| Digit to number | `c - '0'` |\n| Letter to index 0..25 | `c - 'a'` |\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.util.*;\n\npublic class Main {\n    static boolean isPalindrome(String s) {\n        int i = 0, j = s.length() - 1;\n        while (i < j) {\n            if (s.charAt(i++) != s.charAt(j--)) return false;\n        }\n        return true;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(isPalindrome(\"level\"));      // true\n        StringBuilder sb = new StringBuilder();\n        for (char c = 'a'; c <= 'e'; c++) sb.append(c).append('-');\n        sb.setLength(sb.length() - 1);                  // drop the last '-'\n        System.out.println(sb);                         // a-b-c-d-e\n        System.out.println(sb.reverse());               // e-d-c-b-a\n\n        int[] counts = new int[26];                     // letter frequencies\n        for (char c : \"banana\".toCharArray()) counts[c - 'a']++;\n        System.out.println(counts['a' - 'a'] + \" \" + counts['n' - 'a']); // 3 2\n    }\n}",
+        "Strings, StringBuilder and a letter-count array"
+       ],
+       [
+        "md",
+        "## 5. Arrays and lists\n\nAn **array** has a fixed length: `int[] a = new int[n];` (zero-filled). Its length is `a.length`. 2-D arrays are arrays of arrays: `int[][] g = new int[r][c];`. The class `java.util.Arrays` helps: `Arrays.sort`, `Arrays.fill`, `Arrays.toString`, `Arrays.copyOfRange`, `Arrays.asList`.\n\n`ArrayList<Integer>` is a **dynamic array**: `add` is amortised O(1), `get(i)` is O(1), inserting or removing in the middle is O(n). Remember that generics hold objects: use `Integer`, not `int` (autoboxing converts, at some cost).\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int[] a = {5, 2, 9, 1};\n        Arrays.sort(a);\n        System.out.println(Arrays.toString(a));            // [1, 2, 5, 9]\n\n        int[][] grid = new int[3][4];\n        for (int[] row : grid) Arrays.fill(row, -1);\n        grid[1][2] = 7;\n        System.out.println(Arrays.deepToString(grid));\n\n        List<Integer> list = new ArrayList<>();\n        for (int x : a) list.add(x);\n        list.remove(Integer.valueOf(5));                    // remove VALUE 5\n        list.remove(0);                                     // remove INDEX 0\n        System.out.println(list);                           // [2, 9]\n\n        List<int[]> pairs = new ArrayList<>();              // list of small arrays\n        pairs.add(new int[]{1, 2});\n        System.out.println(pairs.get(0)[1]);                // 2\n    }\n}",
+        "Arrays, 2-D arrays and ArrayList (note remove(int) vs remove(Object))"
+       ],
+       [
+        "md",
+        "## 6. Hash maps and sets\n\n| Structure | Class | Typical cost | Notes |\n|---|---|---|---|\n| Hash map | `HashMap<K,V>` | O(1) average get/put | no order |\n| Sorted map | `TreeMap<K,V>` | O(log n) | keys sorted; `floorKey`, `ceilingKey` |\n| Insertion-ordered map | `LinkedHashMap` | O(1) | iteration in insertion order (LRU caches) |\n| Hash set | `HashSet<T>` | O(1) average | uniqueness |\n| Sorted set | `TreeSet<T>` | O(log n) | `floor`, `ceiling`, `first`, `last` |\n\nUseful methods: `getOrDefault`, `merge`, `putIfAbsent`, `computeIfAbsent`, `containsKey`, `entrySet()`. Keys must have consistent `equals` and `hashCode`; arrays are bad keys (identity hashing), so convert to a `List` or a `String`.\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // frequency counting\n        Map<Character, Integer> freq = new HashMap<>();\n        for (char c : \"mississippi\".toCharArray()) freq.merge(c, 1, Integer::sum);\n        System.out.println(freq);                          // {p=2, s=4, i=4, m=1} (order may vary)\n\n        // two-sum with a map: value -> index\n        int[] nums = {2, 7, 11, 15};\n        int target = 9;\n        Map<Integer, Integer> seen = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            Integer j = seen.get(target - nums[i]);\n            if (j != null) { System.out.println(j + \" \" + i); break; }\n            seen.put(nums[i], i);\n        }\n\n        // grouping with computeIfAbsent\n        Map<Integer, List<String>> byLen = new TreeMap<>();\n        for (String w : new String[]{\"to\", \"be\", \"or\", \"not\"})\n            byLen.computeIfAbsent(w.length(), k -> new ArrayList<>()).add(w);\n        System.out.println(byLen);                          // {2=[to, be, or], 3=[not]}\n\n        TreeSet<Integer> set = new TreeSet<>(List.of(10, 20, 30));\n        System.out.println(set.floor(25) + \" \" + set.ceiling(25)); // 20 30\n    }\n}",
+        "Counting, two-sum, grouping and a sorted set"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and heap\n\n| Need | Use | Methods |\n|---|---|---|\n| Stack (LIFO) | `ArrayDeque<T>` | `push`, `pop`, `peek` |\n| Queue (FIFO) | `ArrayDeque<T>` or `LinkedList<T>` | `offer`, `poll`, `peek` |\n| Deque | `ArrayDeque<T>` | `addFirst`, `addLast`, `pollFirst`, `pollLast` |\n| Min-heap | `PriorityQueue<T>` | `offer`, `poll`, `peek` (O(log n), O(log n), O(1)) |\n| Max-heap | `new PriorityQueue<>(Comparator.reverseOrder())` | same |\n\nAvoid the legacy `Stack` class; `ArrayDeque` is faster and cleaner. `PriorityQueue` does **not** iterate in sorted order; only `poll` returns the minimum.\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Deque<Integer> stack = new ArrayDeque<>();\n        stack.push(1); stack.push(2);\n        System.out.println(stack.pop());                    // 2\n\n        Queue<Integer> q = new ArrayDeque<>();\n        q.offer(1); q.offer(2);\n        System.out.println(q.poll());                       // 1\n\n        PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> x[0] - y[0]); // min by first field\n        pq.offer(new int[]{5, 100});\n        pq.offer(new int[]{2, 200});\n        System.out.println(pq.poll()[1]);                   // 200\n\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());\n        maxHeap.addAll(List.of(3, 9, 4));\n        System.out.println(maxHeap.peek());                 // 9\n    }\n}",
+        "Stack, queue, heaps with comparators"
+       ],
+       [
+        "md",
+        "## 8. Sorting, comparators and binary search\n\n`Arrays.sort(int[])` uses dual-pivot quicksort (not stable). Sorting objects with `Arrays.sort(T[], comparator)` or `Collections.sort(list, comparator)` uses a **stable** merge-sort variant (TimSort). Build comparators with `Comparator.comparingInt(...).thenComparing(...)`. **Never** write `(a, b) -> a - b` when values can be large or negative: subtraction can overflow. Use `Integer.compare(a, b)`.\n\n`Arrays.binarySearch(a, key)` returns the index if found, otherwise `-(insertionPoint) - 1`. For first/last boundaries write your own `lo/hi` loop (see the Binary Search chapter).\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.util.*;\n\npublic class Main {\n    record Person(String name, int age) {}\n\n    public static void main(String[] args) {\n        Integer[] a = {5, 2, 9, 1};\n        Arrays.sort(a, Collections.reverseOrder());\n        System.out.println(Arrays.toString(a));             // [9, 5, 2, 1]\n\n        List<Person> people = new ArrayList<>(List.of(\n            new Person(\"Asha\", 30), new Person(\"Ben\", 25), new Person(\"Chen\", 30)));\n        people.sort(Comparator.comparingInt(Person::age).reversed().thenComparing(Person::name));\n        System.out.println(people);                         // oldest first, then by name\n\n        int[] sorted = {1, 3, 5, 7, 9};\n        System.out.println(Arrays.binarySearch(sorted, 7)); // 3\n        System.out.println(Arrays.binarySearch(sorted, 4)); // -3 -> insertion point 2\n\n        int[][] intervals = {{5, 8}, {1, 3}, {2, 6}};\n        Arrays.sort(intervals, (x, y) -> Integer.compare(x[0], y[0]));\n        System.out.println(Arrays.deepToString(intervals));\n    }\n}",
+        "Comparators, records and binary search"
+       ],
+       [
+        "md",
+        "## 9. Classes, nodes and recursion\n\nProblems often give you a node class. A `static` nested class keeps everything in one file. Java passes object references by value; setting `node = node.next` changes only your local variable.\n"
+       ],
+       [
+        "code",
+        "java",
+        "public class Main {\n    static class ListNode {\n        int val; ListNode next;\n        ListNode(int v) { val = v; }\n    }\n    static class TreeNode {\n        int val; TreeNode left, right;\n        TreeNode(int v) { val = v; }\n    }\n\n    static ListNode reverse(ListNode head) {\n        ListNode prev = null;\n        while (head != null) {\n            ListNode nxt = head.next;\n            head.next = prev;\n            prev = head;\n            head = nxt;\n        }\n        return prev;\n    }\n\n    static int height(TreeNode t) {\n        return t == null ? 0 : 1 + Math.max(height(t.left), height(t.right));\n    }\n\n    public static void main(String[] args) {\n        ListNode h = new ListNode(1); h.next = new ListNode(2); h.next.next = new ListNode(3);\n        h = reverse(h);\n        for (ListNode p = h; p != null; p = p.next) System.out.print(p.val + \" \"); // 3 2 1\n        System.out.println();\n\n        TreeNode root = new TreeNode(1); root.left = new TreeNode(2); root.left.left = new TreeNode(3);\n        System.out.println(height(root));                   // 3\n    }\n}",
+        "Linked list reversal and tree height"
+       ],
+       [
+        "md",
+        "## 10. Complexity cheat sheet (Java collections)\n\n| Operation | ArrayList | LinkedList | HashMap/HashSet | TreeMap/TreeSet | ArrayDeque | PriorityQueue |\n|---|---|---|---|---|---|---|\n| Access by index | O(1) | O(n) | - | - | - | - |\n| Add at end | O(1)* | O(1) | O(1)* | O(log n) | O(1) | O(log n) |\n| Insert/remove middle | O(n) | O(1) after finding | - | - | - | - |\n| Search by value | O(n) | O(n) | O(1)* | O(log n) | O(n) | O(n) |\n| Min/max | O(n) | O(n) | O(n) | O(log n) | - | O(1) peek |\n\n\\* amortised / average.\n\n## 11. Pitfalls and idioms checklist\n\n- Compare strings and boxed numbers with `.equals`, not `==` (small `Integer` values are cached, which hides the bug until large values).\n- Cast to `long` **before** multiplying: `(long) a * b`, not `(long) (a * b)`.\n- `list.remove(int)` removes by index; `list.remove(Object)` by value.\n- Do not modify a collection while iterating it with for-each (`ConcurrentModificationException`); use an index loop or an iterator.\n- `char + int` is an `int`; cast back with `(char)`.\n- `int[]` has no `contains`/`indexOf`; use loops or convert to a list.\n- Recursion depth is limited (default stack about 10,000 to 20,000 frames); convert very deep recursion to loops.\n- Use `StringBuilder` for repeated appends and `String.valueOf(char[])` to build from arrays.\n- `Math.abs(Integer.MIN_VALUE)` is still negative.\n\n## 12. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "java",
+        "import java.io.*;\nimport java.util.*;\n\npublic class Main {\n    static int[] twoSum(int[] a, int target) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        for (int i = 0; i < a.length; i++) {\n            Integer j = seen.get(target - a[i]);\n            if (j != null) return new int[]{j + 1, i + 1};\n            seen.putIfAbsent(a[i], i);\n        }\n        return new int[]{-1};\n    }\n\n    public static void main(String[] args) throws IOException {\n        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));\n        StringTokenizer st = new StringTokenizer(in.readLine());\n        int n = Integer.parseInt(st.nextToken()), t = Integer.parseInt(st.nextToken());\n        int[] a = new int[n];\n        st = new StringTokenizer(in.readLine());\n        for (int i = 0; i < n; i++) a[i] = Integer.parseInt(st.nextToken());\n        int[] r = twoSum(a, t);\n        System.out.println(r.length == 1 ? \"-1\" : r[0] + \" \" + r[1]);\n    }\n}",
+        "Template: parse input, call a pure function, print the answer"
+       ],
+       [
+        "md",
+        "This is exactly the shape of the practice problem [Pair With Target Sum](/problems/pair-with-target-sum). Keep your logic in a small pure function and keep input and output in `main`; it is easier to test and to explain.\n\n## 13. What to practise next\n\n1. Re-type each program above without looking.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Anagram Groups](/problems/anagram-groups) and [Kth Largest](/problems/kth-largest) in Java using only the structures in this lesson.\n3. State the complexity of every structure you use, out loud.\n"
+       ]
+      ]
      },
      {
-      "slug": "input-output-and-templates",
-      "title": "Reading input and printing output",
+      "slug": "python-for-dsa",
+      "title": "Python for DSA",
       "tier": "free",
-      "minutes": 6,
-      "md": "## Practice problems read standard input\n\nOur problems give the input format and expect the answer on standard output. Read all input, split into tokens, convert to numbers, and print exactly the required format (spaces, newlines).",
-      "code": [
-       "python",
-       "import sys\n\ndata = sys.stdin.read().split()\nn, k = int(data[0]), int(data[1])\na = list(map(int, data[2:2 + n]))\nprint(sum(a) + k)",
-       "Read all tokens once"
-      ],
+      "minutes": 30,
+      "md": "",
+      "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "If a problem says \"print two numbers separated by a space\", you should print:",
+        "prompt": "Why is `[[0] * c] * r` dangerous for a grid?",
         "options": [
-         "Exactly that, nothing extra",
-         "Any format",
-         "Words describing them",
-         "One number per line"
+         "All rows are the same list",
+         "It is too slow",
+         "It does not compile",
+         "It creates columns"
         ],
         "correct": [
          0
         ],
-        "explanation": "Output formats are checked exactly.",
+        "explanation": "Use a list comprehension to create independent rows.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which structure gives O(1) pops from the front?",
+        "options": [
+         "collections.deque",
+         "list",
+         "tuple",
+         "str"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "list.pop(0) is O(n).",
+        "type": "single"
+       },
+       {
+        "prompt": "How do you get a max-heap from heapq?",
+        "options": [
+         "Push negated values",
+         "Pass reverse=True",
+         "Use sorted()",
+         "It is impossible"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "heapq is a min-heap only.",
+        "type": "single"
+       },
+       {
+        "prompt": "-7 // 2 equals:",
+        "options": [
+         "-4",
+         "-3",
+         "3",
+         "4"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Floor division rounds toward minus infinity.",
+        "type": "single"
+       },
+       {
+        "prompt": "What makes a value usable as a dict key?",
+        "options": [
+         "It is hashable (e.g. a tuple, not a list)",
+         "It is a string only",
+         "It is positive",
+         "It has a name"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Mutable containers are not hashable.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Why Python for interviews?\n\nPython is **dynamically typed, interpreted and very concise**. A solution that takes 40 lines in Java often takes 10 in Python, which leaves more of the interview for thinking. Its built-in `list`, `dict`, `set`, `deque` and `heapq` cover almost every structure, and big integers never overflow.\n\n| Strengths | Weaknesses |\n|---|---|\n| Short, readable code | Slower than compiled languages (matters for tight limits) |\n| Built-in big integers | No built-in sorted map/tree set (use `bisect` or a library) |\n| Powerful standard library (`collections`, `heapq`, `bisect`, `itertools`) | Recursion limit (about 1000) |\n| Great for prototyping ideas quickly | Mutable default arguments and aliasing surprises |\n\n## 1. Program skeleton and input\n\nPython has no `main` boilerplate. Read all input at once with `sys.stdin`; `input()` is fine for small data but slow for large.\n"
+       ],
+       [
+        "code",
+        "python",
+        "import sys\n\ndef main():\n    data = sys.stdin.read().split()\n    n, k = int(data[0]), int(data[1])\n    nums = list(map(int, data[2:2 + n]))\n    print(f\"n={n} k={k} sum={sum(nums)}\")\n\nif __name__ == \"__main__\":\n    main()",
+        "Read every token once, then convert"
+       ],
+       [
+        "md",
+        "## 2. Types and numbers\n\nEverything is an object. Basic types: `int` (unlimited precision), `float`, `bool`, `str`, `None`. Because `int` never overflows, \"modulo 1 000 000 007\" is only needed when the problem asks for it.\n\n| Operator | Meaning |\n|---|---|\n| `/` | true division (always a float) |\n| `//` | floor division (rounds toward minus infinity) |\n| `%` | modulo (result has the sign of the divisor, so `-7 % 3 == 2`) |\n| `**` | power; `pow(a, b, m)` is fast modular power |\n| `divmod(a, b)` | `(a // b, a % b)` |\n"
+       ],
+       [
+        "code",
+        "python",
+        "print(7 // 2, -7 // 2)          # 3 -4   (floor division)\nprint(-7 % 3)                   # 2\nprint(2 ** 100)                 # exact big integer\nprint(pow(3, 200, 1_000_000_007))\nprint(divmod(17, 5))            # (3, 2)\nprint(float(\"inf\") > 10**18)    # True: a safe 'infinity' for min-searches\na, b = 3, 8\na, b = b, a                     # swap without a temp\nprint(a, b)",
+        "Numbers, floor division and swapping"
+       ],
+       [
+        "md",
+        "## 3. Control flow, functions and comprehensions\n\nBlocks are defined by **indentation**. `for x in iterable`, `while`, `if/elif/else`, `break`, `continue`, and `for ... else` (the `else` runs if no `break` happened). Useful built-ins: `range`, `enumerate`, `zip`, `reversed`, `sorted`, `min`, `max`, `sum`, `any`, `all`, `len`, `map`.\n\n**Comprehensions** build collections in one line: `[x * x for x in nums if x % 2 == 0]`, `{x: i for i, x in enumerate(nums)}`, `{x % 3 for x in nums}`.\n\n## 4. Strings\n\nStrings are **immutable** sequences. Slicing `s[a:b]` makes a copy (O(length)). Build large strings with `\"\".join(list_of_parts)`, never repeated `+=` in a loop.\n\n| Task | Code |\n|---|---|\n| Reverse | `s[::-1]` |\n| Split / join | `s.split()`, `\",\".join(parts)` |\n| Char to number / back | `ord(\"a\")`, `chr(97)` |\n| Letter index 0..25 | `ord(c) - ord(\"a\")` |\n| Count / find | `s.count(\"ab\")`, `s.find(\"ab\")` (returns -1 if absent) |\n| Case and tests | `s.lower()`, `s.isdigit()`, `s.isalpha()` |\n"
+       ],
+       [
+        "code",
+        "python",
+        "def is_palindrome(s: str) -> bool:\n    s = \"\".join(c.lower() for c in s if c.isalnum())\n    return s == s[::-1]\n\nprint(is_palindrome(\"A man, a plan, a canal: Panama\"))   # True\n\nparts = []\nfor c in \"abcde\":\n    parts.append(c.upper())\nprint(\"-\".join(parts))                                    # A-B-C-D-E\n\ncounts = [0] * 26\nfor c in \"banana\":\n    counts[ord(c) - ord(\"a\")] += 1\nprint(counts[0], counts[13])                              # 3 2",
+        "Strings, join and a letter-count list"
+       ],
+       [
+        "md",
+        "## 5. Lists (dynamic arrays)\n\nA `list` is a dynamic array: `append` and `pop()` at the end are amortised O(1), `a[i]` is O(1), `insert(0, x)` and `pop(0)` are **O(n)** (use `deque` instead). Slices copy. **Careful with 2-D lists:** `[[0] * c] * r` makes `r` references to the *same* row; write `[[0] * c for _ in range(r)]`.\n"
+       ],
+       [
+        "code",
+        "python",
+        "a = [5, 2, 9, 1]\na.sort()                          # in place, stable\nprint(a, a[-1], a[1:3])           # [1, 2, 5, 9] 9 [2, 5]\n\ngrid = [[0] * 4 for _ in range(3)]\ngrid[1][2] = 7\nprint(grid)\n\nbad = [[0] * 2] * 2               # the classic mistake: both rows are the same list\nbad[0][0] = 1\nprint(bad)                        # [[1, 0], [1, 0]]\n\npairs = [(3, \"c\"), (1, \"a\"), (2, \"b\")]\npairs.sort(key=lambda p: p[0])\nprint(pairs)\nprint(sorted([\"bb\", \"a\", \"ccc\"], key=len, reverse=True))",
+        "Lists, slicing, 2-D grids and sorting with a key"
+       ],
+       [
+        "md",
+        "## 6. Dictionaries and sets\n\n`dict` is a hash map (insertion-ordered since Python 3.7), `set` a hash set. Average O(1) lookup, insert and delete. Keys must be **hashable**: numbers, strings and tuples are; lists and dicts are not (use a tuple). The `collections` module adds `Counter` (frequencies), `defaultdict` (auto-created values) and `OrderedDict`.\n"
+       ],
+       [
+        "code",
+        "python",
+        "from collections import Counter, defaultdict\n\nfreq = Counter(\"mississippi\")\nprint(freq.most_common(2))                 # [('i', 4), ('s', 4)]\n\nnums, target = [2, 7, 11, 15], 9\nseen = {}                                   # value -> index\nfor i, x in enumerate(nums):\n    if target - x in seen:\n        print(seen[target - x], i)          # 0 1\n        break\n    seen[x] = i\n\ngroups = defaultdict(list)\nfor w in [\"to\", \"be\", \"or\", \"not\"]:\n    groups[len(w)].append(w)\nprint(dict(groups))                         # {2: ['to', 'be', 'or'], 3: ['not']}\n\nvisited = set()\nvisited.add((0, 1))                         # tuples work as set members\nprint((0, 1) in visited, len(visited))",
+        "Counter, two-sum, defaultdict and a set of tuples"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and heap\n\n| Need | Use | Notes |\n|---|---|---|\n| Stack | `list` with `append` / `pop` | O(1) at the end |\n| Queue / deque | `collections.deque` | `append`, `appendleft`, `pop`, `popleft` all O(1) |\n| Min-heap | `heapq` on a list | `heappush`, `heappop`, `heap[0]` |\n| Max-heap | push **negated** values | `heappush(h, -x)`; real value is `-h[0]` |\n| Sorted container | `bisect` on a sorted list | `bisect_left`, `bisect_right`, `insort` (insertion is O(n)) |\n\nHeap items can be tuples: `(priority, tie_breaker, payload)`; tuples compare element by element.\n"
+       ],
+       [
+        "code",
+        "python",
+        "import heapq\nfrom collections import deque\nfrom bisect import bisect_left, bisect_right, insort\n\nstack = [1, 2]; stack.append(3)\nprint(stack.pop())                         # 3\n\nq = deque([1, 2]); q.append(3)\nprint(q.popleft(), list(q))                # 1 [2, 3]\n\nh = []\nfor x in [5, 1, 4]:\n    heapq.heappush(h, x)\nprint(heapq.heappop(h), h[0])              # 1 4\n\nmaxh = []\nfor x in [3, 9, 4]:\n    heapq.heappush(maxh, -x)\nprint(-maxh[0])                            # 9\n\nprint(heapq.nlargest(2, [3, 9, 4, 7]))     # [9, 7]\n\na = [10, 20, 20, 30]\nprint(bisect_left(a, 20), bisect_right(a, 20))   # 1 3\ninsort(a, 25); print(a)",
+        "Stack, deque, heaps and bisect"
+       ],
+       [
+        "md",
+        "## 8. Sorting and comparing\n\n`list.sort()` (in place) and `sorted(iterable)` (new list) use **Timsort**: O(n log n), stable. Use `key=` to choose what to sort by; tuples sort lexicographically, so `key=lambda p: (-p[1], p[0])` means \"by second descending, then first ascending\". For a custom comparison function use `functools.cmp_to_key`.\n\n## 9. Classes and nodes\n\nUse a small class or `dataclass`. Python passes **references to objects**: reassigning a parameter does not change the caller's variable, but mutating the object does.\n"
+       ],
+       [
+        "code",
+        "python",
+        "from dataclasses import dataclass\nfrom typing import Optional\n\n@dataclass\nclass ListNode:\n    val: int\n    next: Optional[\"ListNode\"] = None\n\n@dataclass\nclass TreeNode:\n    val: int\n    left: Optional[\"TreeNode\"] = None\n    right: Optional[\"TreeNode\"] = None\n\ndef reverse(head):\n    prev = None\n    while head:\n        head.next, prev, head = prev, head, head.next\n    return prev\n\ndef height(t):\n    return 0 if t is None else 1 + max(height(t.left), height(t.right))\n\nh = ListNode(1, ListNode(2, ListNode(3)))\nh = reverse(h)\nout = []\nwhile h:\n    out.append(h.val); h = h.next\nprint(out)                                   # [3, 2, 1]\nprint(height(TreeNode(1, TreeNode(2, TreeNode(3)))))   # 3",
+        "Dataclass nodes, list reversal and tree height"
+       ],
+       [
+        "md",
+        "## 10. Recursion limit and speed\n\nPython's default recursion limit is about 1000. For deep recursion raise it (`sys.setrecursionlimit(10**6)`) or rewrite with an explicit stack. Use `functools.lru_cache(None)` for memoised recursion (dynamic programming). Python executes roughly 10⁷ simple operations per second, so for n around 10⁶ prefer built-ins (`sum`, `sorted`, `Counter`) that run in C.\n\n## 11. Complexity cheat sheet (Python)\n\n| Operation | list | deque | dict / set | heapq |\n|---|---|---|---|---|\n| Index `a[i]` | O(1) | O(n) in the middle | - | - |\n| Append / pop at end | O(1) | O(1) | - | push O(log n) |\n| Insert / pop at front | O(n) | O(1) | - | - |\n| `x in container` | O(n) | O(n) | O(1) avg | O(n) |\n| Sort | O(n log n) | - | - | - |\n| Min / max | O(n) | O(n) | O(n) | O(1) peek, O(log n) pop |\n\n## 12. Pitfalls and idioms checklist\n\n- `[[0]*c]*r` shares rows; use a comprehension.\n- Never use a mutable default argument (`def f(x, seen=[])`); use `None`.\n- `list.pop(0)` and `x in list` are O(n); switch to `deque` / `set`.\n- `==` compares values and `is` compares identity; use `is` only for `None`.\n- `sorted` and `.sort()` are stable; sorting by `key` is faster and clearer than a comparator.\n- Integer division of negatives floors (`-7 // 2 == -4`), unlike C, Java and Go.\n- Slicing copies; avoid `s[1:]` inside recursion on long strings.\n- `for i in range(n)` with `n = 0` runs zero times; check empty inputs explicitly.\n- A `dict` is ordered by insertion, but sets are not ordered.\n- Use `enumerate` and `zip` instead of index arithmetic.\n\n## 13. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "python",
+        "import sys\n\ndef two_sum(a, target):\n    seen = {}\n    for j, x in enumerate(a):\n        if target - x in seen:\n            return seen[target - x] + 1, j + 1\n        seen.setdefault(x, j)\n    return None\n\ndef main():\n    data = sys.stdin.read().split()\n    n, t = int(data[0]), int(data[1])\n    a = list(map(int, data[2:2 + n]))\n    r = two_sum(a, t)\n    print(\"-1\" if r is None else f\"{r[0]} {r[1]}\")\n\nmain()",
+        "Template: parse, call a pure function, print"
+       ],
+       [
+        "md",
+        "## 14. What to practise next\n\n1. Re-type each program without looking, then change inputs to break them.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Anagram Groups](/problems/anagram-groups) and [Merge Meeting Slots](/problems/merge-meeting-slots) in Python.\n3. Learn `collections`, `heapq`, `bisect` and `itertools` names by heart: they save minutes in every interview.\n"
+       ]
+      ]
+     },
+     {
+      "slug": "cpp-for-dsa",
+      "title": "C++ for DSA",
+      "tier": "free",
+      "minutes": 30,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "`v.size() - 1` on an empty vector gives:",
+        "options": [
+         "A huge number (unsigned wrap)",
+         "-1",
+         "0",
+         "An exception"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "size() is unsigned; cast to int first.",
+        "type": "single"
+       },
+       {
+        "prompt": "What does `m[key]` do on a missing key of an unordered_map?",
+        "options": [
+         "Inserts a default value",
+         "Throws",
+         "Returns null",
+         "Nothing"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use find or count to only test.",
+        "type": "single"
+       },
+       {
+        "prompt": "By default `priority_queue<int>` keeps at the top:",
+        "options": [
+         "The maximum",
+         "The minimum",
+         "The first inserted",
+         "The last inserted"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use greater<int> for a min-heap.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why must a sort comparator use `<` rather than `<=`?",
+        "options": [
+         "It must be a strict weak ordering",
+         "`<=` is slower",
+         "`<=` does not compile",
+         "No reason"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Violating it can crash or loop.",
+        "type": "single"
+       },
+       {
+        "prompt": "`lower_bound(v.begin(), v.end(), x)` returns:",
+        "options": [
+         "The first element >= x (sorted input)",
+         "The last element <= x",
+         "Always begin()",
+         "A boolean"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "upper_bound returns the first element > x.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why C++ for interviews?\n\nC++ is a **compiled, statically typed** language with direct control over memory and very fast execution. Competitive programmers favour it because the **Standard Template Library (STL)** gives containers and algorithms (`vector`, `map`, `unordered_map`, `priority_queue`, `sort`, `lower_bound`) with predictable performance.\n\n| Strengths | Weaknesses |\n|---|---|\n| Fastest of the common interview languages | Easy to write undefined behaviour (out-of-range, uninitialised values) |\n| Powerful STL algorithms | Verbose error messages; more syntax to remember |\n| Value semantics, no hidden boxing | Manual care with pointers and lifetimes |\n| Great for system-level and performance questions | Integer overflow is undefined for signed types |\n\nThe programs below use **C++17** and explicit headers; every one was compiled and run before this lesson was published.\n\n## 1. Program skeleton and fast input\n\n`main` returns `int`. Include the headers you use. With plain `cin/cout`, turn off synchronisation with C stdio for speed.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, k;\n    cin >> n >> k;\n    vector<long long> a(n);\n    long long sum = 0;\n    for (auto &x : a) { cin >> x; sum += x; }\n\n    cout << \"n=\" << n << \" k=\" << k << \" sum=\" << sum << \"\\n\";   // '\\n' is faster than endl\n    return 0;\n}",
+        "Fast input with cin and a vector"
+       ],
+       [
+        "md",
+        "`#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>` pulls in the whole STL on GCC and Clang; it is fine for practice and interviews that allow it. In production code include only what you need.\n\n## 2. Types and overflow\n\n| Type | Typical size | Notes |\n|---|---|---|\n| `int` | 32 bits | about ±2.1 × 10⁹; **signed overflow is undefined behaviour** |\n| `long long` | 64 bits | use for sums, products, large counts |\n| `unsigned` types | same width | wrap around predictably; mixing signed and unsigned is a bug source |\n| `double` | 64 bits | not exact |\n| `char` | 8 bits | a small integer |\n| `bool` | 1 byte | `true` / `false` |\n| `size_t` | 64 bits on most systems | what `.size()` returns (unsigned!) |\n\n`v.size() - 1` on an **empty** vector wraps to a huge number because `size()` is unsigned. Cast: `(int)v.size() - 1`.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> v;\n    cout << (int)v.size() - 1 << \"\\n\";          // -1 (safe)\n    cout << v.size() - 1 << \"\\n\";               // huge number (wraps)\n\n    long long big = 1LL * 1000000 * 1000000;     // multiply in 64-bit: 10^12\n    cout << big << \"\\n\";\n\n    cout << 7 / 2 << \" \" << -7 / 2 << \" \" << -7 % 3 << \"\\n\";   // 3 -3 -1 (truncates toward zero)\n    int m = ((-7 % 3) + 3) % 3;                  // non-negative modulo\n    cout << m << \"\\n\";                          // 2\n\n    const long long MOD = 1000000007;\n    long long x = 123456789LL * 987654321LL % MOD;\n    cout << x << \"\\n\";\n    cout << INT_MAX << \" \" << LLONG_MAX << \"\\n\";\n    return 0;\n}",
+        "size_t wrap-around, 64-bit math and modulo"
+       ],
+       [
+        "md",
+        "## 3. Control flow, functions and references\n\n`if`, `switch`, `for`, range-based `for (auto x : v)`, `while`, `break`, `continue`. Functions take arguments **by value** (a copy) unless you write `&`: `void f(vector<int>& v)` modifies the caller's vector; `const vector<int>& v` avoids copying while forbidding changes. Passing a large vector by value is a classic silent slowdown. `auto` deduces the type.\n\n## 4. Strings\n\n`std::string` is **mutable** (unlike Java and Python), and `s[i]` is a character you can assign. Concatenate with `+=` (amortised O(1) per character). Substring is `s.substr(pos, len)` (copies).\n\n| Task | Code |\n|---|---|\n| Length | `s.size()` |\n| Substring | `s.substr(a, len)` |\n| Search | `s.find(\"ab\")` returns `string::npos` if absent |\n| Reverse | `reverse(s.begin(), s.end())` |\n| Number to string / back | `to_string(12)`, `stoi(\"12\")`, `stoll` |\n| Letter index | `c - 'a'` |\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nbool isPalindrome(const string& s) {\n    int i = 0, j = (int)s.size() - 1;\n    while (i < j) if (s[i++] != s[j--]) return false;\n    return true;\n}\n\nint main() {\n    cout << boolalpha << isPalindrome(\"level\") << \"\\n\";   // true\n\n    string t = \"hello\";\n    t[0] = 'J';                                            // strings are mutable\n    reverse(t.begin(), t.end());\n    cout << t << \"\\n\";                                    // olleJ\n\n    int cnt[26] = {0};                                     // letter frequencies\n    for (char c : string(\"banana\")) cnt[c - 'a']++;\n    cout << cnt[0] << \" \" << cnt['n' - 'a'] << \"\\n\";      // 3 2\n\n    cout << string(\"abcabc\").find(\"ca\") << \"\\n\";                   // 2\n    return 0;\n}",
+        "Strings and a counting array"
+       ],
+       [
+        "md",
+        "## 5. Arrays and vectors\n\nFixed C arrays (`int a[100];`) are uninitialised unless you write `= {0}`. Prefer `std::vector<T>`, a dynamic array with `push_back` (amortised O(1)), `pop_back`, `back()`, `size()`, `resize`, `clear`, `insert` (O(n)). 2-D: `vector<vector<int>> g(r, vector<int>(c, 0));`. Iterators let algorithms work on any range: `v.begin()`, `v.end()`.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> a = {5, 2, 9, 1};\n    sort(a.begin(), a.end());\n    for (int x : a) cout << x << \" \";                       // 1 2 5 9\n    cout << \"\\n\";\n\n    vector<vector<int>> grid(3, vector<int>(4, -1));\n    grid[1][2] = 7;\n    cout << grid[1][2] << \" \" << grid[0][0] << \"\\n\";        // 7 -1\n\n    a.erase(a.begin() + 1);                                  // remove index 1 (O(n))\n    a.insert(a.begin(), 100);                                // insert at front (O(n))\n    cout << a.size() << \" \" << a.front() << \" \" << a.back() << \"\\n\";\n\n    vector<pair<int, string>> ps = {{3, \"c\"}, {1, \"a\"}, {2, \"b\"}};\n    sort(ps.begin(), ps.end());                              // pairs sort lexicographically\n    cout << ps[0].first << ps[0].second << \"\\n\";\n\n    cout << accumulate(a.begin(), a.end(), 0LL) << \" \" << *max_element(a.begin(), a.end()) << \"\\n\";\n    return 0;\n}",
+        "vector, 2-D vector, erase/insert, pairs and numeric helpers"
+       ],
+       [
+        "md",
+        "## 6. Maps and sets\n\n| Structure | Header | Cost | Notes |\n|---|---|---|---|\n| `unordered_map<K,V>` / `unordered_set<T>` | `<unordered_map>` | O(1) average | hash-based, no order |\n| `map<K,V>` / `set<T>` | `<map>`, `<set>` | O(log n) | sorted; `lower_bound`, `upper_bound`; `begin()` is the smallest |\n| `multiset<T>` / `multimap` | | O(log n) | duplicates allowed |\n\n`m[key]` **inserts** a default value if the key is missing, which is handy for counting (`cnt[x]++`) but a bug when you only wanted to check; use `m.count(key)` or `m.find(key) != m.end()`.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    unordered_map<char, int> freq;\n    for (char c : string(\"mississippi\")) freq[c]++;\n    cout << freq['s'] << \" \" << freq['i'] << \"\\n\";           // 4 4\n\n    vector<int> nums = {2, 7, 11, 15};\n    int target = 9;\n    unordered_map<int, int> seen;                            // value -> index\n    for (int i = 0; i < (int)nums.size(); i++) {\n        auto it = seen.find(target - nums[i]);\n        if (it != seen.end()) { cout << it->second << \" \" << i << \"\\n\"; break; }\n        seen[nums[i]] = i;\n    }\n\n    map<int, vector<string>> byLen;\n    for (string w : {\"to\", \"be\", \"or\", \"not\"}) byLen[(int)w.size()].push_back(w);\n    for (auto& [len, words] : byLen) cout << len << \":\" << words.size() << \" \";   // 2:3 3:1\n    cout << \"\\n\";\n\n    set<int> s = {10, 20, 30};\n    auto it = s.lower_bound(25);                             // first element >= 25\n    cout << *it << \" \" << *prev(it) << \"\\n\";                 // 30 20\n    return 0;\n}",
+        "Counting, two-sum, ordered map and set boundaries"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and priority queue\n\n| Need | Use | Key methods |\n|---|---|---|\n| Stack | `stack<T>` (or a `vector` with `push_back`/`pop_back`) | `push`, `top`, `pop`, `empty` |\n| Queue | `queue<T>` | `push`, `front`, `pop` |\n| Deque | `deque<T>` | `push_front`, `push_back`, `pop_front`, `pop_back`, random access |\n| Max-heap | `priority_queue<T>` | `push`, `top`, `pop` (default **max** at top) |\n| Min-heap | `priority_queue<T, vector<T>, greater<T>>` | same |\n\n`pop()` returns nothing: read `top()` or `front()` first.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    stack<int> st; st.push(1); st.push(2);\n    cout << st.top() << \"\\n\"; st.pop();                      // 2\n\n    queue<int> q; q.push(1); q.push(2);\n    cout << q.front() << \"\\n\"; q.pop();                      // 1\n\n    priority_queue<int> maxHeap;                             // max at top by default\n    for (int x : {3, 9, 4}) maxHeap.push(x);\n    cout << maxHeap.top() << \"\\n\";                           // 9\n\n    priority_queue<int, vector<int>, greater<int>> minHeap;\n    for (int x : {3, 9, 4}) minHeap.push(x);\n    cout << minHeap.top() << \"\\n\";                           // 3\n\n    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;   // (distance, node)\n    pq.push({5, 1}); pq.push({2, 7});\n    cout << pq.top().second << \"\\n\";                         // 7\n\n    deque<int> dq = {1, 2, 3};\n    dq.push_front(0); dq.pop_back();\n    cout << dq.front() << \" \" << dq.back() << \"\\n\";          // 0 2\n    return 0;\n}",
+        "Stack, queue, heaps, Dijkstra-style pair heap and deque"
+       ],
+       [
+        "md",
+        "## 8. Sorting, comparators and binary search\n\n`sort(begin, end)` is O(n log n) (introsort, not stable; use `stable_sort` when order of equals matters). Give a comparator as a **lambda**: `sort(v.begin(), v.end(), [](const auto& a, const auto& b){ return a[0] < b[0]; })`. A comparator must be a **strict weak ordering**: use `<`, never `<=`, or you get undefined behaviour.\n\nOn a **sorted** range: `lower_bound(first, last, x)` is the first element `>= x`, `upper_bound` the first `> x`, `binary_search` returns a bool. Distances: `lower_bound(...) - v.begin()` is an index.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nstruct Person { string name; int age; };\n\nint main() {\n    vector<Person> people = {{\"Asha\", 30}, {\"Ben\", 25}, {\"Chen\", 30}};\n    sort(people.begin(), people.end(), [](const Person& a, const Person& b) {\n        if (a.age != b.age) return a.age > b.age;           // older first\n        return a.name < b.name;                             // then by name\n    });\n    for (auto& p : people) cout << p.name << \" \";            // Asha Chen Ben\n    cout << \"\\n\";\n\n    vector<int> v = {1, 3, 5, 5, 7, 9};\n    cout << (lower_bound(v.begin(), v.end(), 5) - v.begin()) << \" \"      // 2\n         << (upper_bound(v.begin(), v.end(), 5) - v.begin()) << \"\\n\";   // 4\n\n    vector<vector<int>> intervals = {{5, 8}, {1, 3}, {2, 6}};\n    sort(intervals.begin(), intervals.end());                // sorts by first, then second\n    cout << intervals[0][0] << intervals[1][0] << intervals[2][0] << \"\\n\";   // 125\n    return 0;\n}",
+        "Lambda comparators, lower_bound and upper_bound"
+       ],
+       [
+        "md",
+        "## 9. Structs, classes and pointers\n\nUse `struct` for nodes. Allocate with `new` and free with `delete`, or use smart pointers (`unique_ptr`, `make_unique`) in real code. Interview problems usually hand you `ListNode*` and `TreeNode*`. **Always check for `nullptr`** before dereferencing.\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\nstruct ListNode { int val; ListNode* next; ListNode(int v) : val(v), next(nullptr) {} };\nstruct TreeNode { int val; TreeNode *left, *right; TreeNode(int v) : val(v), left(nullptr), right(nullptr) {} };\n\nListNode* reverseList(ListNode* head) {\n    ListNode* prev = nullptr;\n    while (head) {\n        ListNode* nxt = head->next;\n        head->next = prev;\n        prev = head;\n        head = nxt;\n    }\n    return prev;\n}\n\nint height(TreeNode* t) { return t ? 1 + max(height(t->left), height(t->right)) : 0; }\n\nint main() {\n    ListNode* h = new ListNode(1); h->next = new ListNode(2); h->next->next = new ListNode(3);\n    h = reverseList(h);\n    for (ListNode* p = h; p; p = p->next) cout << p->val << \" \";   // 3 2 1\n    cout << \"\\n\";\n\n    TreeNode* root = new TreeNode(1); root->left = new TreeNode(2); root->left->left = new TreeNode(3);\n    cout << height(root) << \"\\n\";                                  // 3\n    return 0;                                                       // (leaks are fine in a short demo)\n}",
+        "Linked list reversal and tree height with raw pointers"
+       ],
+       [
+        "md",
+        "## 10. Complexity cheat sheet (STL)\n\n| Operation | vector | deque | list | map/set | unordered_map/set | priority_queue |\n|---|---|---|---|---|---|---|\n| Access `[i]` | O(1) | O(1) | - | - | - | - |\n| Push back | O(1)* | O(1) | O(1) | O(log n) | O(1)* | O(log n) |\n| Insert/erase middle | O(n) | O(n) | O(1) at iterator | O(log n) | O(1)* | - |\n| Find | O(n) | O(n) | O(n) | O(log n) | O(1)* | - |\n| Min/max | O(n) | O(n) | O(n) | O(log n) | O(n) | O(1) top |\n\n\\* amortised / average. Worst-case unordered containers can degrade to O(n) with adversarial keys.\n\n## 11. Pitfalls and idioms checklist\n\n- `vector::size()` is unsigned; cast before subtracting.\n- `m[key]` inserts a default; use `find` / `count` to only test.\n- Pass big containers by `const&`; pass by value only when you need a copy.\n- Out-of-range `v[i]` is **undefined behaviour** (no exception); use `v.at(i)` while debugging.\n- Uninitialised local variables hold garbage; initialise everything.\n- `int` overflow is undefined; use `long long` early.\n- Modulo of negatives is negative: normalise with `((a % m) + m) % m`.\n- Comparators must use strict `<`.\n- Erasing from a vector while iterating invalidates iterators; use the erase-remove idiom or index carefully.\n- Divide integers as `a / (double)b` when you need a fraction.\n- Recursion depth is limited by the stack (around 10⁵ frames); convert very deep recursion.\n\n## 12. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "cpp",
+        "#include <algorithm>\n#include <climits>\n#include <deque>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <set>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <vector>\nusing namespace std;\n\npair<int, int> twoSum(const vector<int>& a, int target) {\n    unordered_map<int, int> seen;\n    for (int j = 0; j < (int)a.size(); j++) {\n        auto it = seen.find(target - a[j]);\n        if (it != seen.end()) return {it->second + 1, j + 1};\n        seen.emplace(a[j], j);                       // keeps the first index for duplicates\n    }\n    return {-1, -1};\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, t;\n    cin >> n >> t;\n    vector<int> a(n);\n    for (int& x : a) cin >> x;\n    auto r = twoSum(a, t);\n    if (r.first == -1) cout << -1 << \"\\n\";\n    else cout << r.first << \" \" << r.second << \"\\n\";\n}",
+        "Template: parse, call a pure function, print"
+       ],
+       [
+        "md",
+        "## 13. What to practise next\n\n1. Re-type each program; then deliberately break it (index out of range, forgotten `&`) to see the effect.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Kth Largest](/problems/kth-largest) and [Cheapest Route](/problems/cheapest-route) in C++.\n3. Memorise `sort`, `lower_bound`, `priority_queue`, `unordered_map`, `accumulate` and `reverse`: they cover most interview needs.\n"
+       ]
+      ]
+     },
+     {
+      "slug": "csharp-for-dsa",
+      "title": "C# for DSA",
+      "tier": "free",
+      "minutes": 30,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A `PriorityQueue<TElement, TPriority>` in .NET dequeues:",
+        "options": [
+         "The smallest priority first",
+         "The largest priority first",
+         "The oldest first",
+         "A random item"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use a reversed comparer for a max-heap.",
+        "type": "single"
+       },
+       {
+        "prompt": "How do you read a Dictionary value safely?",
+        "options": [
+         "TryGetValue",
+         "The indexer without a check",
+         "Cast to int",
+         "Sort first"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The indexer throws KeyNotFoundException.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which sort is stable?",
+        "options": [
+         "LINQ OrderBy",
+         "Array.Sort",
+         "List.Sort",
+         "None"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Array.Sort and List.Sort are introsort.",
+        "type": "single"
+       },
+       {
+        "prompt": "`int.MaxValue + 1` in an unchecked context gives:",
+        "options": [
+         "A negative wrapped value",
+         "An exception",
+         "A long",
+         "0"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use long or checked to detect it.",
+        "type": "single"
+       },
+       {
+        "prompt": "A good key for a grid coordinate in a HashSet is:",
+        "options": [
+         "A value tuple (int, int)",
+         "An int[]",
+         "A List<int>",
+         "A string only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Tuples have value equality; arrays use reference equality.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why C# for interviews?\n\nC# is a **statically typed, garbage-collected** language on the .NET runtime, widely used for backend services, enterprise software, Windows tools and games (Unity). Its standard library (`System.Collections.Generic`) offers all the structures you need, including a built-in **`PriorityQueue`** since .NET 6, and **LINQ** gives concise queries over collections.\n\n| Strengths | Weaknesses |\n|---|---|\n| Rich, consistent collections and LINQ | More ceremony than Python |\n| Built-in `PriorityQueue`, `SortedSet`, `SortedDictionary` | `int` arithmetic wraps silently (unless `checked`) |\n| Value types (`struct`) and records | `Dictionary` throws on a missing key with the indexer |\n| Great tooling and type safety | No built-in max-heap flag (use a comparer) |\n\n> **Verification note:** the Java, Python, C++, JavaScript and TypeScript programs in this chapter were compiled and run before publishing. This machine has no .NET SDK, so the C# programs were written carefully against the documented APIs but **not executed**; run each one in your own environment (`dotnet new console`) and report any problem.\n\n## 1. Program skeleton and input\n\nModern C# (9+) allows **top-level statements**: no class or `Main` needed. Read input with `Console.ReadLine()` (returns `null` at end of input). Split with `Split(' ', StringSplitOptions.RemoveEmptyEntries)`.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Linq;\n\nvar first = Console.ReadLine()!.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();\nint n = first[0], k = first[1];\nvar nums = Console.ReadLine()!.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(long.Parse).ToArray();\nlong sum = nums.Sum();\nConsole.WriteLine($\"n={n} k={k} sum={sum}\");",
+        "Top-level program reading two lines"
+       ],
+       [
+        "md",
+        "## 2. Types, overflow and modulo\n\n| Type | Size | Notes |\n|---|---|---|\n| `int` | 32 bits | about ±2.1 × 10⁹; **wraps silently** by default |\n| `long` | 64 bits | use for sums and products |\n| `double`, `decimal` | 64 / 128 bits | `decimal` is exact for money |\n| `char` | 16 bits | UTF-16 code unit; behaves like a number |\n| `bool`, `string` | | `string` is immutable |\n| `BigInteger` | unlimited | `System.Numerics` |\n\n`checked { ... }` makes arithmetic throw `OverflowException` on overflow: handy while testing. Integer division truncates toward zero; `%` keeps the dividend's sign, so a non-negative modulo is `((a % m) + m) % m`; `Math.DivRem` returns both.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Numerics;\n\nint big = int.MaxValue;\nConsole.WriteLine(unchecked(big + 1));              // -2147483648 (wraps)\nConsole.WriteLine((long)big + 1);                   // 2147483648 (cast first)\n\nConsole.WriteLine($\"{7 / 2} {-7 / 2} {-7 % 3}\");    // 3 -3 -1\nConsole.WriteLine(((-7 % 3) + 3) % 3);              // 2\n\nconst long MOD = 1_000_000_007L;\nlong x = 123456789L * 987654321L % MOD;\nConsole.WriteLine(x);\n\nBigInteger p = BigInteger.Pow(2, 100);\nConsole.WriteLine(p);\n\ntry { checked { int y = int.MaxValue; y += 1; Console.WriteLine(y); } }\ncatch (OverflowException) { Console.WriteLine(\"overflow detected\"); }",
+        "Overflow, division, modulo, BigInteger and checked"
+       ],
+       [
+        "md",
+        "## 3. Control flow, methods and references\n\n`if`, `switch` (also as an expression), `for`, `foreach`, `while`, `do/while`, `break`, `continue`. Methods can be **local functions** inside others. Arguments are passed by value; for classes the value is a reference, and `ref`/`out` pass a variable by reference. `var` infers the type.\n\n## 4. Strings\n\n`string` is **immutable**; use `StringBuilder` for repeated appends. `s[i]` is a `char`.\n\n| Task | Code |\n|---|---|\n| Length, char | `s.Length`, `s[i]` |\n| Compare content | `s == t` (works), `string.Equals` |\n| Substring | `s.Substring(a, len)` or `s[a..b]` (range) |\n| Search | `s.IndexOf(\"ab\")` (-1 if absent), `s.Contains(\"ab\")` |\n| Split / join | `s.Split(' ')`, `string.Join(\",\", parts)` |\n| Reverse | `new string(s.Reverse().ToArray())` (LINQ) |\n| Letter index | `c - 'a'` |\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Linq;\nusing System.Text;\n\nstatic bool IsPalindrome(string s)\n{\n    int i = 0, j = s.Length - 1;\n    while (i < j) if (s[i++] != s[j--]) return false;\n    return true;\n}\n\nConsole.WriteLine(IsPalindrome(\"level\"));                  // True\n\nvar sb = new StringBuilder();\nfor (char c = 'a'; c <= 'e'; c++) sb.Append(c).Append('-');\nsb.Length--;                                               // drop the last '-'\nConsole.WriteLine(sb);                                     // a-b-c-d-e\n\nint[] counts = new int[26];\nforeach (char c in \"banana\") counts[c - 'a']++;\nConsole.WriteLine($\"{counts[0]} {counts['n' - 'a']}\");     // 3 2\n\nConsole.WriteLine(new string(\"hello\".Reverse().ToArray()));   // olleh",
+        "Strings, StringBuilder and a counting array"
+       ],
+       [
+        "md",
+        "## 5. Arrays and `List<T>`\n\nArrays have a fixed length (`int[] a = new int[n];` zero-filled). Rectangular 2-D arrays use `int[,] g = new int[r, c];`; **jagged** arrays (`int[][]`) are arrays of arrays. `List<T>` is the dynamic array: `Add` (amortised O(1)), indexer O(1), `Insert`/`RemoveAt` O(n), `Contains` O(n), `Sort`, `Reverse`, `BinarySearch`, `IndexOf`. `Array` has static helpers: `Array.Sort`, `Array.Fill`, `Array.Reverse`, `Array.IndexOf`.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Collections.Generic;\n\nint[] a = { 5, 2, 9, 1 };\nArray.Sort(a);\nConsole.WriteLine(string.Join(\" \", a));                    // 1 2 5 9\n\nint[,] grid = new int[3, 4];\ngrid[1, 2] = 7;\nConsole.WriteLine($\"{grid[1, 2]} {grid.GetLength(0)} {grid.GetLength(1)}\");   // 7 3 4\n\nint[][] jag = new int[3][];\nfor (int i = 0; i < 3; i++) { jag[i] = new int[4]; Array.Fill(jag[i], -1); }\njag[0][0] = 5;\nConsole.WriteLine(jag[0][0] + jag[1][1]);                  // 4\n\nvar list = new List<int> { 3, 1, 2 };\nlist.Add(10);\nlist.RemoveAt(0);                                          // remove index 0\nlist.Remove(10);                                           // remove first VALUE 10\nlist.Sort();\nConsole.WriteLine(string.Join(\" \", list));                 // 1 2\n\nvar pairs = new List<(int Key, string Name)> { (3, \"c\"), (1, \"a\"), (2, \"b\") };\npairs.Sort((x, y) => x.Key.CompareTo(y.Key));\nConsole.WriteLine(pairs[0].Name);                          // a",
+        "Arrays, rectangular and jagged grids, List<T> and tuples"
+       ],
+       [
+        "md",
+        "## 6. Dictionaries and sets\n\n| Structure | Class | Cost | Notes |\n|---|---|---|---|\n| Hash map | `Dictionary<K,V>` | O(1) average | indexer **throws** `KeyNotFoundException` if missing; use `TryGetValue` |\n| Hash set | `HashSet<T>` | O(1) average | `Add` returns bool |\n| Sorted map | `SortedDictionary<K,V>` | O(log n) | iterates in key order |\n| Sorted set | `SortedSet<T>` | O(log n) | `Min`, `Max`, `GetViewBetween` |\n\nKeys need consistent `Equals`/`GetHashCode`; tuples and records have value equality built in, so `(r, c)` works as a key directly.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Collections.Generic;\n\nvar freq = new Dictionary<char, int>();\nforeach (char c in \"mississippi\")\n{\n    freq.TryGetValue(c, out int cur);\n    freq[c] = cur + 1;\n}\nConsole.WriteLine($\"{freq['s']} {freq['i']} {freq.Count}\");   // 4 4 4\n\nint[] nums = { 2, 7, 11, 15 };\nint target = 9;\nvar seen = new Dictionary<int, int>();                       // value -> index\nfor (int i = 0; i < nums.Length; i++)\n{\n    if (seen.TryGetValue(target - nums[i], out int j)) { Console.WriteLine($\"{j} {i}\"); break; }\n    seen[nums[i]] = i;\n}\n\nvar groups = new SortedDictionary<int, List<string>>();\nforeach (var w in new[] { \"to\", \"be\", \"or\", \"not\" })\n{\n    if (!groups.ContainsKey(w.Length)) groups[w.Length] = new List<string>();\n    groups[w.Length].Add(w);\n}\nforeach (var kv in groups) Console.Write($\"{kv.Key}:{kv.Value.Count} \");   // 2:3 3:1\nConsole.WriteLine();\n\nvar visited = new HashSet<(int, int)>();                     // tuples hash by value\nvisited.Add((0, 1));\nConsole.WriteLine($\"{visited.Contains((0, 1))} {visited.Count}\");\n\nvar sorted = new SortedSet<int> { 10, 20, 30 };\nConsole.WriteLine($\"{sorted.Min} {sorted.Max}\");             // 10 30",
+        "Counting, two-sum, grouping, tuple keys and a sorted set"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and priority queue\n\n| Need | Use | Methods |\n|---|---|---|\n| Stack | `Stack<T>` | `Push`, `Pop`, `Peek`, `Count` |\n| Queue | `Queue<T>` | `Enqueue`, `Dequeue`, `Peek` |\n| Deque | `LinkedList<T>` (`AddFirst`, `AddLast`, `RemoveFirst`, `RemoveLast`) | O(1) ends |\n| Priority queue | `PriorityQueue<TElement, TPriority>` (.NET 6+) | `Enqueue(element, priority)`, `Dequeue()`, `Peek()`; **min-priority first** |\n\nFor a **max-heap** use a comparer: `new PriorityQueue<int, int>(Comparer<int>.Create((a, b) => b.CompareTo(a)))`. `Dequeue()` on an empty queue throws; check `Count`.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Collections.Generic;\n\nvar stack = new Stack<int>();\nstack.Push(1); stack.Push(2);\nConsole.WriteLine(stack.Pop());                              // 2\n\nvar q = new Queue<int>();\nq.Enqueue(1); q.Enqueue(2);\nConsole.WriteLine(q.Dequeue());                              // 1\n\nvar pq = new PriorityQueue<string, int>();                   // element, priority (smallest first)\npq.Enqueue(\"later\", 5);\npq.Enqueue(\"now\", 1);\nConsole.WriteLine(pq.Dequeue());                             // now\n\nvar maxHeap = new PriorityQueue<int, int>(Comparer<int>.Create((a, b) => b.CompareTo(a)));\nforeach (int x in new[] { 3, 9, 4 }) maxHeap.Enqueue(x, x);\nConsole.WriteLine(maxHeap.Peek());                           // 9\n\nvar dq = new LinkedList<int>();\ndq.AddLast(2); dq.AddFirst(1); dq.AddLast(3);\ndq.RemoveLast();\nConsole.WriteLine($\"{dq.First!.Value} {dq.Last!.Value}\");    // 1 2",
+        "Stack, queue, PriorityQueue (min and max) and LinkedList as a deque"
+       ],
+       [
+        "md",
+        "## 8. Sorting, comparers, LINQ and binary search\n\n`Array.Sort` and `List.Sort` are introsort (**not stable**). LINQ's `OrderBy`/`ThenBy` are **stable** and return a new sequence. Custom order: `list.Sort((a, b) => ...)` (return negative, zero, positive) or `Comparer<T>.Create`. Avoid `a - b` in comparers (overflow): use `a.CompareTo(b)`. `BinarySearch` returns the index or the **bitwise complement** of the insertion point (`~idx`).\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nvar people = new List<(string Name, int Age)> { (\"Asha\", 30), (\"Ben\", 25), (\"Chen\", 30) };\nvar ordered = people.OrderByDescending(p => p.Age).ThenBy(p => p.Name).ToList();   // stable, new list\nConsole.WriteLine(string.Join(\" \", ordered.Select(p => p.Name)));                   // Asha Chen Ben\n\nint[] sorted = { 1, 3, 5, 7, 9 };\nConsole.WriteLine(Array.BinarySearch(sorted, 7));            // 3\nConsole.WriteLine(~Array.BinarySearch(sorted, 4));           // 2 (insertion point)\n\nvar intervals = new List<int[]> { new[] { 5, 8 }, new[] { 1, 3 }, new[] { 2, 6 } };\nintervals.Sort((x, y) => x[0].CompareTo(y[0]));\nConsole.WriteLine(string.Join(\"\", intervals.Select(i => i[0])));   // 125\n\nConsole.WriteLine(new[] { 4, 8, 15 }.Max() + \" \" + new[] { 4, 8, 15 }.Sum());       // 15 27",
+        "Sorting with comparers and LINQ, binary search and intervals"
+       ],
+       [
+        "md",
+        "## 9. Classes, records and nodes\n\nUse a `class` for nodes (reference type). `record` gives value equality and concise syntax. Nullable reference types (`ListNode?`) document where `null` is allowed; the compiler warns about dereferencing a possible `null`.\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\n\nstatic ListNode? Reverse(ListNode? head)\n{\n    ListNode? prev = null;\n    while (head != null)\n    {\n        var next = head.Next;\n        head.Next = prev;\n        prev = head;\n        head = next;\n    }\n    return prev;\n}\n\nstatic int Height(TreeNode? t) => t == null ? 0 : 1 + Math.Max(Height(t.Left), Height(t.Right));\n\nvar h = Reverse(new ListNode(1) { Next = new ListNode(2) { Next = new ListNode(3) } });\nfor (var p = h; p != null; p = p.Next) Console.Write(p.Val + \" \");   // 3 2 1\nConsole.WriteLine();\nConsole.WriteLine(Height(new TreeNode(1) { Left = new TreeNode(2) { Left = new TreeNode(3) } }));   // 3\n\nclass ListNode { public int Val; public ListNode? Next; public ListNode(int v) { Val = v; } }\nclass TreeNode { public int Val; public TreeNode? Left, Right; public TreeNode(int v) { Val = v; } }",
+        "Linked list reversal and tree height"
+       ],
+       [
+        "md",
+        "## 10. Complexity cheat sheet (.NET collections)\n\n| Operation | List&lt;T&gt; | LinkedList&lt;T&gt; | Dictionary / HashSet | SortedDictionary / SortedSet | Stack / Queue | PriorityQueue |\n|---|---|---|---|---|---|---|\n| Index | O(1) | O(n) | - | - | - | - |\n| Add at end | O(1)* | O(1) | O(1)* | O(log n) | O(1) | O(log n) |\n| Insert/remove middle | O(n) | O(1) at node | - | - | - | - |\n| Find | O(n) | O(n) | O(1)* | O(log n) | O(n) | O(n) |\n| Min | O(n) | O(n) | O(n) | O(log n) | - | O(1) peek |\n\n\\* amortised / average.\n\n## 11. Pitfalls and idioms checklist\n\n- `Dictionary` indexer throws on a missing key: use `TryGetValue` or `ContainsKey`.\n- `int` overflow wraps silently; use `long` or `checked`.\n- `Array.Sort` / `List.Sort` are not stable; LINQ `OrderBy` is.\n- Never write comparers as `a - b`; use `CompareTo`.\n- `PriorityQueue` pops the **smallest priority**; flip the comparer for a max-heap.\n- Do not modify a collection inside `foreach` over it (`InvalidOperationException`).\n- Strings are immutable; use `StringBuilder` in loops.\n- `==` on strings compares content, but on arrays and lists compares references.\n- A `struct` is copied on assignment; a `class` is shared.\n- Check `Count` before `Pop`, `Peek`, `Dequeue`.\n- LINQ is expressive but allocates; in hot loops prefer plain loops.\n\n## 12. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "csharp",
+        "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nstatic (int, int)? TwoSum(int[] a, int target)\n{\n    var seen = new Dictionary<int, int>();\n    for (int j = 0; j < a.Length; j++)\n    {\n        if (seen.TryGetValue(target - a[j], out int i)) return (i + 1, j + 1);\n        seen.TryAdd(a[j], j);\n    }\n    return null;\n}\n\nvar first = Console.ReadLine()!.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();\nint n = first[0], t = first[1];\nvar a = Console.ReadLine()!.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Take(n).ToArray();\nvar r = TwoSum(a, t);\nConsole.WriteLine(r is null ? \"-1\" : $\"{r.Value.Item1} {r.Value.Item2}\");",
+        "Template: parse, call a pure function, print"
+       ],
+       [
+        "md",
+        "## 13. What to practise next\n\n1. Create a console project with `dotnet new console`, paste each program and run it; fix anything your SDK version complains about.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Kth Largest](/problems/kth-largest) and [Course Order](/problems/course-order) in C#.\n3. Learn `Dictionary`, `PriorityQueue`, `List.Sort` and LINQ `OrderBy`/`GroupBy`/`Select`: they cover most interview needs.\n"
+       ]
+      ]
+     },
+     {
+      "slug": "go-for-dsa",
+      "title": "Go for DSA",
+      "tier": "free",
+      "minutes": 30,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why must you write `a = append(a, x)`?",
+        "options": [
+         "append may return a new slice",
+         "append mutates a global",
+         "It is optional",
+         "It sorts a"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The slice header can change when capacity grows.",
+        "type": "single"
+       },
+       {
+        "prompt": "Reading a missing key from a Go map returns:",
+        "options": [
+         "The zero value of the value type",
+         "An error",
+         "nil always",
+         "A panic"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use v, ok := m[k] to tell the difference.",
+        "type": "single"
+       },
+       {
+        "prompt": "Go's closest thing to a set is:",
+        "options": [
+         "map[T]struct{}",
+         "[]T",
+         "list.List",
+         "A built-in set type"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "There is no set type.",
+        "type": "single"
+       },
+       {
+        "prompt": "Writing to a nil map:",
+        "options": [
+         "Panics",
+         "Creates it",
+         "Is ignored",
+         "Returns false"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Create maps with make or a literal.",
+        "type": "single"
+       },
+       {
+        "prompt": "`for i, v := range s` over a string yields:",
+        "options": [
+         "Byte offsets and runes",
+         "Bytes only",
+         "Words",
+         "Lines"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A rune is a Unicode code point.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why Go for interviews?\n\nGo is a **small, compiled, statically typed, garbage-collected** language designed at Google for simple, fast, concurrent servers. It is common in backend and infrastructure roles (cloud tooling, microservices). Go is deliberately minimal: there is **one loop keyword (`for`)**, no classes, no exceptions, and a short standard library, so DSA code is explicit and a little longer than in Python, but easy to read.\n\n| Strengths | Weaknesses |\n|---|---|\n| Fast compile and run; simple syntax | No built-in set, stack, queue or deque types |\n| Slices and maps are built in | `container/heap` needs an interface boilerplate |\n| Goroutines and channels for concurrency | Verbose error handling |\n| Clear, predictable semantics | Generics are newer (Go 1.18+) and limited |\n\n> **Verification note:** the Java, Python, C++, JavaScript and TypeScript programs in this chapter were compiled and run before publishing. This machine has no Go toolchain, so the Go programs were written carefully against the standard library but **not executed**; run each at <https://go.dev/play> or with `go run` and report any problem.\n\n## 1. Program skeleton and input\n\nEvery program is `package main` with `func main()`. Read input with `bufio` (fast) and `fmt.Fscan`. Output with `fmt.Println` / `fmt.Printf` (use a buffered writer for large output).\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc main() {\n\tin := bufio.NewReader(os.Stdin)\n\tout := bufio.NewWriter(os.Stdout)\n\tdefer out.Flush()\n\n\tvar n, k int\n\tfmt.Fscan(in, &n, &k)\n\tnums := make([]int64, n)\n\tvar sum int64\n\tfor i := range nums {\n\t\tfmt.Fscan(in, &nums[i])\n\t\tsum += nums[i]\n\t}\n\tfmt.Fprintf(out, \"n=%d k=%d sum=%d\\n\", n, k, sum)\n}",
+        "Fast input with bufio.Reader and fmt.Fscan"
+       ],
+       [
+        "md",
+        "## 2. Types, overflow and integer division\n\n| Type | Notes |\n|---|---|\n| `int` | 64 bits on 64-bit systems (the default integer) |\n| `int32`, `int64`, `uint` ... | explicit sizes; **overflow wraps silently** (no panic) |\n| `float64`, `bool` | as usual |\n| `string` | immutable bytes (UTF-8) |\n| `byte` (`uint8`), `rune` (`int32`) | a byte, and a Unicode code point |\n| `math.MaxInt64`, `math.MinInt64` | constants in package `math` |\n\n`/` on integers truncates toward zero; `%` keeps the dividend's sign (`-7 % 3 == -1`). Go **never converts types implicitly**: `int64(x) * y` needs both sides the same type. Unused variables and imports are **compile errors**.\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc main() {\n\tvar a int32 = math.MaxInt32\n\ta++\n\tfmt.Println(a) // -2147483648 (wraps)\n\n\tfmt.Println(7/2, -7/2, -7%3) // 3 -3 -1\n\tm := ((-7 % 3) + 3) % 3\n\tfmt.Println(m) // 2\n\n\tconst MOD = 1_000_000_007\n\tx := int64(123456789) * int64(987654321) % MOD\n\tfmt.Println(x)\n\n\tfmt.Println(math.MaxInt64, math.Sqrt(144), math.Abs(-3.5))\n\tvar inf = math.MaxInt64 // a common \"infinity\" for minimum searches\n\tfmt.Println(inf > 1<<40)\n}",
+        "Wrap-around, division, modulo and constants"
+       ],
+       [
+        "md",
+        "## 3. Control flow, functions and multiple returns\n\nOnly `for` exists: `for i := 0; i < n; i++ {}`, `for cond {}` (while), `for {}` (infinite), and `for i, v := range slice {}`. `if` can have an initialiser: `if v, ok := m[k]; ok {}`. `switch` needs no `break`. Functions can return **multiple values**, commonly `(result, error)` or `(value, ok)`. Slices, maps and pointers are passed as small headers/references; arrays are copied.\n\n## 4. Strings, bytes and runes\n\nA `string` is an immutable sequence of **bytes**. `s[i]` is a `byte`; `for i, r := range s` yields **runes** (Unicode characters). For ASCII problems use bytes; convert with `[]byte(s)` to mutate, and `string(b)` back. Build with `strings.Builder`.\n\n| Task | Code |\n|---|---|\n| Length (bytes) | `len(s)` |\n| Substring | `s[a:b]` (shares memory, O(1)) |\n| Search / contains | `strings.Index(s, \"ab\")`, `strings.Contains` |\n| Split / join | `strings.Fields(s)`, `strings.Split(s, \",\")`, `strings.Join(parts, \",\")` |\n| Reverse | convert to `[]rune` or `[]byte` and swap |\n| Letter index | `s[i] - 'a'` |\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc isPalindrome(s string) bool {\n\ti, j := 0, len(s)-1\n\tfor i < j {\n\t\tif s[i] != s[j] {\n\t\t\treturn false\n\t\t}\n\t\ti++\n\t\tj--\n\t}\n\treturn true\n}\n\nfunc reverse(s string) string {\n\tb := []byte(s)\n\tfor i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {\n\t\tb[i], b[j] = b[j], b[i]\n\t}\n\treturn string(b)\n}\n\nfunc main() {\n\tfmt.Println(isPalindrome(\"level\")) // true\n\tfmt.Println(reverse(\"hello\"))      // olleh\n\n\tvar counts [26]int\n\tfor i := 0; i < len(\"banana\"); i++ {\n\t\tcounts[\"banana\"[i]-'a']++\n\t}\n\tfmt.Println(counts[0], counts['n'-'a']) // 3 2\n\n\tvar sb strings.Builder\n\tfor c := 'a'; c <= 'e'; c++ {\n\t\tsb.WriteRune(c)\n\t}\n\tfmt.Println(sb.String(), strings.Fields(\" a  b c \"))\n}",
+        "Strings, bytes, a counting array and strings.Builder"
+       ],
+       [
+        "md",
+        "## 5. Arrays and slices\n\nAn **array** `[5]int` has a fixed length that is part of its type and is **copied** on assignment. A **slice** `[]int` is a view (pointer, length, capacity) over an array and is what you use for dynamic arrays: `append` is amortised O(1) (`a = append(a, x)`: always reassign), `len(a)`, `cap(a)`, `a[i:j]` re-slices without copying (changes are shared!), `copy(dst, src)` copies. 2-D slices need each row allocated: `g := make([][]int, r)` then `g[i] = make([]int, c)`.\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc main() {\n\ta := []int{5, 2, 9, 1}\n\tsort.Ints(a)\n\tfmt.Println(a, len(a), a[1:3]) // [1 2 5 9] 4 [2 5]\n\n\ta = append(a, 10) // always reassign the result of append\n\tfmt.Println(a)\n\n\tb := a[:2] // a re-slice SHARES memory with a\n\tb[0] = 100\n\tfmt.Println(a[0]) // 100\n\n\tc := make([]int, len(a)) // an independent copy\n\tcopy(c, a)\n\tc[0] = 7\n\tfmt.Println(a[0], c[0]) // 100 7\n\n\tgrid := make([][]int, 3)\n\tfor i := range grid {\n\t\tgrid[i] = make([]int, 4)\n\t\tfor j := range grid[i] {\n\t\t\tgrid[i][j] = -1\n\t\t}\n\t}\n\tgrid[1][2] = 7\n\tfmt.Println(grid[1])\n\n\t// remove index 1 while keeping order\n\ta = append(a[:1], a[2:]...)\n\tfmt.Println(a)\n}",
+        "Slices: append, sharing, copy, 2-D grids and deletion"
+       ],
+       [
+        "md",
+        "## 6. Maps and sets\n\n`map[K]V` is a hash map (average O(1)). Reading a missing key returns the **zero value**, so use the comma-ok form to tell the difference: `v, ok := m[k]`. Maps are **unordered** (iteration order is random). There is no set type: use `map[T]struct{}` or `map[T]bool`. Keys must be comparable: ints, strings, arrays and structs of comparable fields work; slices do not (use `[2]int` for coordinates).\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc main() {\n\tfreq := map[rune]int{}\n\tfor _, c := range \"mississippi\" {\n\t\tfreq[c]++ // missing key starts at zero\n\t}\n\tfmt.Println(freq['s'], freq['i'], len(freq)) // 4 4 4\n\n\tnums := []int{2, 7, 11, 15}\n\ttarget := 9\n\tseen := map[int]int{} // value -> index\n\tfor i, x := range nums {\n\t\tif j, ok := seen[target-x]; ok {\n\t\t\tfmt.Println(j, i)\n\t\t\tbreak\n\t\t}\n\t\tseen[x] = i\n\t}\n\n\tgroups := map[int][]string{}\n\tfor _, w := range []string{\"to\", \"be\", \"or\", \"not\"} {\n\t\tgroups[len(w)] = append(groups[len(w)], w)\n\t}\n\tkeys := make([]int, 0, len(groups))\n\tfor k := range groups {\n\t\tkeys = append(keys, k)\n\t}\n\tsort.Ints(keys) // maps iterate in random order: sort the keys\n\tfor _, k := range keys {\n\t\tfmt.Print(k, \":\", len(groups[k]), \" \") // 2:3 3:1\n\t}\n\tfmt.Println()\n\n\tvisited := map[[2]int]struct{}{} // a set of coordinates\n\tvisited[[2]int{0, 1}] = struct{}{}\n\t_, has := visited[[2]int{0, 1}]\n\tfmt.Println(has, len(visited)) // true 1\n}",
+        "Counting, two-sum, grouping, sorted iteration and a set of arrays"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and heap\n\nGo has no stack or queue types: use **slices**.\n\n| Need | How |\n|---|---|\n| Stack | `st = append(st, x)`; top is `st[len(st)-1]`; pop is `st = st[:len(st)-1]` |\n| Queue | slice with a head index (`q[head]`, `head++`), or `container/list` |\n| Deque | `container/list` (doubly linked) |\n| Heap | `container/heap`: implement `Len`, `Less`, `Swap`, `Push`, `Pop` on your slice type |\n\n`heap.Push(h, x)` / `heap.Pop(h)` call your methods and keep the invariant. `Less` decides the order: `a[i] < a[j]` gives a min-heap; flip it for a max-heap.\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"container/heap\"\n\t\"container/list\"\n\t\"fmt\"\n)\n\ntype IntHeap []int\n\nfunc (h IntHeap) Len() int           { return len(h) }\nfunc (h IntHeap) Less(i, j int) bool { return h[i] < h[j] } // min-heap\nfunc (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }\nfunc (h *IntHeap) Push(x any)        { *h = append(*h, x.(int)) }\nfunc (h *IntHeap) Pop() any {\n\told := *h\n\tn := len(old)\n\tx := old[n-1]\n\t*h = old[:n-1]\n\treturn x\n}\n\nfunc main() {\n\tstack := []int{1, 2}\n\tstack = append(stack, 3)\n\ttop := stack[len(stack)-1]\n\tstack = stack[:len(stack)-1]\n\tfmt.Println(top, len(stack)) // 3 2\n\n\tqueue := []int{1, 2, 3}\n\thead := 0\n\tfmt.Println(queue[head], len(queue)-head-1) // 1 2\n\thead++\n\n\th := &IntHeap{5, 1, 4}\n\theap.Init(h)\n\theap.Push(h, 0)\n\tsmallest := heap.Pop(h) // 0\n\tfmt.Println(smallest, (*h)[0]) // 0 1\n\n\tdq := list.New()\n\tdq.PushBack(2)\n\tdq.PushFront(1)\n\tdq.PushBack(3)\n\tdq.Remove(dq.Back())\n\tfmt.Println(dq.Front().Value, dq.Back().Value, dq.Len()) // 1 2 2\n}",
+        "Stack and queue on slices, container/heap and container/list"
+       ],
+       [
+        "md",
+        "## 8. Sorting and binary search\n\nPackage `sort`: `sort.Ints`, `sort.Strings`, `sort.Slice(s, less)` (not stable), `sort.SliceStable`, `sort.Search(n, f)` (first index where `f` is true) and `sort.SearchInts(a, x)` (the first index with `a[i] >= x`). From Go 1.21 the `slices` package adds `slices.Sort`, `slices.BinarySearch` and the built-ins `min` and `max`.\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\ntype Person struct {\n\tName string\n\tAge  int\n}\n\nfunc main() {\n\tpeople := []Person{{\"Asha\", 30}, {\"Ben\", 25}, {\"Chen\", 30}}\n\tsort.Slice(people, func(i, j int) bool {\n\t\tif people[i].Age != people[j].Age {\n\t\t\treturn people[i].Age > people[j].Age // older first\n\t\t}\n\t\treturn people[i].Name < people[j].Name\n\t})\n\tfor _, p := range people {\n\t\tfmt.Print(p.Name, \" \") // Asha Chen Ben\n\t}\n\tfmt.Println()\n\n\tv := []int{1, 3, 5, 5, 7, 9}\n\tfmt.Println(sort.SearchInts(v, 5))                                // 2 (first index with v[i] >= 5)\n\tfmt.Println(sort.Search(len(v), func(i int) bool { return v[i] > 5 })) // 4 (first index with v[i] > 5)\n\n\tintervals := [][]int{{5, 8}, {1, 3}, {2, 6}}\n\tsort.Slice(intervals, func(i, j int) bool { return intervals[i][0] < intervals[j][0] })\n\tfmt.Println(intervals) // [[1 3] [2 6] [5 8]]\n}",
+        "sort.Slice with multiple keys, SearchInts and sort.Search"
+       ],
+       [
+        "md",
+        "## 9. Structs, pointers and nodes\n\nThere are no classes: use `struct` and methods. A pointer `*T` lets you share and mutate; `nil` is the zero value of pointers, slices and maps (a nil map **panics on write**, so `make` it). Use `&T{...}` to allocate. Access fields through a pointer with `p.field` (Go dereferences automatically).\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport \"fmt\"\n\ntype ListNode struct {\n\tVal  int\n\tNext *ListNode\n}\n\ntype TreeNode struct {\n\tVal         int\n\tLeft, Right *TreeNode\n}\n\nfunc reverse(head *ListNode) *ListNode {\n\tvar prev *ListNode\n\tfor head != nil {\n\t\tnext := head.Next\n\t\thead.Next = prev\n\t\tprev = head\n\t\thead = next\n\t}\n\treturn prev\n}\n\nfunc height(t *TreeNode) int {\n\tif t == nil {\n\t\treturn 0\n\t}\n\treturn 1 + max(height(t.Left), height(t.Right)) // built-in max (Go 1.21+)\n}\n\nfunc main() {\n\th := reverse(&ListNode{1, &ListNode{2, &ListNode{3, nil}}})\n\tfor p := h; p != nil; p = p.Next {\n\t\tfmt.Print(p.Val, \" \") // 3 2 1\n\t}\n\tfmt.Println()\n\n\troot := &TreeNode{Val: 1, Left: &TreeNode{Val: 2, Left: &TreeNode{Val: 3}}}\n\tfmt.Println(height(root)) // 3\n}",
+        "Linked list reversal and tree height with pointers"
+       ],
+       [
+        "md",
+        "## 10. Complexity cheat sheet (Go built-ins and standard library)\n\n| Operation | Slice | map | container/list | container/heap |\n|---|---|---|---|---|\n| Index | O(1) | - | O(n) | - |\n| Append at end | O(1)* | O(1)* insert | O(1) | O(log n) push |\n| Insert/delete middle | O(n) | O(1)* | O(1) at element | - |\n| Find by value | O(n) | O(1)* | O(n) | - |\n| Min | O(n) | O(n) | O(n) | O(1) at index 0 |\n\n\\* amortised / average.\n\n## 11. Pitfalls and idioms checklist\n\n- Always assign the result of `append`: `a = append(a, x)`.\n- Re-slicing **shares memory**; use `copy` for an independent slice.\n- Reading a missing map key returns the zero value; use `v, ok := m[k]`.\n- Writing to a **nil map** panics; create maps with `make` or a literal.\n- Map iteration order is random; sort the keys when you need order.\n- Integer overflow wraps silently; use `int64` and watch for `int32`.\n- `len(s)` of a string counts **bytes**, not characters; use `[]rune(s)` for Unicode.\n- Unused variables and imports do not compile.\n- There are no implicit conversions: convert explicitly.\n- `container/heap` methods `Push` and `Pop` are for the heap package: call `heap.Push` / `heap.Pop`, not the methods directly.\n- Deep recursion is fine (stacks grow), but very deep recursion still uses memory.\n\n## 12. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "go",
+        "package main\n\nimport (\n\t\"bufio\"\n\t\"fmt\"\n\t\"os\"\n)\n\nfunc twoSum(a []int, target int) (int, int, bool) {\n\tseen := map[int]int{}\n\tfor j, x := range a {\n\t\tif i, ok := seen[target-x]; ok {\n\t\t\treturn i + 1, j + 1, true\n\t\t}\n\t\tif _, has := seen[x]; !has {\n\t\t\tseen[x] = j\n\t\t}\n\t}\n\treturn 0, 0, false\n}\n\nfunc main() {\n\tin := bufio.NewReader(os.Stdin)\n\tvar n, t int\n\tfmt.Fscan(in, &n, &t)\n\ta := make([]int, n)\n\tfor i := range a {\n\t\tfmt.Fscan(in, &a[i])\n\t}\n\tif i, j, ok := twoSum(a, t); ok {\n\t\tfmt.Println(i, j)\n\t} else {\n\t\tfmt.Println(-1)\n\t}\n}",
+        "Template: parse, call a pure function, print"
+       ],
+       [
+        "md",
+        "## 13. What to practise next\n\n1. Run every program on the Go Playground and change the inputs.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Kth Largest](/problems/kth-largest) and [Cheapest Route](/problems/cheapest-route) in Go; the last one needs `container/heap`.\n3. Practise the heap boilerplate until you can write it from memory; it is the part of Go interviews people forget.\n"
+       ]
+      ]
+     },
+     {
+      "slug": "javascript-for-dsa",
+      "title": "JavaScript for DSA",
+      "tier": "free",
+      "minutes": 30,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "`[10, 9, 1].sort()` returns:",
+        "options": [
+         "[1, 10, 9]",
+         "[1, 9, 10]",
+         "[10, 9, 1]",
+         "An error"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The default sort compares strings.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why is `queue.shift()` a poor choice for a large queue?",
+        "options": [
+         "It is O(n)",
+         "It throws",
+         "It is not a function",
+         "It sorts"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use a head index or a linked list.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which structure is missing from JavaScript's standard library?",
+        "options": [
+         "Priority queue (heap)",
+         "Map",
+         "Set",
+         "Array"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "You write your own heap.",
+        "type": "single"
+       },
+       {
+        "prompt": "Integers are exact in `Number` only up to:",
+        "options": [
+         "2^53 - 1",
+         "2^31 - 1",
+         "2^64",
+         "10^9"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use BigInt for larger exact integers.",
+        "type": "single"
+       },
+       {
+        "prompt": "To get a 2-D grid of independent rows you should:",
+        "options": [
+         "Use Array.from with a factory",
+         "Use new Array(r).fill(row)",
+         "Use one array",
+         "Use an object"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "fill(row) repeats one reference.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why JavaScript for interviews?\n\nJavaScript runs in every browser and, through **Node.js**, on servers. If you apply for front-end or full-stack roles you may be asked to solve problems in it. It is dynamically typed and concise like Python, but with a few traps that matter a lot in interviews: numbers are all floating point, `==` converts types, arrays are objects, and the standard library has **no built-in heap, deque or sorted map**, so you will write small ones yourself.\n\n| Strengths | Weaknesses |\n|---|---|\n| Very common in web roles; fast JIT engines | No priority queue, deque or tree map in the standard library |\n| Concise array methods (`map`, `filter`, `reduce`) | Default `sort()` compares as **strings** |\n| `Map` and `Set` keep insertion order | One `Number` type: precise integers only up to 2⁵³ - 1 |\n| `BigInt` for huge integers | Type coercion surprises with `==` and `+` |\n\nAll programs below run on Node.js 18 or newer.\n\n## 1. Program skeleton and input\n\nThere is no `main`. Read standard input in Node with `fs.readFileSync(0)` (file descriptor 0).\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "const data = require(\"fs\").readFileSync(0, \"utf8\").split(/\\s+/).filter(Boolean).map(Number);\nconst n = data[0], k = data[1];\nconst nums = data.slice(2, 2 + n);\nconst sum = nums.reduce((a, b) => a + b, 0);\nconsole.log(`n=${n} k=${k} sum=${sum}`);",
+        "Read all tokens, convert to numbers"
+       ],
+       [
+        "md",
+        "## 2. Numbers, `BigInt` and equality\n\nEvery normal number is a 64-bit **float** (`Number`). Integers are exact up to `Number.MAX_SAFE_INTEGER` (9 007 199 254 740 991 = 2⁵³ - 1); beyond that you silently lose precision. Use **`BigInt`** (`123n`) for large exact integers (you cannot mix `BigInt` and `Number` without converting).\n\n| Operator | Notes |\n|---|---|\n| `/` | always true division: `7 / 2 === 3.5`; use `Math.floor(7 / 2)` or `Math.trunc` for integer division |\n| `%` | remainder keeps the sign of the dividend: `-7 % 3 === -1`; non-negative modulo: `((a % m) + m) % m` |\n| `===` | strict equality: use it always (`==` coerces: `\"1\" == 1` is true) |\n| `Math.max(...a)` | spreading a huge array can overflow the call stack (around 10⁵ items) |\n| Bitwise ops | work on **32-bit** signed integers: `1 << 31` is negative |\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "console.log(0.1 + 0.2 === 0.3);                // false (floating point)\nconsole.log(Number.MAX_SAFE_INTEGER + 2);        // 9007199254740992 (precision lost)\nconsole.log(2n ** 100n);                         // exact big integer\nconsole.log(Math.floor(7 / 2), Math.trunc(-7 / 2), -7 % 3);   // 3 -3 -1\nconsole.log(((-7 % 3) + 3) % 3);                 // 2\nconsole.log(\"1\" == 1, \"1\" === 1);                // true false\nconsole.log(1 << 31, 2 ** 31 | 0);               // -2147483648 -2147483648\nconst MOD = 1_000_000_007n;\nconsole.log(123456789n * 987654321n % MOD);     // BigInt modular product",
+        "Floats, BigInt, division and equality"
+       ],
+       [
+        "md",
+        "## 3. Control flow, functions and scope\n\n`if/else`, `switch`, `for`, `for...of` (values), `for...in` (keys; avoid on arrays), `while`, `break`, `continue`. Prefer `const` (cannot be reassigned) and `let` (block scoped); avoid `var`. Functions can be declarations, expressions or **arrow functions** `(a, b) => a + b`. Arguments are passed by value; for objects and arrays the value is a reference, so mutations are visible to the caller.\n\n## 4. Strings\n\nStrings are **immutable** UTF-16 sequences. Indexing `s[i]` gives a one-character string (no `char` type). Build with an array and `join` or `+=` (engines optimise concatenation).\n\n| Task | Code |\n|---|---|\n| Length, char at | `s.length`, `s[i]`, `s.charAt(i)` |\n| Char code / back | `s.charCodeAt(i)`, `String.fromCharCode(97)` |\n| Letter index 0..25 | `s.charCodeAt(i) - 97` |\n| Substring | `s.slice(a, b)` (end exclusive) |\n| Split / join | `s.split(\" \")`, `arr.join(\",\")` |\n| Reverse | `[...s].reverse().join(\"\")` |\n| Search | `s.indexOf(\"ab\")` (-1 if absent), `s.includes(\"ab\")` |\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "function isPalindrome(s) {\n  let i = 0, j = s.length - 1;\n  while (i < j) if (s[i++] !== s[j--]) return false;\n  return true;\n}\nconsole.log(isPalindrome(\"level\"));                         // true\n\nconsole.log([...\"hello\"].reverse().join(\"\"));               // olleh\n\nconst counts = new Array(26).fill(0);                       // letter frequencies\nfor (const c of \"banana\") counts[c.charCodeAt(0) - 97]++;\nconsole.log(counts[0], counts[\"n\".charCodeAt(0) - 97]);     // 3 2\n\nconsole.log(\"abcabc\".indexOf(\"ca\"), \"a-b-c\".split(\"-\"));   // 2 [ 'a', 'b', 'c' ]",
+        "Strings and a counting array"
+       ],
+       [
+        "md",
+        "## 5. Arrays\n\nJavaScript arrays are **dynamic arrays**: `push` / `pop` at the end are O(1); `shift` / `unshift` at the front are **O(n)** in general (use an index pointer or a custom queue). 2-D arrays are arrays of arrays: `Array.from({ length: r }, () => new Array(c).fill(0))` (never `new Array(r).fill(new Array(c))`, which shares one row).\n\n**Sorting trap:** `arr.sort()` with no comparator sorts as **strings**: `[10, 9, 1].sort()` gives `[1, 10, 9]`. Always pass `(a, b) => a - b` for numbers (safe here because numbers are floats, no integer overflow).\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "const a = [5, 2, 9, 1, 10];\nconsole.log([...a].sort());                  // [ 1, 10, 2, 5, 9 ]  (string order!)\nconsole.log([...a].sort((x, y) => x - y));   // [ 1, 2, 5, 9, 10 ]\n\nconst grid = Array.from({ length: 3 }, () => new Array(4).fill(-1));\ngrid[1][2] = 7;\nconsole.log(grid);\n\nconst bad = new Array(2).fill(new Array(2).fill(0));\nbad[0][0] = 1;\nconsole.log(bad);                            // both rows changed (shared reference)\n\nconsole.log(a.slice(1, 3), a.indexOf(9), a.includes(2));\nconsole.log(a.map(x => x * 2), a.filter(x => x % 2 === 0), a.reduce((s, x) => s + x, 0));\nconsole.log(Math.max(...a), Math.min(...a));\n\nconst pairs = [[3, \"c\"], [1, \"a\"], [2, \"b\"]];\npairs.sort((p, q) => p[0] - q[0]);\nconsole.log(pairs);",
+        "Arrays, the sort trap, 2-D grids and array methods"
+       ],
+       [
+        "md",
+        "## 6. `Map` and `Set`\n\nUse `Map` for hash maps (any key type, keeps insertion order, `size` property) and `Set` for hash sets. Plain objects (`{}`) also work as maps but have string keys and inherited properties; prefer `Map` when keys are numbers or you need correct counting. Average O(1) for `get`, `set`, `has`, `delete`. Object and array keys use **identity**, so `new Set()` of arrays does not deduplicate equal arrays: use a string key like `` `${r},${c}` ``.\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "const freq = new Map();\nfor (const c of \"mississippi\") freq.set(c, (freq.get(c) ?? 0) + 1);\nconsole.log(freq.get(\"s\"), freq.get(\"i\"), freq.size);       // 4 4 4\n\nconst nums = [2, 7, 11, 15], target = 9;\nconst seen = new Map();                                       // value -> index\nfor (let i = 0; i < nums.length; i++) {\n  if (seen.has(target - nums[i])) { console.log(seen.get(target - nums[i]), i); break; }\n  seen.set(nums[i], i);\n}\n\nconst groups = new Map();\nfor (const w of [\"to\", \"be\", \"or\", \"not\"]) {\n  if (!groups.has(w.length)) groups.set(w.length, []);\n  groups.get(w.length).push(w);\n}\nconsole.log([...groups]);                                    // [ [ 2, [ 'to', 'be', 'or' ] ], [ 3, [ 'not' ] ] ]\n\nconst visited = new Set();\nvisited.add(`${0},${1}`);                                    // string key for a coordinate\nconsole.log(visited.has(\"0,1\"), visited.size);\n\nconst unique = [...new Set([3, 1, 3, 2, 1])];\nconsole.log(unique);                                         // [ 3, 1, 2 ]",
+        "Counting, two-sum, grouping and Set of coordinates"
+       ],
+       [
+        "md",
+        "## 7. Stack, queue, deque and heap (build your own)\n\n| Need | Use |\n|---|---|\n| Stack | Array: `push`, `pop`, `at(-1)` for the top |\n| Queue | Array with a moving **head index** (avoids O(n) `shift`), or a linked list |\n| Deque | Array with two pointers, or a doubly linked list |\n| Heap / priority queue | Write a small binary heap class (below) |\n| Sorted set | No built-in; keep a sorted array with binary search |\n\nInterviews that allow JavaScript expect you to write a heap in about two minutes. Practise it until it is automatic.\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "class MinHeap {\n  constructor(cmp = (a, b) => a - b) { this.a = []; this.cmp = cmp; }\n  get size() { return this.a.length; }\n  peek() { return this.a[0]; }\n  push(x) {\n    const a = this.a; a.push(x);\n    let i = a.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (this.cmp(a[i], a[p]) >= 0) break;\n      [a[i], a[p]] = [a[p], a[i]]; i = p;\n    }\n  }\n  pop() {\n    const a = this.a, top = a[0], last = a.pop();\n    if (a.length) {\n      a[0] = last;\n      let i = 0;\n      for (;;) {\n        const l = 2 * i + 1, r = l + 1; let m = i;\n        if (l < a.length && this.cmp(a[l], a[m]) < 0) m = l;\n        if (r < a.length && this.cmp(a[r], a[m]) < 0) m = r;\n        if (m === i) break;\n        [a[i], a[m]] = [a[m], a[i]]; i = m;\n      }\n    }\n    return top;\n  }\n}\n\nconst h = new MinHeap();\n[5, 1, 4].forEach(x => h.push(x));\nconsole.log(h.pop(), h.peek(), h.size);                       // 1 4 2\n\nconst maxHeap = new MinHeap((a, b) => b - a);                  // flip the comparator for a max-heap\n[3, 9, 4].forEach(x => maxHeap.push(x));\nconsole.log(maxHeap.pop());                                    // 9\n\nconst stack = [1, 2]; stack.push(3);\nconsole.log(stack.pop(), stack.at(-1));                        // 3 2\n\nconst queue = [1, 2, 3]; let head = 0;                         // O(1) dequeue with a head index\nconsole.log(queue[head++], queue.length - head);               // 1 2",
+        "A reusable MinHeap, plus stack and queue"
+       ],
+       [
+        "md",
+        "## 8. Sorting, comparators and binary search\n\n`sort` is stable in modern engines (since ES2019) and runs in O(n log n). The comparator returns a negative, zero or positive number; for multi-key sorts chain with `||`: `(a, b) => b.age - a.age || a.name.localeCompare(b.name)`. There is no built-in binary search; write the standard loop (see the Binary Search chapter).\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "const people = [{ name: \"Asha\", age: 30 }, { name: \"Ben\", age: 25 }, { name: \"Chen\", age: 30 }];\npeople.sort((a, b) => b.age - a.age || a.name.localeCompare(b.name));\nconsole.log(people.map(p => p.name).join(\" \"));               // Asha Chen Ben\n\nfunction lowerBound(a, x) {            // first index with a[i] >= x\n  let lo = 0, hi = a.length;\n  while (lo < hi) {\n    const mid = (lo + hi) >> 1;\n    if (a[mid] < x) lo = mid + 1; else hi = mid;\n  }\n  return lo;\n}\nconsole.log(lowerBound([1, 3, 5, 5, 7, 9], 5));               // 2\n\nconst intervals = [[5, 8], [1, 3], [2, 6]];\nintervals.sort((p, q) => p[0] - q[0]);\nconsole.log(intervals.map(i => i[0]).join(\"\"));               // 125",
+        "Multi-key sort, lowerBound and interval sort"
+       ],
+       [
+        "md",
+        "## 9. Classes, nodes and recursion\n\nUse `class` for nodes. `null` and `undefined` are different: use `=== null` or `== null` deliberately. Recursion depth is limited (roughly 10⁴ frames); convert very deep recursion to loops.\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "class ListNode { constructor(val, next = null) { this.val = val; this.next = next; } }\nclass TreeNode { constructor(val, left = null, right = null) { this.val = val; this.left = left; this.right = right; } }\n\nfunction reverse(head) {\n  let prev = null;\n  while (head) { const nxt = head.next; head.next = prev; prev = head; head = nxt; }\n  return prev;\n}\nconst height = t => (t === null ? 0 : 1 + Math.max(height(t.left), height(t.right)));\n\nlet h = reverse(new ListNode(1, new ListNode(2, new ListNode(3))));\nconst out = [];\nfor (let p = h; p; p = p.next) out.push(p.val);\nconsole.log(out);                                              // [ 3, 2, 1 ]\nconsole.log(height(new TreeNode(1, new TreeNode(2, new TreeNode(3)))));   // 3",
+        "Linked list reversal and tree height"
+       ],
+       [
+        "md",
+        "## 10. Complexity cheat sheet (JavaScript)\n\n| Operation | Array | Map / Set | Object (as map) |\n|---|---|---|---|\n| Index `a[i]` | O(1) | - | - |\n| Push / pop at end | O(1) | - | - |\n| Shift / unshift | O(n) | - | - |\n| Lookup `has/get` | O(n) for `includes` | O(1) avg | O(1) avg |\n| Insert middle (`splice`) | O(n) | - | - |\n| Sort | O(n log n) | - | - |\n\n## 11. Pitfalls and idioms checklist\n\n- `arr.sort()` without a comparator sorts as strings.\n- Use `===`; avoid `==`.\n- `0.1 + 0.2 !== 0.3`; compare floats with a tolerance, and prefer integers.\n- Integers are exact only up to 2⁵³ - 1; use `BigInt` beyond that.\n- `shift()` is O(n); use a head index for queues.\n- `new Array(n).fill([])` shares one inner array.\n- `Math.max(...hugeArray)` can crash; use a loop or `reduce`.\n- `parseInt(\"08\")` and `Number(\"\")` surprises: be explicit (`Number(x)`, `parseInt(x, 10)`).\n- Objects as map keys become strings: `{1: \"a\"}[\"1\"]` works; use `Map` for numbers.\n- `for...in` iterates keys (strings) in arrays; use `for...of`.\n- Bitwise operators truncate to 32 bits.\n\n## 12. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "javascript",
+        "function twoSum(a, target) {\n  const seen = new Map();\n  for (let j = 0; j < a.length; j++) {\n    if (seen.has(target - a[j])) return [seen.get(target - a[j]) + 1, j + 1];\n    if (!seen.has(a[j])) seen.set(a[j], j);\n  }\n  return null;\n}\n\nconst data = require(\"fs\").readFileSync(0, \"utf8\").split(/\\s+/).filter(Boolean).map(Number);\nconst n = data[0], t = data[1];\nconst a = data.slice(2, 2 + n);\nconst r = twoSum(a, t);\nconsole.log(r === null ? \"-1\" : `${r[0]} ${r[1]}`);",
+        "Template: parse, call a pure function, print"
+       ],
+       [
+        "md",
+        "## 13. What to practise next\n\n1. Re-type the `MinHeap` three times until you can write it without looking; it unlocks top-k, Dijkstra and scheduling problems.\n2. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Kth Largest](/problems/kth-largest) and [Island Counter](/problems/island-counter) in JavaScript.\n3. Practise explaining why `sort()` needs a comparator and why `shift()` is slow: interviewers like these answers.\n"
+       ]
+      ]
+     },
+     {
+      "slug": "typescript-for-dsa",
+      "title": "TypeScript for DSA",
+      "tier": "free",
+      "minutes": 30,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Under `strict`, `map.get(key)` has type:",
+        "options": [
+         "V | undefined",
+         "V",
+         "any",
+         "null"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "You must handle the missing-key case.",
+        "type": "single"
+       },
+       {
+        "prompt": "TypeScript types exist:",
+        "options": [
+         "Only at compile time (erased at run time)",
+         "At run time only",
+         "Nowhere",
+         "Only in browsers"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The generated JavaScript has no types.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which statement is true about `sort()` in TypeScript?",
+        "options": [
+         "It still needs a numeric comparator",
+         "It sorts numbers correctly by default",
+         "It is typed numerically",
+         "It is O(n)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "TypeScript does not change the runtime behaviour.",
+        "type": "single"
+       },
+       {
+        "prompt": "A generic `MinHeap<T>` mainly provides:",
+        "options": [
+         "One implementation for many types, with type safety",
+         "Faster sorting",
+         "A built-in priority queue",
+         "Automatic memoisation"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The type parameter prevents mixing element types.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why prefer `unknown` to `any`?",
+        "options": [
+         "It forces you to narrow before use",
+         "It is faster",
+         "It is shorter",
+         "No reason"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "any switches checking off.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why TypeScript for interviews?\n\nTypeScript is **JavaScript plus a static type system**. It compiles (or is type-stripped) to plain JavaScript, so everything you learned in *JavaScript for DSA* still applies: same runtime, same `Array`, `Map`, `Set`, same floating-point numbers, same missing heap. What you add is **types**, which catch whole classes of bugs before the code runs: wrong argument types, possibly-`undefined` values, misspelt fields, forgotten cases.\n\n| Strengths | Weaknesses |\n|---|---|\n| Types document intent and catch bugs early | Extra syntax; types are erased at run time |\n| `strict` mode forces you to handle `undefined` | Same runtime pitfalls as JavaScript (sort, floats, `shift`) |\n| Excellent for modelling nodes and graphs with interfaces | No standard heap or deque either |\n| Very common in front-end and Node.js jobs | Easy to cheat with `any`, which hides the benefit |\n\nAll programs below are **type-checked with `tsc --strict`** and run on Node.js. Compile settings assumed: `strict: true`, target ES2022.\n\n## 1. Program skeleton and typed input\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "import { readFileSync } from \"node:fs\";\n\nconst data: number[] = readFileSync(0, \"utf8\")\n  .split(/\\s+/)\n  .filter(Boolean)\n  .map(Number);\n\nconst n: number = data[0];\nconst k: number = data[1];\nconst nums: number[] = data.slice(2, 2 + n);\nconst sum = nums.reduce((a, b) => a + b, 0);\nconsole.log(`n=${n} k=${k} sum=${sum}`);",
+        "Typed input parsing"
+       ],
+       [
+        "md",
+        "## 2. Basic types\n\n| Type | Meaning |\n|---|---|\n| `number` | any float (also used for integers); `bigint` for huge exact integers |\n| `string`, `boolean` | as in JavaScript |\n| `number[]` or `Array<number>` | array of numbers |\n| `[number, string]` | **tuple**: fixed length and element types |\n| `Map<K, V>`, `Set<T>` | typed collections |\n| `null`, `undefined` | distinct types; under `strict` you must handle them |\n| `unknown` | safe \"anything\" (must be narrowed before use) |\n| `any` | turns checking off: avoid |\n| `never` | a value that cannot exist (exhaustive checks) |\n\nAnnotate **function parameters and return types**; local variables can usually be inferred.\n\n## 3. Strict null checks and narrowing\n\nWith `strict`, `map.get(key)` has type `V | undefined`, so you must check before using it. The compiler **narrows** the type inside `if (x !== undefined)`. This single feature removes the most common JavaScript runtime error.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "function firstIndexOf(a: number[], x: number): number | undefined {\n  const i = a.indexOf(x);\n  return i === -1 ? undefined : i;\n}\n\nconst idx = firstIndexOf([4, 8, 15], 8);\n// console.log(idx + 1);          // error under strict: idx may be undefined\nif (idx !== undefined) console.log(idx + 1);      // narrowed to number: prints 2\n\nconst counts = new Map<string, number>();\nfor (const w of [\"a\", \"b\", \"a\"]) counts.set(w, (counts.get(w) ?? 0) + 1);   // ?? supplies a default\nconsole.log(counts.get(\"a\"), counts.get(\"z\"));    // 2 undefined\n\nconst pair: [number, string] = [3, \"three\"];\nconst [num, label] = pair;\nconsole.log(num, label);\n\ntype Result = { ok: true; value: number } | { ok: false; error: string };   // discriminated union\nfunction safeDiv(a: number, b: number): Result {\n  return b === 0 ? { ok: false, error: \"divide by zero\" } : { ok: true, value: a / b };\n}\nconst r = safeDiv(7, 2);\nconsole.log(r.ok ? r.value : r.error);            // 3.5",
+        "Narrowing, defaults with ??, tuples and a discriminated union"
+       ],
+       [
+        "md",
+        "## 4. Strings, arrays and 2-D grids\n\nStrings behave exactly as in JavaScript (immutable, `s[i]` is a one-character string, `charCodeAt` for codes). Arrays are typed: `number[]`, `string[]`, `number[][]` for grids. Create independent rows with `Array.from`. **`Array.prototype.sort()` still sorts as strings by default**, so always pass a comparator for numbers.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "function isPalindrome(s: string): boolean {\n  let i = 0, j = s.length - 1;\n  while (i < j) if (s[i++] !== s[j--]) return false;\n  return true;\n}\nconsole.log(isPalindrome(\"level\"));                        // true\n\nconst counts: number[] = new Array<number>(26).fill(0);\nfor (const c of \"banana\") counts[c.charCodeAt(0) - 97]++;\nconsole.log(counts[0], counts[\"n\".charCodeAt(0) - 97]);    // 3 2\n\nconst grid: number[][] = Array.from({ length: 3 }, () => new Array<number>(4).fill(-1));\ngrid[1][2] = 7;\nconsole.log(grid[1], grid.length, grid[0].length);\n\nconst a: number[] = [5, 2, 9, 1, 10];\na.sort((x, y) => x - y);                                    // numeric sort\nconsole.log(a, [...a].reverse());\n\nconst readonlyList: readonly number[] = [1, 2, 3];          // cannot push or assign\nconsole.log(readonlyList.length);",
+        "Typed strings, counting array, grids and sorting"
+       ],
+       [
+        "md",
+        "## 5. Interfaces, type aliases and generics\n\nUse an `interface` (or `type`) to describe the shape of nodes, edges and records. **Generics** (`<T>`) let one data structure work for many element types while staying type-safe: `Stack<T>`, `MinHeap<T>`. A `?` marks an optional field; `readonly` forbids reassignment.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "interface ListNode {\n  val: number;\n  next: ListNode | null;\n}\ninterface TreeNode {\n  val: number;\n  left: TreeNode | null;\n  right: TreeNode | null;\n}\ninterface Edge { to: number; weight: number }\ntype Graph = Edge[][];                       // adjacency list\n\nfunction reverse(head: ListNode | null): ListNode | null {\n  let prev: ListNode | null = null;\n  while (head !== null) {\n    const nxt: ListNode | null = head.next;\n    head.next = prev;\n    prev = head;\n    head = nxt;\n  }\n  return prev;\n}\n\nconst height = (t: TreeNode | null): number =>\n  t === null ? 0 : 1 + Math.max(height(t.left), height(t.right));\n\nlet list: ListNode | null = { val: 1, next: { val: 2, next: { val: 3, next: null } } };\nlist = reverse(list);\nconst out: number[] = [];\nfor (let p = list; p !== null; p = p.next) out.push(p.val);\nconsole.log(out);                            // [ 3, 2, 1 ]\n\nconst tree: TreeNode = { val: 1, left: { val: 2, left: { val: 3, left: null, right: null }, right: null }, right: null };\nconsole.log(height(tree));                   // 3\n\nconst g: Graph = [[{ to: 1, weight: 4 }], [{ to: 0, weight: 4 }]];\nconsole.log(g[0][0].weight);                 // 4",
+        "Interfaces for nodes and an adjacency-list type"
+       ],
+       [
+        "md",
+        "## 6. A generic heap, stack and queue\n\nTypeScript has no built-in priority queue, so you write a typed one. The comparator makes it work for numbers, tuples or objects, and the type parameter prevents mixing types.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "class MinHeap<T> {\n  private a: T[] = [];\n  private readonly cmp: (x: T, y: T) => number;\n  constructor(cmp: (x: T, y: T) => number) {\n    this.cmp = cmp;\n  }\n  get size(): number { return this.a.length; }\n  peek(): T | undefined { return this.a[0]; }\n  push(x: T): void {\n    const a = this.a;\n    a.push(x);\n    let i = a.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (this.cmp(a[i], a[p]) >= 0) break;\n      [a[i], a[p]] = [a[p], a[i]];\n      i = p;\n    }\n  }\n  pop(): T | undefined {\n    const a = this.a;\n    if (a.length === 0) return undefined;\n    const top = a[0];\n    const last = a.pop() as T;\n    if (a.length > 0) {\n      a[0] = last;\n      let i = 0;\n      for (;;) {\n        const l = 2 * i + 1, r = l + 1;\n        let m = i;\n        if (l < a.length && this.cmp(a[l], a[m]) < 0) m = l;\n        if (r < a.length && this.cmp(a[r], a[m]) < 0) m = r;\n        if (m === i) break;\n        [a[i], a[m]] = [a[m], a[i]];\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nconst h = new MinHeap<number>((x, y) => x - y);\n[5, 1, 4].forEach(x => h.push(x));\nconsole.log(h.pop(), h.peek(), h.size);                  // 1 4 2\n\nconst pq = new MinHeap<[dist: number, node: number]>((x, y) => x[0] - y[0]);   // Dijkstra-style pairs\npq.push([5, 1]); pq.push([2, 7]);\nconsole.log(pq.pop()?.[1]);                               // 7\n\nconst stack: number[] = [1, 2];\nstack.push(3);\nconsole.log(stack.pop(), stack.at(-1));                   // 3 2\n\nclass Queue<T> {                                          // O(1) dequeue with a head index\n  private items: T[] = [];\n  private head = 0;\n  enqueue(x: T): void { this.items.push(x); }\n  dequeue(): T | undefined { return this.head < this.items.length ? this.items[this.head++] : undefined; }\n  get length(): number { return this.items.length - this.head; }\n}\nconst q = new Queue<string>();\nq.enqueue(\"a\"); q.enqueue(\"b\");\nconsole.log(q.dequeue(), q.length);                       // a 1",
+        "Generic MinHeap, stack and a head-index Queue"
+       ],
+       [
+        "md",
+        "## 7. Maps, sets and typed keys\n\n`Map<K, V>` and `Set<T>` are typed: the compiler rejects a wrong key or value type. Coordinates need a **string key** (`` `${r},${c}` ``) or a numeric encoding (`r * cols + c`), because arrays and objects compare by identity.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "const nums: number[] = [2, 7, 11, 15];\nconst target = 9;\nconst seen = new Map<number, number>();                   // value -> index\nfor (let i = 0; i < nums.length; i++) {\n  const j = seen.get(target - nums[i]);\n  if (j !== undefined) { console.log(j, i); break; }\n  seen.set(nums[i], i);\n}\n\nconst groups = new Map<number, string[]>();\nfor (const w of [\"to\", \"be\", \"or\", \"not\"]) {\n  const list = groups.get(w.length) ?? [];\n  list.push(w);\n  groups.set(w.length, list);\n}\nconsole.log(Object.fromEntries(groups));                  // { '2': [ 'to', 'be', 'or' ], '3': [ 'not' ] }\n\nconst visited = new Set<string>();\nconst key = (r: number, c: number): string => `${r},${c}`;\nvisited.add(key(0, 1));\nconsole.log(visited.has(key(0, 1)), visited.has(key(1, 0)));   // true false\n\nconst dirs: ReadonlyArray<readonly [number, number]> = [[1, 0], [-1, 0], [0, 1], [0, -1]];\nlet neighbours = 0;\nfor (const [dr, dc] of dirs) if (0 <= 2 + dr && 2 + dr < 5 && 0 <= 2 + dc && 2 + dc < 5) neighbours++;\nconsole.log(neighbours);                                   // 4",
+        "Typed Map and Set, coordinate keys and direction arrays"
+       ],
+       [
+        "md",
+        "## 8. Sorting and comparators with types\n\nA comparator has the type `(a: T, b: T) => number`. For objects, describe the shape with an interface so that a misspelt field is a compile error. Chain keys with `||`.\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "interface Person { name: string; age: number }\nconst people: Person[] = [{ name: \"Asha\", age: 30 }, { name: \"Ben\", age: 25 }, { name: \"Chen\", age: 30 }];\npeople.sort((a, b) => b.age - a.age || a.name.localeCompare(b.name));\nconsole.log(people.map(p => p.name).join(\" \"));            // Asha Chen Ben\n\nfunction lowerBound(a: readonly number[], x: number): number {\n  let lo = 0, hi = a.length;\n  while (lo < hi) {\n    const mid = (lo + hi) >> 1;\n    if (a[mid] < x) lo = mid + 1; else hi = mid;\n  }\n  return lo;\n}\nconsole.log(lowerBound([1, 3, 5, 5, 7, 9], 5));            // 2\n\nconst intervals: Array<[number, number]> = [[5, 8], [1, 3], [2, 6]];\nintervals.sort((p, q) => p[0] - q[0]);\nconsole.log(intervals.map(([s]) => s).join(\"\"));           // 125",
+        "Typed comparators and a typed lowerBound"
+       ],
+       [
+        "md",
+        "## 9. Complexity and pitfalls checklist\n\nTypeScript does not change running time: the table in *JavaScript for DSA* applies unchanged (array `shift` O(n), `Map`/`Set` O(1) average, `sort` O(n log n)).\n\n- Turn on **`strict`**; avoid `any` and the non-null assertion `!` unless you can justify it.\n- `map.get(k)` returns `V | undefined`: handle it (`??`, `if`, `?.`).\n- `sort()` without a comparator is still a string sort.\n- Types are **erased at run time**: you cannot check a type with `typeof` on an interface; check fields or use discriminated unions.\n- `number` is a float: integers lose exactness above 2⁵³ - 1; use `bigint` (`123n`).\n- `readonly` arrays and tuples document that a function will not mutate its input.\n- Narrow `null` before dereferencing: `node !== null`, or optional chaining `node?.next`.\n- Prefer `unknown` to `any` for untrusted input, then validate.\n- Generic functions: `function swap<T>(a: T[], i: number, j: number): void`.\n\n## 10. A reusable solution template\n"
+       ],
+       [
+        "code",
+        "typescript",
+        "import { readFileSync } from \"node:fs\";\n\nfunction twoSum(a: readonly number[], target: number): [number, number] | null {\n  const seen = new Map<number, number>();\n  for (let j = 0; j < a.length; j++) {\n    const i = seen.get(target - a[j]);\n    if (i !== undefined) return [i + 1, j + 1];\n    if (!seen.has(a[j])) seen.set(a[j], j);\n  }\n  return null;\n}\n\nconst data = readFileSync(0, \"utf8\").split(/\\s+/).filter(Boolean).map(Number);\nconst n = data[0];\nconst t = data[1];\nconst a = data.slice(2, 2 + n);\nconst r = twoSum(a, t);\nconsole.log(r === null ? \"-1\" : `${r[0]} ${r[1]}`);",
+        "Template: typed pure function plus input and output"
+       ],
+       [
+        "md",
+        "## 11. What to practise next\n\n1. Convert your JavaScript solutions to TypeScript and fix every compiler error: each one is a bug you would have shipped.\n2. Re-type the generic `MinHeap<T>` until you can do it from memory.\n3. Solve [Pair With Target Sum](/problems/pair-with-target-sum), [Kth Largest](/problems/kth-largest) and [Shortest Maze Path](/problems/shortest-maze-path) in TypeScript.\n"
+       ]
+      ]
      }
     ]
    },

@@ -5,6 +5,7 @@ import { LessonActions } from "@/components/reader/lesson-actions";
 import { LessonBlocks } from "@/components/reader/lesson-blocks";
 import { CourseSidebar } from "@/components/reader/course-sidebar";
 import { RoadmapAnimation } from "@/components/reader/roadmap-animation";
+import { LanguageHero } from "@/components/reader/language-hero";
 import { ReadingProgress } from "@/components/reader/reading-progress";
 import { ReaderShell } from "@/components/reader/ui";
 import { extractHeadings } from "@/lib/cms/toc";
@@ -123,6 +124,7 @@ export default async function LessonPage({
           ) : (
             body && (
               <>
+                {slug === "data-structures-and-algorithms" && <LanguageHero slug={lessonSlug} />}
                 {lessonSlug === "course-roadmap" && slug === "data-structures-and-algorithms" && (
                   <RoadmapAnimation
                     chapters={sections.length}

@@ -55,12 +55,14 @@ function quizBlock(l) {
     },
   };
 }
-function blocksFor(l) {
+const LEGACY_LANGS = ["cpp", "java", "python"]; // what an API built before ADR-061 accepts
+function blocksFor(l, legacy = false) {
+  const lang = (x) => (legacy ? (LEGACY_LANGS.includes(x) ? x : "text") : x);
   if (l.blocks) {
     const out = l.blocks.map((b) => {
       if (b[0] === "md") return { type: "markdown", data: { text: b[1] } };
       if (b[0] === "tip") return { type: "callout", data: { kind: "tip", text: b[1] } };
-      if (b[0] === "code") return { type: "code", data: { language: ["cpp", "java", "python"].includes(b[1]) ? b[1] : "text", code: b[2], caption: b[3] } };
+      if (b[0] === "code") return { type: "code", data: { language: lang(b[1]), code: b[2], caption: b[3] } };
       if (b[0] === "viz") return { type: "viz", data: { algorithm: b[1], input: b[2], ...(b[3] ? { param: b[3] } : {}) } };
       throw new Error(`unknown block ${b[0]}`);
     });
@@ -89,7 +91,13 @@ async function seedCourses(call, topics) {
       const section = withSection.sections[withSection.sections.length - 1].id;
       for (const l of s.lessons) {
         const made = await call("POST", `${base}/lessons`, { sectionId: section, slug: l.slug, title: l.title, accessTier: l.tier });
-        await call("PUT", `${base}/lessons/${made.id}/blocks`, { expectedVersion: made.version, blocks: blocksFor(l) });
+        try {
+          await call("PUT", `${base}/lessons/${made.id}/blocks`, { expectedVersion: made.version, blocks: blocksFor(l) });
+        } catch (e) {
+          if (!String(e.message).includes("language must be one of")) throw e;
+          // an API started before the code-language allowlist grew: store those blocks as plain text for now
+          await call("PUT", `${base}/lessons/${made.id}/blocks`, { expectedVersion: made.version, blocks: blocksFor(l, true) });
+        }
         await call("PUT", `${base}/lessons/${made.id}/source`, { kind: "original" });
         await call("POST", `${base}/lessons/${made.id}/publish`, { originalityConfirmed: true });
       }

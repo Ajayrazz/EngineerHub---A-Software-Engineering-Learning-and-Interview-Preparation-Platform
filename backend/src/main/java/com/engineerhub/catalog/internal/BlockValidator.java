@@ -18,7 +18,8 @@ final class BlockValidator {
   static final int MAX_BLOCKS = 200;
   static final int MAX_MARKDOWN = 50_000;
   static final int MAX_CODE = 20_000;
-  static final Set<String> LANGUAGES = Set.of("java", "python", "cpp", "text");
+  static final Set<String> LANGUAGES =
+      Set.of("java", "python", "cpp", "csharp", "go", "javascript", "typescript", "text");
   static final Set<String> CALLOUT_KINDS = Set.of("info", "warning", "tip");
 
   /**

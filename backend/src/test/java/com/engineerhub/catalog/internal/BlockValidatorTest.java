@@ -49,6 +49,12 @@ class BlockValidatorTest {
   @Test
   void rejectsBadValues() {
     rejects(List.of(block("code", Map.of("language", "brainfuck", "code", "x"))), "language");
+    for (String lang : List.of("csharp", "go", "javascript", "typescript")) {
+      assertThat(
+              BlockValidator.validate(
+                  List.of(block("code", Map.of("language", lang, "code", "x")))))
+          .hasSize(1);
+    }
     rejects(List.of(block("callout", Map.of("kind", "danger", "text", "x"))), "kind");
     rejects(List.of(block("markdown", Map.of("text", "   "))), "text");
     rejects(List.of(block("markdown", Map.of("text", 5))), "must be text");
