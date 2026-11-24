@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const btn =
-  "rounded border px-3 py-1.5 text-sm hover:bg-black/5 disabled:opacity-50 dark:hover:bg-white/10";
-export const input = "rounded border bg-transparent px-2 py-1.5 text-sm";
+  "rounded-full border px-3.5 py-1.5 text-sm hover:border-accent hover:text-accent disabled:opacity-50";
+export const input = "rounded-lg border bg-surface px-2.5 py-1.5 text-sm";
 
 export function AdminShell({
   title,
@@ -30,15 +30,17 @@ export function AdminShell({
   const link = (href: string, label: string, key: typeof active) => (
     <Link
       href={href}
-      className={`rounded px-2 py-1 text-sm ${active === key ? "bg-black/10 font-medium dark:bg-white/15" : "hover:bg-black/5 dark:hover:bg-white/10"}`}
+      className={`rounded-lg px-2.5 py-1 text-sm ${active === key ? "bg-accent/15 font-medium text-accent" : "text-muted hover:bg-surface-2 hover:text-foreground"}`}
     >
       {label}
     </Link>
   );
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 p-8">
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 p-8">
       <nav aria-label="Admin" className="flex items-center gap-2 border-b pb-3">
-        <span className="mr-2 font-semibold">Admin</span>
+        <span className="mr-2 rounded-md bg-accent px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-accent-ink">
+          Admin
+        </span>
         {link("/admin", "Overview", "home")}
         {global.includes("user.read") && link("/admin/users", "Users", "users")}
         {(global.includes("course.edit") || scoped.includes("course.edit")) &&
@@ -66,7 +68,7 @@ export function Notice({ kind, children }: { kind: "error" | "ok"; children: Rea
   return (
     <p
       role={kind === "error" ? "alert" : "status"}
-      className={`rounded border px-3 py-2 text-sm ${kind === "error" ? "border-red-500/60" : "border-green-600/60"}`}
+      className={`rounded border px-3 py-2 text-sm ${kind === "error" ? "border-danger/60 bg-danger/10" : "border-accent/60 bg-accent/10"}`}
     >
       {children}
     </p>

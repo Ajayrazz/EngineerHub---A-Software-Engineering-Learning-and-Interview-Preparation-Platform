@@ -15,7 +15,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Render per request so the CSP nonce set in proxy.ts can be applied to this document's scripts.
   await connection();
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
