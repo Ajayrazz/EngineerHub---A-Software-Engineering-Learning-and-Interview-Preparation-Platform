@@ -1,12 +1,135 @@
 import Link from "next/link";
 
-const LINKS = [
+type Item = { label: string; href?: string; glyph: string; tone: string; soon?: boolean };
+type Group = { title?: string; items: Item[] };
+type Menu = { label: string; glyph: string; groups: Group[]; wide?: boolean };
+
+const q = (text: string) => `/courses?q=${encodeURIComponent(text)}`;
+
+const TONES = {
+  blue: "bg-blue-500/20 text-blue-300",
+  sky: "bg-sky-400/20 text-sky-300",
+  indigo: "bg-indigo-400/20 text-indigo-300",
+  cyan: "bg-cyan-400/20 text-cyan-300",
+  slate: "bg-slate-400/20 text-slate-300",
+};
+const t = (k: keyof typeof TONES) => TONES[k];
+
+/** Every link goes to a page that exists; items without content yet are shown as "Soon", not linked. */
+const MENUS: Menu[] = [
+  {
+    label: "Learn",
+    glyph: "◈",
+    wide: true,
+    groups: [
+      {
+        title: "Interview prep",
+        items: [
+          {
+            label: "Data structures & algorithms",
+            href: q("algorithms"),
+            glyph: "⌬",
+            tone: t("blue"),
+          },
+          { label: "System design", href: q("system design"), glyph: "▤", tone: t("sky") },
+          { label: "Low-level design", href: q("low-level design"), glyph: "▣", tone: t("indigo") },
+          { label: "Concurrency", href: q("concurrency"), glyph: "⇄", tone: t("cyan") },
+          { label: "Behavioral", href: q("behavioral"), glyph: "❝", tone: t("slate") },
+        ],
+      },
+      {
+        title: "Backend",
+        items: [
+          { label: "SQL & databases", href: q("sql"), glyph: "▥", tone: t("blue") },
+          { label: "API design", href: q("api"), glyph: "⚙", tone: t("sky") },
+          { label: "Microservices", href: q("microservices"), glyph: "❖", tone: t("indigo") },
+          { label: "Messaging & Kafka", href: q("kafka"), glyph: "⋮⋮", tone: t("cyan") },
+        ],
+      },
+      {
+        title: "Fundamentals",
+        items: [
+          { label: "Java", href: q("java"), glyph: "J", tone: t("blue") },
+          { label: "Python", href: q("python"), glyph: "Py", tone: t("sky") },
+          { label: "C++", href: q("c++"), glyph: "C+", tone: t("indigo") },
+          { label: "Go", href: q("go"), glyph: "Go", tone: t("cyan") },
+          { label: "Git", href: q("git"), glyph: "⑂", tone: t("slate") },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Practice",
+    glyph: "◎",
+    groups: [
+      {
+        items: [
+          { label: "Problem bank", href: "/problems", glyph: "⌬", tone: t("blue") },
+          { label: "Random problem", href: "/problems/random", glyph: "⤮", tone: t("sky") },
+          { label: "My problems", href: "/my-problems", glyph: "★", tone: t("indigo") },
+          { label: "Company-wise problems", glyph: "▦", tone: t("cyan"), soon: true },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Interview",
+    glyph: "❝",
+    groups: [
+      {
+        items: [
+          { label: "Coding interview", href: "/problems", glyph: "</>", tone: t("blue") },
+          {
+            label: "System design interview",
+            href: q("system design"),
+            glyph: "▤",
+            tone: t("sky"),
+          },
+          {
+            label: "Low-level design interview",
+            href: q("low-level design"),
+            glyph: "▣",
+            tone: t("indigo"),
+          },
+          { label: "Mock interviews", glyph: "◉", tone: t("cyan"), soon: true },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Resources",
+    glyph: "▭",
+    groups: [
+      {
+        items: [
+          { label: "Visualizations", href: q("visualization"), glyph: "▶", tone: t("sky") },
+          { label: "Plans & pricing", href: "/pricing", glyph: "♛", tone: t("blue") },
+          { label: "Roadmaps", glyph: "⌖", tone: t("indigo"), soon: true },
+          { label: "Resume builder", glyph: "▤", tone: t("cyan"), soon: true },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Newsletter",
+    glyph: "✉",
+    groups: [
+      {
+        items: [
+          { label: "All articles", glyph: "▤", tone: t("blue"), soon: true },
+          { label: "Premium articles", glyph: "♛", tone: t("sky"), soon: true },
+        ],
+      },
+    ],
+  },
+];
+
+const USER_LINKS = [
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/courses", label: "Courses" },
   { href: "/my-courses", label: "My courses" },
-  { href: "/problems", label: "Problems" },
   { href: "/my-problems", label: "My problems" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/billing", label: "My access" },
+  { href: "/account", label: "Account" },
 ];
 
 export function Logo() {
@@ -25,41 +148,174 @@ export function Logo() {
   );
 }
 
-export function SiteNav({ username }: { username?: string | null }) {
+function Row({ item }: { item: Item }) {
+  const body = (
+    <>
+      <span
+        aria-hidden
+        className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg text-xs font-bold ${item.tone}`}
+      >
+        {item.glyph}
+      </span>
+      <span className="flex-1 whitespace-nowrap">{item.label}</span>
+      {item.soon && <span className="chip py-0 text-[10px]">Soon</span>}
+    </>
+  );
+  const base = "flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium";
+  return item.href ? (
+    <Link href={item.href} className={`${base} hover:bg-surface-2`}>
+      {body}
+    </Link>
+  ) : (
+    <span className={`${base} cursor-default text-muted`} aria-disabled="true">
+      {body}
+    </span>
+  );
+}
+
+function Dropdown({ menu }: { menu: Menu }) {
+  const cols = menu.groups.length;
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/85 backdrop-blur">
+    <div className="group relative">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 group-hover:bg-surface-2 group-hover:text-accent-2 group-focus-within:bg-surface-2 group-focus-within:text-accent-2"
+      >
+        <span aria-hidden className="text-accent-2">
+          {menu.glyph}
+        </span>
+        {menu.label}
+        <span aria-hidden className="text-[10px] opacity-60">
+          ▾
+        </span>
+      </button>
+      <div
+        className={`invisible absolute left-0 top-full z-40 translate-y-1 pt-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 ${menu.wide ? "w-[min(56rem,92vw)]" : "w-max"}`}
+      >
+        <div className="overflow-hidden rounded-xl border bg-surface shadow-2xl shadow-black/60">
+          <div className={`grid gap-6 p-4 ${cols > 1 ? "md:grid-cols-3" : ""}`}>
+            {menu.groups.map((g, i) => (
+              <div key={g.title ?? i} className="min-w-52">
+                {g.title && (
+                  <h3 className="mb-2 border-b px-2 pb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
+                    {g.title}
+                  </h3>
+                )}
+                <ul className="space-y-0.5">
+                  {g.items.map((it) => (
+                    <li key={it.label}>
+                      <Row item={it} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          {menu.wide && (
+            <div className="flex items-center justify-between gap-4 border-t bg-background/50 px-5 py-3 text-xs text-muted">
+              <span>
+                <b className="text-foreground">Looking for more?</b> The full catalog has every
+                course, with filters.
+              </span>
+              <Link href="/courses" className="btn-primary">
+                View all courses →
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SiteNav({ username }: { username?: string | null }) {
+  const flat = MENUS.flatMap((m) => m.groups.flatMap((g) => g.items)).filter((i) => i.href);
+  const seen = new Set<string>();
+  const mobile = flat.filter((i) => (seen.has(i.href!) ? false : (seen.add(i.href!), true)));
+  return (
+    <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <nav
         aria-label="Main"
-        className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-5 gap-y-2 px-6 py-3 text-sm"
+        className="mx-auto flex w-full max-w-7xl items-center gap-3 px-6 py-2.5 text-sm"
       >
         <Logo />
-        <span className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted">
-          {LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className="hover:text-foreground">
-              {l.label}
-            </Link>
+        <div className="ml-3 hidden items-center gap-1 lg:flex">
+          {MENUS.map((m) => (
+            <Dropdown key={m.label} menu={m} />
           ))}
-        </span>
-        <span className="ml-auto flex items-center gap-3">
-          {username && (
-            <Link href="/billing" className="text-muted hover:text-foreground">
-              My access
-            </Link>
-          )}
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <Link
+            href="/pricing"
+            className="hidden items-center gap-1.5 rounded-lg border border-accent/40 bg-accent/10 px-3 py-1.5 text-sm font-medium text-accent-2 hover:bg-accent/20 sm:flex"
+          >
+            ♛ Premium
+          </Link>
+          <form action="/courses" method="get" role="search" className="hidden md:block">
+            <input
+              name="q"
+              maxLength={100}
+              placeholder="Search courses"
+              aria-label="Search courses"
+              className="w-40 rounded-lg border bg-surface px-3 py-1.5 text-sm placeholder:text-muted focus:w-56"
+            />
+          </form>
           {username ? (
-            <Link
-              href="/account"
-              className="rounded-full border px-3 py-1 hover:border-accent"
-              data-testid="nav-user"
-            >
-              {username}
-            </Link>
+            <div className="group relative">
+              <Link
+                href="/account"
+                className="flex items-center gap-2 rounded-full border px-3 py-1.5 hover:border-accent"
+                data-testid="nav-user"
+              >
+                {username}
+              </Link>
+              <div className="invisible absolute right-0 top-full z-40 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <ul className="min-w-44 space-y-0.5 rounded-xl border bg-surface p-2 shadow-2xl shadow-black/60">
+                  {USER_LINKS.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="block rounded-lg px-3 py-2 hover:bg-surface-2">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           ) : (
             <a href="/auth/login" className="btn-primary">
               Log in
             </a>
           )}
-        </span>
+          <details className="relative lg:hidden">
+            <summary
+              className="cursor-pointer list-none rounded-lg border px-3 py-1.5"
+              aria-label="Menu"
+            >
+              ☰
+            </summary>
+            <ul className="absolute right-0 top-full mt-2 max-h-[70vh] w-64 space-y-0.5 overflow-auto rounded-xl border bg-surface p-2 shadow-2xl">
+              {mobile.map((i) => (
+                <li key={i.href}>
+                  <Link href={i.href!} className="block rounded-lg px-3 py-2 hover:bg-surface-2">
+                    {i.label}
+                  </Link>
+                </li>
+              ))}
+              {username &&
+                USER_LINKS.map((l) => (
+                  <li key={`u-${l.href}`}>
+                    <Link
+                      href={l.href}
+                      className="block rounded-lg px-3 py-2 text-muted hover:bg-surface-2"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </details>
+        </div>
       </nav>
     </header>
   );
