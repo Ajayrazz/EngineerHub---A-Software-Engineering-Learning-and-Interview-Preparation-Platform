@@ -31,16 +31,19 @@ export function AdminShell({
   const link = (href: string, label: string, key: typeof active) => (
     <Link
       href={href}
-      className={`rounded-lg px-2.5 py-1 text-sm ${active === key ? "bg-accent/15 font-medium text-accent" : "text-muted hover:bg-surface-2 hover:text-foreground"}`}
+      className={`rounded-lg px-2.5 py-1.5 text-sm ${active === key ? "bg-accent/15 font-medium text-accent" : "text-muted hover:bg-surface-2 hover:text-foreground"}`}
     >
       {label}
     </Link>
   );
   return (
     <>
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 p-8">
-        <nav aria-label="Admin" className="flex items-center gap-2 border-b pb-3">
-          <span className="mr-2 rounded-md bg-accent px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-accent-ink">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-6 lg:flex-row">
+        <nav
+          aria-label="Admin"
+          className="glass flex shrink-0 flex-row flex-wrap items-center gap-1 self-start p-3 lg:sticky lg:top-20 lg:w-56 lg:flex-col lg:items-stretch"
+        >
+          <span className="mb-1 mr-2 w-fit rounded-md bg-accent px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-accent-ink">
             Admin
           </span>
           {link("/admin", "Overview", "home")}
@@ -56,13 +59,18 @@ export function AdminShell({
           {global.includes("billing.manage") &&
             link("/admin/live-gate", "Live readiness", "live-gate")}
           {global.includes("audit.read") && link("/admin/audit", "Audit log", "audit")}
-          <Link href="/account" className="ml-auto text-sm opacity-70 hover:underline">
+          <Link
+            href="/account"
+            className="mt-2 rounded-lg px-2.5 py-1 text-sm text-muted hover:text-foreground lg:border-t lg:pt-3"
+          >
             Account
           </Link>
         </nav>
-        <h1 className="text-2xl font-semibold">{title}</h1>
-        {children}
-      </main>
+        <main className="flex min-w-0 flex-1 flex-col gap-6">
+          <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+          {children}
+        </main>
+      </div>
       <SiteFooter />
     </>
   );

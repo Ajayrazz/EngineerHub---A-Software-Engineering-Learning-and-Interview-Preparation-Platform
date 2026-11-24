@@ -77,6 +77,16 @@
   table {
     border-color: var(--line);
   }
+  thead th {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  tbody tr {
+    transition: background 0.15s;
+  }
+  tbody tr:hover {
+    background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  }
   pre {
     background: var(--surface-2);
     border: 1px solid var(--line);

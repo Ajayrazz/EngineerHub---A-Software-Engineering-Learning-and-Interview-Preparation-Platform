@@ -42,7 +42,7 @@ export default async function BillingPage() {
         <Notice kind="error">Your access could not be loaded. Please try again shortly.</Notice>
       ) : (
         <>
-          <p className="text-lg" data-testid="access-state">
+          <p className="glass p-5 text-lg font-medium" data-testid="access-state">
             {accessHeadline(summary.data)}
           </p>
           {reminder && (
@@ -69,7 +69,7 @@ export default async function BillingPage() {
           {summary.data.subscription && (
             <section
               aria-labelledby="subscription-h"
-              className="space-y-2"
+              className="glass space-y-2 p-5"
               data-testid="subscription"
             >
               <h2 id="subscription-h" className="text-lg font-medium">
@@ -90,7 +90,7 @@ export default async function BillingPage() {
                 )}
             </section>
           )}
-          <section aria-labelledby="payments-h" className="space-y-2">
+          <section aria-labelledby="payments-h" className="glass space-y-2 p-5">
             <h2 id="payments-h" className="text-lg font-medium">
               Payments
             </h2>
@@ -144,7 +144,11 @@ export default async function BillingPage() {
               </table>
             )}
           </section>
-          <section aria-labelledby="refunds-h" className="space-y-2" data-testid="refunds">
+          <section
+            aria-labelledby="refunds-h"
+            className="glass space-y-2 p-5"
+            data-testid="refunds"
+          >
             <h2 id="refunds-h" className="text-lg font-medium">
               Refunds
             </h2>
@@ -195,7 +199,7 @@ export default async function BillingPage() {
             )}
           </section>
           {(access.data.periods ?? []).length > 0 && (
-            <section aria-labelledby="periods-h" className="space-y-2">
+            <section aria-labelledby="periods-h" className="glass space-y-2 p-5">
               <h2 id="periods-h" className="text-lg font-medium">
                 Access periods
               </h2>

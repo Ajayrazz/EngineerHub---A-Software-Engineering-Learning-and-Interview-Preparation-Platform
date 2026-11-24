@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { ApiProbe } from "@/components/api-probe";
-import { ReaderShell } from "@/components/reader/ui";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import { LogoutForm } from "@/components/logout-form";
 import { callApi } from "@/lib/auth/api";
 import { currentSession, withFreshToken } from "@/lib/auth/current";
@@ -22,7 +22,7 @@ export default async function AccountPage() {
     // Keycloak returns, is unnecessary). Ask the user to retry.
     return (
       <ReaderShell username={auth.session.username}>
-        <h1 className="text-2xl font-semibold">Account</h1>
+        <PageHeader title="Account" lead="Your identity, preferences and sign-out." />
         <p role="alert" data-testid="idp-unavailable">
           Sign-in services are temporarily unavailable. Your session is safe — please retry in a
           moment.
@@ -46,17 +46,17 @@ export default async function AccountPage() {
 
   return (
     <ReaderShell username={fresh.session.username}>
-      <h1 className="text-2xl font-semibold">Account</h1>
-      <dl className="grid grid-cols-[8rem_1fr] gap-y-2 text-sm">
-        <dt className="opacity-60">Username</dt>
+      <PageHeader title="Account" lead="Your identity, preferences and sign-out." />
+      <dl className="glass grid grid-cols-[8rem_1fr] gap-y-3 p-6 text-sm">
+        <dt className="text-muted">Username</dt>
         <dd data-testid="account-username">{fresh.session.username}</dd>
-        <dt className="opacity-60">Name</dt>
+        <dt className="text-muted">Name</dt>
         <dd>{fresh.session.name}</dd>
-        <dt className="opacity-60">User id</dt>
+        <dt className="text-muted">User id</dt>
         <dd data-testid="user-id">{me?.id ?? "unavailable"}</dd>
-        <dt className="opacity-60">API subject</dt>
+        <dt className="text-muted">API subject</dt>
         <dd data-testid="api-subject">{whoami?.subject ?? "unavailable"}</dd>
-        <dt className="opacity-60">Staff roles</dt>
+        <dt className="text-muted">Staff roles</dt>
         <dd data-testid="api-roles">
           {whoami ? (whoami.roles?.length ? whoami.roles.join(", ") : "none") : "unavailable"}
         </dd>
