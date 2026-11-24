@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { staffInfo } from "@/lib/admin/staff";
 import {
   Community,
   Faq,
@@ -26,6 +28,7 @@ export default async function Home(props: PageProps<"/">) {
   const rawError = Array.isArray(params.auth_error) ? params.auth_error[0] : params.auth_error;
   const error = rawError ? ERRORS[rawError] : undefined; // fixed messages only; input is never reflected
   const auth = await currentSession();
+  if (auth && !error && (await staffInfo())) redirect("/admin"); // staff work in the console, not on the landing page
 
   return (
     <>

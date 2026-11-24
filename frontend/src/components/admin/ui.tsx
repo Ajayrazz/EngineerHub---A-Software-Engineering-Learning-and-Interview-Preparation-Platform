@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { SiteFooter } from "@/components/site-footer";
 
 export const btn =
   "rounded-full border px-3.5 py-1.5 text-sm hover:border-accent hover:text-accent disabled:opacity-50";
@@ -71,7 +70,11 @@ export function AdminShell({
           {children}
         </main>
       </div>
-      <SiteFooter />
+      <footer className="border-t">
+        <p className="mx-auto w-full max-w-7xl px-6 py-4 text-xs text-muted">
+          EngineerHub administration · actions are checked by the API and recorded in the audit log.
+        </p>
+      </footer>
     </>
   );
 }

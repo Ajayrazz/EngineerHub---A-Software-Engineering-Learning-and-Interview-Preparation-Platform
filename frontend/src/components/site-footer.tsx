@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "@/components/site-nav";
+import { Logo } from "@/components/logo";
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {

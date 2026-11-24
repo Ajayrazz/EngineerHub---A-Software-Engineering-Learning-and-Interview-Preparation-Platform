@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
+import { roleLabel, staffInfo } from "@/lib/admin/staff";
 import {
   Boxes,
   Building2,
@@ -174,22 +176,6 @@ const USER_LINKS = [
   { href: "/account", label: "Account" },
 ];
 
-export function Logo() {
-  return (
-    <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight">
-      <span
-        aria-hidden
-        className="grid h-7 w-7 place-items-center rounded-md bg-accent font-mono text-sm text-accent-ink"
-      >
-        {"</>"}
-      </span>
-      <span>
-        Engineer<span className="text-accent">Hub</span>
-      </span>
-    </Link>
-  );
-}
-
 function Row({ item }: { item: Item }) {
   const body = (
     <>
@@ -271,7 +257,69 @@ function Dropdown({ menu }: { menu: Menu }) {
   );
 }
 
-export function SiteNav({ username }: { username?: string | null }) {
+/** Staff get a working nav (admin console, their tools); learners and visitors get the learning nav. */
+async function StaffNav({ username }: { username: string }) {
+  const staff = await staffInfo();
+  if (!staff) return null;
+  const can = (g: string) => staff.global.includes(g);
+  const tools = [
+    can("user.read") && { href: "/admin/users", label: "Users" },
+    (can("course.edit") || staff.scoped.includes("course.edit")) && {
+      href: "/admin/courses",
+      label: "Courses",
+    },
+    (can("problem.edit") || staff.scoped.includes("problem.edit")) && {
+      href: "/admin/problems",
+      label: "Problems",
+    },
+    can("billing.manage") && { href: "/admin/billing", label: "Billing" },
+    can("audit.read") && { href: "/admin/audit", label: "Audit log" },
+  ].filter(Boolean) as { href: string; label: string }[];
+  return (
+    <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
+      <nav
+        aria-label="Main"
+        className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-4 gap-y-2 px-6 py-2.5 text-sm"
+      >
+        <Logo />
+        <span
+          className="rounded-md bg-accent px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-accent-ink"
+          data-testid="role-badge"
+        >
+          {roleLabel(staff.roles)}
+        </span>
+        <Link href="/admin" className="btn-primary">
+          Admin console
+        </Link>
+        <span className="hidden items-center gap-4 text-muted md:flex">
+          {tools.map((t) => (
+            <Link key={t.href} href={t.href} className="hover:text-foreground">
+              {t.label}
+            </Link>
+          ))}
+        </span>
+        <span className="ml-auto flex items-center gap-3">
+          <Link href="/courses" className="btn-ghost">
+            View learner site
+          </Link>
+          <Link
+            href="/account"
+            className="rounded-full border px-3 py-1.5 hover:border-accent"
+            data-testid="nav-user"
+          >
+            {username}
+          </Link>
+        </span>
+      </nav>
+    </header>
+  );
+}
+
+export async function SiteNav({ username }: { username?: string | null }) {
+  if (username) {
+    const staff = await StaffNav({ username });
+    if (staff) return staff;
+  }
   const flat = MENUS.flatMap((m) => m.groups.flatMap((g) => g.items)).filter((i) => i.href);
   const seen = new Set<string>();
   const mobile = flat.filter((i) => (seen.has(i.href!) ? false : (seen.add(i.href!), true)));
