@@ -1,5 +1,6 @@
 import { Markdown } from "@/components/markdown";
 import { QuizBlock } from "@/components/reader/quiz-block";
+import { VizPlayer } from "@/components/viz/viz-player";
 import type { PublicQuestion } from "@/lib/quiz/logic";
 
 type Block = { type?: string; data?: Record<string, unknown> };
@@ -39,6 +40,16 @@ export function LessonBlocks({
               <strong className="capitalize">{str(b.data?.kind)}: </strong>
               {str(b.data?.text)}
             </aside>
+          );
+        if (b.type === "viz")
+          return (
+            <VizPlayer
+              key={i}
+              algorithm={str(b.data?.algorithm)}
+              input={str(b.data?.input)}
+              param={str(b.data?.param)}
+              allowCustom
+            />
           );
         if (b.type === "quiz")
           return (

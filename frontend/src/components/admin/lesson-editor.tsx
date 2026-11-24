@@ -19,6 +19,8 @@ import {
 import { Markdown } from "@/components/markdown";
 import { adminFetch } from "./admin-fetch";
 import { QuizEditor } from "./quiz-editor";
+import { VizEditor } from "./viz-editor";
+import { VizPlayer } from "@/components/viz/viz-player";
 import { Notice, btn, input, when } from "./ui";
 
 type LessonView = components["schemas"]["LessonView"];
@@ -181,7 +183,7 @@ export function LessonEditor({
           />
         ))}
         <div className="flex flex-wrap items-center gap-2">
-          {(["markdown", "code", "callout", "quiz"] as BlockType[]).map((t) => (
+          {(["markdown", "code", "callout", "quiz", "viz"] as BlockType[]).map((t) => (
             <button
               key={t}
               className={btn}
@@ -254,6 +256,13 @@ function BlockPreview({ blocks }: { blocks: Block[] }) {
               <figcaption className="text-xs opacity-70">{b.data.caption}</figcaption>
             )}
           </figure>
+        ) : b.type === "viz" ? (
+          <VizPlayer
+            key={b.key}
+            algorithm={b.data.algorithm ?? ""}
+            input={b.data.input ?? ""}
+            param={b.data.param ?? ""}
+          />
         ) : b.type === "quiz" && b.quiz ? (
           <section
             key={b.key}
@@ -307,7 +316,8 @@ function BlockEditor({
 }) {
   const set = (k: string, v: string) => onChange({ ...block, data: { ...block.data, [k]: v } });
   const body = block.type === "code" ? block.data.code : block.data.text;
-  const max = block.type === "quiz" ? 0 : LIMITS[block.type];
+  const structured = block.type === "quiz" || block.type === "viz";
+  const max = structured ? 0 : LIMITS[block.type as "markdown" | "code" | "callout"];
   return (
     <div className="flex flex-col gap-2 rounded border p-3" data-testid="block-editor">
       <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -333,12 +343,20 @@ function BlockEditor({
         <button className={btn} onClick={onRemove} aria-label={`Remove block ${index + 1}`}>
           Remove
         </button>
-        {block.type !== "quiz" && (
+        {!structured && (
           <span className="ml-auto opacity-60">
             {(body ?? "").length}/{max}
           </span>
         )}
       </div>
+
+      {block.type === "viz" && (
+        <VizEditor
+          data={block.data}
+          index={index}
+          onChange={(data) => onChange({ ...block, data })}
+        />
+      )}
 
       {block.type === "quiz" && block.quiz && (
         <QuizEditor

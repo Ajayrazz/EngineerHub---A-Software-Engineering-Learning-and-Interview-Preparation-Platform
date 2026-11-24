@@ -202,3 +202,49 @@ describe("quiz blocks", () => {
     expect(validateBlocks([tf]).join(" ")).toContain("needs 2 options");
   });
 });
+
+describe("visualization blocks", () => {
+  it("starts with a working example of the first algorithm", () => {
+    const b = newBlock("viz");
+    expect(b.type).toBe("viz");
+    expect(b.data.algorithm).toBe("bubble-sort");
+    expect(validateBlocks([b])).toEqual([]);
+  });
+
+  it("round-trips through the API shape, dropping an empty value and trimming the input", () => {
+    const b: Block = {
+      key: "k",
+      type: "viz",
+      data: { algorithm: "bubble-sort", input: " 3, 1, 2 ", param: "" },
+    };
+    const api = toApi([b]);
+    expect(api[0]).toEqual({ type: "viz", data: { algorithm: "bubble-sort", input: "3, 1, 2" } });
+    const withParam: Block = {
+      key: "k",
+      type: "viz",
+      data: { algorithm: "binary-search", input: "1, 2, 3", param: " 2 " },
+    };
+    expect(toApi([withParam])[0].data).toEqual({
+      algorithm: "binary-search",
+      input: "1, 2, 3",
+      param: "2",
+    });
+    const back = fromApi(toApi([withParam]))[0];
+    expect(back.type).toBe("viz");
+    expect(back.data).toEqual({ algorithm: "binary-search", input: "1, 2, 3", param: "2" });
+  });
+
+  it("explains every problem the player would hit", () => {
+    const viz = (algorithm: string, input: string, param = ""): Block => ({
+      key: "k",
+      type: "viz",
+      data: { algorithm, input, param },
+    });
+    expect(validateBlocks([viz("nope", "1, 2")]).join(" ")).toContain("Choose an algorithm");
+    expect(validateBlocks([viz("bubble-sort", "1")]).join(" ")).toContain("Block 1");
+    expect(validateBlocks([viz("binary-search", "3, 1, 2", "2")]).join(" ")).toContain("sorted");
+    expect(validateBlocks([viz("binary-search", "1, 2, 3", "")]).join(" ")).toContain("Target");
+    expect(validateBlocks([viz("bubble-sort", "2, 1", "5")]).join(" ")).toContain("no extra value");
+    expect(validateBlocks([viz("bfs", "0-1", "0")])).toEqual([]);
+  });
+});

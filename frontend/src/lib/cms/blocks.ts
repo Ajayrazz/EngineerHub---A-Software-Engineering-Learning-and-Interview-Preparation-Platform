@@ -1,8 +1,9 @@
+import { CATALOG, entry as vizEntry, inputProblem as vizProblem } from "@/lib/viz";
 /**
  * Pure editor logic for lesson blocks (no React). The server re-validates everything (BlockValidator);
  * these checks only give authors fast feedback and mirror its limits.
  */
-export type BlockType = "markdown" | "code" | "callout" | "quiz";
+export type BlockType = "markdown" | "code" | "callout" | "quiz" | "viz";
 
 export type QuizType = "single" | "multi" | "true_false";
 export type QuizOption = { id: string; text: string };
@@ -101,6 +102,14 @@ export function removeOption(q: QuizQuestion, optionId: string): QuizQuestion {
 
 export function newBlock(type: BlockType): Block {
   if (type === "quiz") return { key: nextKey(), type, data: {}, quiz: newQuiz() };
+  if (type === "viz") {
+    const e = CATALOG[0];
+    return {
+      key: nextKey(),
+      type,
+      data: { algorithm: e.id, input: e.defaultInput, param: e.defaultParam },
+    };
+  }
   const data: Record<string, string> =
     type === "markdown"
       ? { text: "" }
@@ -139,6 +148,20 @@ export function fromApi(blocks: readonly ApiBlock[] | undefined): Block[] {
   return (blocks ?? []).flatMap((b): Block[] => {
     if (b.type === "quiz")
       return [{ key: nextKey(), type: "quiz" as const, data: {}, quiz: quizFromApi(b.data) }];
+    if (b.type === "viz") {
+      const d = b.data ?? {};
+      return [
+        {
+          key: nextKey(),
+          type: "viz" as const,
+          data: {
+            algorithm: asString(d.algorithm),
+            input: asString(d.input),
+            param: asString(d.param),
+          },
+        },
+      ];
+    }
     if (b.type !== "markdown" && b.type !== "code" && b.type !== "callout") return [];
     const data: Record<string, string> = {};
     for (const [k, v] of Object.entries(b.data ?? {})) data[k] = typeof v === "string" ? v : "";
@@ -149,6 +172,14 @@ export function fromApi(blocks: readonly ApiBlock[] | undefined): Block[] {
 /** What the API accepts: only known keys, empty optional values dropped. */
 export function toApi(blocks: readonly Block[]): ApiBlock[] {
   return blocks.map((b) => {
+    if (b.type === "viz") {
+      const data: Record<string, unknown> = {
+        algorithm: b.data.algorithm ?? "",
+        input: (b.data.input ?? "").trim(),
+      };
+      if ((b.data.param ?? "").trim() !== "") data.param = b.data.param.trim();
+      return { type: b.type, data };
+    }
     if (b.type === "quiz" && b.quiz) {
       const data: Record<string, unknown> = {
         quizId: b.quiz.quizId,
@@ -201,6 +232,13 @@ export function validateBlocks(blocks: readonly Block[]): string[] {
     const n = i + 1;
     if (b.type === "quiz") {
       errors.push(...validateQuiz(n, b.quiz));
+      return;
+    }
+    if (b.type === "viz") {
+      const problem = vizEntry(b.data.algorithm)
+        ? vizProblem(b.data.algorithm ?? "", b.data.input ?? "", b.data.param ?? "")
+        : "Choose an algorithm.";
+      if (problem) errors.push(`Block ${n}: ${problem}`);
       return;
     }
     const body = b.type === "code" ? b.data.code : b.data.text;

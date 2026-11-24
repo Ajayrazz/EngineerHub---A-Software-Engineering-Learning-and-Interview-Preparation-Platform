@@ -1,0 +1,112 @@
+[
+  {
+    "id": "bubble-sort",
+    "title": "Bubble sort",
+    "summary": "Repeatedly swap neighbours that are out of order; the largest item bubbles to the end of each pass.",
+    "inputLabel": "Numbers (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "5, 2, 9, 1, 7, 3",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  },
+  {
+    "id": "selection-sort",
+    "title": "Selection sort",
+    "summary": "Find the smallest remaining item and swap it into the next position of the sorted prefix.",
+    "inputLabel": "Numbers (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "29, 10, 14, 37, 13, 5",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  },
+  {
+    "id": "insertion-sort",
+    "title": "Insertion sort",
+    "summary": "Grow a sorted prefix by sliding each new item left until it sits in the right place.",
+    "inputLabel": "Numbers (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "8, 3, 5, 1, 9, 2",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  },
+  {
+    "id": "merge-sort",
+    "title": "Merge sort",
+    "summary": "Split the list in halves, sort each half, then merge the two sorted halves into one.",
+    "inputLabel": "Numbers (2 to 12, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,11}$",
+    "defaultInput": "38, 27, 43, 3, 9, 82, 10",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  },
+  {
+    "id": "binary-search",
+    "title": "Binary search",
+    "summary": "In a sorted list, halve the search range each step by comparing the middle item with the target.",
+    "inputLabel": "Sorted numbers, smallest first (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "2, 5, 8, 12, 16, 23, 38, 56, 72, 91",
+    "paramLabel": "Target",
+    "paramPattern": "^-?\\d{1,3}$",
+    "defaultParam": "23"
+  },
+  {
+    "id": "two-pointers",
+    "title": "Two pointers (pair with a given sum)",
+    "summary": "In a sorted list, move a left and a right pointer towards each other until two items add up to the target.",
+    "inputLabel": "Sorted numbers, smallest first (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "1, 3, 4, 6, 8, 11, 15",
+    "paramLabel": "Target sum",
+    "paramPattern": "^-?\\d{1,4}$",
+    "defaultParam": "14"
+  },
+  {
+    "id": "sliding-window",
+    "title": "Sliding window (largest sum of k in a row)",
+    "summary": "Slide a fixed-size window along the list, updating the sum by adding one item and dropping one.",
+    "inputLabel": "Numbers (2 to 16, separated by commas)",
+    "inputPattern": "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$",
+    "defaultInput": "2, 1, 5, 1, 3, 2, 8, 1",
+    "paramLabel": "Window size k",
+    "paramPattern": "^\\d{1,2}$",
+    "defaultParam": "3"
+  },
+  {
+    "id": "valid-parentheses",
+    "title": "Valid parentheses (stack)",
+    "summary": "Push every opening bracket; each closing bracket must match the one on top of the stack.",
+    "inputLabel": "Brackets ( ) [ ] { } (1 to 24 characters)",
+    "inputPattern": "^[()\\[\\]{}]{1,24}$",
+    "defaultInput": "{[()]}(",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  },
+  {
+    "id": "bfs",
+    "title": "Breadth-first search",
+    "summary": "Explore a graph level by level with a queue, starting from one node.",
+    "inputLabel": "Edges between nodes 0 to 7, like 0-1, 0-2, 1-3",
+    "inputPattern": "^[0-7]-[0-7](\\s*,\\s*[0-7]-[0-7]){0,15}$",
+    "defaultInput": "0-1, 0-2, 1-3, 2-3, 3-4, 2-5",
+    "paramLabel": "Start node",
+    "paramPattern": "^[0-7]$",
+    "defaultParam": "0"
+  },
+  {
+    "id": "fibonacci-dp",
+    "title": "Fibonacci with dynamic programming",
+    "summary": "Fill a table bottom-up so each value is computed once from the two before it.",
+    "inputLabel": "n (0 to 30)",
+    "inputPattern": "^\\d{1,2}$",
+    "defaultInput": "10",
+    "paramLabel": null,
+    "paramPattern": null,
+    "defaultParam": ""
+  }
+]
