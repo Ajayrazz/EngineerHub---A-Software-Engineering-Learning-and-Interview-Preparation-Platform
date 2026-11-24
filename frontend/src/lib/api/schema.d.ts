@@ -292,6 +292,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lessons/{lessonId}/quizzes/{quizId}/attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["quizAttempts"];
+        put?: never;
+        post: operations["submitQuiz"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/courses/{courseId}/enroll": {
         parameters: {
             query?: never;
@@ -2080,6 +2096,33 @@ export interface components {
             ok?: boolean;
             message?: string;
         };
+        QuizAnswerInput: {
+            /** Format: uuid */
+            questionId: string;
+            optionIds: string[];
+        };
+        QuizAttemptRequest: {
+            answers: components["schemas"]["QuizAnswerInput"][];
+        };
+        QuizAttemptResult: {
+            /** Format: int32 */
+            attemptNo?: number;
+            /** Format: int32 */
+            score?: number;
+            /** Format: int32 */
+            total?: number;
+            results?: components["schemas"]["QuizQuestionResult"][];
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        QuizQuestionResult: {
+            /** Format: uuid */
+            questionId?: string;
+            correct?: boolean;
+            selectedOptionIds?: string[];
+            correctOptionIds?: string[];
+            explanation?: string;
+        };
         SubscribeRequest: {
             /** Format: uuid */
             planPriceId: string;
@@ -2608,6 +2651,16 @@ export interface components {
             periodUnit?: string;
             /** Format: date-time */
             renewsOn?: string;
+        };
+        QuizAttemptSummary: {
+            /** Format: int32 */
+            attemptNo?: number;
+            /** Format: int32 */
+            score?: number;
+            /** Format: int32 */
+            total?: number;
+            /** Format: date-time */
+            createdAt?: string;
         };
         PublicCourse: {
             slug?: string;
@@ -3365,6 +3418,56 @@ export interface operations {
                     "*/*": {
                         [key: string]: string;
                     };
+                };
+            };
+        };
+    };
+    quizAttempts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonId: string;
+                quizId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuizAttemptSummary"][];
+                };
+            };
+        };
+    };
+    submitQuiz: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonId: string;
+                quizId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuizAttemptRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuizAttemptResult"];
                 };
             };
         };

@@ -525,6 +525,63 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+  /api/v1/lessons/{lessonId}/quizzes/{quizId}/attempts:
+    get:
+      tags:
+      - learning-controller
+      operationId: quizAttempts
+      parameters:
+      - name: lessonId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuizAttemptSummary"
+    post:
+      tags:
+      - learning-controller
+      operationId: submitQuiz
+      parameters:
+      - name: lessonId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: quizId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuizAttemptRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/QuizAttemptResult"
   /api/v1/courses/{courseId}/enroll:
     post:
       tags:
@@ -3358,6 +3415,72 @@ components:
           type: boolean
         message:
           type: string
+    QuizAnswerInput:
+      type: object
+      properties:
+        questionId:
+          type: string
+          format: uuid
+        optionIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 8
+          minItems: 0
+      required:
+      - optionIds
+      - questionId
+    QuizAttemptRequest:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuizAnswerInput"
+          maxItems: 20
+          minItems: 0
+      required:
+      - answers
+    QuizAttemptResult:
+      type: object
+      properties:
+        attemptNo:
+          type: integer
+          format: int32
+        score:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuizQuestionResult"
+        createdAt:
+          type: string
+          format: date-time
+    QuizQuestionResult:
+      type: object
+      properties:
+        questionId:
+          type: string
+          format: uuid
+        correct:
+          type: boolean
+        selectedOptionIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        correctOptionIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        explanation:
+          type: string
     SubscribeRequest:
       type: object
       properties:
@@ -4486,6 +4609,21 @@ components:
         periodUnit:
           type: string
         renewsOn:
+          type: string
+          format: date-time
+    QuizAttemptSummary:
+      type: object
+      properties:
+        attemptNo:
+          type: integer
+          format: int32
+        score:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        createdAt:
           type: string
           format: date-time
     PublicCourse:

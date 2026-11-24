@@ -3,6 +3,9 @@ package com.engineerhub.learning.internal;
 import com.engineerhub.learning.internal.LearningDtos.CourseProgress;
 import com.engineerhub.learning.internal.LearningDtos.EnrollmentView;
 import com.engineerhub.learning.internal.LearningDtos.ProgressUpdate;
+import com.engineerhub.learning.internal.LearningDtos.QuizAttemptRequest;
+import com.engineerhub.learning.internal.LearningDtos.QuizAttemptResult;
+import com.engineerhub.learning.internal.LearningDtos.QuizAttemptSummary;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -54,5 +57,23 @@ class LearningController {
       @PathVariable UUID lessonId,
       @Valid @RequestBody ProgressUpdate request) {
     return service.update(auth, lessonId, request.status(), request.scrollPct());
+  }
+
+  /** Grades an attempt on the published quiz and returns the key and explanations. */
+  @PostMapping("/lessons/{lessonId}/quizzes/{quizId}/attempts")
+  @PreAuthorize("isAuthenticated()")
+  QuizAttemptResult submitQuiz(
+      Authentication auth,
+      @PathVariable UUID lessonId,
+      @PathVariable UUID quizId,
+      @Valid @RequestBody QuizAttemptRequest request) {
+    return service.submitQuiz(auth, lessonId, quizId, request.answers());
+  }
+
+  @GetMapping("/lessons/{lessonId}/quizzes/{quizId}/attempts")
+  @PreAuthorize("isAuthenticated()")
+  List<QuizAttemptSummary> quizAttempts(
+      Authentication auth, @PathVariable UUID lessonId, @PathVariable UUID quizId) {
+    return service.quizAttempts(auth, lessonId, quizId);
   }
 }

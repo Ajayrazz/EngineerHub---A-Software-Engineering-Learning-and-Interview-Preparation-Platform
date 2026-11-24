@@ -6,6 +6,10 @@ import com.engineerhub.catalog.CatalogApi.PublishedLesson;
 import com.engineerhub.identity.UserDirectory;
 import com.engineerhub.learning.internal.LearningDtos.CourseProgress;
 import com.engineerhub.learning.internal.LearningDtos.EnrollmentView;
+import com.engineerhub.learning.internal.LearningDtos.QuizAnswerInput;
+import com.engineerhub.learning.internal.LearningDtos.QuizAttemptResult;
+import com.engineerhub.learning.internal.LearningDtos.QuizAttemptSummary;
+import com.engineerhub.learning.internal.LearningDtos.QuizQuestionResult;
 import com.engineerhub.learning.internal.LearningDtos.ResumeTarget;
 import com.engineerhub.shared.error.ApiException;
 import com.engineerhub.shared.error.ErrorCode;
@@ -39,6 +43,7 @@ class LearningService {
   private final EntitlementService entitlements;
   private final UserDirectory directory;
   private final OutboxPublisher events;
+  private final tools.jackson.databind.ObjectMapper mapper;
 
   LearningService(
       JdbcClient jdbc,
@@ -46,13 +51,15 @@ class LearningService {
       CatalogApi catalog,
       EntitlementService entitlements,
       UserDirectory directory,
-      OutboxPublisher events) {
+      OutboxPublisher events,
+      tools.jackson.databind.ObjectMapper mapper) {
     this.jdbc = jdbc;
     this.clock = clock;
     this.catalog = catalog;
     this.entitlements = entitlements;
     this.directory = directory;
     this.events = events;
+    this.mapper = mapper;
   }
 
   private Timestamp now() {
@@ -279,5 +286,131 @@ class LearningService {
               p.completed()));
     }
     return out;
+  }
+
+  // ------------------------------------------------------------------ quizzes
+
+  private static final int MAX_ATTEMPTS_PER_QUIZ = 100;
+
+  /** A published lesson the caller may read, or a 404 / 403 exactly like recording progress. */
+  private PublishedLesson readableLesson(Authentication auth, UUID lessonId) {
+    PublishedLesson lesson =
+        catalog
+            .publishedLesson(lessonId)
+            .orElseThrow(() -> ApiException.notFound("Lesson not found."));
+    boolean open = lesson.accessTier().equals("free") || lesson.freePreview();
+    if (!open && !entitlements.canReadPremium(auth, "course", lesson.courseId())) {
+      throw new ApiException(
+          ErrorCode.ENTITLEMENT_REQUIRED, "This lesson is part of the premium content.");
+    }
+    return lesson;
+  }
+
+  /**
+   * Grades an attempt against the PUBLISHED quiz and returns the key and explanations (the first
+   * time the learner sees them). Ownership is the token; premium lessons need the same entitlement
+   * as reading them; a draft or unpublished quiz is simply not found.
+   */
+  @Transactional
+  QuizAttemptResult submitQuiz(
+      Authentication auth, UUID lessonId, UUID quizId, List<QuizAnswerInput> input) {
+    UUID user = directory.current(auth).id();
+    readableLesson(auth, lessonId);
+    var quiz =
+        catalog
+            .publishedQuiz(lessonId, quizId)
+            .orElseThrow(() -> ApiException.notFound("Quiz not found."));
+    List<QuizGrader.Answer> answers = new java.util.ArrayList<>();
+    for (QuizAnswerInput a : input) {
+      answers.add(new QuizGrader.Answer(a.questionId(), QuizGrader.distinct(a.optionIds())));
+    }
+    QuizGrader.Grade grade = QuizGrader.grade(quiz, answers);
+
+    // one writer at a time per (user, quiz): attempt numbers stay 1, 2, 3 ...
+    jdbc.sql("select pg_advisory_xact_lock(hashtextextended(:k, 0))")
+        .param("k", user + ":" + quizId)
+        .query(Object.class)
+        .list();
+    int next =
+        jdbc.sql(
+                "select coalesce(max(attempt_no), 0) + 1 from learning.quiz_attempts where user_id = :u and quiz_id = :q")
+            .param("u", user)
+            .param("q", quizId)
+            .query(Integer.class)
+            .single();
+    if (next > MAX_ATTEMPTS_PER_QUIZ) {
+      throw new ApiException(
+          ErrorCode.RATE_LIMITED, "You have reached the limit of attempts for this quiz.");
+    }
+    Timestamp ts = now();
+    var stored = new java.util.ArrayList<Map<String, Object>>();
+    for (QuizGrader.QuestionResult r : grade.results()) {
+      stored.add(
+          Map.of(
+              "questionId", r.questionId().toString(),
+              "selected", r.selected().stream().map(UUID::toString).toList(),
+              "correct", r.correct()));
+    }
+    jdbc.sql(
+            "insert into learning.quiz_attempts (id, user_id, lesson_id, course_id, quiz_id, attempt_no, score, total, answers, created_at) values (:id, :u, :l, :c, :q, :n, :s, :t, cast(:a as jsonb), :now)")
+        .param("id", Ids.newId())
+        .param("u", user)
+        .param("l", lessonId)
+        .param("c", quiz.courseId())
+        .param("q", quizId)
+        .param("n", next)
+        .param("s", grade.score())
+        .param("t", grade.total())
+        .param("a", jsonOf(stored))
+        .param("now", ts)
+        .update();
+    events.publish(
+        "learning.quiz.submitted",
+        1,
+        "user",
+        user.toString(),
+        Map.of(
+            "userId", user,
+            "lessonId", lessonId,
+            "courseId", quiz.courseId(),
+            "quizId", quizId,
+            "attemptNo", next,
+            "score", grade.score(),
+            "total", grade.total()));
+    List<QuizQuestionResult> results =
+        grade.results().stream()
+            .map(
+                r ->
+                    new QuizQuestionResult(
+                        r.questionId(),
+                        r.correct(),
+                        r.selected(),
+                        r.correctOptionIds(),
+                        r.explanation()))
+            .toList();
+    return new QuizAttemptResult(next, grade.score(), grade.total(), results, ts.toInstant());
+  }
+
+  /** The caller's own attempts at a quiz, newest first (scores only; no answers). */
+  @Transactional
+  List<QuizAttemptSummary> quizAttempts(Authentication auth, UUID lessonId, UUID quizId) {
+    UUID user = directory.current(auth).id();
+    readableLesson(auth, lessonId);
+    catalog
+        .publishedQuiz(lessonId, quizId)
+        .orElseThrow(() -> ApiException.notFound("Quiz not found."));
+    return jdbc.sql(
+            "select attempt_no, score, total, created_at from learning.quiz_attempts where user_id = :u and quiz_id = :q order by attempt_no desc limit 20")
+        .param("u", user)
+        .param("q", quizId)
+        .query(
+            (rs, i) ->
+                new QuizAttemptSummary(
+                    rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4).toInstant()))
+        .list();
+  }
+
+  private String jsonOf(Object value) {
+    return mapper.writeValueAsString(value);
   }
 }

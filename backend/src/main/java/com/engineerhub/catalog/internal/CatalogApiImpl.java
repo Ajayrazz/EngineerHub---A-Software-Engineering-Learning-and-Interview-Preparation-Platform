@@ -21,9 +21,11 @@ class CatalogApiImpl implements CatalogApi {
           + " where c.status = 'published' and l.status = 'published'";
 
   private final JdbcClient jdbc;
+  private final tools.jackson.databind.ObjectMapper mapper;
 
-  CatalogApiImpl(JdbcClient jdbc) {
+  CatalogApiImpl(JdbcClient jdbc, tools.jackson.databind.ObjectMapper mapper) {
     this.jdbc = jdbc;
+    this.mapper = mapper;
   }
 
   private static PublishedLesson lesson(java.sql.ResultSet rs) throws java.sql.SQLException {
@@ -68,6 +70,44 @@ class CatalogApiImpl implements CatalogApi {
         .param("id", lessonId)
         .query((rs, i) -> lesson(rs))
         .optional();
+  }
+
+  @Override
+  public Optional<PublishedQuiz> publishedQuiz(UUID lessonId, UUID quizId) {
+    var row =
+        jdbc.sql(
+                "select l.course_id, l.published_snapshot::text from catalog.lessons l join catalog.courses c on c.id = l.course_id"
+                    + " where l.id = :id and l.status = 'published' and c.status = 'published'")
+            .param("id", lessonId)
+            .query((rs, i) -> new Object[] {rs.getObject(1, UUID.class), rs.getString(2)})
+            .optional();
+    if (row.isEmpty() || row.get()[1] == null) {
+      return Optional.empty();
+    }
+    var snapshot = mapper.readTree((String) row.get()[1]);
+    for (var block : snapshot.path("blocks")) {
+      if (!"quiz".equals(block.path("type").asString())
+          || !quizId.toString().equals(block.path("data").path("quizId").asString())) {
+        continue;
+      }
+      List<QuizQuestion> questions = new java.util.ArrayList<>();
+      for (var q : block.path("data").path("questions")) {
+        List<UUID> options = new java.util.ArrayList<>();
+        q.path("options").forEach(o -> options.add(UUID.fromString(o.path("id").asString())));
+        java.util.Set<UUID> correct = new java.util.LinkedHashSet<>();
+        q.path("correct").forEach(c -> correct.add(UUID.fromString(c.asString())));
+        questions.add(
+            new QuizQuestion(
+                UUID.fromString(q.path("id").asString()),
+                q.path("type").asString(),
+                options,
+                correct,
+                q.hasNonNull("explanation") ? q.get("explanation").asString() : null));
+      }
+      return Optional.of(
+          new PublishedQuiz((UUID) lessonId, (UUID) row.get()[0], quizId, questions));
+    }
+    return Optional.empty();
   }
 
   @Override

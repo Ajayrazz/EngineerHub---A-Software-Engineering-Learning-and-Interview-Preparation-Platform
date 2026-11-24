@@ -174,6 +174,24 @@ class CatalogReaderService {
 
   // ------------------------------------------------------------------ lesson
 
+  /**
+   * A quiz as a learner may receive it: prompts and options only. The answer key and explanations
+   * are returned solely by the grading endpoint, after an attempt (QUIZ-003).
+   */
+  @SuppressWarnings("unchecked")
+  static Map<String, Object> withoutAnswerKey(Map<String, Object> quiz) {
+    Map<String, Object> out = new java.util.LinkedHashMap<>(quiz);
+    List<Map<String, Object>> questions = new ArrayList<>();
+    for (Map<String, Object> q : (List<Map<String, Object>>) quiz.get("questions")) {
+      Map<String, Object> copy = new java.util.LinkedHashMap<>(q);
+      copy.remove("correct");
+      copy.remove("explanation");
+      questions.add(copy);
+    }
+    out.put("questions", questions);
+    return out;
+  }
+
   /** Result of a lesson request: the lesson plus whether the body is the same for every caller. */
   record LessonResult(PublicLesson lesson, boolean sameForEveryone) {}
 
@@ -217,7 +235,8 @@ class CatalogReaderService {
     for (JsonNode b : snapshot.get("blocks")) {
       @SuppressWarnings("unchecked")
       Map<String, Object> data = mapper.convertValue(b.get("data"), Map.class);
-      blocks.add(new PublicBlock(b.get("type").asString(), data));
+      String type = b.get("type").asString();
+      blocks.add(new PublicBlock(type, type.equals("quiz") ? withoutAnswerKey(data) : data));
     }
     Integer est = snapshot.hasNonNull("estReadMin") ? snapshot.get("estReadMin").asInt() : null;
 

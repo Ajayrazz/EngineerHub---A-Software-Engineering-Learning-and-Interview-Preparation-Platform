@@ -27,6 +27,24 @@ public interface CatalogApi {
   record Topic(UUID id, String slug, String name) {}
 
   /** Topics with these ids, by id (ids that do not exist are absent from the result). */
+  /**
+   * One graded question of a published quiz, WITH its answer key. Only server-side graders may see
+   * this: the reader strips the key from what learners receive.
+   */
+  record QuizQuestion(
+      UUID id,
+      String type,
+      List<UUID> optionIds,
+      java.util.Set<UUID> correct,
+      String explanation) {}
+
+  record PublishedQuiz(UUID lessonId, UUID courseId, UUID quizId, List<QuizQuestion> questions) {}
+
+  /**
+   * The answer key of a quiz block in a PUBLISHED lesson of a published course; absent otherwise.
+   */
+  Optional<PublishedQuiz> publishedQuiz(UUID lessonId, UUID quizId);
+
   Map<UUID, Topic> topics(Collection<UUID> topicIds);
 
   Optional<PublishedCourse> publishedCourse(UUID courseId);
