@@ -497,6 +497,67 @@ class PurchaseIT {
   }
 
   @Test
+  void theBrowserCallbackAndTheWebhookRacingGrantExactlyOnce() throws Exception {
+    String[] c = catalog();
+    var u = who(sub());
+    JsonNode co = start(u, c[1], null);
+    String order = co.get("orderId").asString();
+    String intent = co.get("intentId").asString();
+    String pay = "pay_ITrace" + Ids.newId().toString().substring(28);
+    String sig =
+        RazorpaySignatures.hmacHex(
+            KEY_SECRET, (order + "|" + pay).getBytes(StandardCharsets.UTF_8));
+    String confirm =
+        "{\"razorpayOrderId\":\"%s\",\"razorpayPaymentId\":\"%s\",\"razorpaySignature\":\"%s\"}"
+            .formatted(order, pay, sig);
+    String url = "/api/v1/billing/purchases/" + intent + "/confirm";
+
+    // the browser calls back first (and again), then the webhook arrives, then the browser once
+    // more
+    call(post(url), u, confirm).andExpect(jsonPath("$.signatureValid").value(true));
+    call(post(url), u, confirm).andExpect(jsonPath("$.signatureValid").value(true));
+    assertThat(premium(u)).isFalse();
+    signedWebhook(payload("payment.captured", pay, order, 29950, "INR", "captured"), "evt_race1")
+        .andExpect(status().isOk());
+    call(post(url), u, confirm)
+        .andExpect(jsonPath("$.signatureValid").value(true))
+        .andExpect(jsonPath("$.intent.status").value("paid"));
+    signedWebhook(payload("order.paid", pay, order, 29950, "INR", "captured"), "evt_race2")
+        .andExpect(status().isOk());
+    assertThat(premium(u)).isTrue();
+    assertThat(count("select count(*) from billing.payments where provider_payment_ref = :p0", pay))
+        .isEqualTo(1);
+    assertThat(count("select count(*) from billing.access_periods where user_id = :p0", userId(u)))
+        .isEqualTo(1);
+  }
+
+  @Test
+  void buyingAgainAfterAPassExpiredStartsNowNotFromTheOldEnd() throws Exception {
+    String[] c = catalog();
+    var u = who(sub());
+    UUID id = userId(u);
+    captured(start(u, c[1], null).get("orderId").asString(), 29950);
+    // the first pass ended three days ago
+    jdbc.sql(
+            "update billing.access_periods set starts_at = now() - interval '33 days', ends_at = now() - interval '3 days' where user_id = :u")
+        .param("u", id)
+        .update();
+    assertThat(premium(u)).isFalse();
+    captured(start(u, c[1], null).get("orderId").asString(), 29950);
+    assertThat(premium(u)).isTrue();
+    Instant secondStart =
+        jdbc.sql(
+                "select starts_at from billing.access_periods where user_id = :u order by starts_at desc limit 1")
+            .param("u", id)
+            .query(java.sql.Timestamp.class)
+            .single()
+            .toInstant();
+    assertThat(Duration.between(secondStart, Instant.now()).abs())
+        .as("a lapsed user is not charged for the gap, and the new pass does not start in the past")
+        .isLessThan(Duration.ofMinutes(5));
+  }
+
+  @Test
   void invalidMissingOrTamperedSignaturesAreRejectedAndChangeNothing() throws Exception {
     String[] c = catalog();
     var u = who(sub());

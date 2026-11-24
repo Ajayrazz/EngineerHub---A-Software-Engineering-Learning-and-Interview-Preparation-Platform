@@ -96,6 +96,9 @@ management:
 # --- Transactional outbox (see shared.messaging) ---
 engineerhub:
   billing:
+    reconciliation:
+      enabled: ${BILLING_RECONCILIATION_ENABLED:true} # nightly comparison with the provider (also runnable by hand)
+      cron: ${BILLING_RECONCILIATION_CRON:0 30 2 * * *}
     renewal-window-days: ${BILLING_RENEWAL_WINDOW_DAYS:7} # "Renew" reminder appears this many days before access ends (default, not a decision)
     razorpay:
       # TEST MODE ONLY until the Live Readiness Gate (docs/21 §9): live keys are refused at startup.

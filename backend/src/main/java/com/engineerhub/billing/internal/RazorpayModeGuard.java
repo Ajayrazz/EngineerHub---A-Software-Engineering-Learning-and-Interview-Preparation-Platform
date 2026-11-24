@@ -22,11 +22,11 @@ class RazorpayModeGuard {
   void check() {
     if (props.mode() != null && !props.mode().isBlank() && !"test".equals(props.mode())) {
       throw new IllegalStateException(
-          "RAZORPAY_MODE must be 'test': live payments are refused until the Live Readiness Gate exists.");
+          "RAZORPAY_MODE must be 'test': this build refuses live payments whatever the Live Readiness Gate records (ADR-055).");
     }
     if (props.keyId() != null && props.keyId().startsWith("rzp_live_")) {
       throw new IllegalStateException(
-          "A live Razorpay key was configured; only rzp_test_ keys are accepted for now.");
+          "A live Razorpay key was configured; only rzp_test_ keys are accepted by this build (ADR-055).");
     }
   }
 }

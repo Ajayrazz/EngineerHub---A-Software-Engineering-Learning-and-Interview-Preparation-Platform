@@ -6,9 +6,9 @@ import com.engineerhub.problems.internal.ProblemDtos.PatternCreate;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemCreate;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemListItem;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemPatch;
+import com.engineerhub.problems.internal.ProblemDtos.ProblemSourceRequest;
+import com.engineerhub.problems.internal.ProblemDtos.ProblemSourceView;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemView;
-import com.engineerhub.problems.internal.ProblemDtos.SourceRequest;
-import com.engineerhub.problems.internal.ProblemDtos.SourceView;
 import com.engineerhub.problems.internal.ProblemDtos.TagView;
 import com.engineerhub.problems.internal.ProblemDtos.TagsRequest;
 import com.engineerhub.problems.internal.ProblemDtos.TestInput;
@@ -195,13 +195,13 @@ class ProblemAdminService {
                 (rs, i) ->
                     new TagView(rs.getObject(1, UUID.class), rs.getString(2), rs.getString(3)))
             .list();
-    SourceView source =
+    ProblemSourceView source =
         jdbc.sql(
                 "select kind, license, attribution, source_url, reviewed_by, reviewed_at from problems.problem_sources where problem_id = :id")
             .param("id", id)
             .query(
                 (rs, i) ->
-                    new SourceView(
+                    new ProblemSourceView(
                         rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -425,7 +425,7 @@ class ProblemAdminService {
   // ================================================================= source & publishing
 
   @Transactional
-  ProblemView setSource(UUID id, SourceRequest r) {
+  ProblemView setSource(UUID id, ProblemSourceRequest r) {
     requireProblem(id);
     boolean needsLicense = r.kind().equals("licensed") || r.kind().equals("open_license");
     if (needsLicense && (blank(r.license()) || blank(r.attribution()))) {

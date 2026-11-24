@@ -1,9 +1,9 @@
 package com.engineerhub.billing.internal;
 
+import com.engineerhub.billing.internal.BillingDtos.AccessGrantRequest;
 import com.engineerhub.billing.internal.BillingDtos.AccessView;
 import com.engineerhub.billing.internal.BillingDtos.BillingSummary;
 import com.engineerhub.billing.internal.BillingDtos.EntitlementsRequest;
-import com.engineerhub.billing.internal.BillingDtos.GrantRequest;
 import com.engineerhub.billing.internal.BillingDtos.PlanCreate;
 import com.engineerhub.billing.internal.BillingDtos.PlanPatch;
 import com.engineerhub.billing.internal.BillingDtos.PlanView;
@@ -148,7 +148,9 @@ class BillingAdminController {
   @ResponseStatus(HttpStatus.CREATED)
   @PreAuthorize("@authz.can('billing.manage')")
   AccessView grant(
-      Authentication actor, @PathVariable UUID userId, @Valid @RequestBody GrantRequest request) {
+      Authentication actor,
+      @PathVariable UUID userId,
+      @Valid @RequestBody AccessGrantRequest request) {
     return service.grant(actor, userId, request);
   }
 

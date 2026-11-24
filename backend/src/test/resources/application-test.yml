@@ -13,6 +13,8 @@ engineerhub:
       write-per-window: 100000
       admin-per-window: 100000
   billing:
+    reconciliation:
+      enabled: false # tests start runs explicitly; the schedule must not interfere
     razorpay:
       # fake TEST values: the provider's order call is replaced by a test double, the signature code is real
       mode: test

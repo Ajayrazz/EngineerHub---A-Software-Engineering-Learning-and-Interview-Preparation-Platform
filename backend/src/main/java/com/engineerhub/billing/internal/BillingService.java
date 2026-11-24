@@ -1,9 +1,9 @@
 package com.engineerhub.billing.internal;
 
 import com.engineerhub.billing.EntitlementService;
+import com.engineerhub.billing.internal.BillingDtos.AccessGrantRequest;
 import com.engineerhub.billing.internal.BillingDtos.AccessView;
 import com.engineerhub.billing.internal.BillingDtos.BillingSummary;
-import com.engineerhub.billing.internal.BillingDtos.GrantRequest;
 import com.engineerhub.billing.internal.BillingDtos.PaymentView;
 import com.engineerhub.billing.internal.BillingDtos.PeriodView;
 import com.engineerhub.billing.internal.BillingDtos.PlanCreate;
@@ -301,7 +301,7 @@ class BillingService implements EntitlementService {
 
   /** An audited complimentary grant: the only source of access until payments exist (M6.2). */
   @Transactional
-  AccessView grant(Authentication actor, UUID userId, GrantRequest r) {
+  AccessView grant(Authentication actor, UUID userId, AccessGrantRequest r) {
     UUID admin = directory.current(actor).id();
     var user =
         directory.findById(userId).orElseThrow(() -> ApiException.notFound("User not found."));

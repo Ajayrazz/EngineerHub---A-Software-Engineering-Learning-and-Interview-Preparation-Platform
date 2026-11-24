@@ -260,6 +260,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/live-gate/items/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["item"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/webhooks/razorpay": {
         parameters: {
             query?: never;
@@ -724,6 +740,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/reconciliation/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["run_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/reconciliation/findings/{id}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resolve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/reconciliation/findings/{id}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["apply"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/billing/plans": {
         parameters: {
             query?: never;
@@ -750,6 +814,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["addPrice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/live-gate/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ready"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1508,6 +1588,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/live-gate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["liveGate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/audit-logs": {
         parameters: {
             query?: never;
@@ -1705,6 +1817,16 @@ export interface components {
             topicIds: string[];
             patternIds: string[];
         };
+        ProblemSourceView: {
+            kind?: string;
+            license?: string;
+            attribution?: string;
+            sourceUrl?: string;
+            /** Format: uuid */
+            reviewedBy?: string;
+            /** Format: date-time */
+            reviewedAt?: string;
+        };
         ProblemView: {
             /** Format: uuid */
             id?: string;
@@ -1739,17 +1861,7 @@ export interface components {
             hasUnpublishedChanges?: boolean;
             topics?: components["schemas"]["TagView"][];
             patterns?: components["schemas"]["TagView"][];
-            source?: components["schemas"]["SourceView"];
-        };
-        SourceView: {
-            kind?: string;
-            license?: string;
-            attribution?: string;
-            sourceUrl?: string;
-            /** Format: uuid */
-            reviewedBy?: string;
-            /** Format: date-time */
-            reviewedAt?: string;
+            source?: components["schemas"]["ProblemSourceView"];
         };
         TagView: {
             /** Format: uuid */
@@ -1757,7 +1869,7 @@ export interface components {
             slug?: string;
             name?: string;
         };
-        SourceRequest: {
+        ProblemSourceRequest: {
             kind: string;
             license?: string;
             attribution?: string;
@@ -1811,6 +1923,12 @@ export interface components {
             position?: number;
             lessons?: components["schemas"]["LessonSummary"][];
         };
+        SourceRequest: {
+            kind: string;
+            license?: string;
+            attribution?: string;
+            sourceUrl?: string;
+        };
         BlockView: {
             type?: string;
             /** Format: int32 */
@@ -1842,6 +1960,16 @@ export interface components {
             hasUnpublishedChanges?: boolean;
             blocks?: components["schemas"]["BlockView"][];
             source?: components["schemas"]["SourceView"];
+        };
+        SourceView: {
+            kind?: string;
+            license?: string;
+            attribution?: string;
+            sourceUrl?: string;
+            /** Format: uuid */
+            reviewedBy?: string;
+            /** Format: date-time */
+            reviewedAt?: string;
         };
         BlockInput: {
             type: string;
@@ -1926,6 +2054,31 @@ export interface components {
             /** Format: int64 */
             amountInclTaxMinor?: number;
             active?: boolean;
+        };
+        GateItemRequest: {
+            done: boolean;
+            note?: string;
+        };
+        GateItemView: {
+            code?: string;
+            label?: string;
+            done?: boolean;
+            note?: string;
+            /** Format: date-time */
+            confirmedAt?: string;
+            check?: components["schemas"]["MachineCheck"];
+        };
+        LiveGateView: {
+            liveReady?: boolean;
+            /** Format: date-time */
+            changedAt?: string;
+            allItemsDone?: boolean;
+            items?: components["schemas"]["GateItemView"][];
+            enforcement?: string;
+        };
+        MachineCheck: {
+            ok?: boolean;
+            message?: string;
         };
         SubscribeRequest: {
             /** Format: uuid */
@@ -2056,7 +2209,7 @@ export interface components {
             /** Format: int32 */
             generatedCases?: number;
         };
-        PublishRequest: {
+        ProblemPublishRequest: {
             originalityConfirmed?: boolean;
         };
         PatternCreate: {
@@ -2081,6 +2234,16 @@ export interface components {
             slug: string;
             title: string;
             accessTier?: string;
+        };
+        PublishRequest: {
+            originalityConfirmed?: boolean;
+        };
+        AccessGrantRequest: {
+            /** Format: uuid */
+            planId: string;
+            /** Format: int32 */
+            days?: number;
+            reason: string;
         };
         AccessView: {
             premium?: boolean;
@@ -2174,6 +2337,28 @@ export interface components {
             amountMinor?: number;
             note: string;
         };
+        ReconciliationRunView: {
+            /** Format: uuid */
+            id?: string;
+            trigger?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            status?: string;
+            /** Format: int32 */
+            providerPayments?: number;
+            /** Format: int32 */
+            localPayments?: number;
+            /** Format: int32 */
+            findingsNew?: number;
+            /** Format: int32 */
+            intentsExpired?: number;
+            note?: string;
+        };
+        ResolveRequest: {
+            note: string;
+        };
         PlanCreate: {
             code: string;
             name: string;
@@ -2183,6 +2368,9 @@ export interface components {
             periodUnit: string;
             /** Format: int64 */
             amountInclTaxMinor?: number;
+        };
+        GateReadyRequest: {
+            ready: boolean;
         };
         RevokeRequest: {
             reason: string;
@@ -2556,6 +2744,24 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        FindingView: {
+            /** Format: uuid */
+            id?: string;
+            kind?: string;
+            providerRef?: string;
+            orderRef?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            currency?: string;
+            detail?: string;
+            applicable?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        ReconciliationOverview: {
+            runs?: components["schemas"]["ReconciliationRunView"][];
+            openFindings?: components["schemas"]["FindingView"][];
+        };
         Entry: {
             /** Format: int64 */
             id?: number;
@@ -2872,7 +3078,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["SourceRequest"];
+                "application/json": components["schemas"]["ProblemSourceRequest"];
             };
         };
         responses: {
@@ -3104,6 +3310,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
+    item: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GateItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LiveGateView"];
                 };
             };
         };
@@ -3460,7 +3692,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PublishRequest"];
+                "application/json": components["schemas"]["ProblemPublishRequest"];
             };
         };
         responses: {
@@ -3764,7 +3996,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["GrantRequest"];
+                "application/json": components["schemas"]["AccessGrantRequest"];
             };
         };
         responses: {
@@ -3903,6 +4135,70 @@ export interface operations {
             };
         };
     };
+    run_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReconciliationRunView"];
+                };
+            };
+        };
+    };
+    resolve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    apply: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     plans: {
         parameters: {
             query?: never;
@@ -3969,6 +4265,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PlanView"];
+                };
+            };
+        };
+    };
+    ready: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GateReadyRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LiveGateView"];
                 };
             };
         };
@@ -5131,6 +5451,46 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["RefundFlag"][];
+                };
+            };
+        };
+    };
+    overview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReconciliationOverview"];
+                };
+            };
+        };
+    };
+    liveGate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LiveGateView"];
                 };
             };
         };

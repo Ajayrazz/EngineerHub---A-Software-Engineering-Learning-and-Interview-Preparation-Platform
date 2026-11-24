@@ -43,6 +43,13 @@ class FakeRazorpayProvider extends RazorpayProvider {
   final List<Refund> refunds = new CopyOnWriteArrayList<>();
   volatile boolean failNextRefund = false;
 
+  /** What the provider "lists" for reconciliation: tests fill these. */
+  final List<ProviderPayment> listedPayments = new CopyOnWriteArrayList<>();
+
+  final List<ProviderRefundRow> listedRefunds = new CopyOnWriteArrayList<>();
+  volatile boolean listingComplete = true;
+  volatile boolean failNextListing = false;
+
   /** What the provider reports for a new refund: "processed" or "pending". */
   volatile String refundStatus = "processed";
 
@@ -66,6 +73,10 @@ class FakeRazorpayProvider extends RazorpayProvider {
     refunds.clear();
     failNextRefund = false;
     refundStatus = "processed";
+    listedPayments.clear();
+    listedRefunds.clear();
+    listingComplete = true;
+    failNextListing = false;
   }
 
   private static ApiException unavailable() {
@@ -95,6 +106,22 @@ class FakeRazorpayProvider extends RazorpayProvider {
     String id = "sub_IT" + SEQ.incrementAndGet() + Long.toString(System.nanoTime(), 36);
     subscriptions.add(new Subscription(id, planRef, totalCycles, notes));
     return new ProviderSubscription(id);
+  }
+
+  @Override
+  public Listing<ProviderPayment> listPayments(
+      java.time.Instant from, java.time.Instant to, int maxItems) {
+    if (failNextListing) {
+      failNextListing = false;
+      throw unavailable();
+    }
+    return new Listing<>(List.copyOf(listedPayments), listingComplete);
+  }
+
+  @Override
+  public Listing<ProviderRefundRow> listRefunds(
+      java.time.Instant from, java.time.Instant to, int maxItems) {
+    return new Listing<>(List.copyOf(listedRefunds), listingComplete);
   }
 
   @Override

@@ -422,6 +422,31 @@ class SubscriptionIT {
   }
 
   @Test
+  void anAnnualSubscriptionsChargeGrantsAYearNotAMonth() throws Exception {
+    String[] c = catalog();
+    var u = who(sub());
+    JsonNode s = subscribe(u, c[2], null); // the yearly auto-renewing price
+    String ref = s.get("providerSubscriptionId").asString();
+    charge(ref, 249000);
+    assertThat(premium(u)).isTrue();
+    Timestamp[] period =
+        jdbc.sql(
+                "select starts_at, ends_at from billing.access_periods where user_id = (select user_id from billing.subscriptions where id = :id)")
+            .param("id", UUID.fromString(s.get("subscriptionId").asString()))
+            .query((rs, i) -> new Timestamp[] {rs.getTimestamp(1), rs.getTimestamp(2)})
+            .single();
+    assertThat(period[1].toInstant())
+        .isEqualTo(period[0].toInstant().atZone(java.time.ZoneOffset.UTC).plusYears(1).toInstant());
+    // the second yearly charge starts where the first year ends
+    charge(ref, 249000);
+    assertThat(
+            count(
+                "select count(*) from billing.access_periods where user_id = (select user_id from billing.subscriptions where id = :p0)",
+                UUID.fromString(s.get("subscriptionId").asString())))
+        .isEqualTo(2);
+  }
+
+  @Test
   void aForgedOrUnsignedSubscriptionEventChangesNothing() throws Exception {
     String[] c = catalog();
     var u = who(sub());

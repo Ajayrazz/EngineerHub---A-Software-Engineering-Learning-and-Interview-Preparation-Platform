@@ -38,6 +38,7 @@ class SubscriptionService {
   static final int CYCLES_YEAR = 10;
   private static final Pattern IDEMPOTENCY = Pattern.compile("^[A-Za-z0-9._:-]{8,80}$");
   private static final int MAX_STARTS_PER_HOUR = 10;
+  static final java.time.Duration ABANDONED_AFTER = java.time.Duration.ofMinutes(30);
 
   private final JdbcClient jdbc;
   private final Clock clock;
@@ -148,6 +149,15 @@ class SubscriptionService {
                 throw ApiException.conflict(
                     "This price is a one-time pass: buy it as a pass, not a subscription.");
               }
+              // a checkout the user abandoned (no payment, untouched for a while) must not block
+              // starting again
+              jdbc.sql(
+                      "update billing.subscriptions set status = 'failed', updated_at = :now where user_id = :u and plan_id = :pl and status in ('created','pending') and updated_at < :cutoff and not exists (select 1 from billing.payments p where p.subscription_id = billing.subscriptions.id)")
+                  .param("now", Timestamp.from(clock.instant()))
+                  .param("u", user.id())
+                  .param("pl", p.planId())
+                  .param("cutoff", Timestamp.from(clock.instant().minus(ABANDONED_AFTER)))
+                  .update();
               long recent =
                   jdbc.sql(
                           "select count(*) from billing.subscriptions where user_id = :u and created_at > :since")

@@ -38,7 +38,7 @@ final class BillingDtos {
       @NotNull @Size(max = 10)
           List<@NotBlank @Pattern(regexp = "^premium_content$") String> codes) {}
 
-  record GrantRequest(
+  record AccessGrantRequest(
       @NotNull UUID planId,
       @Min(1) @Max(3660) int days,
       @NotBlank @Size(min = 5, max = 500) String reason) {}

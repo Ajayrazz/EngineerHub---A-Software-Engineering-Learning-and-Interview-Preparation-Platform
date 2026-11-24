@@ -4,9 +4,9 @@ import com.engineerhub.problems.internal.ProblemDtos.PatternCreate;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemCreate;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemListItem;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemPatch;
+import com.engineerhub.problems.internal.ProblemDtos.ProblemPublishRequest;
+import com.engineerhub.problems.internal.ProblemDtos.ProblemSourceRequest;
 import com.engineerhub.problems.internal.ProblemDtos.ProblemView;
-import com.engineerhub.problems.internal.ProblemDtos.PublishRequest;
-import com.engineerhub.problems.internal.ProblemDtos.SourceRequest;
 import com.engineerhub.problems.internal.ProblemDtos.TagView;
 import com.engineerhub.problems.internal.ProblemDtos.TagsRequest;
 import com.engineerhub.problems.internal.ProblemDtos.TestsRequest;
@@ -106,7 +106,8 @@ class ProblemAdminController {
 
   @PutMapping("/problems/{problemId}/source")
   @PreAuthorize("@authz.can('problem.edit', 'problem', #problemId)")
-  ProblemView source(@PathVariable UUID problemId, @Valid @RequestBody SourceRequest request) {
+  ProblemView source(
+      @PathVariable UUID problemId, @Valid @RequestBody ProblemSourceRequest request) {
     return service.setSource(problemId, request);
   }
 
@@ -115,7 +116,7 @@ class ProblemAdminController {
   ProblemView publish(
       Authentication actor,
       @PathVariable UUID problemId,
-      @Valid @RequestBody PublishRequest request) {
+      @Valid @RequestBody ProblemPublishRequest request) {
     return service.publish(actor, problemId, request.originalityConfirmed());
   }
 

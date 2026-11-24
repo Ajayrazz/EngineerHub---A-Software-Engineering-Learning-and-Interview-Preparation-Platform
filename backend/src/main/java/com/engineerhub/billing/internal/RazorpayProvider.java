@@ -4,6 +4,8 @@ import com.engineerhub.shared.error.ApiException;
 import com.engineerhub.shared.error.ErrorCode;
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,6 +155,96 @@ class RazorpayProvider implements PaymentProvider {
       throw unavailable(new RestClientException("unexpected refund response"));
     }
     return new ProviderRefund(r.get("id").asString(), r.path("status").asString("pending"));
+  }
+
+  @Override
+  public Listing<ProviderPayment> listPayments(
+      java.time.Instant from, java.time.Instant to, int maxItems) {
+    requireConfigured();
+    List<ProviderPayment> out = new ArrayList<>();
+    boolean complete =
+        page(
+            "/payments",
+            from,
+            to,
+            maxItems,
+            item -> {
+              out.add(
+                  new ProviderPayment(
+                      item.path("id").asString(""),
+                      item.path("amount").asLong(0),
+                      item.path("currency").asString(""),
+                      item.path("status").asString(""),
+                      item.path("order_id").asString(""),
+                      item.path("amount_refunded").asLong(0)));
+            });
+    return new Listing<>(out, complete);
+  }
+
+  @Override
+  public Listing<ProviderRefundRow> listRefunds(
+      java.time.Instant from, java.time.Instant to, int maxItems) {
+    requireConfigured();
+    List<ProviderRefundRow> out = new ArrayList<>();
+    boolean complete =
+        page(
+            "/refunds",
+            from,
+            to,
+            maxItems,
+            item -> {
+              out.add(
+                  new ProviderRefundRow(
+                      item.path("id").asString(""),
+                      item.path("payment_id").asString(""),
+                      item.path("amount").asLong(0),
+                      item.path("status").asString("")));
+            });
+    return new Listing<>(out, complete);
+  }
+
+  /** Pages through a provider listing; false when it stopped at {@code maxItems} with more left. */
+  private boolean page(
+      String path,
+      java.time.Instant from,
+      java.time.Instant to,
+      int maxItems,
+      java.util.function.Consumer<JsonNode> each) {
+    int count = 100;
+    int seen = 0;
+    while (seen < maxItems) {
+      int skip = seen;
+      JsonNode r;
+      try {
+        r =
+            http.get()
+                .uri(
+                    u ->
+                        u.path(path)
+                            .queryParam("from", from.getEpochSecond())
+                            .queryParam("to", to.getEpochSecond())
+                            .queryParam("count", count)
+                            .queryParam("skip", skip)
+                            .build())
+                .headers(h -> h.setBasicAuth(props.keyId(), props.keySecret()))
+                .retrieve()
+                .body(JsonNode.class);
+      } catch (RestClientException e) {
+        throw unavailable(e);
+      }
+      JsonNode items = r == null ? null : r.path("items");
+      if (items == null || !items.isArray()) {
+        throw unavailable(new RestClientException("unexpected listing response"));
+      }
+      for (JsonNode item : items) {
+        each.accept(item);
+        seen++;
+      }
+      if (items.size() < count) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void requireConfigured() {

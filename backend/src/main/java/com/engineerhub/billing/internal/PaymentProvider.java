@@ -12,6 +12,26 @@ interface PaymentProvider {
 
   record ProviderSubscription(String subscriptionId) {}
 
+  /**
+   * One payment as the provider lists it (statuses are the provider's words, e.g. captured,
+   * refunded).
+   */
+  record ProviderPayment(
+      String id,
+      long amountMinor,
+      String currency,
+      String status,
+      String orderId,
+      long amountRefundedMinor) {}
+
+  record ProviderRefundRow(String id, String paymentId, long amountMinor, String status) {}
+
+  /**
+   * {@code complete} is false when the listing was cut off at {@code maxItems}: absences prove
+   * nothing then.
+   */
+  record Listing<T>(java.util.List<T> items, boolean complete) {}
+
   /** {@code status} is the provider's own word: "processed" or "pending". */
   record ProviderRefund(String refundId, String status) {}
 
@@ -55,4 +75,11 @@ interface PaymentProvider {
 
   /** Refunds {@code amountMinor} of a captured payment (full or partial). */
   ProviderRefund refundPayment(String paymentRef, long amountMinor, Map<String, String> notes);
+
+  /** Payments created in [from, to), newest first, at most {@code maxItems}. */
+  Listing<ProviderPayment> listPayments(java.time.Instant from, java.time.Instant to, int maxItems);
+
+  /** Refunds created in [from, to), at most {@code maxItems}. */
+  Listing<ProviderRefundRow> listRefunds(
+      java.time.Instant from, java.time.Instant to, int maxItems);
 }

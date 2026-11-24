@@ -259,7 +259,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SourceRequest"
+              $ref: "#/components/schemas/ProblemSourceRequest"
         required: true
       responses:
         "200":
@@ -469,6 +469,30 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PlanView"
+  /api/v1/admin/billing/live-gate/items/{code}:
+    put:
+      tags:
+      - reconciliation-controller
+      operationId: item
+      parameters:
+      - name: code
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GateItemRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LiveGateView"
   /api/v1/webhooks/razorpay:
     post:
       tags:
@@ -791,7 +815,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PublishRequest"
+              $ref: "#/components/schemas/ProblemPublishRequest"
         required: true
       responses:
         "200":
@@ -1060,7 +1084,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GrantRequest"
+              $ref: "#/components/schemas/AccessGrantRequest"
         required: true
       responses:
         "201":
@@ -1181,6 +1205,54 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AdminRefundDetail"
+  /api/v1/admin/billing/reconciliation/run:
+    post:
+      tags:
+      - reconciliation-controller
+      operationId: run_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ReconciliationRunView"
+  /api/v1/admin/billing/reconciliation/findings/{id}/resolve:
+    post:
+      tags:
+      - reconciliation-controller
+      operationId: resolve
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResolveRequest"
+        required: true
+      responses:
+        "204":
+          description: No Content
+  /api/v1/admin/billing/reconciliation/findings/{id}/apply:
+    post:
+      tags:
+      - reconciliation-controller
+      operationId: apply
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "204":
+          description: No Content
   /api/v1/admin/billing/plans:
     get:
       tags:
@@ -1237,6 +1309,24 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PlanView"
+  /api/v1/admin/billing/live-gate/ready:
+    post:
+      tags:
+      - reconciliation-controller
+      operationId: ready
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GateReadyRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LiveGateView"
   /api/v1/admin/billing/access-periods/{periodId}/revoke:
     post:
       tags:
@@ -2286,6 +2376,30 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RefundFlag"
+  /api/v1/admin/billing/reconciliation:
+    get:
+      tags:
+      - reconciliation-controller
+      operationId: overview
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ReconciliationOverview"
+  /api/v1/admin/billing/live-gate:
+    get:
+      tags:
+      - reconciliation-controller
+      operationId: liveGate
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LiveGateView"
   /api/v1/admin/audit-logs:
     get:
       tags:
@@ -2706,6 +2820,23 @@ components:
       required:
       - patternIds
       - topicIds
+    ProblemSourceView:
+      type: object
+      properties:
+        kind:
+          type: string
+        license:
+          type: string
+        attribution:
+          type: string
+        sourceUrl:
+          type: string
+        reviewedBy:
+          type: string
+          format: uuid
+        reviewedAt:
+          type: string
+          format: date-time
     ProblemView:
       type: object
       properties:
@@ -2773,24 +2904,7 @@ components:
           items:
             $ref: "#/components/schemas/TagView"
         source:
-          $ref: "#/components/schemas/SourceView"
-    SourceView:
-      type: object
-      properties:
-        kind:
-          type: string
-        license:
-          type: string
-        attribution:
-          type: string
-        sourceUrl:
-          type: string
-        reviewedBy:
-          type: string
-          format: uuid
-        reviewedAt:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/ProblemSourceView"
     TagView:
       type: object
       properties:
@@ -2801,7 +2915,7 @@ components:
           type: string
         name:
           type: string
-    SourceRequest:
+    ProblemSourceRequest:
       type: object
       properties:
         kind:
@@ -2914,6 +3028,28 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LessonSummary"
+    SourceRequest:
+      type: object
+      properties:
+        kind:
+          type: string
+          minLength: 1
+          pattern: ^(original|licensed|open_license|ai_assisted)$
+        license:
+          type: string
+          maxLength: 60
+          minLength: 0
+        attribution:
+          type: string
+          maxLength: 300
+          minLength: 0
+        sourceUrl:
+          type: string
+          maxLength: 500
+          minLength: 0
+          pattern: ^(https://\S+)?$
+      required:
+      - kind
     BlockView:
       type: object
       properties:
@@ -2967,6 +3103,23 @@ components:
             $ref: "#/components/schemas/BlockView"
         source:
           $ref: "#/components/schemas/SourceView"
+    SourceView:
+      type: object
+      properties:
+        kind:
+          type: string
+        license:
+          type: string
+        attribution:
+          type: string
+        sourceUrl:
+          type: string
+        reviewedBy:
+          type: string
+          format: uuid
+        reviewedAt:
+          type: string
+          format: date-time
     BlockInput:
       type: object
       properties:
@@ -3155,6 +3308,56 @@ components:
           format: int64
         active:
           type: boolean
+    GateItemRequest:
+      type: object
+      properties:
+        done:
+          type: boolean
+        note:
+          type: string
+          maxLength: 500
+          minLength: 0
+      required:
+      - done
+    GateItemView:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        done:
+          type: boolean
+        note:
+          type: string
+        confirmedAt:
+          type: string
+          format: date-time
+        check:
+          $ref: "#/components/schemas/MachineCheck"
+    LiveGateView:
+      type: object
+      properties:
+        liveReady:
+          type: boolean
+        changedAt:
+          type: string
+          format: date-time
+        allItemsDone:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GateItemView"
+        enforcement:
+          type: string
+    MachineCheck:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        message:
+          type: string
     SubscribeRequest:
       type: object
       properties:
@@ -3435,7 +3638,7 @@ components:
           format: int32
           maximum: 500
           minimum: 1
-    PublishRequest:
+    ProblemPublishRequest:
       type: object
       properties:
         originalityConfirmed:
@@ -3518,6 +3721,29 @@ components:
       - sectionId
       - slug
       - title
+    PublishRequest:
+      type: object
+      properties:
+        originalityConfirmed:
+          type: boolean
+    AccessGrantRequest:
+      type: object
+      properties:
+        planId:
+          type: string
+          format: uuid
+        days:
+          type: integer
+          format: int32
+          maximum: 3660
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 500
+          minLength: 5
+      required:
+      - planId
+      - reason
     AccessView:
       type: object
       properties:
@@ -3694,6 +3920,45 @@ components:
           minLength: 5
       required:
       - note
+    ReconciliationRunView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        trigger:
+          type: string
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+        providerPayments:
+          type: integer
+          format: int32
+        localPayments:
+          type: integer
+          format: int32
+        findingsNew:
+          type: integer
+          format: int32
+        intentsExpired:
+          type: integer
+          format: int32
+        note:
+          type: string
+    ResolveRequest:
+      type: object
+      properties:
+        note:
+          type: string
+          maxLength: 500
+          minLength: 5
+      required:
+      - note
     PlanCreate:
       type: object
       properties:
@@ -3728,6 +3993,13 @@ components:
       required:
       - billingMode
       - periodUnit
+    GateReadyRequest:
+      type: object
+      properties:
+        ready:
+          type: boolean
+      required:
+      - ready
     RevokeRequest:
       type: object
       properties:
@@ -4457,6 +4729,41 @@ components:
         updatedAt:
           type: string
           format: date-time
+    FindingView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        kind:
+          type: string
+        providerRef:
+          type: string
+        orderRef:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        detail:
+          type: string
+        applicable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    ReconciliationOverview:
+      type: object
+      properties:
+        runs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReconciliationRunView"
+        openFindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/FindingView"
     Entry:
       type: object
       properties:

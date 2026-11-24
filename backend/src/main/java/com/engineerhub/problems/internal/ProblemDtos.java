@@ -66,20 +66,20 @@ final class ProblemDtos {
           String slug,
       @NotBlank @Size(max = 100) String name) {}
 
-  record SourceRequest(
+  record ProblemSourceRequest(
       @NotBlank @Pattern(regexp = "^(original|licensed|open_license|ai_assisted)$") String kind,
       @Size(max = 60) String license,
       @Size(max = 300) String attribution,
       @Size(max = 500) @Pattern(regexp = "^(https://\\S+)?$", message = "must be an https URL")
           String sourceUrl) {}
 
-  record PublishRequest(boolean originalityConfirmed) {}
+  record ProblemPublishRequest(boolean originalityConfirmed) {}
 
   // ---------------------------------------------------------------- views
 
   record TagView(UUID id, String slug, String name) {}
 
-  record SourceView(
+  record ProblemSourceView(
       String kind,
       String license,
       String attribution,
@@ -112,7 +112,7 @@ final class ProblemDtos {
       boolean hasUnpublishedChanges,
       List<TagView> topics,
       List<TagView> patterns,
-      SourceView source) {}
+      ProblemSourceView source) {}
 
   record ProblemListItem(
       UUID id,
