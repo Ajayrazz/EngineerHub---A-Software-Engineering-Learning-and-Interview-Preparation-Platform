@@ -12,42 +12,6 @@ def C(slug, title, description, topic, difficulty, tier, minutes, sections):
     return dict(slug=slug, title=title, description=description, topic=topic, difficulty=difficulty, tier=tier, minutes=minutes, sections=sections)
 
 COURSES_A = [
-C("data-structures-and-algorithms", "Data Structures and Algorithms",
-  "Build the toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
-  "arrays", "beginner", "free", 300, [
-  ("Getting started", [
-    L("big-o-in-plain-words", "Big-O in plain words", "free", 12,
-      "## Why we measure growth\n\nTwo programs can both be correct and still behave very differently when the input grows. **Big-O notation** describes how the work an algorithm does *grows* with the input size `n`, ignoring constant factors.\n\n| Growth | Name | Doubling `n` makes the work... |\n|---|---|---|\n| O(1) | constant | the same |\n| O(log n) | logarithmic | one step longer |\n| O(n) | linear | twice as long |\n| O(n log n) | linearithmic | slightly more than twice |\n| O(n²) | quadratic | four times as long |\n\nWe usually talk about the **worst case** and drop everything but the fastest-growing term: `3n² + 10n + 7` is just O(n²).",
-      code=("python", "def has_duplicate(items):\n    # O(n^2): compares every pair\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if items[i] == items[j]:\n                return True\n    return False\n\ndef has_duplicate_fast(items):\n    # O(n): one pass, remembering what we have seen\n    seen = set()\n    for x in items:\n        if x in seen:\n            return True\n        seen.add(x)\n    return False", "Same answer, very different growth"),
-      tip="Memory counts too. The fast version above trades O(n) extra space for speed.",
-      viz=("bubble-sort", "5, 2, 9, 1, 7, 3", ""),
-      quiz=[Q("A loop runs once over `n` items and does constant work each time. Its complexity is:", ["O(1)", "O(n)", "O(n²)", "O(log n)"], 1, "One pass over n items is linear."),
-            Q("Doubling the input makes an O(n²) algorithm take roughly how much longer?", ["The same time", "Twice as long", "Four times as long", "Eight times as long"], 2, "(2n)² = 4n²."),
-            Q("Big-O ignores constant factors, so 5n and n are both O(n).", ["True", "False"], 0, "Constants are dropped; only the growth rate matters.", "true_false")]),
-    L("arrays-and-hashing", "Arrays and hash maps", "free", 15,
-      "## Two workhorse structures\n\nAn **array** stores items in consecutive memory, so reading `a[i]` is O(1). Inserting in the middle is O(n) because later items must shift.\n\nA **hash map** stores key → value pairs. A hash function turns a key into a bucket number, giving **average O(1)** insert, lookup and delete. Collisions (two keys in one bucket) are handled by chaining or probing; the worst case degrades, which is why good hash functions matter.\n\n### The classic trade\nWhenever a nested loop asks *\"have I seen a matching value?\"*, a hash map can usually turn it into a single pass.",
-      code=("python", "def first_pair_with_sum(nums, target):\n    seen = {}                      # value -> index\n    for j, x in enumerate(nums):\n        if target - x in seen:\n            return seen[target - x], j\n        seen.setdefault(x, j)\n    return None", "Pair with a target sum in O(n)"),
-      tip="Try the practice problem **Pair With Target Sum** after this lesson.",
-      quiz=[Q("What is the average cost of looking up a key in a hash map?", ["O(1)", "O(log n)", "O(n)", "O(n log n)"], 0, "A good hash spreads keys across buckets, so a lookup touches a constant number of entries on average."),
-            Q("Which operation is O(n) on an array?", ["Reading a[i]", "Inserting at the front", "Reading the length", "Overwriting a[i]"], 1, "Every existing item has to shift one place.")]),
-  ]),
-  ("Core techniques", [
-    L("two-pointers-and-windows", "Two pointers and sliding windows", "free", 16,
-      "## Moving two indexes instead of looping twice\n\nMany array and string problems become linear when you keep **two indexes** and move them intelligently.\n\n- **Opposite ends:** start at both ends of a sorted array and walk inward (pair sums, palindromes, container problems).\n- **Sliding window:** keep a window `[left, right]`; grow `right`, and shrink `left` whenever the window breaks a rule (longest substring without repeats, subarray sums with positive numbers).\n\nThe reason it is O(n): each index only ever moves forward, so together they make at most `2n` moves.",
-      code=("python", "def longest_unique(s):\n    last, left, best = {}, 0, 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1          # jump past the repeat\n        last[ch] = right\n        best = max(best, right - left + 1)\n    return best", "Sliding window with a last-seen map"),
-      viz=("sliding-window", "2, 1, 5, 1, 3, 2", "3"),
-      quiz=[Q("Why is a sliding window O(n) even though it has a loop inside a loop?", ["It uses recursion", "Each pointer only moves forward, so total moves are at most 2n", "It sorts the array first", "It skips half of the items"], 1, "Neither pointer ever moves backwards."),
-            Q("Two pointers from opposite ends of an array normally require the array to be:", ["Sorted (or have a monotone property)", "Of even length", "Free of duplicates", "Made of positive numbers only"], 0, "The inward moves rely on a known ordering to decide which pointer to move.")]),
-    L("binary-search-mastery", "Binary search, and binary search on the answer", "free", 18,
-      "## Halving the search space\n\nBinary search finds a target in a **sorted** array in O(log n) by repeatedly checking the middle and discarding the half that cannot contain it.\n\nThe same idea works whenever you can answer a yes/no question that is **monotone**: *no, no, no, yes, yes, yes*. Then you can search for the first `yes` — even when there is no array at all (for example the smallest truck capacity that finishes in `d` days).\n\n### Off-by-one safety\nPick one convention and stick to it. Below, the answer lives in `[lo, hi)`; the loop ends when `lo == hi`.",
-      code=("python", "def first_true(lo, hi, ok):\n    # smallest x in [lo, hi) with ok(x) True, assuming ok is monotone; returns hi if none\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if ok(mid):\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo", "A reusable boundary search"),
-      viz=("binary-search", "2, 5, 8, 12, 16, 23, 38, 56", "23"),
-      tip="Practice: **Rotated Lookup** and **Minimum Ship Capacity**.",
-      quiz=[Q("How many comparisons does binary search need for 1,000,000 sorted items, roughly?", ["About 20", "About 1,000", "About 500,000", "1,000,000"], 0, "log2(1,000,000) ≈ 20."),
-            Q("Binary search on the answer needs the yes/no check to be monotone.", ["True", "False"], 0, "Without monotonicity, discarding half the range is not justified.", "true_false")]),
-  ]),
-]),
-
 C("system-design-fundamentals", "System Design Fundamentals",
   "A foundation in how real systems are shaped: requirements, scaling, load balancing and caching, with the trade-offs interviewers expect you to discuss.",
   "system-design", "intermediate", "premium", 280, [

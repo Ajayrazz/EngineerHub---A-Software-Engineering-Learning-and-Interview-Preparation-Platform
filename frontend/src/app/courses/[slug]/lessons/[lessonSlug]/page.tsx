@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LessonActions } from "@/components/reader/lesson-actions";
 import { LessonBlocks } from "@/components/reader/lesson-blocks";
-import { ProgressBar, ReaderShell, TierBadge } from "@/components/reader/ui";
+import { CourseSidebar } from "@/components/reader/course-sidebar";
+import { ReadingProgress } from "@/components/reader/reading-progress";
+import { ReaderShell } from "@/components/reader/ui";
 import { extractHeadings } from "@/lib/cms/toc";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession, SLUG } from "@/lib/reader/server";
@@ -69,54 +71,26 @@ export default async function LessonPage({
   return (
     <ReaderShell username={session?.username} wide>
       <div className="grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)_13rem]">
-        <aside
-          aria-label="Course outline"
-          className="glass sticky top-20 flex max-h-[calc(100vh-6rem)] flex-col gap-4 self-start overflow-y-auto p-4 text-sm"
-          data-testid="sidebar"
-        >
-          <Link href={`/courses/${slug}`} className="font-semibold hover:text-accent-2">
-            {detail.data.course?.title}
-          </Link>
-          {p?.enrolled && <ProgressBar percent={p.percent ?? 0} label="Course progress" />}
-          {sections.map((s) => (
-            <div key={s.position}>
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
-                {s.title}
-              </h2>
-              <ol className="flex flex-col gap-1">
-                {(s.lessons ?? []).map((l) => {
-                  const current = l.slug === lessonSlug;
-                  return (
-                    <li
-                      key={l.slug}
-                      className={`flex items-center gap-2 rounded-lg px-2 py-1.5 ${current ? "bg-accent/15" : "hover:bg-surface-2"}`}
-                      data-testid="sidebar-lesson"
-                    >
-                      <span
-                        aria-hidden
-                        className={done.has(l.id ?? "") ? "text-accent-2" : "text-muted"}
-                      >
-                        {done.has(l.id ?? "") ? "✓" : "○"}
-                      </span>
-                      <Link
-                        href={`/courses/${slug}/lessons/${l.slug}`}
-                        aria-current={current ? "page" : undefined}
-                        className={
-                          current
-                            ? "font-semibold text-accent-2"
-                            : "text-foreground/85 hover:text-foreground"
-                        }
-                      >
-                        {l.title}
-                      </Link>
-                      <TierBadge tier={l.accessTier} preview={l.freePreview} />
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          ))}
-        </aside>
+        <CourseSidebar
+          courseSlug={slug}
+          courseTitle={detail.data.course?.title ?? ""}
+          currentSlug={lessonSlug}
+          enrolled={Boolean(p?.enrolled)}
+          percent={p?.percent ?? 0}
+          completed={p?.completedLessons ?? 0}
+          total={p?.totalLessons ?? sections.reduce((n, s) => n + (s.lessons ?? []).length, 0)}
+          doneIds={[...done]}
+          sections={sections.map((s) => ({
+            title: s.title ?? "",
+            lessons: (s.lessons ?? []).map((l) => ({
+              id: l.id ?? "",
+              slug: l.slug ?? "",
+              title: l.title ?? "",
+              premium: l.accessTier === "premium",
+              preview: Boolean(l.freePreview),
+            })),
+          }))}
+        />
 
         <article className="flex min-w-0 flex-col gap-6">
           <h1 className="text-3xl font-bold tracking-tight" data-testid="lesson-title">
@@ -194,20 +168,23 @@ export default async function LessonPage({
         </article>
 
         <aside aria-label="On this page" className="hidden text-sm lg:block">
-          {toc.length > 0 && (
-            <nav className="sticky top-6 flex flex-col gap-1" data-testid="toc">
-              <h2 className="mb-1 font-medium opacity-80">On this page</h2>
-              {toc.map((t) => (
-                <a
-                  key={t.id}
-                  href={`#${t.id}`}
-                  className={`hover:underline ${INDENT[Math.min(Math.max(t.level - 1, 0), 3)]}`}
-                >
-                  {t.text}
-                </a>
-              ))}
-            </nav>
-          )}
+          <div className="sticky top-20">
+            <ReadingProgress />
+            {toc.length > 0 && (
+              <nav className="flex flex-col gap-1" data-testid="toc">
+                <h2 className="mb-1 font-medium opacity-80">On this page</h2>
+                {toc.map((t) => (
+                  <a
+                    key={t.id}
+                    href={`#${t.id}`}
+                    className={`hover:underline ${INDENT[Math.min(Math.max(t.level - 1, 0), 3)]}`}
+                  >
+                    {t.text}
+                  </a>
+                ))}
+              </nav>
+            )}
+          </div>
         </aside>
       </div>
     </ReaderShell>
