@@ -103,6 +103,8 @@ describe("billing format", () => {
     const off = subscriptionNote({ ...sub, status: "cancel_scheduled" }, "2026-04-10T00:00:00Z");
     expect(off).toContain("Auto-renew is off");
     expect(off).toContain("will not renew");
+    // a subscription the provider has already ended reads the same while paid access runs
+    expect(subscriptionNote({ ...sub, status: "cancelled" }, "2026-04-10T00:00:00Z")).toBe(off);
     expect(subscriptionNote({ ...sub, status: "weird" })).toBe("");
   });
 

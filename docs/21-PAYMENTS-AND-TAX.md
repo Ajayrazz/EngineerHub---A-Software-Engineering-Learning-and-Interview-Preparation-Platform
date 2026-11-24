@@ -34,7 +34,7 @@ Single handler `PaymentCapturedHandler` is used by both the ONE_TIME webhook (`p
 | Strategy | Renewal | Cancellation | Failure |
 |---|---|---|---|
 | `OneTimeRenewalPolicy` | none; show "Renew" CTA & expiry reminders | n/a (access just expires) | order failed → no access |
-| `RecurringRenewalPolicy` | provider charges each cycle → webhook | `cancel_at_cycle_end` via provider API | retries by provider → `PAST_DUE` → grace → `EXPIRED` |
+| `RecurringRenewalPolicy` | provider charges each cycle → webhook | cancel via the provider API (immediately at the provider; paid access runs to its end, see the ADR-052 verification note) | retries by provider → `PAST_DUE` → grace → `EXPIRED` |
 
 ### Package layout
 ```

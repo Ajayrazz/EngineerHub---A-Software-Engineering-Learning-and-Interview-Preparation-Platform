@@ -623,17 +623,17 @@ class SubscriptionIT {
 
     call(post(url), who(sub()), null).andExpect(status().isNotFound()); // not the owner
     call(post(url), null, null).andExpect(status().isUnauthorized());
-    assertThat(provider.cancelledAtCycleEnd).isEmpty();
+    assertThat(provider.cancelledSubscriptions).isEmpty();
 
     call(post(url), u, null)
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("cancel_scheduled"))
         .andExpect(jsonPath("$.cancelScheduled").value(true));
-    assertThat(provider.cancelledAtCycleEnd).containsExactly(ref);
+    assertThat(provider.cancelledSubscriptions).containsExactly(ref);
     assertThat(premium(u)).isTrue(); // paid access runs to the end
 
     call(post(url), u, null).andExpect(status().isOk()); // idempotent: no second provider call
-    assertThat(provider.cancelledAtCycleEnd).hasSize(1);
+    assertThat(provider.cancelledSubscriptions).hasSize(1);
 
     // the summary no longer promises a renewal, and the reminder is back
     JsonNode summary = json(call(get("/api/v1/me/billing"), u, null));
@@ -643,6 +643,10 @@ class SubscriptionIT {
     event("subscription.cancelled", ref);
     assertThat(statusOf(id)).isEqualTo("cancelled");
     assertThat(premium(u)).isTrue();
+    // once the provider has ended it, the page still explains it while the paid access runs
+    JsonNode ended = json(call(get("/api/v1/me/billing"), u, null));
+    assertThat(ended.get("subscription").get("status").asString()).isEqualTo("cancelled");
+    assertThat(ended.get("subscription").path("renewsOn").isMissingNode()).isTrue();
   }
 
   @Test

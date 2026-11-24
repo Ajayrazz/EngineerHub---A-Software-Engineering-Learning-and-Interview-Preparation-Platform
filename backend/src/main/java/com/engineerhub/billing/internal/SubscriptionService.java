@@ -348,7 +348,7 @@ class SubscriptionService {
             .param("u", user)
             .query(String.class)
             .single();
-    provider.cancelSubscriptionAtCycleEnd(ref); // 503 (status unchanged) if the provider refuses
+    provider.cancelSubscription(ref); // 503 (status unchanged) if the provider refuses
     tx.executeWithoutResult(
         s -> {
           int n =

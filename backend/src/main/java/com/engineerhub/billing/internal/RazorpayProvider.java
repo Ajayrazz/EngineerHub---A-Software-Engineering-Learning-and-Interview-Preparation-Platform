@@ -130,9 +130,9 @@ class RazorpayProvider implements PaymentProvider {
   }
 
   @Override
-  public void cancelSubscriptionAtCycleEnd(String subscriptionRef) {
+  public void cancelSubscription(String subscriptionRef) {
     requireConfigured();
-    call("/subscriptions/" + subscriptionRef + "/cancel", Map.of("cancel_at_cycle_end", true));
+    call("/subscriptions/" + subscriptionRef + "/cancel", Map.of("cancel_at_cycle_end", 0));
   }
 
   @Override

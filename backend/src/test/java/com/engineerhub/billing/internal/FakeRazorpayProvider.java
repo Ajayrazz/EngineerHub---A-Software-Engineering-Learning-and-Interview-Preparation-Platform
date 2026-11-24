@@ -34,7 +34,7 @@ class FakeRazorpayProvider extends RazorpayProvider {
 
   final List<Plan> plans = new CopyOnWriteArrayList<>();
   final List<Subscription> subscriptions = new CopyOnWriteArrayList<>();
-  final List<String> cancelledAtCycleEnd = new CopyOnWriteArrayList<>();
+  final List<String> cancelledSubscriptions = new CopyOnWriteArrayList<>();
   volatile boolean failNextSubscription = false;
   volatile boolean failNextCancel = false;
 
@@ -67,7 +67,7 @@ class FakeRazorpayProvider extends RazorpayProvider {
     orders.clear();
     plans.clear();
     subscriptions.clear();
-    cancelledAtCycleEnd.clear();
+    cancelledSubscriptions.clear();
     failNextSubscription = false;
     failNextCancel = false;
     refunds.clear();
@@ -137,12 +137,12 @@ class FakeRazorpayProvider extends RazorpayProvider {
   }
 
   @Override
-  public void cancelSubscriptionAtCycleEnd(String subscriptionRef) {
+  public void cancelSubscription(String subscriptionRef) {
     if (failNextCancel) {
       failNextCancel = false;
       throw unavailable();
     }
-    cancelledAtCycleEnd.add(subscriptionRef);
+    cancelledSubscriptions.add(subscriptionRef);
   }
 
   @Override

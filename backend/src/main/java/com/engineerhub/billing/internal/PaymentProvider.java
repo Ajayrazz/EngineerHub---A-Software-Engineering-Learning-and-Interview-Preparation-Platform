@@ -64,8 +64,13 @@ interface PaymentProvider {
   ProviderSubscription createSubscription(
       String planRef, int totalCycles, Map<String, String> notes);
 
-  /** Stops renewals at the end of the current cycle (never refunds, never ends paid access). */
-  void cancelSubscriptionAtCycleEnd(String subscriptionRef);
+  /**
+   * Cancels the subscription at the provider NOW, so no further charge can happen. Paid access is
+   * unaffected (it is derived from our own paid periods) and nothing is refunded. (A cycle-end
+   * cancel was tried against the real provider and left the subscription active with no visible
+   * cancellation, which is the dangerous failure: a customer charged after cancelling.)
+   */
+  void cancelSubscription(String subscriptionRef);
 
   /**
    * The browser's subscription checkout callback signature over {@code payment_id|subscription_id}

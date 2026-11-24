@@ -754,7 +754,7 @@ class RefundIT {
                 .query(String.class)
                 .single())
         .isEqualTo("active");
-    assertThat(provider.cancelledAtCycleEnd).isEmpty();
+    assertThat(provider.cancelledSubscriptions).isEmpty();
   }
 
   @Test

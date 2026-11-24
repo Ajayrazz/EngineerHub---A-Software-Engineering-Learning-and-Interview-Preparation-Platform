@@ -83,6 +83,7 @@ export function subscriptionNote(sub: SubscriptionLike, validThrough?: string): 
     case "past_due":
       return `The last renewal payment did not go through. Your access continues until ${formatDate(validThrough)} and ends then unless a retry by the payment provider succeeds.`;
     case "cancel_scheduled":
+    case "cancelled":
       return `Auto-renew is off. Your access continues until ${formatDate(validThrough)} and will not renew.`;
     default:
       return "";

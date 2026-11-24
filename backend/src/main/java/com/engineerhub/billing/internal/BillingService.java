@@ -534,16 +534,20 @@ class BillingService implements EntitlementService {
         payments);
   }
 
-  /** The newest subscription that is paid up, failing or scheduled to end; null when none. */
+  /**
+   * The newest subscription that is paid up, failing or ending, including a cancelled one while its
+   * paid access still runs; null when none.
+   */
   private SubscriptionSummary liveSubscription(UUID userId, Instant validThrough) {
     return jdbc.sql(
             """
             select s.id, s.status, p.name, s.amount_minor, s.currency, s.period_unit
             from billing.subscriptions s join billing.plans p on p.id = s.plan_id
-            where s.user_id = :u and s.status in ('active','past_due','cancel_scheduled')
+            where s.user_id = :u and (s.status in ('active','past_due','cancel_scheduled') or (s.status = 'cancelled' and :covered))
             order by s.created_at desc limit 1
             """)
         .param("u", userId)
+        .param("covered", validThrough != null)
         .query(
             (rs, i) ->
                 new SubscriptionSummary(
