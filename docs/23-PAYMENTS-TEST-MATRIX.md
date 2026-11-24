@@ -36,7 +36,8 @@ Test classes live in `backend/src/test/java/com/engineerhub/billing/internal/` u
 Authorization of every billing endpoint (401 / 403 tables in each `*IT`), ownership isolation (another user's payment, subscription, refund, credit note or document looks missing), no personal data sent to the provider, idempotency keys, provider failures and retries, credit notes (`RefundIT`, `DocumentPdfTest`), browser flows (`E2E`), and the OpenAPI contract (`ApiSchemaNamesArchTest` fails if two API types share a name, which would silently overwrite one in the generated client).
 
 ## Gaps that matter
-1. **Everything provider-facing is unverified** (real request and response shapes, real webhook payloads, retry behaviour, Checkout CSP origins). The whole matrix must be re-run against Razorpay's test mode once you provide test keys.
+0. **Update 2026-11-24:** order creation, plan and subscription creation, and the payment listing were run for real against Razorpay's test API and behaved as designed (see docs/19). Checkout, webhook payloads, cancellation, and refunds are still unverified.
+1. **Everything else provider-facing is unverified** (real request and response shapes, real webhook payloads, retry behaviour, Checkout CSP origins). The whole matrix must be re-run against Razorpay's test mode once you provide test keys.
 2. **Grace period** (P-2) and **resume** (P-3) are decisions, not defects: nothing is built, so nothing is tested.
 3. **Tax invoice legal content** (CGST/SGST/IGST, customer state, rounding rule, numbering rules) awaits P-4.
 4. **No load, soak or failure-injection run** of the webhook receiver under real provider retry storms.
