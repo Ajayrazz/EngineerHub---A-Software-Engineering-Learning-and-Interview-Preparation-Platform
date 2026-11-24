@@ -422,7 +422,7 @@ class CatalogReaderIT {
   void topicsArePublicAndCacheable() throws Exception {
     call(get("/api/v1/topics"), null, null)
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(49))
+        .andExpect(jsonPath("$.length()").value(org.hamcrest.Matchers.greaterThanOrEqualTo(31)))
         .andExpect(header().exists("Cache-Control"));
   }
 

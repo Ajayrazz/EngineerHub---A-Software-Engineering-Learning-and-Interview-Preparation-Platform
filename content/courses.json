@@ -1,8 +1,8 @@
 [
  {
-  "slug": "dsa-foundations",
-  "title": "Data Structures & Algorithms Foundations",
-  "description": "Build the core toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
+  "slug": "data-structures-and-algorithms",
+  "title": "Data Structures and Algorithms",
+  "description": "Build the toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
   "topic": "arrays",
   "difficulty": "beginner",
   "tier": "free",
@@ -223,9 +223,9 @@
   ]
  },
  {
-  "slug": "system-design-basics",
-  "title": "System Design Basics",
-  "description": "Learn how real systems are shaped: requirements, scaling, load balancing, caching and data storage, with the trade-offs that interviewers expect you to discuss.",
+  "slug": "system-design-fundamentals",
+  "title": "System Design Fundamentals",
+  "description": "A foundation in how real systems are shaped: requirements, scaling, load balancing and caching, with the trade-offs interviewers expect you to discuss.",
   "topic": "system-design",
   "difficulty": "intermediate",
   "tier": "premium",
@@ -364,9 +364,9 @@
   ]
  },
  {
-  "slug": "python-for-engineers",
-  "title": "Python for Engineers",
-  "description": "A practical introduction to Python: core types, functions, comprehensions, errors and files, written for people who want to build and automate.",
+  "slug": "python",
+  "title": "Python",
+  "description": "A practical introduction to Python: core types, functions, comprehensions, errors and files, for people who want to build and automate.",
   "topic": "python",
   "difficulty": "beginner",
   "tier": "free",
@@ -501,9 +501,9 @@
   ]
  },
  {
-  "slug": "sql-and-databases",
-  "title": "SQL and Databases",
-  "description": "Query data confidently: selecting, joining and aggregating, and understand indexes and transactions the way production systems use them.",
+  "slug": "sql-interview",
+  "title": "SQL Interview",
+  "description": "Query data confidently: selecting, joining and aggregating, plus indexes and transactions, the topics backend and data interviews keep returning to.",
   "topic": "databases",
   "difficulty": "beginner",
   "tier": "free",
@@ -643,8 +643,8 @@
   ]
  },
  {
-  "slug": "git-and-collaboration",
-  "title": "Git and Collaboration",
+  "slug": "git",
+  "title": "Git",
   "description": "Version control from first commit to pull request: commits, branches, merging, rebasing and the habits that keep a team's history clean.",
   "topic": "git",
   "difficulty": "beginner",
@@ -735,8 +735,8 @@
   ]
  },
  {
-  "slug": "web-apis-with-rest",
-  "title": "Web APIs with REST",
+  "slug": "api-design",
+  "title": "API Design",
   "description": "Understand HTTP, design clean REST endpoints and handle authentication and errors the way modern backends do.",
   "topic": "web-apis",
   "difficulty": "intermediate",
@@ -876,150 +876,9 @@
   ]
  },
  {
-  "slug": "machine-learning-foundations",
-  "title": "Machine Learning Foundations",
-  "description": "What machine learning is, how models learn from data, why overfitting happens and how to evaluate a model honestly.",
-  "topic": "machine-learning",
-  "difficulty": "beginner",
-  "tier": "premium",
-  "minutes": 240,
-  "sections": [
-   {
-    "title": "From data to models",
-    "lessons": [
-     {
-      "slug": "what-is-machine-learning",
-      "title": "What is machine learning?",
-      "tier": "free",
-      "minutes": 12,
-      "md": "## Learning rules from examples\n\nTraditional programming: *you* write the rules. In **machine learning (ML)** you provide **examples** and an algorithm finds the rules.\n\n- **Supervised learning:** examples come with answers (labels). *Regression* predicts a number (a house price); *classification* predicts a category (spam or not).\n- **Unsupervised learning:** no labels; find structure, such as clusters of similar customers.\n- **Reinforcement learning:** an agent learns from rewards through trial and error.\n\nThe basic loop: choose a **model**, define a **loss** that measures how wrong it is, and adjust the model's parameters to reduce the loss (often with gradient descent).",
-      "code": null,
-      "tip": "ML is only as good as its data. Most real projects spend more time on data than on models.",
-      "quiz": [
-       {
-        "prompt": "Predicting tomorrow's temperature in degrees is a:",
-        "options": [
-         "Classification task",
-         "Regression task",
-         "Clustering task",
-         "Reward task"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "The target is a continuous number.",
-        "type": "single"
-       },
-       {
-        "prompt": "Grouping customers by similarity without labels is:",
-        "options": [
-         "Supervised learning",
-         "Unsupervised learning",
-         "Regression",
-         "Overfitting"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "No labels means unsupervised.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "train-test-and-overfitting",
-      "title": "Train/test splits and overfitting",
-      "tier": "premium",
-      "minutes": 16,
-      "md": "## Don't grade a student on the homework they memorised\n\nA model that scores perfectly on the data it learned from may still fail on new data. That is **overfitting**: it memorised noise instead of the pattern. The opposite, **underfitting**, is a model too simple to capture the pattern.\n\nSo split your data: a **training set** to fit the model, a **validation set** to tune choices, and a **test set** used once at the end for an honest estimate. Never let information from the test set leak into training (for example by scaling using statistics of the full dataset).\n\n**Cross-validation** repeats the split several ways for a steadier estimate.",
-      "code": [
-       "python",
-       "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)\nmodel = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nprint(\"test accuracy:\", model.score(X_test, y_test))",
-       "A basic honest evaluation (scikit-learn)"
-      ],
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "A model scores 99% on training data and 60% on test data. This most likely shows:",
-        "options": [
-         "Underfitting",
-         "Overfitting",
-         "A perfect model",
-         "Too little training"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "A large gap between training and test performance is the signature of overfitting.",
-        "type": "single"
-       },
-       {
-        "prompt": "The test set should be used repeatedly while tuning the model.",
-        "options": [
-         "True",
-         "False"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "Tune on validation data; touch the test set once at the end.",
-        "type": "true_false"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "evaluating-models",
-      "title": "Accuracy, precision and recall",
-      "tier": "premium",
-      "minutes": 16,
-      "md": "## One number is not enough\n\nSuppose 1% of transactions are fraud. A model that always says *\"not fraud\"* is 99% **accurate** and completely useless. For classification, look at the **confusion matrix**:\n\n- **Precision** = TP / (TP + FP): of the cases flagged, how many were right?\n- **Recall** = TP / (TP + FN): of the real cases, how many did we catch?\n- **F1** is their harmonic mean.\n\nChoose by cost: for cancer screening favour recall (missing a case is costly); for a spam filter that deletes mail favour precision.",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "A model flags 10 transactions as fraud; 8 really are fraud. Precision is:",
-        "options": [
-         "0.2",
-         "0.8",
-         "0.08",
-         "1.0"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "8 correct out of 10 flagged.",
-        "type": "single"
-       },
-       {
-        "prompt": "There are 20 real fraud cases and the model catches 15. Recall is:",
-        "options": [
-         "0.25",
-         "0.5",
-         "0.75",
-         "0.15"
-        ],
-        "correct": [
-         2
-        ],
-        "explanation": "15 / 20 = 0.75.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     }
-    ]
-   }
-  ]
- },
- {
-  "slug": "ai-and-llm-engineering",
-  "title": "AI and LLM Engineering",
-  "description": "Build with large language models: how they work, prompting and structured output, retrieval-augmented generation, evaluation and safety.",
+  "slug": "ai-engineering",
+  "title": "AI Engineering",
+  "description": "Build with large language models: how they work, prompting and structured output, and retrieval-augmented generation.",
   "topic": "llm-engineering",
   "difficulty": "intermediate",
   "tier": "premium",
@@ -1158,315 +1017,8 @@
   ]
  },
  {
-  "slug": "data-science-with-python",
-  "title": "Data Science with Python",
-  "description": "Load, clean and explore data with pandas, then summarise and visualise it to find answers.",
-  "topic": "data-science",
-  "difficulty": "beginner",
-  "tier": "free",
-  "minutes": 220,
-  "sections": [
-   {
-    "title": "Working with data",
-    "lessons": [
-     {
-      "slug": "dataframes-with-pandas",
-      "title": "DataFrames with pandas",
-      "tier": "free",
-      "minutes": 15,
-      "md": "## Tables in Python\n\n`pandas` gives you the **DataFrame**: a table with labelled columns. Load a file, look at it, and select what you need.\n\n- `df.head()`, `df.info()`, `df.describe()` — quick inspection.\n- `df[\"price\"]` selects a column; `df[df[\"price\"] > 100]` filters rows.\n- `df.groupby(\"city\")[\"price\"].mean()` aggregates by group.",
-      "code": [
-       "python",
-       "import pandas as pd\n\ndf = pd.read_csv(\"sales.csv\")\nprint(df.describe())\nbig = df[df[\"amount\"] > 1000]\nprint(big.groupby(\"region\")[\"amount\"].sum().sort_values(ascending=False))",
-       "Load, filter, group"
-      ],
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "How do you keep only rows where `amount` exceeds 1000?",
-        "options": [
-         "df.filter(amount > 1000)",
-         "df[df[\"amount\"] > 1000]",
-         "df.where(1000)",
-         "df.amount.drop(1000)"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "A boolean mask inside square brackets filters rows.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "cleaning-data",
-      "title": "Cleaning messy data",
-      "tier": "free",
-      "minutes": 15,
-      "md": "## Most of the job\n\nReal data has **missing values**, **duplicates**, wrong types and inconsistent labels. Decide deliberately:\n\n- Missing values: drop the row, fill with a sensible value (median, a flag), or leave as missing and model it.\n- Duplicates: `df.drop_duplicates()`.\n- Types: dates stored as text should become datetimes; numbers stored as strings must be converted.\n- Inconsistent text: `\"Delhi\"`, `\"delhi \"` and `\"DELHI\"` should be normalised.\n\nKeep the raw file untouched and write cleaning as a repeatable script.",
-      "code": [
-       "python",
-       "df[\"city\"] = df[\"city\"].str.strip().str.title()\ndf[\"date\"] = pd.to_datetime(df[\"date\"], errors=\"coerce\")\ndf[\"amount\"] = df[\"amount\"].fillna(df[\"amount\"].median())\ndf = df.drop_duplicates()",
-       "Typical cleaning steps"
-      ],
-      "tip": "Always report how many rows each cleaning step changed. Silent data loss is a classic mistake.",
-      "quiz": [
-       {
-        "prompt": "Why keep the original raw data file unchanged?",
-        "options": [
-         "Disk space is free",
-         "So cleaning is repeatable and auditable",
-         "pandas requires it",
-         "Raw data is faster"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "You can always re-run and review your steps.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "exploring-and-visualising",
-      "title": "Exploring and visualising",
-      "tier": "free",
-      "minutes": 14,
-      "md": "## Look before you model\n\n**Exploratory data analysis (EDA)** means plotting and summarising to understand the data: distributions (histograms), relationships (scatter plots), comparisons (bar charts), trends (line charts).\n\nChoose the simplest chart that answers the question. Label axes and units, start bar charts at zero, and beware that **correlation is not causation**: two things moving together does not mean one causes the other.",
-      "code": [
-       "python",
-       "import matplotlib.pyplot as plt\n\ndf[\"amount\"].plot(kind=\"hist\", bins=30)\nplt.xlabel(\"Order amount (INR)\")\nplt.ylabel(\"Number of orders\")\nplt.show()",
-       "A labelled histogram"
-      ],
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "Ice-cream sales and drowning rise together in summer. This shows:",
-        "options": [
-         "Ice cream causes drowning",
-         "A correlation that may have a common cause (hot weather)",
-         "A data error",
-         "Causation"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "A third factor, temperature, explains both.",
-        "type": "single"
-       },
-       {
-        "prompt": "Which chart best shows how values are distributed?",
-        "options": [
-         "Histogram",
-         "Pie of one slice",
-         "Table of names",
-         "Map"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "Histograms show the shape of a distribution.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     }
-    ]
-   }
-  ]
- },
- {
-  "slug": "cybersecurity-fundamentals",
-  "title": "Cybersecurity Fundamentals",
-  "description": "Think like a defender: threat modelling, passwords and hashing, the most common web vulnerabilities, and how TLS protects traffic.",
-  "topic": "cybersecurity",
-  "difficulty": "beginner",
-  "tier": "premium",
-  "minutes": 240,
-  "sections": [
-   {
-    "title": "Core ideas",
-    "lessons": [
-     {
-      "slug": "cia-and-threat-modelling",
-      "title": "The CIA triad and threat modelling",
-      "tier": "free",
-      "minutes": 12,
-      "md": "## What are we protecting, and from whom?\n\nSecurity aims at three properties, the **CIA triad**:\n\n- **Confidentiality:** only the right people can read data.\n- **Integrity:** data cannot be changed without detection.\n- **Availability:** the system works when needed.\n\n**Threat modelling** asks four questions: what are we building, what can go wrong, what are we doing about it, and did we do a good job? A common checklist for \"what can go wrong\" is **STRIDE**: Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.\n\nDefence in depth: assume any single control can fail and layer several.",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "A DDoS attack mainly threatens which property?",
-        "options": [
-         "Confidentiality",
-         "Integrity",
-         "Availability",
-         "Non-repudiation only"
-        ],
-        "correct": [
-         2
-        ],
-        "explanation": "It stops legitimate users reaching the service.",
-        "type": "single"
-       },
-       {
-        "prompt": "Someone alters a bank transfer amount in transit. Which property is violated?",
-        "options": [
-         "Integrity",
-         "Availability",
-         "Confidentiality",
-         "None"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "Data was changed without authorisation.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "passwords-and-hashing",
-      "title": "Passwords, hashing and MFA",
-      "tier": "premium",
-      "minutes": 14,
-      "md": "## Never store passwords\n\nStore a **hash**, not the password. A hash is a one-way function. For passwords use a **slow, salted** algorithm designed for it — `argon2id`, `bcrypt` or `scrypt` — never plain SHA-256 or MD5. A **salt** is a random value per user so identical passwords produce different hashes and precomputed tables do not work.\n\nPrefer **passkeys** or a trusted identity provider over building your own login. Add **multi-factor authentication (MFA)**: something you know plus something you have. Rate-limit login attempts and never reveal whether the username or the password was wrong.",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "Which is appropriate for hashing stored passwords?",
-        "options": [
-         "MD5",
-         "SHA-256 alone",
-         "argon2id with a per-user salt",
-         "Base64"
-        ],
-        "correct": [
-         2
-        ],
-        "explanation": "Password hashes must be slow and salted.",
-        "type": "single"
-       },
-       {
-        "prompt": "Why add a salt?",
-        "options": [
-         "To make hashing faster",
-         "So equal passwords hash differently and rainbow tables fail",
-         "To encrypt the hash",
-         "To shorten the hash"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "Each user's hash becomes unique.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "web-vulnerabilities",
-      "title": "XSS, SQL injection and CSRF",
-      "tier": "premium",
-      "minutes": 18,
-      "md": "## The classics\n\n**SQL injection:** untrusted input is concatenated into a query so an attacker changes its meaning. Fix: **parameterised queries**, always.\n\n**Cross-site scripting (XSS):** untrusted input is rendered as HTML/JS in a page, so the attacker's script runs as your user. Fix: **escape output by context**, avoid inserting raw HTML, and add a Content Security Policy.\n\n**Cross-site request forgery (CSRF):** a malicious site makes the victim's browser send an authenticated request. Fix: anti-CSRF tokens and `SameSite` cookies.\n\nAll three share a root cause: **treating data as code or trusting the client**. Validate input, encode output, and enforce authorisation on the server.",
-      "code": [
-       "python",
-       "# Vulnerable: input becomes part of the SQL text\ncur.execute(\"SELECT * FROM users WHERE name = '\" + name + \"'\")\n\n# Safe: the driver sends the value separately from the query\ncur.execute(\"SELECT * FROM users WHERE name = %s\", (name,))",
-       "Parameterised queries"
-      ],
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "What is the primary defence against SQL injection?",
-        "options": [
-         "Hiding error messages only",
-         "Parameterised queries",
-         "Longer passwords",
-         "Using HTTPS"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "They keep data separate from the SQL command.",
-        "type": "single"
-       },
-       {
-        "prompt": "An attacker's script runs inside your page because user text was inserted unescaped. This is:",
-        "options": [
-         "CSRF",
-         "XSS",
-         "DDoS",
-         "Phishing only"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "Cross-site scripting.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "tls-and-network-basics",
-      "title": "TLS and network basics",
-      "tier": "premium",
-      "minutes": 14,
-      "md": "## Protecting data in transit\n\n**TLS** (the \"S\" in HTTPS) gives a connection three things: **encryption** (eavesdroppers cannot read it), **integrity** (tampering is detected) and **authentication** of the server through a certificate issued by a trusted authority.\n\nIn a handshake the client and server agree on keys, then switch to fast symmetric encryption. Always redirect HTTP to HTTPS, keep certificates renewed, and set HSTS so browsers refuse plain HTTP.\n\nAt the network level, a **firewall** filters traffic by rules and **segmentation** limits how far an intruder can move.",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "A TLS certificate mainly proves:",
-        "options": [
-         "The site has no bugs",
-         "The server is who it claims to be",
-         "The user is over 18",
-         "The data is compressed"
-        ],
-        "correct": [
-         1
-        ],
-        "explanation": "A trusted authority vouches for the domain's identity.",
-        "type": "single"
-       },
-       {
-        "prompt": "HSTS tells browsers to:",
-        "options": [
-         "Always use HTTPS for the site",
-         "Cache images",
-         "Block cookies",
-         "Use HTTP/1.0"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "It prevents downgrade to plain HTTP.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     }
-    ]
-   }
-  ]
- },
- {
-  "slug": "low-level-design-basics",
-  "title": "Low-Level Design Basics",
+  "slug": "low-level-design",
+  "title": "Low Level Design",
   "description": "Write code that stays easy to change: SOLID principles, common design patterns and how to talk through a class design.",
   "topic": "low-level-design",
   "difficulty": "intermediate",
@@ -1556,6 +1108,1539 @@
          0
         ],
         "explanation": "Subscribers register; the publisher just broadcasts.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "system-design-interviews",
+  "title": "System Design Interviews",
+  "description": "A repeatable way to run a system design interview: clarify, estimate, sketch, deep-dive and discuss trade-offs.",
+  "topic": "system-design",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "The interview framework",
+    "lessons": [
+     {
+      "slug": "a-framework-for-the-hour",
+      "title": "A framework for the hour",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Structure beats cleverness\n\nA design interview is a conversation, not an exam. A dependable order:\n\n1. **Clarify** the problem and the most important requirements (5 min).\n2. **Estimate** scale: users, requests per second, storage (5 min).\n3. **API and data model**: the main endpoints and entities (5 min).\n4. **High-level design**: clients, load balancer, services, storage (10 min).\n5. **Deep dive** on the one or two hardest parts the interviewer cares about (15 min).\n6. **Trade-offs and failure**: bottlenecks, what breaks, how you would monitor it.\n\nThink aloud, state assumptions, and ask before you commit to a direction.",
+      "code": null,
+      "tip": "If you are stuck, say what you are weighing. Interviewers reward visible reasoning.",
+      "quiz": [
+       {
+        "prompt": "What should come before drawing any boxes?",
+        "options": [
+         "Choosing a database",
+         "Clarifying requirements and scale",
+         "Naming the cloud provider",
+         "Writing code"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Requirements decide every later choice.",
+        "type": "single"
+       },
+       {
+        "prompt": "Where do most of the minutes go in the suggested plan?",
+        "options": [
+         "Deep dive on the hardest parts",
+         "Choosing fonts",
+         "Listing every possible feature",
+         "Rewriting the question"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Depth on the critical part shows real understanding.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Scaling the data layer",
+    "lessons": [
+     {
+      "slug": "sharding-and-replication",
+      "title": "Sharding and replication",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## Two different tools\n\n**Replication** keeps copies of the same data on several machines: it improves availability and read throughput. A common setup is one **primary** taking writes and several **replicas** serving reads, with a small delay (replication lag) before replicas see new writes.\n\n**Sharding** (partitioning) splits the data itself across machines so no single machine holds everything: it increases write and storage capacity. Choose a **shard key** that spreads load evenly; a poor key creates a **hot shard**.\n\nSharding makes cross-shard queries and transactions hard, so shard only when one machine truly cannot cope.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which technique mainly increases read throughput and availability?",
+        "options": [
+         "Replication",
+         "Sharding",
+         "Compression",
+         "Encryption"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "More copies can serve more reads and survive failures.",
+        "type": "single"
+       },
+       {
+        "prompt": "A shard key that sends most traffic to one shard causes:",
+        "options": [
+         "A hot shard",
+         "Faster writes",
+         "Smaller indexes",
+         "Stronger consistency"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Uneven load defeats the point of sharding.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "concurrency-interview",
+  "title": "Concurrency Interview",
+  "description": "Threads, locks and the bugs they cause: the concurrency ideas interviewers test, with safe patterns.",
+  "topic": "concurrency",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "Core ideas",
+    "lessons": [
+     {
+      "slug": "threads-and-race-conditions",
+      "title": "Threads and race conditions",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Shared state is the problem\n\nA **thread** is an independent path of execution inside a process; threads share memory. A **race condition** appears when the result depends on the unpredictable order in which threads touch shared data.\n\nThe classic example is `count += 1`: it is really *read, add, write*. Two threads can both read 5 and both write 6, losing an update.\n\nFixes: avoid sharing (give each thread its own data), make data immutable, or protect shared data with a **lock (mutex)** so only one thread at a time runs the critical section.",
+      "code": [
+       "python",
+       "import threading\n\ncount = 0\nlock = threading.Lock()\n\ndef work():\n    global count\n    for _ in range(100_000):\n        with lock:          # critical section\n            count += 1\n\nts = [threading.Thread(target=work) for _ in range(4)]\n[t.start() for t in ts]; [t.join() for t in ts]\nprint(count)  # 400000",
+       "A lock makes the increment safe"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A race condition means the outcome depends on:",
+        "options": [
+         "The order threads happen to run",
+         "The size of the heap",
+         "The language used",
+         "The number of files"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Unsynchronised access to shared data.",
+        "type": "single"
+       },
+       {
+        "prompt": "A mutex ensures that:",
+        "options": [
+         "Only one thread at a time runs the protected section",
+         "All threads run faster",
+         "Memory is freed",
+         "Threads never start"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "That is mutual exclusion.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Pitfalls",
+    "lessons": [
+     {
+      "slug": "deadlock-and-how-to-avoid-it",
+      "title": "Deadlock and how to avoid it",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## When everyone waits\n\nA **deadlock** is a cycle of waiting: thread A holds lock 1 and wants lock 2, while thread B holds lock 2 and wants lock 1. Neither can proceed.\n\nA deadlock needs four conditions: mutual exclusion, hold-and-wait, no preemption, and circular wait. Break any one:\n\n- **Lock ordering:** always acquire locks in the same global order (breaks circular wait).\n- **Timeouts / try-lock:** give up and retry instead of waiting forever.\n- **Hold fewer locks**, for a shorter time, or use higher-level structures such as queues.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which strategy prevents circular wait?",
+        "options": [
+         "Always acquire locks in the same global order",
+         "Use more threads",
+         "Increase the timeout",
+         "Use bigger locks only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A consistent order makes a cycle impossible.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which is NOT one of the four deadlock conditions?",
+        "options": [
+         "Mutual exclusion",
+         "Circular wait",
+         "Hold and wait",
+         "Fair scheduling"
+        ],
+        "correct": [
+         3
+        ],
+        "explanation": "Fair scheduling is unrelated.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "behavioral-interviews",
+  "title": "Behavioral Interviews",
+  "description": "Tell clear, honest stories about your work using a simple structure, and prepare for the questions that always come up.",
+  "topic": "behavioral-interviews",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 120,
+  "sections": [
+   {
+    "title": "Telling your story",
+    "lessons": [
+     {
+      "slug": "the-star-method",
+      "title": "The STAR method",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Structure your stories\n\nBehavioral questions (\"Tell me about a time when...\") test how you act, not what you know. Use **STAR**:\n\n- **S**ituation: the context, in a sentence or two.\n- **T**ask: your responsibility or goal.\n- **A**ction: what *you* did (most of your time here, say \"I\").\n- **R**esult: the outcome, ideally with a number, and what you learned.\n\nPrepare five or six stories (a conflict, a failure, a tight deadline, a decision with little data, leading without authority) that you can adapt to different questions.",
+      "code": null,
+      "tip": "Be honest. A real story with a modest result beats an invented triumph that falls apart under follow-up questions.",
+      "quiz": [
+       {
+        "prompt": "In STAR, the Action part should mainly describe:",
+        "options": [
+         "What your team did in general",
+         "What you personally did",
+         "The company history",
+         "Your future plans"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Interviewers are evaluating your contribution.",
+        "type": "single"
+       },
+       {
+        "prompt": "A good Result usually includes:",
+        "options": [
+         "Only feelings",
+         "A measurable outcome and what you learned",
+         "Nothing; skip it",
+         "Blame"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Outcomes and reflection close the story.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Common questions",
+    "lessons": [
+     {
+      "slug": "failure-conflict-and-ambiguity",
+      "title": "Failure, conflict and ambiguity",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Three question types you will meet\n\n**Failure:** choose a real mistake with real stakes, own it without excuses, and focus on what you changed afterwards.\n\n**Conflict:** show you can disagree respectfully. Describe the other person's view fairly, how you sought shared facts, and the outcome. Avoid painting anyone as a villain.\n\n**Ambiguity:** explain how you clarified goals, made an assumption you could test, and checked in as you learned more.\n\nPractise out loud and time yourself: two minutes per story is plenty.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "When describing a conflict, you should:",
+        "options": [
+         "Make the other person the villain",
+         "Describe their view fairly and how you resolved it",
+         "Avoid mentioning it",
+         "Focus on winning"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Interviewers look for maturity and collaboration.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "job-search",
+  "title": "Job Search",
+  "description": "Prepare a strong resume and online profile, find opportunities and handle recruiter conversations and offers.",
+  "topic": "job-search",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 120,
+  "sections": [
+   {
+    "title": "Getting noticed",
+    "lessons": [
+     {
+      "slug": "resume-that-gets-read",
+      "title": "A resume that gets read",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Six seconds\n\nA recruiter often skims a resume in seconds, so make the value obvious.\n\n- One page for early-career, two at most later. Plain layout, standard headings.\n- Lead each bullet with an **action and an outcome**: \"Cut report generation time from 40 s to 6 s by adding an index and caching\" beats \"Worked on reports\".\n- Put your strongest, most relevant projects first; link a working repo or demo.\n- Match keywords from the job description honestly; never list skills you cannot discuss.\n- Proofread. Typos signal carelessness.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which bullet is strongest?",
+        "options": [
+         "Responsible for the API",
+         "Reduced API latency by 35% by caching hot queries",
+         "Worked with the team",
+         "Helped on tasks"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "It states an action and a measurable result.",
+        "type": "single"
+       },
+       {
+        "prompt": "How long should an early-career resume be?",
+        "options": [
+         "One page",
+         "Five pages",
+         "Ten pages",
+         "Half a page"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Concise and focused wins.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Offers and networking",
+    "lessons": [
+     {
+      "slug": "referrals-and-offers",
+      "title": "Referrals, recruiters and offers",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## People open doors\n\nA warm **referral** from someone who has worked with you often gets a resume read. Build relationships before you need them: contribute to open source, share what you learn, and keep in touch with former colleagues.\n\nWith recruiters, be clear about your goals and timeline. When an **offer** arrives, ask for it in writing, look at the whole package (salary, bonus, equity, benefits, growth), and negotiate politely using facts such as other offers or market data. It is normal to ask for time to decide.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "When you receive an offer you should:",
+        "options": [
+         "Accept instantly",
+         "Ask for it in writing and consider the whole package",
+         "Ignore the recruiter",
+         "Reply only by phone"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Compare total compensation and growth, not just salary.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "genai-system-design",
+  "title": "GenAI System Design",
+  "description": "Design products built on large language models: serving, retrieval, guardrails, evaluation and cost.",
+  "topic": "ai-system-design",
+  "difficulty": "advanced",
+  "tier": "premium",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "Building blocks",
+    "lessons": [
+     {
+      "slug": "anatomy-of-an-llm-app",
+      "title": "Anatomy of an LLM application",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## More than a prompt\n\nA production LLM feature typically has: an **API layer** (auth, rate limits), a **prompt builder** (instructions plus context), optional **retrieval** (vector search over your documents), the **model call**, **guardrails** (input and output checks), a **cache**, **logging and evaluation**, and a **fallback** when the model fails or times out.\n\nKey trade-offs: **latency** (stream tokens so users see progress), **cost** (tokens in and out; cache repeated prompts; use a smaller model when quality allows) and **quality** (retrieval quality, prompts, evaluation).",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why stream tokens to the user?",
+        "options": [
+         "It reduces cost",
+         "Users see progress sooner, which improves perceived latency",
+         "It improves accuracy",
+         "It avoids authentication"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Time to first token matters more than total time for chat-like UIs.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which helps reduce cost on repeated identical requests?",
+        "options": [
+         "Caching responses",
+         "Longer prompts",
+         "Higher temperature",
+         "Disabling logging"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Avoid paying for the same answer twice.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Quality and safety",
+    "lessons": [
+     {
+      "slug": "evaluation-and-guardrails",
+      "title": "Evaluation and guardrails",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Measure, then ship\n\nLLM output is variable, so build an **evaluation set**: representative inputs with expected properties. Score with exact checks where possible, and with human review or a carefully validated model-based grader where not. Re-run it whenever you change the prompt, model or retrieval.\n\n**Guardrails** limit harm: filter or reject unsafe inputs, validate structured outputs, restrict tools the model can call, never place secrets in prompts, and treat retrieved text as untrusted (it may contain injected instructions). Log enough to debug, but protect personal data.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why keep a fixed evaluation set?",
+        "options": [
+         "To train the model",
+         "To detect regressions when prompts or models change",
+         "To reduce latency",
+         "To avoid logging"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "You can compare versions on the same inputs.",
+        "type": "single"
+       },
+       {
+        "prompt": "Retrieved documents should be treated as:",
+        "options": [
+         "Trusted instructions",
+         "Untrusted input that may contain injected text",
+         "Always accurate",
+         "Private keys"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Prompt injection can arrive through retrieved content.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "ml-system-design",
+  "title": "ML System Design",
+  "description": "Design machine learning systems end to end: data, features, training, serving, monitoring and feedback loops.",
+  "topic": "machine-learning",
+  "difficulty": "advanced",
+  "tier": "premium",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "The ML lifecycle",
+    "lessons": [
+     {
+      "slug": "from-problem-to-pipeline",
+      "title": "From problem to pipeline",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Start with the business goal\n\nBefore choosing a model, define the **objective** (what decision will improve?), the **metric** (offline and online), and the **baseline** (a simple rule or heuristic to beat).\n\nA typical pipeline: **data collection** → **labelling** → **feature engineering** → **training** → **offline evaluation** → **deployment** → **monitoring**. A **feature store** keeps training and serving features consistent; mismatches between them (*training-serving skew*) silently hurt quality.\n\nPrefer the simplest model that meets the need; complexity has an operations cost.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Training-serving skew means:",
+        "options": [
+         "The model trains too slowly",
+         "Features differ between training and production",
+         "The GPU is too small",
+         "Labels are missing"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "The model sees different inputs in production than it was trained on.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why build a baseline first?",
+        "options": [
+         "To avoid evaluation",
+         "To know whether a model actually adds value",
+         "Because models are forbidden",
+         "To save disk space"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A baseline sets the bar.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Running in production",
+    "lessons": [
+     {
+      "slug": "serving-and-monitoring",
+      "title": "Serving and monitoring models",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Models decay\n\nServing options: **batch** predictions (precompute, cheap, stale) or **online** predictions (low latency, needs a service). Control latency with caching, smaller models, and batching requests.\n\nOnce live, monitor: **service health** (latency, errors), **data drift** (input distribution changes) and **model quality** (metrics once labels arrive). Retrain on a schedule or when drift or quality crosses a threshold, and release changes gradually (shadow mode, canary, A/B test).",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Data drift refers to:",
+        "options": [
+         "Inputs in production changing from the training data",
+         "Disk failure",
+         "Slow networks",
+         "Code bugs only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The world changes, and model accuracy can fall.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which release method sends a small share of traffic to the new model first?",
+        "options": [
+         "Canary",
+         "Big bang",
+         "Rollback only",
+         "Cold start"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A canary limits the blast radius.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "agentic-coding",
+  "title": "Agentic Coding",
+  "description": "Work effectively with AI coding agents: how they operate, how to give them context and how to review their work.",
+  "topic": "agentic-coding",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 120,
+  "sections": [
+   {
+    "title": "Working with agents",
+    "lessons": [
+     {
+      "slug": "how-coding-agents-work",
+      "title": "How coding agents work",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## A loop around a model\n\nA coding agent is a language model in a **loop** with tools: it reads files, runs commands and tests, edits code, looks at the results and decides the next step. Its quality depends heavily on **context**: the instructions, the relevant files and the feedback it can observe.\n\nStrengths: boilerplate, refactors, test writing, exploring unfamiliar code. Weaknesses: unstated requirements, subtle domain rules, and confident mistakes. Always **review the diff** and run the tests yourself.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What makes the biggest difference to an agent's results?",
+        "options": [
+         "Good context and a way to run tests",
+         "A faster keyboard",
+         "Longer filenames",
+         "Fewer files"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Context and feedback let it check its own work.",
+        "type": "single"
+       },
+       {
+        "prompt": "You should merge agent-written code without reading it.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "You remain responsible for the change; review and test it.",
+        "type": "true_false"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Good habits",
+    "lessons": [
+     {
+      "slug": "prompting-agents-and-reviewing-results",
+      "title": "Prompting agents and reviewing results",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Be specific, then verify\n\nGive the agent a clear goal, the constraints (style, libraries to use or avoid), where relevant code lives, and how to verify success (a command that must pass). Break big tasks into small steps.\n\nWhen reviewing: read the whole diff, look for unrelated changes, check edge cases and security-sensitive code, and run the full test suite. Keep secrets out of the agent's context, and commit in small steps so you can undo easily.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which instruction helps an agent most?",
+        "options": [
+         "\"Make it better\"",
+         "\"Add pagination to /courses; tests in api_test must pass\"",
+         "\"Fix everything\"",
+         "\"Go fast\""
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A concrete goal with a verification step.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "operating-systems",
+  "title": "Operating Systems",
+  "description": "How an operating system works inside: processes, scheduling, memory and files.",
+  "topic": "operating-systems",
+  "difficulty": "intermediate",
+  "tier": "free",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "Processes and scheduling",
+    "lessons": [
+     {
+      "slug": "processes-and-threads",
+      "title": "Processes, threads and scheduling",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Sharing one CPU\n\nA **process** is a running program with its own address space. A **thread** is a unit of execution inside a process, sharing its memory. The **scheduler** decides which ready thread gets the CPU next. Switching between them is a **context switch**: saving one thread's registers and loading another's, which costs time.\n\nCommon policies: **round robin** (each gets a time slice), **priority** scheduling, and multilevel queues. A process is usually *running*, *ready* or *blocked* (waiting for I/O).",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A thread differs from a process because threads in a process:",
+        "options": [
+         "Share the same memory",
+         "Cannot run in parallel",
+         "Always run slower",
+         "Have no stack"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Threads share the address space; each has its own stack.",
+        "type": "single"
+       },
+       {
+        "prompt": "A blocked process is waiting for:",
+        "options": [
+         "An event such as I/O",
+         "More CPU cores",
+         "A reboot",
+         "A new compiler"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It cannot run until the event occurs.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Memory",
+    "lessons": [
+     {
+      "slug": "virtual-memory",
+      "title": "Virtual memory and paging",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Each process sees its own memory\n\nWith **virtual memory**, every process uses virtual addresses that the hardware and OS translate to physical memory using **page tables**. Memory is split into fixed-size **pages**. Benefits: isolation between processes, the ability to use more memory than physically installed (pages not in use can live on disk), and simple allocation.\n\nA **page fault** occurs when a needed page is not in RAM; the OS loads it from disk. Too many faults cause **thrashing**, where the system spends its time swapping instead of working. The **TLB** caches recent translations to keep lookups fast.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A page fault happens when:",
+        "options": [
+         "The needed page is not currently in physical memory",
+         "The CPU overheats",
+         "A file is deleted",
+         "A thread exits"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The OS must bring the page in.",
+        "type": "single"
+       },
+       {
+        "prompt": "Virtual memory gives each process:",
+        "options": [
+         "Isolation from other processes' memory",
+         "Unlimited speed",
+         "Direct access to hardware",
+         "No need for an OS"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Translation enforces separate address spaces.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "computer-networks",
+  "title": "Computer Networks",
+  "description": "How data travels: layers, TCP and UDP, DNS, HTTP and TLS.",
+  "topic": "networking",
+  "difficulty": "intermediate",
+  "tier": "free",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "The layers",
+    "lessons": [
+     {
+      "slug": "layers-and-tcp",
+      "title": "Network layers and TCP",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Layers hide complexity\n\nThe internet is built in layers: **link** (Ethernet, Wi-Fi), **internet** (IP addresses and routing), **transport** (TCP/UDP) and **application** (HTTP, DNS...). Each layer wraps the data from the one above in its own header.\n\n**TCP** gives a reliable ordered byte stream: a **three-way handshake** (SYN, SYN-ACK, ACK) opens the connection, lost segments are retransmitted, and congestion control slows the sender when the network is busy. **UDP** is lighter and does not guarantee delivery, which suits live audio, games and DNS queries.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which protocol guarantees ordered, reliable delivery?",
+        "options": [
+         "TCP",
+         "UDP",
+         "ARP",
+         "ICMP"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "TCP retransmits and orders segments.",
+        "type": "single"
+       },
+       {
+        "prompt": "The TCP handshake consists of:",
+        "options": [
+         "SYN, SYN-ACK, ACK",
+         "GET, POST, PUT",
+         "HELLO, BYE",
+         "ACK only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Three messages open the connection.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Names and the web",
+    "lessons": [
+     {
+      "slug": "dns-http-and-tls",
+      "title": "DNS, HTTP and TLS",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## From a name to a page\n\n**DNS** translates a hostname into an IP address, with answers cached at several levels (browser, operating system, resolver) for a time-to-live. The client then opens a TCP connection, performs a **TLS handshake** to authenticate the server and agree on encryption keys, and sends an **HTTP** request.\n\nHTTP/2 multiplexes many requests over one connection; HTTP/3 runs over QUIC (on UDP) to reduce delay. **CDNs** serve content from locations near users to cut latency.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does DNS do?",
+        "options": [
+         "Maps hostnames to IP addresses",
+         "Encrypts traffic",
+         "Stores web pages",
+         "Assigns passwords"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It is the internet's name lookup.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why do CDNs lower latency?",
+        "options": [
+         "They serve content from nearby locations",
+         "They compress CPUs",
+         "They remove DNS",
+         "They block TLS"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Shorter physical distance means less delay.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "microservices",
+  "title": "Microservices",
+  "description": "When to split a system into services, how services talk to each other and how to keep them reliable.",
+  "topic": "microservices",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "Foundations",
+    "lessons": [
+     {
+      "slug": "monolith-or-microservices",
+      "title": "Monolith or microservices?",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Start simple\n\nA **monolith** is one deployable unit. It is simpler to build, test and run, and it scales well for many teams if its modules are kept well separated.\n\n**Microservices** split a system into small services, each owning its data and deployed independently. They help large organisations move in parallel and scale parts separately, but add costs: network calls can fail or be slow, data is spread across services, and operations (deploy, monitor, trace) get harder.\n\nA sensible path: build a **modular monolith** first and extract a service only when a clear need (team independence, scaling, different technology) appears.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A key cost of microservices is:",
+        "options": [
+         "Distributed-system complexity (network failures, data consistency)",
+         "No ability to deploy",
+         "No ability to scale",
+         "Slower typing"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Calls that were function calls become network calls.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why consider a modular monolith first?",
+        "options": [
+         "It is simpler and can be split later when needed",
+         "Monoliths are always faster",
+         "Services are illegal",
+         "It needs no tests"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Avoid paying the distribution cost before you need to.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Reliability",
+    "lessons": [
+     {
+      "slug": "resilient-service-calls",
+      "title": "Resilient service calls",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Expect failure\n\nEvery remote call can be slow or fail. Defend with:\n\n- **Timeouts** on every call.\n- **Retries with backoff and jitter**, only for idempotent operations.\n- **Circuit breakers** that stop calling a failing service for a while so it can recover.\n- **Idempotency keys** so a retried request does not repeat its effect.\n- **Asynchronous messaging** for work that does not need an immediate answer.\n\nUse correlation IDs and distributed tracing so one request can be followed across services.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why add jitter to retry delays?",
+        "options": [
+         "So many clients do not retry at the same instant",
+         "To make calls slower",
+         "To skip timeouts",
+         "To encrypt requests"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Synchronised retries can overload a recovering service.",
+        "type": "single"
+       },
+       {
+        "prompt": "A circuit breaker:",
+        "options": [
+         "Stops calls to a failing service for a while",
+         "Speeds up the database",
+         "Encrypts messages",
+         "Removes retries"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It gives the dependency time to recover.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "apache-kafka",
+  "title": "Apache Kafka",
+  "description": "How Kafka stores and delivers event streams: topics, partitions, consumer groups and delivery guarantees.",
+  "topic": "kafka",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 180,
+  "sections": [
+   {
+    "title": "Core concepts",
+    "lessons": [
+     {
+      "slug": "topics-partitions-and-offsets",
+      "title": "Topics, partitions and offsets",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## A distributed commit log\n\nKafka stores events in **topics**. Each topic is split into **partitions**, each an append-only ordered log. Every record in a partition has an **offset**, its position. Order is guaranteed **within a partition**, not across the whole topic, so records that must stay ordered (all events of one order) should share a **key**, which maps them to the same partition.\n\nPartitions are **replicated** across brokers; one replica is the leader and the others follow. Records are kept for a retention period, so consumers can re-read them.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "In which scope does Kafka guarantee ordering?",
+        "options": [
+         "Within a partition",
+         "Across a whole topic",
+         "Across the cluster",
+         "Never"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Use a key to keep related events in one partition.",
+        "type": "single"
+       },
+       {
+        "prompt": "An offset identifies:",
+        "options": [
+         "A record's position within a partition",
+         "A broker's address",
+         "A consumer's name",
+         "A topic's size"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It is the sequential position in the log.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Consuming",
+    "lessons": [
+     {
+      "slug": "consumer-groups-and-delivery",
+      "title": "Consumer groups and delivery guarantees",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Scaling consumers\n\nConsumers in the same **consumer group** share a topic's partitions: each partition is read by one consumer in the group, so adding consumers (up to the partition count) increases throughput. Different groups each receive all records independently.\n\nConsumers **commit offsets** to record progress. Committing after processing gives **at-least-once** delivery (a crash may cause reprocessing), so make processing **idempotent**. Kafka also supports **exactly-once** semantics for read-process-write flows within Kafka using transactions.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "In one consumer group, a partition is read by:",
+        "options": [
+         "Exactly one consumer at a time",
+         "All consumers",
+         "No one",
+         "Only the leader broker"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "That is how the group divides the work.",
+        "type": "single"
+       },
+       {
+        "prompt": "Committing offsets after processing gives:",
+        "options": [
+         "At-least-once delivery",
+         "Exactly-zero delivery",
+         "Random delivery",
+         "No delivery"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A crash before the commit means reprocessing.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "java",
+  "title": "Java",
+  "description": "Java from the ground up: syntax, object-oriented basics, collections and how the JVM runs your code.",
+  "topic": "java",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "Language basics",
+    "lessons": [
+     {
+      "slug": "classes-and-objects",
+      "title": "Classes, objects and interfaces",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Object-oriented Java\n\nJava is statically typed and object-oriented. A **class** defines state (fields) and behaviour (methods); an **object** is an instance. **Interfaces** define a contract that classes implement, which lets you program against abstractions. Since Java 16, **records** give concise immutable data carriers.",
+      "code": [
+       "java",
+       "public interface Shape { double area(); }\n\nrecord Circle(double r) implements Shape {\n    public double area() { return Math.PI * r * r; }\n}\n\nrecord Rect(double w, double h) implements Shape {\n    public double area() { return w * h; }\n}",
+       "An interface and two records"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "An interface in Java defines:",
+        "options": [
+         "A contract that classes can implement",
+         "A database table",
+         "A thread",
+         "A package manager"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Callers depend on the contract, not the class.",
+        "type": "single"
+       },
+       {
+        "prompt": "A Java record is mainly used for:",
+        "options": [
+         "Concise immutable data holders",
+         "Network sockets",
+         "Garbage collection",
+         "Build scripts"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It generates constructor, accessors, equals and hashCode.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Collections and the JVM",
+    "lessons": [
+     {
+      "slug": "collections-and-the-jvm",
+      "title": "Collections and the JVM",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Data structures and runtime\n\nThe core collections: `ArrayList` (dynamic array), `LinkedList`, `HashMap` (hash table), `HashSet`, `TreeMap` (sorted) and `ArrayDeque` (stack or queue). Choose by the operations you need.\n\nJava source compiles to **bytecode** that the **JVM** runs, with a **just-in-time (JIT) compiler** optimising hot code and an automatic **garbage collector** reclaiming unreachable objects, so you do not free memory by hand.",
+      "code": [
+       "java",
+       "Map<String, Integer> counts = new HashMap<>();\nfor (String w : words) {\n    counts.merge(w, 1, Integer::sum);\n}",
+       "Counting words"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does the garbage collector do?",
+        "options": [
+         "Reclaims memory of unreachable objects",
+         "Compiles code",
+         "Opens files",
+         "Encrypts data"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Memory is freed automatically.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which collection keeps keys sorted?",
+        "options": [
+         "TreeMap",
+         "HashMap",
+         "HashSet",
+         "ArrayDeque"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "TreeMap orders by key.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "cpp",
+  "title": "C++",
+  "description": "C++ fundamentals: value semantics, the standard library and managing resources safely with RAII.",
+  "topic": "cpp",
+  "difficulty": "intermediate",
+  "tier": "free",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "Essentials",
+    "lessons": [
+     {
+      "slug": "values-references-and-the-stl",
+      "title": "Values, references and the standard library",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Control with responsibility\n\nC++ gives direct control over memory and performance. Variables are **values** by default; pass by **reference** (`const T&`) to avoid copies. The **Standard Template Library (STL)** provides containers (`vector`, `map`, `unordered_map`, `set`), algorithms (`sort`, `find`) and iterators.\n\n`std::vector` is the default container: contiguous memory, amortised O(1) `push_back`, and cache-friendly iteration.",
+      "code": [
+       "cpp",
+       "#include <algorithm>\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v{5, 2, 9, 1};\n    std::sort(v.begin(), v.end());\n    for (int x : v) std::cout << x << ' ';\n}",
+       "Sorting a vector"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why pass large objects as `const T&`?",
+        "options": [
+         "It avoids copying while preventing modification",
+         "It makes them global",
+         "It deletes them",
+         "It is required for ints"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "No copy, no accidental change.",
+        "type": "single"
+       },
+       {
+        "prompt": "std::vector stores its elements:",
+        "options": [
+         "In contiguous memory",
+         "In a linked list",
+         "On disk",
+         "In a hash table"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Contiguity is why it is fast to iterate.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Resource management",
+    "lessons": [
+     {
+      "slug": "raii-and-smart-pointers",
+      "title": "RAII and smart pointers",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Let destructors clean up\n\n**RAII** (resource acquisition is initialisation) ties a resource's lifetime to an object: acquire in the constructor, release in the destructor, so cleanup happens even when exceptions occur.\n\nPrefer **smart pointers** to raw `new`/`delete`: `std::unique_ptr` (sole owner) and `std::shared_ptr` (shared, reference-counted). Use `std::make_unique` to create them. Avoid owning raw pointers; they cause leaks and double frees.",
+      "code": [
+       "cpp",
+       "#include <memory>\n\nstruct Conn { ~Conn() { /* close */ } };\n\nvoid run() {\n    auto c = std::make_unique<Conn>();\n    // ... use c; it is released automatically at scope end\n}",
+       "unique_ptr releases automatically"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which smart pointer expresses sole ownership?",
+        "options": [
+         "unique_ptr",
+         "shared_ptr",
+         "weak_ptr",
+         "raw pointer"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Only one owner at a time.",
+        "type": "single"
+       },
+       {
+        "prompt": "RAII means resources are released:",
+        "options": [
+         "When the owning object is destroyed",
+         "At program start",
+         "Never",
+         "By the OS only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The destructor does the cleanup.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "csharp",
+  "title": "C#",
+  "description": "C# essentials: types, LINQ, async/await and the .NET runtime.",
+  "topic": "csharp",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "Language essentials",
+    "lessons": [
+     {
+      "slug": "types-and-linq",
+      "title": "Types and LINQ",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Modern, typed and expressive\n\nC# is statically typed with strong support for object-oriented and functional styles. **Records** model immutable data; **nullable reference types** help the compiler catch null errors. **LINQ** lets you query collections declaratively.",
+      "code": [
+       "text",
+       "var adults = people\n    .Where(p => p.Age >= 18)\n    .OrderBy(p => p.Name)\n    .Select(p => p.Name)\n    .ToList();",
+       "A LINQ query (C#)"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "LINQ is used to:",
+        "options": [
+         "Query and transform collections",
+         "Draw user interfaces",
+         "Compile native code",
+         "Manage Git"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It provides query operators over sequences.",
+        "type": "single"
+       },
+       {
+        "prompt": "Nullable reference types help with:",
+        "options": [
+         "Catching possible null dereferences at compile time",
+         "Faster loops",
+         "Encryption",
+         "Logging"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The compiler warns about unsafe null use.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Asynchronous code",
+    "lessons": [
+     {
+      "slug": "async-await",
+      "title": "async and await",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Don't block while waiting\n\nI/O (network, disk, database) takes time. With `async`/`await`, a method can start an operation, release its thread while waiting, and resume when the result arrives. A method returns a `Task` (or `Task<T>`) that represents the pending work.\n\nRules of thumb: `await` instead of blocking with `.Result` or `.Wait()` (which can deadlock), pass a `CancellationToken` for long operations, and keep CPU-heavy work off the request path.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why prefer `await` over `.Result`?",
+        "options": [
+         "It avoids blocking a thread and potential deadlocks",
+         "It is shorter only",
+         "It encrypts data",
+         "It is required for ints"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Awaiting frees the thread while the I/O completes.",
+        "type": "single"
+       },
+       {
+        "prompt": "An async method typically returns:",
+        "options": [
+         "Task or Task<T>",
+         "int only",
+         "void always",
+         "A thread"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The Task represents the eventual result.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "go",
+  "title": "Go",
+  "description": "Go for backend engineers: simple syntax, goroutines, channels and idiomatic error handling.",
+  "topic": "go",
+  "difficulty": "intermediate",
+  "tier": "free",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "The language",
+    "lessons": [
+     {
+      "slug": "go-basics-and-errors",
+      "title": "Go basics and error handling",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Small and explicit\n\nGo is a compiled, statically typed language with a small feature set. Functions can return multiple values, and errors are **ordinary values**: functions return an `error` that callers check explicitly rather than using exceptions. Interfaces are satisfied implicitly: a type implements an interface just by having its methods.",
+      "code": [
+       "text",
+       "func divide(a, b float64) (float64, error) {\n    if b == 0 {\n        return 0, errors.New(\"divide by zero\")\n    }\n    return a / b, nil\n}",
+       "Multiple return values and an error (Go)"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "How does idiomatic Go usually signal failure?",
+        "options": [
+         "By returning an error value",
+         "By throwing exceptions",
+         "By crashing always",
+         "By logging only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Callers check `err != nil`.",
+        "type": "single"
+       },
+       {
+        "prompt": "A Go type satisfies an interface by:",
+        "options": [
+         "Implementing its methods",
+         "Declaring `implements`",
+         "Inheriting a class",
+         "Importing it"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Satisfaction is implicit.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Concurrency",
+    "lessons": [
+     {
+      "slug": "goroutines-and-channels",
+      "title": "Goroutines and channels",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Concurrency as a built-in\n\nA **goroutine** is a lightweight function execution started with `go f()`; thousands can run cheaply. **Channels** pass values between goroutines safely: `ch <- v` sends and `v := <-ch` receives. The Go proverb: *share memory by communicating*.\n\nUse `sync.WaitGroup` to wait for goroutines, `select` to wait on several channels, and `context.Context` to cancel work. Beware leaking goroutines that block forever on a channel nobody reads.",
+      "code": [
+       "text",
+       "results := make(chan int)\ngo func() { results <- compute() }()\nfmt.Println(<-results)",
+       "A goroutine sending on a channel (Go)"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does `go f()` do?",
+        "options": [
+         "Runs f concurrently in a new goroutine",
+         "Imports f",
+         "Stops f",
+         "Compiles f"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It starts a lightweight concurrent task.",
+        "type": "single"
+       },
+       {
+        "prompt": "Channels are used to:",
+        "options": [
+         "Communicate safely between goroutines",
+         "Store files",
+         "Sort arrays",
+         "Encrypt strings"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "They transfer values between goroutines.",
         "type": "single"
        }
       ],

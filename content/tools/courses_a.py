@@ -12,8 +12,8 @@ def C(slug, title, description, topic, difficulty, tier, minutes, sections):
     return dict(slug=slug, title=title, description=description, topic=topic, difficulty=difficulty, tier=tier, minutes=minutes, sections=sections)
 
 COURSES_A = [
-C("dsa-foundations", "Data Structures & Algorithms Foundations",
-  "Build the core toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
+C("data-structures-and-algorithms", "Data Structures and Algorithms",
+  "Build the toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
   "arrays", "beginner", "free", 300, [
   ("Getting started", [
     L("big-o-in-plain-words", "Big-O in plain words", "free", 12,
@@ -48,8 +48,8 @@ C("dsa-foundations", "Data Structures & Algorithms Foundations",
   ]),
 ]),
 
-C("system-design-basics", "System Design Basics",
-  "Learn how real systems are shaped: requirements, scaling, load balancing, caching and data storage, with the trade-offs that interviewers expect you to discuss.",
+C("system-design-fundamentals", "System Design Fundamentals",
+  "A foundation in how real systems are shaped: requirements, scaling, load balancing and caching, with the trade-offs interviewers expect you to discuss.",
   "system-design", "intermediate", "premium", 280, [
   ("Thinking in systems", [
     L("start-with-requirements", "Start with requirements and numbers", "free", 12,
@@ -69,8 +69,8 @@ C("system-design-basics", "System Design Basics",
   ]),
 ]),
 
-C("python-for-engineers", "Python for Engineers",
-  "A practical introduction to Python: core types, functions, comprehensions, errors and files, written for people who want to build and automate.",
+C("python", "Python",
+  "A practical introduction to Python: core types, functions, comprehensions, errors and files, for people who want to build and automate.",
   "python", "beginner", "free", 240, [
   ("Core Python", [
     L("types-and-control-flow", "Types, variables and control flow", "free", 14,
@@ -90,8 +90,8 @@ C("python-for-engineers", "Python for Engineers",
   ]),
 ]),
 
-C("sql-and-databases", "SQL and Databases",
-  "Query data confidently: selecting, joining and aggregating, and understand indexes and transactions the way production systems use them.",
+C("sql-interview", "SQL Interview",
+  "Query data confidently: selecting, joining and aggregating, plus indexes and transactions, the topics backend and data interviews keep returning to.",
   "databases", "beginner", "free", 240, [
   ("Querying", [
     L("select-filter-join", "SELECT, WHERE and JOIN", "free", 16,
@@ -113,7 +113,7 @@ C("sql-and-databases", "SQL and Databases",
   ]),
 ]),
 
-C("git-and-collaboration", "Git and Collaboration",
+C("git", "Git",
   "Version control from first commit to pull request: commits, branches, merging, rebasing and the habits that keep a team's history clean.",
   "git", "beginner", "free", 150, [
   ("Everyday Git", [
@@ -130,7 +130,7 @@ C("git-and-collaboration", "Git and Collaboration",
   ]),
 ]),
 
-C("web-apis-with-rest", "Web APIs with REST",
+C("api-design", "API Design",
   "Understand HTTP, design clean REST endpoints and handle authentication and errors the way modern backends do.",
   "web-apis", "intermediate", "free", 200, [
   ("HTTP and REST", [

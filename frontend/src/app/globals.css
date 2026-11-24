@@ -436,3 +436,19 @@
     transition: none;
   }
 }
+
+/* Course illustrations */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.flow-line {
+  stroke-dasharray: 5 5;
+  animation: dash 1.2s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-line {
+    animation: none !important;
+  }
+}

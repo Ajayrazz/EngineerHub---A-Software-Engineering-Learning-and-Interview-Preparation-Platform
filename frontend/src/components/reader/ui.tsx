@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 
 export function ReaderShell({
@@ -18,6 +19,7 @@ export function ReaderShell({
       >
         {children}
       </main>
+      <SiteFooter />
     </>
   );
 }

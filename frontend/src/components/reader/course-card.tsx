@@ -1,58 +1,12 @@
 import Link from "next/link";
-import {
-  Binary,
-  Bot,
-  Boxes,
-  Brain,
-  Cloud,
-  Code2,
-  Cpu,
-  Database,
-  GitBranch,
-  Globe,
-  LineChart,
-  Network,
-  Server,
-  Shield,
-  Terminal,
-  type LucideIcon,
-} from "lucide-react";
+import { CourseArt } from "@/components/reader/course-art";
 import { TierBadge } from "@/components/reader/ui";
-
-const ICONS: Record<string, LucideIcon> = {
-  "system-design": Server,
-  "low-level-design": Boxes,
-  databases: Database,
-  python: Terminal,
-  java: Code2,
-  git: GitBranch,
-  "web-apis": Globe,
-  "machine-learning": Brain,
-  "deep-learning": Cpu,
-  "llm-engineering": Bot,
-  "data-science": LineChart,
-  "data-engineering": Database,
-  cybersecurity: Shield,
-  "application-security": Shield,
-  networking: Network,
-  "cloud-devops": Cloud,
-  "operating-systems": Cpu,
-};
-// A fixed set of cool-toned gradients, chosen by a stable hash so each course keeps its colour.
-const BANNERS = [
-  "from-blue-600/40 via-indigo-500/20 to-transparent",
-  "from-sky-500/40 via-blue-500/20 to-transparent",
-  "from-cyan-500/35 via-sky-500/20 to-transparent",
-  "from-indigo-500/40 via-blue-600/20 to-transparent",
-  "from-blue-500/40 via-cyan-500/20 to-transparent",
-];
-const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+import { Tilt } from "@/components/tilt";
 
 export function CourseCard({
   slug,
   title,
   description,
-  topicSlug,
   topicName,
   difficulty,
   lessonCount,
@@ -61,36 +15,35 @@ export function CourseCard({
   slug?: string;
   title?: string;
   description?: string;
-  topicSlug?: string;
   topicName?: string;
   difficulty?: string;
   lessonCount?: number;
   tier?: string;
 }) {
-  const Icon = (topicSlug && ICONS[topicSlug]) || Binary;
   return (
-    <li className="group card card-hover flex flex-col overflow-hidden" data-testid="course-card">
-      <div
-        className={`relative flex h-24 items-center bg-gradient-to-br ${BANNERS[hash(slug ?? "") % BANNERS.length]} px-5`}
-      >
-        <span className="grid h-12 w-12 place-items-center rounded-xl border bg-background/60 text-accent-2 backdrop-blur transition group-hover:scale-110">
-          <Icon size={24} aria-hidden />
-        </span>
-        <span className="ml-auto">
-          <TierBadge tier={tier} />
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col gap-2 p-5">
-        <Link href={`/courses/${slug}`} className="text-lg font-semibold hover:text-accent-2">
-          {title}
+    <li data-testid="course-card" className="[perspective:900px]">
+      <Tilt className="group card card-hover flex h-full flex-col">
+        <Link href={`/courses/${slug}`} className="flex h-full flex-col" aria-label={title}>
+          <div className="relative h-36 overflow-hidden rounded-t-xl bg-gradient-to-br from-blue-950 via-background to-blue-950/60 p-2">
+            <div className="absolute inset-0 opacity-60 [background:radial-gradient(60%_80%_at_50%_0%,rgba(59,130,246,.35),transparent)]" />
+            <div className="relative h-full transition duration-300 [transform:translateZ(24px)] group-hover:scale-105">
+              <CourseArt slug={slug ?? ""} />
+            </div>
+            <span className="absolute right-3 top-3">
+              <TierBadge tier={tier} />
+            </span>
+          </div>
+          <div className="flex flex-1 flex-col gap-2 p-5">
+            <h3 className="text-lg font-semibold group-hover:text-accent-2">{title}</h3>
+            <p className="line-clamp-3 text-sm text-muted">{description}</p>
+            <p className="mt-auto flex flex-wrap items-center gap-2 pt-3 text-xs text-muted">
+              {topicName && <span className="chip">{topicName}</span>}
+              <span className="chip capitalize">{difficulty}</span>
+              <span>{lessonCount} lessons</span>
+            </p>
+          </div>
         </Link>
-        <p className="line-clamp-3 text-sm text-muted">{description}</p>
-        <p className="mt-auto flex flex-wrap items-center gap-2 pt-3 text-xs text-muted">
-          {topicName && <span className="chip">{topicName}</span>}
-          <span className="chip capitalize">{difficulty}</span>
-          <span>{lessonCount} lessons</span>
-        </p>
-      </div>
+      </Tilt>
     </li>
   );
 }

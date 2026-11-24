@@ -2,13 +2,14 @@
 import json, pathlib
 from courses_a import COURSES_A
 from courses_b import COURSES_B
+from courses_c import COURSES_C
 
 def clean(c):
     for sec in c["sections"]:
         pass
     return {**c, "sections": [{"title": t, "lessons": ls} for t, ls in c["sections"]]}
 
-courses = [clean(c) for c in COURSES_A + COURSES_B]
+courses = [clean(c) for c in COURSES_A + COURSES_B + COURSES_C]
 for c in courses:
     for s in c["sections"]:
         for l in s["lessons"]:

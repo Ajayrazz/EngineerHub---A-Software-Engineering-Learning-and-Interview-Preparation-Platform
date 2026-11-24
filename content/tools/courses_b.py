@@ -2,29 +2,8 @@
 from courses_a import Q, L, C
 
 COURSES_B = [
-C("machine-learning-foundations", "Machine Learning Foundations",
-  "What machine learning is, how models learn from data, why overfitting happens and how to evaluate a model honestly.",
-  "machine-learning", "beginner", "premium", 240, [
-  ("From data to models", [
-    L("what-is-machine-learning", "What is machine learning?", "free", 12,
-      "## Learning rules from examples\n\nTraditional programming: *you* write the rules. In **machine learning (ML)** you provide **examples** and an algorithm finds the rules.\n\n- **Supervised learning:** examples come with answers (labels). *Regression* predicts a number (a house price); *classification* predicts a category (spam or not).\n- **Unsupervised learning:** no labels; find structure, such as clusters of similar customers.\n- **Reinforcement learning:** an agent learns from rewards through trial and error.\n\nThe basic loop: choose a **model**, define a **loss** that measures how wrong it is, and adjust the model's parameters to reduce the loss (often with gradient descent).",
-      tip="ML is only as good as its data. Most real projects spend more time on data than on models.",
-      quiz=[Q("Predicting tomorrow's temperature in degrees is a:", ["Classification task", "Regression task", "Clustering task", "Reward task"], 1, "The target is a continuous number."),
-            Q("Grouping customers by similarity without labels is:", ["Supervised learning", "Unsupervised learning", "Regression", "Overfitting"], 1, "No labels means unsupervised.")]),
-    L("train-test-and-overfitting", "Train/test splits and overfitting", "premium", 16,
-      "## Don't grade a student on the homework they memorised\n\nA model that scores perfectly on the data it learned from may still fail on new data. That is **overfitting**: it memorised noise instead of the pattern. The opposite, **underfitting**, is a model too simple to capture the pattern.\n\nSo split your data: a **training set** to fit the model, a **validation set** to tune choices, and a **test set** used once at the end for an honest estimate. Never let information from the test set leak into training (for example by scaling using statistics of the full dataset).\n\n**Cross-validation** repeats the split several ways for a steadier estimate.",
-      code=("python", "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)\nmodel = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nprint(\"test accuracy:\", model.score(X_test, y_test))", "A basic honest evaluation (scikit-learn)"),
-      quiz=[Q("A model scores 99% on training data and 60% on test data. This most likely shows:", ["Underfitting", "Overfitting", "A perfect model", "Too little training"], 1, "A large gap between training and test performance is the signature of overfitting."),
-            Q("The test set should be used repeatedly while tuning the model.", ["True", "False"], 1, "Tune on validation data; touch the test set once at the end.", "true_false")]),
-    L("evaluating-models", "Accuracy, precision and recall", "premium", 16,
-      "## One number is not enough\n\nSuppose 1% of transactions are fraud. A model that always says *\"not fraud\"* is 99% **accurate** and completely useless. For classification, look at the **confusion matrix**:\n\n- **Precision** = TP / (TP + FP): of the cases flagged, how many were right?\n- **Recall** = TP / (TP + FN): of the real cases, how many did we catch?\n- **F1** is their harmonic mean.\n\nChoose by cost: for cancer screening favour recall (missing a case is costly); for a spam filter that deletes mail favour precision.",
-      quiz=[Q("A model flags 10 transactions as fraud; 8 really are fraud. Precision is:", ["0.2", "0.8", "0.08", "1.0"], 1, "8 correct out of 10 flagged."),
-            Q("There are 20 real fraud cases and the model catches 15. Recall is:", ["0.25", "0.5", "0.75", "0.15"], 2, "15 / 20 = 0.75.")]),
-  ]),
-]),
-
-C("ai-and-llm-engineering", "AI and LLM Engineering",
-  "Build with large language models: how they work, prompting and structured output, retrieval-augmented generation, evaluation and safety.",
+C("ai-engineering", "AI Engineering",
+  "Build with large language models: how they work, prompting and structured output, and retrieval-augmented generation.",
   "llm-engineering", "intermediate", "premium", 260, [
   ("Working with LLMs", [
     L("how-llms-work", "How large language models work", "free", 14,
@@ -43,52 +22,7 @@ C("ai-and-llm-engineering", "AI and LLM Engineering",
   ]),
 ]),
 
-C("data-science-with-python", "Data Science with Python",
-  "Load, clean and explore data with pandas, then summarise and visualise it to find answers.",
-  "data-science", "beginner", "free", 220, [
-  ("Working with data", [
-    L("dataframes-with-pandas", "DataFrames with pandas", "free", 15,
-      "## Tables in Python\n\n`pandas` gives you the **DataFrame**: a table with labelled columns. Load a file, look at it, and select what you need.\n\n- `df.head()`, `df.info()`, `df.describe()` — quick inspection.\n- `df[\"price\"]` selects a column; `df[df[\"price\"] > 100]` filters rows.\n- `df.groupby(\"city\")[\"price\"].mean()` aggregates by group.",
-      code=("python", "import pandas as pd\n\ndf = pd.read_csv(\"sales.csv\")\nprint(df.describe())\nbig = df[df[\"amount\"] > 1000]\nprint(big.groupby(\"region\")[\"amount\"].sum().sort_values(ascending=False))", "Load, filter, group"),
-      quiz=[Q("How do you keep only rows where `amount` exceeds 1000?", ["df.filter(amount > 1000)", "df[df[\"amount\"] > 1000]", "df.where(1000)", "df.amount.drop(1000)"], 1, "A boolean mask inside square brackets filters rows.")]),
-    L("cleaning-data", "Cleaning messy data", "free", 15,
-      "## Most of the job\n\nReal data has **missing values**, **duplicates**, wrong types and inconsistent labels. Decide deliberately:\n\n- Missing values: drop the row, fill with a sensible value (median, a flag), or leave as missing and model it.\n- Duplicates: `df.drop_duplicates()`.\n- Types: dates stored as text should become datetimes; numbers stored as strings must be converted.\n- Inconsistent text: `\"Delhi\"`, `\"delhi \"` and `\"DELHI\"` should be normalised.\n\nKeep the raw file untouched and write cleaning as a repeatable script.",
-      code=("python", "df[\"city\"] = df[\"city\"].str.strip().str.title()\ndf[\"date\"] = pd.to_datetime(df[\"date\"], errors=\"coerce\")\ndf[\"amount\"] = df[\"amount\"].fillna(df[\"amount\"].median())\ndf = df.drop_duplicates()", "Typical cleaning steps"),
-      tip="Always report how many rows each cleaning step changed. Silent data loss is a classic mistake.",
-      quiz=[Q("Why keep the original raw data file unchanged?", ["Disk space is free", "So cleaning is repeatable and auditable", "pandas requires it", "Raw data is faster"], 1, "You can always re-run and review your steps.")]),
-    L("exploring-and-visualising", "Exploring and visualising", "free", 14,
-      "## Look before you model\n\n**Exploratory data analysis (EDA)** means plotting and summarising to understand the data: distributions (histograms), relationships (scatter plots), comparisons (bar charts), trends (line charts).\n\nChoose the simplest chart that answers the question. Label axes and units, start bar charts at zero, and beware that **correlation is not causation**: two things moving together does not mean one causes the other.",
-      code=("python", "import matplotlib.pyplot as plt\n\ndf[\"amount\"].plot(kind=\"hist\", bins=30)\nplt.xlabel(\"Order amount (INR)\")\nplt.ylabel(\"Number of orders\")\nplt.show()", "A labelled histogram"),
-      quiz=[Q("Ice-cream sales and drowning rise together in summer. This shows:", ["Ice cream causes drowning", "A correlation that may have a common cause (hot weather)", "A data error", "Causation"], 1, "A third factor, temperature, explains both."),
-            Q("Which chart best shows how values are distributed?", ["Histogram", "Pie of one slice", "Table of names", "Map"], 0, "Histograms show the shape of a distribution.")]),
-  ]),
-]),
-
-C("cybersecurity-fundamentals", "Cybersecurity Fundamentals",
-  "Think like a defender: threat modelling, passwords and hashing, the most common web vulnerabilities, and how TLS protects traffic.",
-  "cybersecurity", "beginner", "premium", 240, [
-  ("Core ideas", [
-    L("cia-and-threat-modelling", "The CIA triad and threat modelling", "free", 12,
-      "## What are we protecting, and from whom?\n\nSecurity aims at three properties, the **CIA triad**:\n\n- **Confidentiality:** only the right people can read data.\n- **Integrity:** data cannot be changed without detection.\n- **Availability:** the system works when needed.\n\n**Threat modelling** asks four questions: what are we building, what can go wrong, what are we doing about it, and did we do a good job? A common checklist for \"what can go wrong\" is **STRIDE**: Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.\n\nDefence in depth: assume any single control can fail and layer several.",
-      quiz=[Q("A DDoS attack mainly threatens which property?", ["Confidentiality", "Integrity", "Availability", "Non-repudiation only"], 2, "It stops legitimate users reaching the service."),
-            Q("Someone alters a bank transfer amount in transit. Which property is violated?", ["Integrity", "Availability", "Confidentiality", "None"], 0, "Data was changed without authorisation.")]),
-    L("passwords-and-hashing", "Passwords, hashing and MFA", "premium", 14,
-      "## Never store passwords\n\nStore a **hash**, not the password. A hash is a one-way function. For passwords use a **slow, salted** algorithm designed for it — `argon2id`, `bcrypt` or `scrypt` — never plain SHA-256 or MD5. A **salt** is a random value per user so identical passwords produce different hashes and precomputed tables do not work.\n\nPrefer **passkeys** or a trusted identity provider over building your own login. Add **multi-factor authentication (MFA)**: something you know plus something you have. Rate-limit login attempts and never reveal whether the username or the password was wrong.",
-      quiz=[Q("Which is appropriate for hashing stored passwords?", ["MD5", "SHA-256 alone", "argon2id with a per-user salt", "Base64"], 2, "Password hashes must be slow and salted."),
-            Q("Why add a salt?", ["To make hashing faster", "So equal passwords hash differently and rainbow tables fail", "To encrypt the hash", "To shorten the hash"], 1, "Each user's hash becomes unique.")]),
-    L("web-vulnerabilities", "XSS, SQL injection and CSRF", "premium", 18,
-      "## The classics\n\n**SQL injection:** untrusted input is concatenated into a query so an attacker changes its meaning. Fix: **parameterised queries**, always.\n\n**Cross-site scripting (XSS):** untrusted input is rendered as HTML/JS in a page, so the attacker's script runs as your user. Fix: **escape output by context**, avoid inserting raw HTML, and add a Content Security Policy.\n\n**Cross-site request forgery (CSRF):** a malicious site makes the victim's browser send an authenticated request. Fix: anti-CSRF tokens and `SameSite` cookies.\n\nAll three share a root cause: **treating data as code or trusting the client**. Validate input, encode output, and enforce authorisation on the server.",
-      code=("python", "# Vulnerable: input becomes part of the SQL text\ncur.execute(\"SELECT * FROM users WHERE name = '\" + name + \"'\")\n\n# Safe: the driver sends the value separately from the query\ncur.execute(\"SELECT * FROM users WHERE name = %s\", (name,))", "Parameterised queries"),
-      quiz=[Q("What is the primary defence against SQL injection?", ["Hiding error messages only", "Parameterised queries", "Longer passwords", "Using HTTPS"], 1, "They keep data separate from the SQL command."),
-            Q("An attacker's script runs inside your page because user text was inserted unescaped. This is:", ["CSRF", "XSS", "DDoS", "Phishing only"], 1, "Cross-site scripting.")]),
-    L("tls-and-network-basics", "TLS and network basics", "premium", 14,
-      "## Protecting data in transit\n\n**TLS** (the \"S\" in HTTPS) gives a connection three things: **encryption** (eavesdroppers cannot read it), **integrity** (tampering is detected) and **authentication** of the server through a certificate issued by a trusted authority.\n\nIn a handshake the client and server agree on keys, then switch to fast symmetric encryption. Always redirect HTTP to HTTPS, keep certificates renewed, and set HSTS so browsers refuse plain HTTP.\n\nAt the network level, a **firewall** filters traffic by rules and **segmentation** limits how far an intruder can move.",
-      quiz=[Q("A TLS certificate mainly proves:", ["The site has no bugs", "The server is who it claims to be", "The user is over 18", "The data is compressed"], 1, "A trusted authority vouches for the domain's identity."),
-            Q("HSTS tells browsers to:", ["Always use HTTPS for the site", "Cache images", "Block cookies", "Use HTTP/1.0"], 0, "It prevents downgrade to plain HTTP.")]),
-  ]),
-]),
-
-C("low-level-design-basics", "Low-Level Design Basics",
+C("low-level-design", "Low Level Design",
   "Write code that stays easy to change: SOLID principles, common design patterns and how to talk through a class design.",
   "low-level-design", "intermediate", "premium", 200, [
   ("Principles and patterns", [

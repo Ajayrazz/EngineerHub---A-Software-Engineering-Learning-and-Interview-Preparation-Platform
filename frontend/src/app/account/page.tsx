@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { ApiProbe } from "@/components/api-probe";
+import { ReaderShell } from "@/components/reader/ui";
 import { LogoutForm } from "@/components/logout-form";
 import { callApi } from "@/lib/auth/api";
 import { currentSession, withFreshToken } from "@/lib/auth/current";
@@ -20,13 +21,13 @@ export default async function AccountPage() {
     // Identity provider outage: keep the session, do NOT bounce to login (that would loop and, once
     // Keycloak returns, is unnecessary). Ask the user to retry.
     return (
-      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-8">
+      <ReaderShell username={auth.session.username}>
         <h1 className="text-2xl font-semibold">Account</h1>
         <p role="alert" data-testid="idp-unavailable">
           Sign-in services are temporarily unavailable. Your session is safe — please retry in a
           moment.
         </p>
-      </main>
+      </ReaderShell>
     );
   }
   if (!fresh) redirect("/auth/login?returnTo=/account");
@@ -44,7 +45,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 p-8">
+    <ReaderShell username={fresh.session.username}>
       <h1 className="text-2xl font-semibold">Account</h1>
       <dl className="grid grid-cols-[8rem_1fr] gap-y-2 text-sm">
         <dt className="opacity-60">Username</dt>
@@ -64,6 +65,6 @@ export default async function AccountPage() {
       <div>
         <LogoutForm csrfToken={fresh.session.csrfToken} />
       </div>
-    </main>
+    </ReaderShell>
   );
 }
