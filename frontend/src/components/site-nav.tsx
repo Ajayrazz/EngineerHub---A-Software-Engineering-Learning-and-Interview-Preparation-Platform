@@ -191,7 +191,7 @@ function Row({ item }: { item: Item }) {
   );
   const base = "flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium";
   return item.href ? (
-    <Link href={item.href} className={`${base} hover:bg-surface-2`}>
+    <Link prefetch={false} href={item.href} className={`${base} hover:bg-surface-2`}>
       {body}
     </Link>
   ) : (
@@ -246,7 +246,7 @@ function Dropdown({ menu }: { menu: Menu }) {
                 <b className="text-foreground">Looking for more?</b> The full catalog has every
                 course, with filters.
               </span>
-              <Link href="/courses" className="btn-primary">
+              <Link prefetch={false} href="/courses" className="btn-primary">
                 View all courses →
               </Link>
             </div>
@@ -288,18 +288,18 @@ async function StaffNav({ username }: { username: string }) {
         >
           {roleLabel(staff.roles)}
         </span>
-        <Link href="/admin" className="btn-primary">
+        <Link prefetch={false} href="/admin" className="btn-primary">
           Admin console
         </Link>
         <span className="hidden items-center gap-4 text-muted md:flex">
           {tools.map((t) => (
-            <Link key={t.href} href={t.href} className="hover:text-foreground">
+            <Link prefetch={false} key={t.href} href={t.href} className="hover:text-foreground">
               {t.label}
             </Link>
           ))}
         </span>
         <span className="ml-auto flex items-center gap-3">
-          <Link href="/courses" className="btn-ghost">
+          <Link prefetch={false} href="/courses" className="btn-ghost">
             View learner site
           </Link>
           <Link
@@ -369,7 +369,11 @@ export async function SiteNav({ username }: { username?: string | null }) {
                 <ul className="min-w-44 space-y-0.5 rounded-xl border bg-surface p-2 shadow-2xl shadow-black/60">
                   {USER_LINKS.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="block rounded-lg px-3 py-2 hover:bg-surface-2">
+                      <Link
+                        prefetch={false}
+                        href={l.href}
+                        className="block rounded-lg px-3 py-2 hover:bg-surface-2"
+                      >
                         {l.label}
                       </Link>
                     </li>
@@ -392,7 +396,11 @@ export async function SiteNav({ username }: { username?: string | null }) {
             <ul className="absolute right-0 top-full mt-2 max-h-[70vh] w-64 space-y-0.5 overflow-auto rounded-xl border bg-surface p-2 shadow-2xl">
               {mobile.map((i) => (
                 <li key={i.href}>
-                  <Link href={i.href!} className="block rounded-lg px-3 py-2 hover:bg-surface-2">
+                  <Link
+                    prefetch={false}
+                    href={i.href!}
+                    className="block rounded-lg px-3 py-2 hover:bg-surface-2"
+                  >
                     {i.label}
                   </Link>
                 </li>

@@ -53,7 +53,7 @@ export function SiteFooter() {
             <ul className="space-y-2 text-muted">
               {c.links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="hover:text-foreground">
+                  <Link prefetch={false} href={l.href} className="hover:text-foreground">
                     {l.label}
                   </Link>
                 </li>
