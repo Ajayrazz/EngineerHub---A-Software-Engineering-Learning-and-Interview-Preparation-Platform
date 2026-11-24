@@ -41,15 +41,16 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
   const firstSlug = sections[0]?.lessons?.[0]?.slug ?? null;
 
   return (
-    <ReaderShell username={session?.username}>
-      <header className="flex flex-col gap-3">
-        <h1 className="text-3xl font-semibold" data-testid="course-title">
+    <ReaderShell username={session?.username} wide>
+      <header className="hero-glow relative flex flex-col gap-3 overflow-hidden rounded-2xl border p-8">
+        <div className="stars" aria-hidden />
+        <h1 className="relative text-4xl font-bold tracking-tight" data-testid="course-title">
           {course?.title}
         </h1>
-        <p className="text-sm opacity-80">{course?.description}</p>
-        <p className="flex flex-wrap items-center gap-2 text-xs opacity-80">
-          {course?.topic?.name && <span>{course.topic.name}</span>}
-          <span>{course?.difficulty}</span>
+        <p className="relative max-w-2xl text-muted">{course?.description}</p>
+        <p className="relative flex flex-wrap items-center gap-2 text-xs text-muted">
+          {course?.topic?.name && <span className="chip">{course.topic.name}</span>}
+          <span className="chip capitalize">{course?.difficulty}</span>
           <span>{course?.lessonCount} lessons</span>
           <TierBadge tier={course?.accessTier} />
         </p>
@@ -75,17 +76,17 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
 
       <nav aria-label="Course outline" className="flex flex-col gap-4" data-testid="outline">
         {sections.map((s) => (
-          <section key={s.position} className="rounded border p-4">
-            <h2 className="mb-2 text-lg font-medium">{s.title}</h2>
+          <section key={s.position} className="glass p-5">
+            <h2 className="mb-3 text-lg font-semibold">{s.title}</h2>
             <ol className="flex flex-col gap-1 text-sm">
               {(s.lessons ?? []).map((l) => (
                 <li
                   key={l.slug}
-                  className="flex flex-wrap items-center gap-2"
+                  className="flex flex-wrap items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-surface-2"
                   data-testid="outline-lesson"
                 >
                   <span aria-hidden>{done.has(l.id ?? "") ? "✓" : "○"}</span>
-                  <Link className="underline" href={`/courses/${slug}/lessons/${l.slug}`}>
+                  <Link className="hover:text-accent-2" href={`/courses/${slug}/lessons/${l.slug}`}>
                     {l.title}
                   </Link>
                   <TierBadge tier={l.accessTier} preview={l.freePreview} />

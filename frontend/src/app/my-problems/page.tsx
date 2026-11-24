@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
 import { ProblemTable } from "@/components/reader/problem-bits";
-import { ReaderShell } from "@/components/reader/ui";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
 
@@ -25,7 +25,7 @@ export default async function MyProblems() {
   );
   return (
     <ReaderShell username={session.username} wide>
-      <h1 className="text-2xl font-semibold">My problems</h1>
+      <PageHeader title="My problems" lead="Problems you bookmarked, with your status on each." />
       {!bookmarks.ok ? (
         <Notice kind="error">Your bookmarks could not be loaded. Please try again shortly.</Notice>
       ) : bookmarks.data.length === 0 ? (

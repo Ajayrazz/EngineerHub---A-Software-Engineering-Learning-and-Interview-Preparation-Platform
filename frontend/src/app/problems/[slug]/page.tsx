@@ -47,14 +47,14 @@ export default async function ProblemPage({ params }: PageProps<"/problems/[slug
       </p>
       {locked || !p ? (
         <section
-          className="flex flex-col gap-3 rounded border p-6"
+          className="glass flex flex-col gap-3 border-accent/50 p-6"
           data-testid="locked"
           aria-label="Premium content"
         >
           <h1 className="text-2xl font-semibold">Premium problem</h1>
           <p className="font-medium">This problem is part of the premium content.</p>
           <p className="text-sm opacity-80">
-            Online purchase is not available yet; see the{" "}
+            Unlock it with a pass or subscription on the{" "}
             <Link className="underline" href="/pricing">
               pricing page
             </Link>
@@ -132,7 +132,10 @@ export default async function ProblemPage({ params }: PageProps<"/problems/[slug
             ))}
           </section>
           <Hints hints={p.hints ?? []} />
-          <p className="rounded border p-3 text-sm opacity-80" data-testid="no-judge">
+          <p
+            className="rounded-xl border bg-surface/70 p-3 text-sm opacity-80"
+            data-testid="no-judge"
+          >
             Writing and running code arrives with the online judge. For now you can read the problem
             and bookmark it.
           </p>

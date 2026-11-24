@@ -49,7 +49,7 @@ function CellRow({
           return (
             <li key={i} className="flex flex-col items-center">
               <span
-                className={`flex h-10 min-w-10 items-center justify-center rounded border-2 px-1 text-sm font-medium ${MARK_CLASS[c.mark]}`}
+                className={`flex h-10 min-w-10 items-center justify-center rounded-xl border bg-surface/70-2 px-1 text-sm font-medium ${MARK_CLASS[c.mark]}`}
                 data-mark={c.mark}
                 title={MARK_WORD[c.mark] || undefined}
               >
@@ -100,7 +100,7 @@ export function StackView({ frame }: { frame: StackFrame }) {
             <li
               key={i}
               data-current={i === frame.at}
-              className={`flex h-10 w-9 items-center justify-center rounded border-2 font-mono text-base ${i === frame.at ? "border-blue-600 bg-blue-500/10" : i < frame.at ? "border-black/10 opacity-50" : "border-black/30 dark:border-white/30"}`}
+              className={`flex h-10 w-9 items-center justify-center rounded-xl border bg-surface/70-2 font-mono text-base ${i === frame.at ? "border-blue-600 bg-blue-500/10" : i < frame.at ? "border-black/10 opacity-50" : "border-black/30 dark:border-white/30"}`}
             >
               {c}
             </li>
@@ -110,7 +110,7 @@ export function StackView({ frame }: { frame: StackFrame }) {
       <div>
         <p className="mb-1 text-xs opacity-70">Stack (top first)</p>
         <ul
-          className="flex min-h-10 min-w-16 flex-col gap-1 rounded border border-dashed p-1"
+          className="flex min-h-10 min-w-16 flex-col gap-1 rounded-xl border bg-surface/70 border-dashed p-1"
           aria-label="Stack, top first"
           data-testid="viz-stack-items"
         >
@@ -120,7 +120,7 @@ export function StackView({ frame }: { frame: StackFrame }) {
             [...frame.stack].reverse().map((c, i) => (
               <li
                 key={i}
-                className="rounded border-2 border-black/30 px-2 text-center font-mono dark:border-white/30"
+                className="rounded-xl border bg-surface/70-2 border-black/30 px-2 text-center font-mono dark:border-white/30"
               >
                 {c}
               </li>

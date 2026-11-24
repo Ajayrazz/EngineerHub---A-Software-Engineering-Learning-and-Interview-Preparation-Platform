@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BuyButton } from "@/components/billing/buy-button";
 import { SubscribeButton } from "@/components/billing/subscribe-button";
-import { ReaderShell } from "@/components/reader/ui";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import { describePrice } from "@/lib/billing/format";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
@@ -22,15 +22,21 @@ export default async function PricingPage() {
   ]);
   const enabled = config.ok && config.data.paymentsEnabled === true;
   return (
-    <ReaderShell username={session?.username}>
-      <h1 className="text-2xl font-semibold">Pricing</h1>
+    <ReaderShell username={session?.username} wide>
+      <PageHeader
+        title="Pricing"
+        lead="Simple plans in rupees. Free lessons and problems stay open to everyone."
+      />
       {enabled ? (
-        <p className="rounded border border-amber-500/60 p-3 text-sm" data-testid="test-mode-note">
+        <p
+          className="rounded-xl border bg-warn/10 border-warn/50 p-3 text-sm"
+          data-testid="test-mode-note"
+        >
           <strong>Test mode.</strong> Payments run against the payment provider&apos;s test
           environment: no real money is charged. The amount you see is the final amount you pay.
         </p>
       ) : (
-        <p className="rounded border p-3 text-sm" data-testid="payments-note">
+        <p className="rounded-xl border bg-surface/70 p-3 text-sm" data-testid="payments-note">
           Online payment is not available yet. Prices below are final amounts; when payments open,
           the amount you see is the amount you pay.
         </p>
@@ -44,16 +50,20 @@ export default async function PricingPage() {
           Pricing has not been published yet. Free lessons and problems stay open to everyone.
         </p>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2" data-testid="plans">
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-testid="plans">
           {plans.data.map((p) => (
-            <li key={p.id} className="flex flex-col gap-2 rounded border p-4" data-testid="plan">
-              <h2 className="text-lg font-medium">{p.name}</h2>
+            <li key={p.id} className="glass card-hover flex flex-col gap-3 p-6" data-testid="plan">
+              <h2 className="text-xl font-bold">{p.name}</h2>
               {(p.entitlements ?? []).includes("premium_content") && (
                 <p className="text-sm">Includes all premium lessons and problems.</p>
               )}
               <ul className="flex flex-col gap-3 text-sm">
                 {(p.prices ?? []).map((price) => (
-                  <li key={price.id} className="flex flex-col gap-1" data-testid="price">
+                  <li
+                    key={price.id}
+                    className="flex flex-col gap-2 rounded-lg border bg-background/40 p-3"
+                    data-testid="price"
+                  >
                     <span>{describePrice(price)}</span>
                     {enabled && price.billingMode === "ONE_TIME" && price.id && (
                       <BuyButton csrfToken={session?.csrfToken ?? null} planPriceId={price.id} />

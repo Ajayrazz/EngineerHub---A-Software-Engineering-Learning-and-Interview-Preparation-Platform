@@ -5,7 +5,7 @@ import { Notice } from "@/components/admin/ui";
 import { CancelSubscription } from "@/components/billing/cancel-subscription";
 import { ReceiptLink } from "@/components/billing/receipt-link";
 import { RequestRefund } from "@/components/billing/request-refund";
-import { ReaderShell } from "@/components/reader/ui";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import {
   accessHeadline,
   formatDate,
@@ -37,7 +37,7 @@ export default async function BillingPage() {
   const reminder = summary.ok ? renewalReminder(summary.data) : null;
   return (
     <ReaderShell username={session.username}>
-      <h1 className="text-2xl font-semibold">My access</h1>
+      <PageHeader title="My access" lead="Your plan, renewal and receipts." />
       {!summary.ok || !access.ok ? (
         <Notice kind="error">Your access could not be loaded. Please try again shortly.</Notice>
       ) : (
@@ -48,7 +48,7 @@ export default async function BillingPage() {
           {reminder && (
             <div
               role="status"
-              className="rounded border border-amber-500/60 px-3 py-2 text-sm"
+              className="rounded-xl border bg-surface/70 border-amber-500/60 px-3 py-2 text-sm"
               data-testid="renewal-reminder"
             >
               <p>{reminder}</p>
@@ -149,7 +149,10 @@ export default async function BillingPage() {
               Refunds
             </h2>
             {policy.ok && policy.data.policyText ? (
-              <div className="rounded border p-3 text-sm" data-testid="refund-policy">
+              <div
+                className="rounded-xl border bg-surface/70 p-3 text-sm"
+                data-testid="refund-policy"
+              >
                 <p className="whitespace-pre-wrap">{policy.data.policyText}</p>
                 {policy.data.requestWindowDays && (
                   <p className="mt-2 opacity-70">
@@ -166,7 +169,11 @@ export default async function BillingPage() {
             {refunds.ok && refunds.data.length > 0 && (
               <ul className="flex flex-col gap-2 text-sm" data-testid="refund-list">
                 {refunds.data.map((r) => (
-                  <li key={r.id} className="rounded border p-3" data-testid="refund-request">
+                  <li
+                    key={r.id}
+                    className="rounded-xl border bg-surface/70 p-3"
+                    data-testid="refund-request"
+                  >
                     <div>
                       <strong>{refundStatusLabel(r.status)}</strong>: {r.planName},{" "}
                       {formatInr(r.paymentAmountMinor ?? 0)} ({reasonLabel(r.reason)})

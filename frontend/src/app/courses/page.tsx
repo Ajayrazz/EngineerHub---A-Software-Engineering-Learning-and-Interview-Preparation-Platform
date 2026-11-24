@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ReaderShell, TierBadge } from "@/components/reader/ui";
+import { CourseCard } from "@/components/reader/course-card";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import { Notice, btn, input } from "@/components/admin/ui";
 import { pageParam, query } from "@/lib/admin/policy";
 import type { components } from "@/lib/api/schema";
@@ -35,9 +36,12 @@ export default async function CoursesPage({ searchParams }: PageProps<"/courses"
   const link = (p: number) => `/courses${query({ topic, difficulty, tier, q, page: p })}`;
 
   return (
-    <ReaderShell username={session?.username}>
-      <h1 className="text-2xl font-semibold">Courses</h1>
-      <form method="get" className="flex flex-wrap items-end gap-2" role="search">
+    <ReaderShell username={session?.username} wide>
+      <PageHeader
+        title="Courses"
+        lead="Software development, data, AI and security, one clear path at a time."
+      />
+      <form method="get" className="glass flex flex-wrap items-end gap-3 p-4" role="search">
         <label className="flex flex-col gap-1 text-sm">
           Search
           <input name="q" defaultValue={q} maxLength={100} className={input} />
@@ -80,24 +84,19 @@ export default async function CoursesPage({ searchParams }: PageProps<"/courses"
         <Notice kind="error">Courses could not be loaded. Please try again shortly.</Notice>
       ) : (
         <>
-          <ul className="grid gap-4 sm:grid-cols-2" data-testid="course-cards">
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-testid="course-cards">
             {(courses.data.items ?? []).map((c) => (
-              <li
+              <CourseCard
                 key={c.slug}
-                className="flex flex-col gap-2 rounded border p-4"
-                data-testid="course-card"
-              >
-                <Link href={`/courses/${c.slug}`} className="text-lg font-medium underline">
-                  {c.title}
-                </Link>
-                <p className="text-sm opacity-80">{c.description}</p>
-                <p className="flex flex-wrap items-center gap-2 text-xs opacity-80">
-                  {c.topic?.name && <span>{c.topic.name}</span>}
-                  <span>{c.difficulty}</span>
-                  <span>{c.lessonCount} lessons</span>
-                  <TierBadge tier={c.accessTier} />
-                </p>
-              </li>
+                slug={c.slug}
+                title={c.title}
+                description={c.description}
+                topicSlug={c.topic?.slug}
+                topicName={c.topic?.name}
+                difficulty={c.difficulty}
+                lessonCount={c.lessonCount}
+                tier={c.accessTier}
+              />
             ))}
           </ul>
           {(courses.data.items ?? []).length === 0 && <p className="text-sm">No courses found.</p>}

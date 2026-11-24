@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
-import { ProgressBar, ReaderShell } from "@/components/reader/ui";
+import { ProgressBar, PageHeader, ReaderShell } from "@/components/reader/ui";
 import { buildGrid, plural } from "@/lib/dashboard/heatmap";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
@@ -30,13 +30,13 @@ export default async function DashboardPage() {
 
   return (
     <ReaderShell username={session.username} wide>
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
+      <PageHeader title="Dashboard" lead="Your streak, progress and what to do next." />
       {!dash.ok ? (
         <Notice kind="error">Your activity could not be loaded. Please try again shortly.</Notice>
       ) : (
         <>
           <section aria-label="Summary" className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded border p-4" data-testid="streak-card">
+            <div className="rounded-xl border bg-surface/70 p-4" data-testid="streak-card">
               <p className="text-sm opacity-70">Current streak</p>
               <p className="text-3xl font-semibold" data-testid="streak-current">
                 {dash.data.streak?.current ?? 0}
@@ -52,13 +52,13 @@ export default async function DashboardPage() {
                 Longest: {plural(dash.data.streak?.longest ?? 0, "day")}
               </p>
             </div>
-            <div className="rounded border p-4">
+            <div className="rounded-xl border bg-surface/70 p-4">
               <p className="text-sm opacity-70">Lessons completed</p>
               <p className="text-3xl font-semibold" data-testid="lessons-total">
                 {dash.data.lessonsCompleted ?? 0}
               </p>
             </div>
-            <div className="rounded border p-4">
+            <div className="rounded-xl border bg-surface/70 p-4">
               <p className="text-sm opacity-70">Courses completed</p>
               <p className="text-3xl font-semibold" data-testid="courses-total">
                 {dash.data.coursesCompleted ?? 0}
@@ -116,7 +116,10 @@ export default async function DashboardPage() {
             {enrollments.data
               .filter((e) => !e.completed)
               .map((e) => (
-                <li key={e.courseId} className="flex flex-col gap-1 rounded border p-3">
+                <li
+                  key={e.courseId}
+                  className="flex flex-col gap-1 rounded-xl border bg-surface/70 p-3"
+                >
                   <Link className="font-medium underline" href={`/courses/${e.courseSlug}`}>
                     {e.courseTitle}
                   </Link>
@@ -130,7 +133,10 @@ export default async function DashboardPage() {
         )}
       </section>
 
-      <p className="rounded border p-3 text-sm opacity-80" data-testid="problems-note">
+      <p
+        className="rounded-xl border bg-surface/70 p-3 text-sm opacity-80"
+        data-testid="problems-note"
+      >
         Problem-solving statistics (solved counts, accepted submissions) arrive with the online
         judge.
       </p>

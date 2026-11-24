@@ -77,6 +77,11 @@
   table {
     border-color: var(--line);
   }
+  pre {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+  }
 }
 
 @layer components {

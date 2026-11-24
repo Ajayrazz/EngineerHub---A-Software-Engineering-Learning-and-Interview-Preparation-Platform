@@ -76,7 +76,7 @@ export function QuizBlock({
   const byQuestion = new Map((result?.results ?? []).map((x) => [x.questionId, x]));
   return (
     <section
-      className="flex flex-col gap-4 rounded border p-4"
+      className="flex flex-col gap-4 rounded-xl border bg-surface/70 p-4"
       aria-label={title || "Quiz"}
       data-testid="quiz"
     >
@@ -101,7 +101,7 @@ export function QuizBlock({
               return (
                 <label
                   key={o.id}
-                  className={`flex items-center gap-2 rounded border px-2 py-1 text-sm ${state === "right" ? "border-green-600" : state === "wrong" ? "border-red-500" : state === "missed" ? "border-amber-500" : ""}`}
+                  className={`flex items-center gap-2 rounded-xl border bg-surface/70 px-2 py-1 text-sm ${state === "right" ? "border-green-600" : state === "wrong" ? "border-red-500" : state === "missed" ? "border-amber-500" : ""}`}
                   data-state={state}
                 >
                   <input

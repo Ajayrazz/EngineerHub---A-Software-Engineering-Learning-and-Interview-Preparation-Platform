@@ -49,3 +49,27 @@ export function ProgressBar({ percent, label }: { percent: number; label: string
     </div>
   );
 }
+
+/** Page title block with an optional lead line and right-hand actions. */
+export function PageHeader({
+  title,
+  lead,
+  children,
+}: {
+  title: string;
+  lead?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className="hero-glow relative overflow-hidden rounded-2xl border p-8">
+      <div className="stars" aria-hidden />
+      <div className="relative flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+          {lead && <p className="mt-2 max-w-2xl text-muted">{lead}</p>}
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}

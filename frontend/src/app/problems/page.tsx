@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Notice, btn, input } from "@/components/admin/ui";
 import { ProblemTable } from "@/components/reader/problem-bits";
-import { ReaderShell } from "@/components/reader/ui";
+import { PageHeader, ReaderShell } from "@/components/reader/ui";
 import { pageParam, query } from "@/lib/admin/policy";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession, SLUG } from "@/lib/reader/server";
@@ -52,9 +52,12 @@ export default async function ProblemsPage({ searchParams }: PageProps<"/problem
 
   return (
     <ReaderShell username={session?.username} wide>
-      <h1 className="text-2xl font-semibold">Problems</h1>
+      <PageHeader
+        title="Problems"
+        lead="Original practice problems by pattern and difficulty, with hints when you are stuck."
+      />
       {noMatch && <Notice kind="error">No problem matches those filters.</Notice>}
-      <form method="get" className="flex flex-wrap items-end gap-2" role="search">
+      <form method="get" className="glass flex flex-wrap items-end gap-3 p-4" role="search">
         <label className="flex flex-col gap-1 text-sm">
           Search
           <input name="q" defaultValue={q} maxLength={100} className={input} />

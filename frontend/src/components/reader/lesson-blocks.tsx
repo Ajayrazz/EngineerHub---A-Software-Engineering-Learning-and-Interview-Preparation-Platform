@@ -36,7 +36,11 @@ export function LessonBlocks({
           );
         if (b.type === "callout")
           return (
-            <aside key={i} className="rounded border-l-4 p-3 text-sm" data-kind={str(b.data?.kind)}>
+            <aside
+              key={i}
+              className="rounded-xl border bg-surface/70-l-4 p-3 text-sm"
+              data-kind={str(b.data?.kind)}
+            >
               <strong className="capitalize">{str(b.data?.kind)}: </strong>
               {str(b.data?.text)}
             </aside>

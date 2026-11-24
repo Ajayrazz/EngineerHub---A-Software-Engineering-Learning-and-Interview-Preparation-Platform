@@ -71,30 +71,41 @@ export default async function LessonPage({
       <div className="grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)_13rem]">
         <aside
           aria-label="Course outline"
-          className="flex flex-col gap-3 text-sm"
+          className="glass sticky top-20 flex max-h-[calc(100vh-6rem)] flex-col gap-4 self-start overflow-y-auto p-4 text-sm"
           data-testid="sidebar"
         >
-          <Link href={`/courses/${slug}`} className="font-medium underline">
+          <Link href={`/courses/${slug}`} className="font-semibold hover:text-accent-2">
             {detail.data.course?.title}
           </Link>
           {p?.enrolled && <ProgressBar percent={p.percent ?? 0} label="Course progress" />}
           {sections.map((s) => (
             <div key={s.position}>
-              <h2 className="mb-1 font-medium opacity-80">{s.title}</h2>
+              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
+                {s.title}
+              </h2>
               <ol className="flex flex-col gap-1">
                 {(s.lessons ?? []).map((l) => {
                   const current = l.slug === lessonSlug;
                   return (
                     <li
                       key={l.slug}
-                      className="flex items-center gap-1.5"
+                      className={`flex items-center gap-2 rounded-lg px-2 py-1.5 ${current ? "bg-accent/15" : "hover:bg-surface-2"}`}
                       data-testid="sidebar-lesson"
                     >
-                      <span aria-hidden>{done.has(l.id ?? "") ? "✓" : "○"}</span>
+                      <span
+                        aria-hidden
+                        className={done.has(l.id ?? "") ? "text-accent-2" : "text-muted"}
+                      >
+                        {done.has(l.id ?? "") ? "✓" : "○"}
+                      </span>
                       <Link
                         href={`/courses/${slug}/lessons/${l.slug}`}
                         aria-current={current ? "page" : undefined}
-                        className={current ? "font-semibold underline" : "hover:underline"}
+                        className={
+                          current
+                            ? "font-semibold text-accent-2"
+                            : "text-foreground/85 hover:text-foreground"
+                        }
                       >
                         {l.title}
                       </Link>
@@ -108,18 +119,18 @@ export default async function LessonPage({
         </aside>
 
         <article className="flex min-w-0 flex-col gap-6">
-          <h1 className="text-3xl font-semibold" data-testid="lesson-title">
+          <h1 className="text-3xl font-bold tracking-tight" data-testid="lesson-title">
             {body?.title ?? outlineLesson?.title}
           </h1>
           {locked ? (
             <section
-              className="flex flex-col gap-3 rounded border p-6"
+              className="glass flex flex-col gap-3 border-accent/50 p-6"
               data-testid="locked"
               aria-label="Premium content"
             >
               <p className="font-medium">This lesson is part of the premium content.</p>
               <p className="text-sm opacity-80">
-                Online purchase is not available yet; see the{" "}
+                Unlock it with a pass or subscription on the{" "}
                 <Link className="underline" href="/pricing">
                   pricing page
                 </Link>

@@ -66,7 +66,7 @@ export function VizPlayer({
     );
   return (
     <section
-      className="flex flex-col gap-3 rounded border p-4"
+      className="flex flex-col gap-3 rounded-xl border bg-surface/70 p-4"
       aria-label={`${meta.title} visualization`}
       data-testid="viz"
     >
@@ -286,7 +286,10 @@ function PlayerBody({ trace }: { trace: Trace }) {
 
       <div>
         <p className="mb-1 text-xs opacity-70">Pseudocode</p>
-        <ol className="rounded border p-2 font-mono text-xs" data-testid="viz-pseudo">
+        <ol
+          className="rounded-xl border bg-surface/70 p-2 font-mono text-xs"
+          data-testid="viz-pseudo"
+        >
           {trace.pseudo.map((line, i) => (
             <li
               key={i}

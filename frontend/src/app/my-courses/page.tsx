@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
-import { ProgressBar, ReaderShell } from "@/components/reader/ui";
+import { ProgressBar, PageHeader, ReaderShell } from "@/components/reader/ui";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
 
@@ -16,7 +16,7 @@ export default async function MyCourses() {
   const r = await readerGet<Enrollment[]>("me/enrollments", session.accessToken);
   return (
     <ReaderShell username={session.username}>
-      <h1 className="text-2xl font-semibold">My courses</h1>
+      <PageHeader title="My courses" lead="Pick up where you left off." />
       {!r.ok ? (
         <Notice kind="error">Your courses could not be loaded. Please try again shortly.</Notice>
       ) : r.data.length === 0 ? (
@@ -31,7 +31,7 @@ export default async function MyCourses() {
           {r.data.map((e) => (
             <li
               key={e.courseId}
-              className="flex flex-col gap-2 rounded border p-4"
+              className="flex flex-col gap-2 rounded-xl border bg-surface/70 p-4"
               data-testid="enrollment"
             >
               <Link className="text-lg font-medium underline" href={`/courses/${e.courseSlug}`}>
