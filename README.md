@@ -25,7 +25,7 @@ make backend-run        # API on http://localhost:8080
 make frontend-dev       # web app on http://localhost:3000
 ```
 
-Open <http://localhost:3000>, click **Log in** and sign in with a dev user (all use the password in [docs/18](docs/18-ENVIRONMENT-SETUP.md#L45)): `learner`, `admin`, `superadmin`, `contentmanager`, `problemsetter`, `moderator`, `instructor`. Staff roles also ask for a one-time code. Mail sent by the app appears in Mailpit at <http://localhost:8025>.
+Open <http://localhost:3000>, click **Log in** (all dev logins: [docs/24](docs/24-LOCAL-DEV-LOGINS.md)) and sign in with a dev user (all use the password in [docs/18](docs/18-ENVIRONMENT-SETUP.md#L45)): `learner`, `admin`, `superadmin`, `contentmanager`, `problemsetter`, `moderator`, `instructor`. Staff roles also ask for a one-time code. Mail sent by the app appears in Mailpit at <http://localhost:8025>.
 
 Load the starter courses and problems (original content in `content/`) once the API is up: `make seed-content`. Browser tests clean up after themselves (`make clean-test-content` does it by hand).
 
