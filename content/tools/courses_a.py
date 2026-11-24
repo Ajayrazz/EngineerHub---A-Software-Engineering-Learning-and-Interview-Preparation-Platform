@@ -5,8 +5,9 @@ def Q(prompt, options, correct, explanation, kind="single"):
     c = correct if isinstance(correct, list) else [correct]
     return dict(prompt=prompt, options=options, correct=c, explanation=explanation, type=kind if len(c) == 1 or kind == "multi" else "multi")
 
-def L(slug, title, tier, minutes, md, code=None, tip=None, quiz=None, viz=None, quiz_title="Check your understanding"):
-    return dict(slug=slug, title=title, tier=tier, minutes=minutes, md=md, code=code, tip=tip, quiz=quiz, viz=viz, quiz_title=quiz_title)
+def L(slug, title, tier, minutes, md, code=None, tip=None, quiz=None, viz=None, quiz_title="Check your understanding", blocks=None):
+    """`blocks` (optional) is an explicit ordered list: [("md", text) | ("tip", text) | ("code", lang, code, caption) | ("viz", id, input, param)]; a quiz, if any, is appended."""
+    return dict(slug=slug, title=title, tier=tier, minutes=minutes, md=md, code=code, tip=tip, quiz=quiz, viz=viz, quiz_title=quiz_title, blocks=blocks)
 
 def C(slug, title, description, topic, difficulty, tier, minutes, sections):
     return dict(slug=slug, title=title, description=description, topic=topic, difficulty=difficulty, tier=tier, minutes=minutes, sections=sections)

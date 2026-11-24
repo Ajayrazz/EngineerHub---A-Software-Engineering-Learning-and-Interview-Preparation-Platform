@@ -56,6 +56,17 @@ function quizBlock(l) {
   };
 }
 function blocksFor(l) {
+  if (l.blocks) {
+    const out = l.blocks.map((b) => {
+      if (b[0] === "md") return { type: "markdown", data: { text: b[1] } };
+      if (b[0] === "tip") return { type: "callout", data: { kind: "tip", text: b[1] } };
+      if (b[0] === "code") return { type: "code", data: { language: ["cpp", "java", "python"].includes(b[1]) ? b[1] : "text", code: b[2], caption: b[3] } };
+      if (b[0] === "viz") return { type: "viz", data: { algorithm: b[1], input: b[2], ...(b[3] ? { param: b[3] } : {}) } };
+      throw new Error(`unknown block ${b[0]}`);
+    });
+    if (l.quiz) out.push(quizBlock(l));
+    return out;
+  }
   const b = [{ type: "markdown", data: { text: l.md } }];
   if (l.viz) b.push({ type: "viz", data: { algorithm: l.viz[0], input: l.viz[1], ...(l.viz[2] ? { param: l.viz[2] } : {}) } });
   if (l.code) b.push({ type: "code", data: { language: ["cpp", "java", "python"].includes(l.code[0]) ? l.code[0] : "text", code: l.code[1], caption: l.code[2] } });

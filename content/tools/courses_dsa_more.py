@@ -180,4 +180,7 @@ layout = [
 ]
 used = {l["slug"] for _, ls in layout for l in ls}
 assert set(old) <= used, set(old) - used
+import courses_dsa_welcome as WL
+_override = {l["slug"]: l for l in (WL.INTRO, WL.ROADMAP, WL.HOW, WL.COMM, WL.PATTERN)}
+layout = [(t, [_override.get(l["slug"], l) for l in ls]) for t, ls in layout]
 DSA_FULL = {**DSA, "sections": [{"title": t, "lessons": ls} for t, ls in layout]}

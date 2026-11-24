@@ -15,55 +15,159 @@
       "slug": "course-introduction",
       "title": "Course introduction",
       "tier": "free",
-      "minutes": 5,
-      "md": "## How this course works\n\nThis course teaches the data structures and algorithms that coding interviews keep returning to. It is organised in **chapters** (the list on the left). Each chapter has short lessons with examples, a quiz, and links to practice problems in our problem bank.\n\n### What you will find\n- **Concept lessons** written in plain language, with code.\n- **Step-by-step visualizations** you can play, scrub and run on your own input.\n- **Chapter quizzes** with explanations after you answer.\n- **Practice problems** with hints, graded in stages.\n\nMark lessons complete as you go; your progress bar at the top of the sidebar updates.",
+      "minutes": 14,
+      "md": "",
       "code": null,
-      "tip": "New to DSA? Follow the chapters in order. Short on time? Use the roadmap lesson to pick a path.",
+      "tip": null,
       "quiz": [
        {
-        "prompt": "Where do you find the practice problems for a chapter?",
+        "prompt": "Which habit most improves long-term retention?",
         "options": [
-         "In the problem bank, linked from the lesson",
-         "Only by email",
-         "They do not exist",
-         "Only on a phone app"
+         "Spaced reviews of problems you solved",
+         "Reading each lesson once quickly",
+         "Copying solutions",
+         "Skipping hard problems forever"
         ],
         "correct": [
          0
         ],
-        "explanation": "Each lesson links to related problems in the problem bank.",
+        "explanation": "Revisiting after a day, a week and a month moves knowledge into long-term memory.",
+        "type": "single"
+       },
+       {
+        "prompt": "What should you do first when a lesson poses a problem?",
+        "options": [
+         "Try it yourself for several minutes",
+         "Read the full solution",
+         "Skip to the quiz",
+         "Close the lesson"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Predicting first makes the explanation far more memorable.",
+        "type": "single"
+       },
+       {
+        "prompt": "An error log should record:",
+        "options": [
+         "The missed idea and the clue that should have pointed to it",
+         "Only the problem title",
+         "Your mood",
+         "Nothing; just solve more"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The clue is what you will look for next time.",
+        "type": "single"
+       },
+       {
+        "prompt": "Do you need premium access to start this course?",
+        "options": [
+         "No, many lessons and problems are free",
+         "Yes, always",
+         "Only on weekends",
+         "Only for quizzes"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Free lessons and previews stay open to everyone.",
         "type": "single"
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Welcome\n\nThis course is a complete, structured path through **data structures and algorithms (DSA)**, written for one goal: helping you solve coding-interview problems you have never seen before, calmly and in a clear order. You do not need to be a genius, and you do not need to have studied computer science. You need curiosity, a language you can write simple programs in, and a regular habit of practice.\n\n### Who this course is for\n\n- **Students and new graduates** preparing for their first software job.\n- **Working engineers** who have not touched algorithms for years and want a refresher before interviewing.\n- **Career switchers** who can code but have never been taught the vocabulary of complexity, hashing, recursion and graphs.\n- **Anyone who wants to think more clearly about programs**: the habits you build here (define the problem, find a pattern, test on edge cases) help in everyday engineering too.\n\n### What you need before you start\n\n| You should be able to... | If not |\n|---|---|\n| Write a small program with variables, `if` and loops in one language | Start with the *Programming Fundamentals* and *DSA Warmup* chapters |\n| Read and write arrays (lists) and strings | Chapters *Arrays* and *Strings* cover them from scratch |\n| Use a terminal or an editor | Any editor works; our practice problems use plain input and output |\n\nNo special math is required. The *Math Fundamentals* chapter explains the few ideas (logarithms, remainders, primes) the rest of the course relies on.\n\n## What you will be able to do at the end\n\nBy the last chapter you should be able to:\n\n1. **Estimate the cost** of a solution (time and memory) before writing it, and say why it is fast enough.\n2. **Choose a data structure** on purpose: array, hash map, stack, queue, heap, tree, graph, trie.\n3. **Recognise the pattern** behind a problem (two pointers, sliding window, binary search on the answer, BFS, dynamic programming...) from a few clues.\n4. **Turn an idea into correct code**, including the edge cases that cause most bugs.\n5. **Explain your thinking out loud**, which is half of what an interviewer scores.\n\n## How the course is organised\n\nThe list on the left is the **table of contents**. It is grouped into chapters, and every chapter has short lessons.\n\n| Part | Chapters | What it gives you |\n|---|---|---|\n| **Getting ready** | Welcome, Coding Interview Strategy, Programming Fundamentals, DSA Warmup | How interviews work, and the programming muscle memory everything else needs |\n| **Measuring and tools** | Big O, Math Fundamentals, Sorting Algorithms | A language for speed and the building blocks you will reuse |\n| **Core techniques** | Arrays, Strings, Bit Manipulation, Hash Tables, Two Pointers, Sliding Window, Prefix Sum, Kadane's Algorithm, Binary Search, Matrix | The patterns that solve most array and string problems |\n| **Data structures** | Linked List, Stacks, Queues, Recursion and Backtracking, Binary Tree, BST, Heaps, Intervals, Tries, Data Structure Design | Structures that organise data, and the problems they unlock |\n| **Advanced ideas** | Greedy, Graphs, Dynamic Programming, Advanced Topics | The topics that separate a good interview from a great one |\n\n## What every lesson contains\n\n- **A concept explained in plain language**, with a small example and short code.\n- **A visualization** where seeing the algorithm run helps: step forward and back, change the speed, and try your own input.\n- **A quiz** with explanations after you answer, so mistakes teach you something.\n- **Practice problems** in our problem bank, with graded hints (a nudge first, the full idea last) and example inputs and outputs.\n- **A \"Mark as complete\" button**. Your progress percentage at the top of the sidebar updates as you finish lessons.\n\n## How to learn from this course (and actually remember it)\n\nReading is the easy part. These habits turn reading into skill.\n\n1. **Predict before you look.** When a lesson poses a problem, pause and try it for five to ten minutes before reading the idea. Even a wrong attempt makes the explanation stick.\n2. **Do the visualization with a pencil.** Run the animation once, then run your own small input by hand and compare.\n3. **Write the code yourself.** Do not copy and paste. Typing it out reveals the off-by-one mistakes that reading hides.\n4. **Keep an error log.** For every problem you miss, write one line: what the problem was, which idea you missed, and what clue should have pointed to it. Re-read the log weekly.\n5. **Space your reviews.** Revisit a solved problem after 1 day, 1 week and 1 month. If you can still solve it quickly, it is learned.\n6. **Practise out loud.** Explain your approach to a rubber duck, a friend, or a recording. Clear speech is clear thinking.\n7. **Time yourself sometimes.** Once a week, solve a medium problem in 30 minutes with no hints, as in a real interview.\n\n### A good study session (60 to 90 minutes)\n\n| Minutes | Activity |\n|---|---|\n| 0 - 10 | Review yesterday's error log and one old problem |\n| 10 - 30 | Read the new lesson and run its visualization |\n| 30 - 70 | Solve two practice problems without peeking; use hints only after a real attempt |\n| 70 - 80 | Write the error-log entries; note the pattern and the clue |\n| 80 - 90 | Take the lesson quiz and mark the lesson complete |\n\n## Ways to improve faster\n\n- **Depth beats breadth.** Solving 10 problems of one pattern until it feels easy beats touching 50 patterns once.\n- **Always state complexity.** After every solution say, out loud, \"time O(...), space O(...), because...\". This becomes automatic.\n- **Compare approaches.** For each problem, write the simple approach first, then the better one, and note what changed (usually a data structure).\n- **Test like a skeptic.** Before running code, test it by hand on an empty input, one element, duplicates, negative numbers and the maximum size.\n- **Rest.** Sleep and short breaks consolidate memory. A rested 45 minutes beats an exhausted three hours.\n\n## Free and premium content\n\nMany lessons and problems are free. Some are premium; premium lessons show a lock in the sidebar, and some offer a free preview. See the *Pricing* page for plans.\n\n## Common questions\n\n**How long will it take?** See the *Course roadmap* lesson for plans from two weeks to six months, with hours per chapter.\n\n**Do I need to learn every chapter?** No. The roadmap shows which chapters matter most if time is short.\n\n**Which language should I use?** The one you know best. The *Choosing a language* lesson lists what to learn in each.\n\n**What if I get stuck?** That is normal and useful. Use the hints in order, take a break, and write down what you tried. Being stuck is where the learning happens.\n\n**When will I feel ready?** Usually when you can solve a new medium problem in about 30 minutes while explaining your thinking, and your error log is mostly repeats you now catch yourself.\n\nReady? Open the next lesson, the *Course roadmap*, and choose your plan."
+       ],
+       [
+        "tip",
+        "Make a promise to yourself right now: how many days a week, and at what time, will you study? A fixed slot predicts success better than motivation."
+       ]
+      ]
      },
      {
       "slug": "course-roadmap",
       "title": "Course roadmap",
       "tier": "free",
-      "minutes": 6,
-      "md": "## Pick a path\n\nChoose a plan by how much time you have.\n\n| Time available | Suggested path |\n|---|---|\n| 2 weeks | Strategy, Big O, Arrays, Hash tables, Two pointers, Binary search |\n| 1 month | Add Sliding window, Prefix sums, Stacks, Linked lists |\n| 2-3 months | Add Trees, Graphs, Dynamic programming, Greedy |\n\nWhatever the plan, solve problems **without peeking first**, then compare with the explanation. Revisit the ones you missed after a few days.",
+      "minutes": 16,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "What is the best way to use a practice problem?",
+        "prompt": "Roughly how many hours a week does the Steady plan assume?",
         "options": [
-         "Try it first, then compare with the explanation",
-         "Read the answer first",
-         "Skip hard ones forever",
-         "Copy code without reading"
+         "About 8",
+         "About 40",
+         "About 1",
+         "About 100"
         ],
         "correct": [
          0
         ],
-        "explanation": "Struggling first is what builds recall.",
+        "explanation": "1.5 hours a day, five days a week.",
+        "type": "single"
+       },
+       {
+        "prompt": "If you fall behind you should:",
+        "options": [
+         "Trim scope and keep your review habit",
+         "Double your hours every day",
+         "Quit",
+         "Skip all practice"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Cutting the least important chapters keeps the plan realistic.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which pair do you cover first in every plan?",
+        "options": [
+         "Strategy and Big O",
+         "Tries and segment trees",
+         "Dynamic programming and KMP",
+         "Bit tricks only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Knowing the format and how to talk about speed supports everything else.",
+        "type": "single"
+       },
+       {
+        "prompt": "The total study plus practice time for everything is about:",
+        "options": [
+         "126 hours",
+         "10 hours",
+         "1000 hours",
+         "2 hours"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Roughly 35 hours of study and 91 hours of practice.",
         "type": "single"
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Your journey at a glance\n\nAbove this text is the animated roadmap of the course. It is built from the real chapter list, so the totals update as lessons are added. Four phases take you from your first loop to confident interview performance: **Foundations**, **Core patterns**, **Data structures** and **Advanced and interview-ready**. Follow the line from the left to the right; each stop lists its chapters, the weeks it takes on the Steady plan, and the hours.\n\n## How to read the plans\n\nTime estimates assume **about 1.5 hours a day**, five days a week, which is roughly **8 hours a week**. If you study more, you finish sooner; if less, stretch each plan proportionally. These are estimates, not promises: people differ, and understanding matters more than speed.\n\n## Choose a plan\n\n| Plan | Duration | Weekly time | Best for |\n|---|---|---|---|\n| **Sprint** | 2 weeks | 14 - 20 hours | An interview is days away; you already code comfortably |\n| **Focused** | 4 weeks | 10 - 12 hours | A job search starting now |\n| **Steady** | 10 - 12 weeks | 6 - 8 hours | Working while studying; the recommended pace |\n| **Complete** | 6 months | 4 - 6 hours | Students and career switchers who want depth |\n\n## Plan 1: Sprint (2 weeks)\n\nCover only what interviews use most.\n\n| Days | Chapters | Goal |\n|---|---|---|\n| 1 - 2 | Coding Interview Strategy, Big O Notation | Know the format and how to talk about speed |\n| 3 - 5 | Arrays, Strings, Hash Tables | Solve most easy problems with a hash map |\n| 6 - 8 | Two Pointers, Sliding Window, Prefix Sum | The three patterns behind many medium problems |\n| 9 - 10 | Binary Search | Including binary search on the answer |\n| 11 - 12 | Stacks, Queues, Linked List basics | Brackets, next-greater, list reversal |\n| 13 - 14 | Mixed practice and one mock interview | Timed problems, error-log review |\n\n## Plan 2: Focused (4 weeks)\n\n| Week | Chapters | Milestone |\n|---|---|---|\n| 1 | Strategy, Big O, Math (light), Arrays, Strings, Hash Tables | Solve easy array/string problems in 15 minutes |\n| 2 | Two Pointers, Sliding Window, Prefix Sum, Kadane, Binary Search | Recognise the pattern from the clues |\n| 3 | Linked List, Stacks, Queues, Recursion and Backtracking, Binary Tree | Comfortable with recursion on trees |\n| 4 | Graphs (BFS/DFS), Heaps, Intervals, intro to Dynamic Programming, mock interviews | Two timed mock interviews |\n\n## Plan 3: Steady (10 to 12 weeks, recommended)\n\n| Weeks | Focus | Chapters |\n|---|---|---|\n| 1 | **Getting ready** | Welcome, Coding Interview Strategy, Programming Fundamentals, DSA Warmup |\n| 2 | **Measuring** | Big O Notation, Math Fundamentals, Sorting Algorithms |\n| 3 - 4 | **Arrays and strings** | Arrays, Strings, Bit Manipulation, Hash Tables |\n| 5 - 6 | **Pointers and windows** | Two Pointers, Sliding Window, Prefix Sum, Kadane's Algorithm |\n| 7 | **Searching** | Binary Search, Matrix |\n| 8 | **Linear structures** | Linked List, Stacks, Queues |\n| 9 | **Recursion and trees** | Recursion and Backtracking, Binary Tree, BST |\n| 10 | **Priority and prefix** | Heaps, Intervals, Tries, Data Structure Design |\n| 11 | **Graphs and greedy** | Greedy, Graphs |\n| 12 | **Dynamic programming and review** | Dynamic Programming, Advanced Topics, mock interviews |\n\n## Plan 4: Complete (6 months)\n\nFollow the Steady plan but spend **two weeks per phase** instead of one, add the *Advanced Topics* chapter fully, and finish each chapter by solving several problems of every difficulty. Add one mock interview every two weeks.\n\n## Hours per chapter (estimate)\n\n| Chapter group | Study | Practice | Total |\n|---|---|---|---|\n| Getting ready (4 chapters) | 3 h | 5 h | 8 h |\n| Big O, Math, Sorting | 3 h | 5 h | 8 h |\n| Arrays, Strings, Bits, Hash tables | 4 h | 10 h | 14 h |\n| Two pointers, Window, Prefix, Kadane | 4 h | 12 h | 16 h |\n| Binary search, Matrix | 2 h | 6 h | 8 h |\n| Linked list, Stacks, Queues | 3 h | 7 h | 10 h |\n| Recursion, Trees, BST | 4 h | 10 h | 14 h |\n| Heaps, Intervals, Tries, Design | 3 h | 9 h | 12 h |\n| Greedy, Graphs | 4 h | 12 h | 16 h |\n| Dynamic Programming, Advanced | 5 h | 15 h | 20 h |\n| **Total** | **35 h** | **91 h** | **~126 h** |\n\nAt about 8 hours a week that is roughly **16 weeks for everything**, and about **10 weeks** if you skip the lightest chapters.\n\n## Weekly rhythm that works\n\n| Day | Activity |\n|---|---|\n| Mon - Thu | One new lesson, its visualization, and two practice problems |\n| Fri | Review the error log; redo two problems from earlier weeks |\n| Sat | One timed problem with no hints, then write up the pattern |\n| Sun | Rest, or light reading |\n\n## Milestones: how to know you are on track\n\n| After | You can... |\n|---|---|\n| Week 2 | State the time and space cost of any simple loop |\n| Week 4 | Solve an easy array problem in 15 minutes and explain it |\n| Week 6 | Recognise two-pointer, window and prefix-sum problems from the clues |\n| Week 8 | Reverse a list, match brackets and use a monotonic stack |\n| Week 10 | Write recursive tree solutions without looking anything up |\n| Week 12 | Solve a new medium problem in 30 minutes while explaining |\n\n## If you fall behind\n\nIt happens to everyone. Do not try to catch up by doubling your hours. Instead: **drop the least important chapters** (Advanced Topics first, then Tries and Data Structure Design), keep the weekly review, and keep the finish date by trimming scope rather than sleep.\n\n## If you are ahead\n\nAdd mock interviews earlier, solve harder variants, and teach a concept to someone else. Explaining is the strongest test of understanding."
+       ],
+       [
+        "tip",
+        "Pick your plan today and put the first week in your calendar as real appointments. A plan that is not scheduled is a wish."
+       ]
+      ]
      }
     ]
    },
@@ -74,82 +178,272 @@
       "slug": "how-coding-interviews-work",
       "title": "How coding interviews work",
       "tier": "free",
-      "minutes": 7,
-      "md": "## The shape of a round\n\nA typical coding round lasts 45-60 minutes: a few minutes of introductions, **one or two problems**, and time for your questions. The interviewer evaluates how you **understand** the problem, **plan** a solution, **code** it cleanly, **test** it, and **communicate** throughout.\n\nA reliable routine:\n1. Restate the problem and ask clarifying questions.\n2. Work through a small example by hand.\n3. Propose a simple solution, then improve it.\n4. State time and space complexity.\n5. Code it, then test with normal and edge cases.",
+      "minutes": 18,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "What should you do right after hearing the problem?",
+        "prompt": "What is the most common first step in a good interview routine?",
         "options": [
-         "Clarify and restate it, then try an example",
-         "Start typing code immediately",
-         "Ask for the solution",
-         "Stay silent"
+         "Restate the problem and clarify it",
+         "Write code immediately",
+         "Ask for the answer",
+         "Pick a language"
         ],
         "correct": [
          0
         ],
         "explanation": "Understanding first prevents solving the wrong problem.",
         "type": "single"
+       },
+       {
+        "prompt": "Which statement about scoring is true?",
+        "options": [
+         "Communication and testing count, not just the final answer",
+         "Only the optimal solution counts",
+         "Silence is rewarded",
+         "Hints always lose points"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Rubrics include communication, coding and testing.",
+        "type": "single"
+       },
+       {
+        "prompt": "In a 45-minute round, how much time is typically spent coding?",
+        "options": [
+         "About 15 minutes",
+         "40 minutes",
+         "2 minutes",
+         "None"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Understanding and planning take as long as coding.",
+        "type": "single"
+       },
+       {
+        "prompt": "What should you do if you blank during the interview?",
+        "options": [
+         "Restate the problem and talk through what you know",
+         "Stop talking",
+         "Leave",
+         "Guess code silently"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Talking usually reveals the next step.",
+        "type": "single"
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## The big picture\n\nA coding interview is a **structured conversation** in which you solve a problem while an interviewer watches how you think. It is less like an exam and more like pair programming with a stranger. Understanding the process removes a lot of the fear, because most of the surprise disappears.\n\n## The stages of a hiring process\n\nProcesses differ by company, but most follow this shape.\n\n| Stage | What happens | Typical length | What is tested |\n|---|---|---|---|\n| **Recruiter call** | Background, role fit, logistics, salary range | 20 - 30 min | Communication, motivation |\n| **Online assessment** | Timed problems in a browser, often auto-graded | 60 - 120 min | Correctness and speed |\n| **Technical phone screen** | One or two problems in a shared editor with an engineer | 45 - 60 min | Core problem solving |\n| **Onsite or virtual loop** | 3 - 6 interviews in a day (coding, design, behavioural) | 3 - 5 h total | Depth, breadth, collaboration |\n| **Hiring decision** | Interviewers compare notes; sometimes a team-match call | days to weeks | Overall signal |\n| **Offer** | Compensation, level, start date | - | Negotiation |\n\n## Types of coding rounds\n\n- **Shared online editor** (most common): you type code that the interviewer sees live. You may or may not be able to run it.\n- **Whiteboard or plain document**: no compiler; write clear, careful code and trace it by hand.\n- **Online assessment**: a timer, hidden tests, no interaction. Read the constraints and write efficient code the first time.\n- **Take-home project**: a few hours of work on a small real task; quality and readability matter.\n- **Pair-programming round**: you and the interviewer work on a realistic task together.\n\n## Anatomy of a 45 minute round\n\n| Minutes | What you do | What the interviewer notes |\n|---|---|---|\n| 0 - 5 | Introductions, short chat | Are you comfortable and clear? |\n| 5 - 10 | **Understand** the problem: restate it, ask questions, try an example | Do you clarify before building? |\n| 10 - 20 | **Plan**: simple approach first, then improve; state complexity | How you reason about trade-offs |\n| 20 - 35 | **Code**: write clean code while narrating | Fluency, naming, structure |\n| 35 - 42 | **Test**: walk through examples and edge cases; fix bugs | Care and debugging habits |\n| 42 - 45 | Your questions for the interviewer | Genuine interest |\n\nIf there are two problems, each phase is shorter. Do not rush the first five minutes: a correct understanding saves the most time.\n\n## What interviewers actually evaluate\n\nMost companies score a rubric with four or five dimensions:\n\n1. **Problem solving**: can you break a new problem into steps and find a workable idea?\n2. **Algorithms and data structures**: do you pick fitting tools and analyse their cost?\n3. **Coding**: is the code correct, readable and organised?\n4. **Testing and debugging**: do you verify your work and find your own mistakes?\n5. **Communication**: do you explain, listen and respond to hints?\n\nNotice that **only part of the score is \"did you get the optimal answer\"**. A candidate who communicates well, reaches a reasonable solution with a small hint and tests carefully often scores higher than one who silently produces a perfect answer.\n\n## A routine you can rely on\n\nUse the same five steps every time:\n\n1. **Restate** the problem in your own words.\n2. **Clarify**: input size, value ranges, empty input, duplicates, sorted or not, what to return when no answer exists.\n3. **Example**: work a small case by hand, including a tricky one.\n4. **Approach**: say the brute-force idea, its cost, then a better idea and why it is better.\n5. **Code, then test**: write it, then trace an example and edge cases.\n\n## Levels and expectations\n\n| Level | Typical expectation |\n|---|---|\n| New graduate / junior | Solve easy-to-medium problems with some guidance; clear basics |\n| Mid-level | Solve medium problems independently; discuss trade-offs and complexity |\n| Senior | Solve harder or open-ended problems cleanly, own the discussion, anticipate edge cases and scale |\n\n## Common mistakes (and fixes)\n\n| Mistake | Fix |\n|---|---|\n| Coding before understanding | Spend the first five minutes on questions and an example |\n| Silence for long stretches | Narrate your thinking, even when unsure |\n| Jumping straight to a clever solution | Start with brute force; it is a safe baseline |\n| Ignoring edge cases | Name them early: empty, one item, duplicates, extremes |\n| Never testing | Trace an example through your code line by line |\n| Arguing with hints | Treat hints as help, not criticism |\n| Giving up when stuck | Say what you have tried; ask for a nudge |\n\n## Before the interview: a preparation timeline\n\n- **4 - 6 weeks out**: follow the roadmap; build the error log.\n- **2 weeks out**: start timed practice and one mock interview a week.\n- **Week of**: light review of patterns; practise your introduction; check the tools (editor, camera, internet).\n- **Night before**: sleep. No new topics.\n\n## On the day: a short checklist\n\n- Join early; have water, paper and a pen.\n- Test the shared editor and your microphone.\n- Take a breath before you start; speaking slowly is fine.\n- If you blank, restate the problem; the answer often appears while you talk.\n\n## After the interview\n\nWrite down the questions and what went well or badly within an hour. Whatever the result, this feedback improves the next round. Rejections are common and rarely say anything about your ability; consistent practice is what changes outcomes."
+       ],
+       [
+        "tip",
+        "Print the five-step routine (restate, clarify, example, approach, code and test) and keep it beside your keyboard while you practise, until it is automatic."
+       ]
+      ]
      },
      {
       "slug": "communicating-while-you-solve",
       "title": "Communicating while you solve",
       "tier": "free",
-      "minutes": 6,
-      "md": "## Think out loud\n\nInterviewers cannot read your mind. Narrate your reasoning: what you are considering, why you reject an option, what you will try next. If you are stuck, say what you have tried and what you are weighing.\n\nUse **small examples** on the whiteboard or editor, name variables clearly, and ask for confirmation before a big decision (\"I will use a hash map for lookups; is extra memory fine?\").",
+      "minutes": 16,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "If you are stuck you should:",
+        "prompt": "Why narrate your reasoning?",
         "options": [
-         "Explain what you tried and what you are weighing",
-         "Say nothing",
-         "Guess randomly and type fast",
-         "Give up"
+         "So the interviewer can follow and help, and credit your thinking",
+         "To fill time",
+         "To hide bugs",
+         "Because silence is forbidden"
         ],
         "correct": [
          0
         ],
-        "explanation": "Visible reasoning lets the interviewer help and still credit you.",
+        "explanation": "Visible reasoning earns credit and enables hints.",
+        "type": "single"
+       },
+       {
+        "prompt": "A good clarifying question about input size helps you decide:",
+        "options": [
+         "Which complexity is acceptable",
+         "Which language to use",
+         "The editor theme",
+         "The interviewer's name"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Constraints tell you whether O(n²) is fine.",
+        "type": "single"
+       },
+       {
+        "prompt": "When you find a bug in your own code, you should:",
+        "options": [
+         "Say so calmly and fix it",
+         "Hide it",
+         "Restart the interview",
+         "Blame the problem"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Catching your own bug is a positive signal.",
+        "type": "single"
+       },
+       {
+        "prompt": "If time is running out and you have no optimal idea, you should:",
+        "options": [
+         "Write and explain the correct brute force",
+         "Leave the code empty",
+         "Guess",
+         "Stop talking"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A correct slow solution is better than nothing.",
+        "type": "single"
+       },
+       {
+        "prompt": "How should you respond to a hint?",
+        "options": [
+         "Restate it and connect it to your approach",
+         "Argue",
+         "Ignore it",
+         "Apologise repeatedly"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Hints are collaboration.",
         "type": "single"
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why communication is half the interview\n\nAn interviewer cannot see your thoughts. If you work silently, they can only judge your final code, and they cannot help you when you wander off course. When you **narrate**, they can follow, give a hint at the right moment, and give you credit for correct reasoning even when your code has a bug. Strong communication also predicts how you will work with teammates, which is what the company is really hiring.\n\n## The five habits\n\n1. **Restate** the problem before solving.\n2. **Think aloud** with short sentences.\n3. **Ask** clarifying questions and check assumptions.\n4. **Check in** before big decisions.\n5. **Summarise** what you did and what you would improve.\n\n## Step 1: Restate and clarify\n\nSay the problem back in one or two sentences. Then ask questions that narrow the problem.\n\n**Useful clarifying questions**\n\n- How large can the input be? (This tells you which complexity is acceptable.)\n- Can values be negative, zero or duplicated?\n- Is the input sorted? Can I modify it, or do I need to preserve it?\n- What should I return if there is no answer, or the input is empty?\n- Is it one query or many queries on the same data?\n- Are there memory limits?\n\n**Sample dialogue**\n\n> **You:** So I get an array of prices and a budget, and I need two different items that add up exactly to the budget, and return their positions. Is that right?\n> **Interviewer:** Yes.\n> **You:** Can the same price appear twice? And what do I return if no pair exists?\n> **Interviewer:** Duplicates are possible. Return -1 if there is no pair.\n> **You:** Got it. Let me try a small example first.\n\n## Step 2: Think aloud while you plan\n\nUse short, specific sentences:\n\n- \"The brute force checks every pair, which is O(n²). With n up to 100,000 that is too slow.\"\n- \"I need a fast way to ask, have I already seen the matching price? A hash map does that in O(1).\"\n- \"So I scan once, and for each price I look up `budget - price`.\"\n\nName **trade-offs** explicitly: time versus memory, simplicity versus speed. Interviewers love hearing \"I could do X, which costs..., or Y, which costs...; I will choose Y because...\".\n\n## Step 3: Check in before committing\n\nBefore writing a lot of code, confirm the direction: \"I plan to use a hash map from value to index. Does that approach sound reasonable before I code it?\" A short nod saves ten minutes if you were heading the wrong way.\n\n## Step 4: Code with narration\n\nYou do not need to speak every keystroke. Narrate **intent** at each block: \"Now I handle the empty case...\", \"This loop maintains the invariant that the window has no repeats...\". Choose meaningful names; say what a variable means the first time you create it.\n\n## Step 5: Test out loud\n\nWalk through your code with a concrete example and say the values: \"At i = 0, x = 2, seen is empty, so I store 2 at index 0...\" Then run the edge cases: empty input, one element, duplicates, the largest size, negatives. If you find a bug, say so calmly and fix it; **finding your own bug is a positive signal.**\n\n## Handling hints\n\nHints are normal. Treat them as collaboration, not failure.\n\n- Repeat the hint in your words: \"So you are suggesting I think about what I have already seen...\"\n- Connect it to your approach: \"That would let me replace the inner loop with a lookup.\"\n- Say thank you and continue. Never argue defensively.\n\n## When you are stuck\n\n1. Say it: \"I am not sure how to speed this up yet.\"\n2. Say what you have tried and why it is not enough.\n3. Return to a **small example** and look for what repeats.\n4. Ask a focused question: \"Is there an ordering I can exploit?\"\n5. If time runs out, write the **brute force** and state its cost; a correct slow solution beats nothing.\n\n## Recovering from a mistake\n\nEveryone makes mistakes in interviews. The recovery is what is graded. Pause, say what is wrong, trace one small example to find the cause, fix it, and re-test. Do not apologise repeatedly or rewrite everything in panic.\n\n## Phrases that help\n\n| Situation | Try saying |\n|---|---|\n| Starting | \"Let me restate the problem to make sure I understand it.\" |\n| Clarifying | \"What is the maximum size of the input?\" |\n| Planning | \"The simple approach is... It costs...; I think we can do better by...\" |\n| Choosing | \"I will use X because it gives O(1) lookups; the cost is O(n) extra memory.\" |\n| Checking in | \"Does this direction make sense before I code it?\" |\n| Hint | \"That is helpful; it suggests...\" |\n| Bug found | \"I see the issue: on an empty list this indexes zero. Let me fix that.\" |\n| Finishing | \"Time O(n), space O(n). If memory mattered I could instead...\" |\n\n## Anti-patterns to avoid\n\n| Anti-pattern | Why it hurts |\n|---|---|\n| Long silence | The interviewer cannot help or credit your thinking |\n| Narrating every character you type | Noise instead of insight |\n| \"I do not know\" and stopping | Shows no problem-solving process |\n| Over-confidence (\"this is easy\") | Sounds careless; invites tougher follow-ups |\n| Blaming the problem or the tool | Signals poor teamwork |\n| Talking over the interviewer | Misses hints and questions |\n\n## Practising communication\n\n- **Record yourself** solving a problem and listen back: where did you go silent or ramble?\n- **Mock interviews** with a friend or a peer group; swap roles so you also learn what a good interviewer notices.\n- **Explain solved problems** in two minutes as if teaching a classmate.\n- **Rubber-duck** your approach before writing code, every time you practise.\n\n## Remote interviews\n\nLook at the camera when explaining, keep a notepad nearby, and say what you are doing during pauses (\"I am drawing an example on paper\"). If the connection drops, calmly say so and resume where you left off."
+       ],
+       [
+        "tip",
+        "Practise the opening line until it is automatic: \"Let me restate the problem, and then I would like to ask a couple of questions.\""
+       ]
+      ]
      },
      {
       "slug": "recognising-the-pattern",
       "title": "Recognising the pattern",
       "tier": "free",
-      "minutes": 8,
-      "md": "## From problem to technique\n\nMost interview problems are variations of a small set of **patterns**. Clues help you pick one:\n\n| Clue in the problem | Likely pattern |\n|---|---|\n| sorted array, find a pair | two pointers |\n| longest/shortest contiguous part with a rule | sliding window |\n| many range sums | prefix sums |\n| \"minimum value that works\" | binary search on the answer |\n| matching brackets, next greater item | stack |\n| shortest path, fewest steps | BFS |\n| count ways, best choice among overlapping subproblems | dynamic programming |\n\nThe chapters that follow teach each pattern with problems to practise on.",
+      "minutes": 20,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "\"Fewest moves in an unweighted maze\" most suggests:",
+        "prompt": "\"Longest contiguous part where a rule holds\" most suggests:",
+        "options": [
+         "Sliding window",
+         "Topological sort",
+         "Trie",
+         "Segment tree"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A window grows and shrinks to keep the rule true.",
+        "type": "single"
+       },
+       {
+        "prompt": "n = 100,000. Which complexity is generally acceptable?",
+        "options": [
+         "O(n log n)",
+         "O(n²)",
+         "O(n!)",
+         "O(2ⁿ)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Around 10^5 inputs, nested loops are too slow.",
+        "type": "single"
+       },
+       {
+        "prompt": "\"Minimum value that still works\" with a yes/no check suggests:",
+        "options": [
+         "Binary search on the answer",
+         "Bubble sort",
+         "A queue only",
+         "Recursion without a base case"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The check is monotone: no, no, yes, yes.",
+        "type": "single"
+       },
+       {
+        "prompt": "Shortest path where every move costs the same:",
         "options": [
          "BFS",
-         "Binary search",
+         "DFS",
          "Sorting",
-         "Prefix sums"
+         "Two pointers"
         ],
         "correct": [
          0
         ],
         "explanation": "BFS explores in order of distance.",
         "type": "single"
+       },
+       {
+        "prompt": "What should you do first when no pattern is obvious?",
+        "options": [
+         "Solve a smaller example by hand",
+         "Give up",
+         "Guess a pattern",
+         "Skip the constraints"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Small examples reveal structure.",
+        "type": "single"
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why patterns matter\n\nThere are thousands of interview problems but only a few dozen **patterns** behind them. When you can say \"this is a sliding window problem\", you already know the shape of the solution and most of the code. Instead of memorising answers, you train yourself to **spot clues** in a problem statement and map them to a technique. This lesson is your decoder. Come back to it as you finish each chapter.\n\n## The three-step habit\n\n1. **Read for clues**: what does the input look like (sorted, string, graph, intervals)? What is asked (count, longest, shortest, minimum possible value, is it possible)?\n2. **Use the constraints**: the input size tells you the target complexity.\n3. **Test the pattern on a tiny example** before committing.\n\n## Step 1: Clue to pattern table\n\n| Clue in the problem | Likely pattern | Chapter |\n|---|---|---|\n| \"Find two numbers that add up to...\" and the array is **sorted** | Two pointers | Two Pointers |\n| \"Find two numbers that add up to...\" and the array is **not sorted** | Hash map of seen values | Hash Tables |\n| \"Longest / shortest **contiguous** part where a rule holds\" | Sliding window | Sliding Window |\n| \"Sum of a **range**\" asked many times | Prefix sums | Prefix Sum |\n| \"Number of subarrays with sum k\" (negatives allowed) | Prefix sums + hash map | Prefix Sum |\n| \"Maximum sum **subarray**\" | Kadane's algorithm | Kadane's Algorithm |\n| Sorted input, or \"find the **minimum value** that still works\" | Binary search (on the answer) | Binary Search |\n| \"Next greater / smaller element\", spans, brackets that must match | Stack, monotonic stack | Stacks |\n| \"k-th largest\", \"top k\", \"merge k sorted lists\" | Heap | Heaps |\n| Overlapping time ranges, merging, scheduling | Intervals: sort by start | Intervals |\n| \"All subsets / permutations / combinations\", small n | Backtracking | Recursion and Backtracking |\n| Tree traversal, depth, path sums | Recursion (DFS) on trees | Binary Tree |\n| \"Shortest path\", \"fewest steps\" with equal costs | BFS | Graphs |\n| \"Is there a path\", \"count regions\", flood fill | DFS or union-find | Graphs |\n| \"Order tasks with prerequisites\" | Topological sort | Graphs |\n| Weighted shortest path, non-negative costs | Dijkstra | Graphs |\n| \"Count the ways\", \"minimum/maximum cost\" with overlapping subproblems | Dynamic programming | Dynamic Programming |\n| \"Choose the best option at each step\" and a proof it is safe | Greedy | Greedy |\n| Prefix lookups, autocomplete, word dictionaries | Trie | Tries |\n| Linked list: middle, cycle, reverse | Fast/slow pointers, in-place reversal | Linked List |\n| Frequency of items, anagrams, duplicates | Hash map or counting array | Hash Tables |\n| Bits, powers of two, \"single number among pairs\" | Bit manipulation, XOR | Bit Manipulation |\n| Grid problems: islands, spirals, rotate | DFS/BFS or index arithmetic | Matrix, Graphs |\n\n## Step 2: What the constraints tell you\n\nComputers perform roughly 10⁸ simple operations per second, so the size `n` hints at the intended complexity.\n\n| Constraint on n | Acceptable complexity | Typical techniques |\n|---|---|---|\n| n ≤ 10 - 12 | O(n!), O(2ⁿ · n) | Brute force, backtracking |\n| n ≤ 20 - 25 | O(2ⁿ) | Bitmask subsets, backtracking |\n| n ≤ 500 | O(n³) | Triple loops, Floyd-Warshall |\n| n ≤ 5,000 | O(n²) | Nested loops, simple DP tables |\n| n ≤ 10⁵ - 10⁶ | O(n log n) or O(n) | Sorting, heaps, hashing, two pointers, binary search |\n| n ≤ 10⁹ | O(log n) or O(1) | Math, binary search |\n\nRule of thumb: **if n is 100,000, a nested loop will not pass.** Look for a pattern that drops a factor of n.\n\n## Step 3: Test on a small example\n\nPick an example with 5 to 8 items and apply your guessed pattern by hand. If it works naturally and you can see why each step is correct, go ahead. If you keep needing special cases, the pattern may be wrong.\n\n## Worked examples\n\n### Example 1: Pair that sums to a target\n\n*Clues:* two numbers, a sum, an unsorted array of up to 100,000 values.\n\n- Brute force: every pair, O(n²) - too slow for n = 100,000.\n- Pattern: for each value we need to ask \"have I seen `target - value`?\" That is a lookup, so a **hash map** gives O(n).\n\nPractise it: [Pair With Target Sum](/problems/pair-with-target-sum).\n\n### Example 2: Longest stretch with a rule\n\n*Clues:* \"longest\", \"contiguous\", a rule about the window (for example no repeated letters).\n\n- The window can grow on the right and must shrink on the left when the rule breaks.\n- Pattern: **sliding window**, O(n).\n\nPractise it: [Longest Unique Stretch](/problems/longest-unique-stretch) and [Calm Stretch](/problems/calm-stretch).\n\n### Example 3: Smallest value that works\n\n*Clues:* \"minimum capacity such that it finishes in d days\". No array to search, but answers to \"does capacity c work?\" go no, no, no, yes, yes, yes.\n\n- Pattern: **binary search on the answer**, with a greedy check for each guess.\n\nPractise it: [Minimum Ship Capacity](/problems/minimum-ship-capacity).\n\n### Example 4: Fewest steps in a maze\n\n*Clues:* grid, \"minimum number of moves\", every move costs the same.\n\n- Pattern: **BFS** from the start; the first time you reach the exit is the shortest.\n\nPractise it: [Shortest Maze Path](/problems/shortest-maze-path).\n\n### Example 5: Count the ways\n\n*Clues:* \"number of ways to climb\", \"fewest coins to make an amount\", choices that repeat in smaller forms.\n\n- Pattern: **dynamic programming**. Define the state, write the recurrence, fill from small to large.\n\nPractise it: [Staircase Ways](/problems/staircase-ways) and [Fewest Coins](/problems/fewest-coins).\n\n## If no pattern fits\n\n1. **Solve a smaller version** by hand and watch what you do.\n2. **Sort the input** and see whether the structure becomes obvious.\n3. **Think about what you keep recomputing**; store it (hash map, prefix array, memo).\n4. **Try a different representation**: a graph, a tree of choices, a set of intervals.\n5. **Start with brute force**; improvements often reveal themselves.\n\n## Common traps\n\n| Trap | Reality |\n|---|---|\n| Matching on keywords only | \"Subarray\" does not always mean sliding window (negatives break it); check the conditions |\n| Using greedy without proof | Test it on small counterexamples first |\n| Forcing DP | If subproblems do not overlap, simple recursion or greedy may fit |\n| Ignoring the constraints | They are the biggest hint you get for free |\n\n## Build your own pattern notebook\n\nFor every problem you solve, record three lines: the **clue**, the **pattern**, and the **trick** (the one idea that made it work). Review the notebook before interviews; it becomes your personal decoder."
+       ],
+       [
+        "viz",
+        "two-pointers",
+        "1, 3, 4, 6, 8, 11, 15",
+        "14"
+       ],
+       [
+        "md",
+        "The visualization above is the two-pointers pattern on a sorted array: the clue was *sorted input and a pair with a given sum*. Watch how the pointers move and why one move can never skip the answer.\n\nNext: use the matching chapters to learn each technique in depth."
+       ]
+      ]
      }
     ]
    },
@@ -181,7 +475,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "input-output-and-templates",
@@ -212,7 +507,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -244,7 +540,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "conditionals-and-decisions",
@@ -271,7 +568,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "loops-and-iteration",
@@ -302,7 +600,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "number-theory-warmups",
@@ -347,7 +646,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "array-and-string-warmups",
@@ -374,7 +674,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "recursion-warmups",
@@ -401,7 +702,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -467,7 +769,8 @@
        "5, 2, 9, 1, 7, 3",
        ""
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "best-worst-and-space",
@@ -508,7 +811,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -540,7 +844,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "primes-and-the-sieve",
@@ -567,7 +872,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -615,7 +921,8 @@
        "38, 27, 43, 3, 9, 82, 10",
        ""
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "elementary-sorts",
@@ -646,7 +953,8 @@
        "8, 3, 5, 1, 9, 2",
        ""
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "quicksort-and-quickselect",
@@ -673,7 +981,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -723,7 +1032,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "finding-and-counting",
@@ -754,7 +1064,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -790,7 +1101,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "anagrams-and-frequency",
@@ -821,7 +1133,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -857,7 +1170,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "bit-masks-and-counting",
@@ -884,7 +1198,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -934,7 +1249,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -988,7 +1304,8 @@
        "2, 1, 5, 1, 3, 2, 8, 1",
        "3"
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "two-pointers-on-sorted-input",
@@ -1019,7 +1336,8 @@
        "1, 3, 4, 6, 8, 11, 15",
        "14"
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1055,7 +1373,8 @@
        "2, 1, 5, 1, 3, 2, 8, 1",
        "3"
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1091,7 +1410,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1127,7 +1447,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1179,7 +1500,8 @@
        "2, 5, 8, 12, 16, 23, 38, 56, 72, 91",
        "23"
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1211,7 +1533,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1247,7 +1570,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "fast-and-slow-pointers",
@@ -1274,7 +1598,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1310,7 +1635,8 @@
        "{[()]}(",
        ""
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "monotonic-stack",
@@ -1341,7 +1667,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1373,7 +1700,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1405,7 +1733,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "backtracking-subsets-permutations",
@@ -1432,7 +1761,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1482,7 +1812,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1514,7 +1845,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1546,7 +1878,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1578,7 +1911,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1610,7 +1944,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1642,7 +1977,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1674,7 +2010,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1724,7 +2061,8 @@
        "0-1, 0-2, 1-3, 2-3, 3-4, 2-5",
        "0"
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "topological-sort-and-shortest-paths",
@@ -1751,7 +2089,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "union-find",
@@ -1778,7 +2117,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1828,7 +2168,8 @@
        "10",
        ""
       ],
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "knapsack-and-subsequences",
@@ -1855,7 +2196,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -1887,7 +2229,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "segment-trees-and-fenwick",
@@ -1914,7 +2257,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -1971,7 +2315,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "scaling-and-load-balancing",
@@ -2010,7 +2355,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "caching-strategies",
@@ -2055,7 +2401,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2116,7 +2463,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "functions-and-comprehensions",
@@ -2161,7 +2509,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "errors-and-files",
@@ -2192,7 +2541,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2253,7 +2603,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "aggregation-and-grouping",
@@ -2284,7 +2635,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -2334,7 +2686,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2381,7 +2734,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "branches-and-pull-requests",
@@ -2426,7 +2780,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2481,7 +2836,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "designing-rest-endpoints",
@@ -2526,7 +2882,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "api-authentication",
@@ -2567,7 +2924,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2624,7 +2982,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "prompting-and-structured-output",
@@ -2667,7 +3026,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "retrieval-augmented-generation",
@@ -2708,7 +3068,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2765,7 +3126,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      },
      {
       "slug": "strategy-and-observer",
@@ -2810,7 +3172,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2867,7 +3230,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -2913,7 +3277,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -2974,7 +3339,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3020,7 +3386,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3077,7 +3444,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3109,7 +3477,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3166,7 +3535,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3198,7 +3568,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3255,7 +3626,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3301,7 +3673,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3358,7 +3731,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3404,7 +3778,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3459,7 +3834,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3491,7 +3867,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3548,7 +3925,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3594,7 +3972,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3651,7 +4030,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3697,7 +4077,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3754,7 +4135,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3800,7 +4182,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3857,7 +4240,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -3903,7 +4287,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -3964,7 +4349,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -4014,7 +4400,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -4075,7 +4462,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -4125,7 +4513,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -4186,7 +4575,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -4232,7 +4622,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }
@@ -4293,7 +4684,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    },
@@ -4343,7 +4735,8 @@
        }
       ],
       "viz": null,
-      "quiz_title": "Check your understanding"
+      "quiz_title": "Check your understanding",
+      "blocks": null
      }
     ]
    }

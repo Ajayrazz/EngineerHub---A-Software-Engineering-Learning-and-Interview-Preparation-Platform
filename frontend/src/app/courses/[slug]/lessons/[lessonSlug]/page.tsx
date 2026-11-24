@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { LessonActions } from "@/components/reader/lesson-actions";
 import { LessonBlocks } from "@/components/reader/lesson-blocks";
 import { CourseSidebar } from "@/components/reader/course-sidebar";
+import { RoadmapAnimation } from "@/components/reader/roadmap-animation";
 import { ReadingProgress } from "@/components/reader/reading-progress";
 import { ReaderShell } from "@/components/reader/ui";
 import { extractHeadings } from "@/lib/cms/toc";
@@ -122,6 +123,12 @@ export default async function LessonPage({
           ) : (
             body && (
               <>
+                {lessonSlug === "course-roadmap" && slug === "data-structures-and-algorithms" && (
+                  <RoadmapAnimation
+                    chapters={sections.length}
+                    lessons={sections.reduce((n, s) => n + (s.lessons ?? []).length, 0)}
+                  />
+                )}
                 <LessonBlocks
                   blocks={body.blocks ?? []}
                   lessonId={body.id ?? ""}
