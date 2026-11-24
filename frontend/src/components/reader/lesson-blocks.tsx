@@ -1,10 +1,22 @@
 import { Markdown } from "@/components/markdown";
+import { QuizBlock } from "@/components/reader/quiz-block";
+import type { PublicQuestion } from "@/lib/quiz/logic";
 
 type Block = { type?: string; data?: Record<string, unknown> };
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 
 /** Renders a published lesson's blocks. Ids of markdown headings are `b<index>-<slug>` (see lib/cms/toc). */
-export function LessonBlocks({ blocks }: { blocks: Block[] }) {
+export function LessonBlocks({
+  blocks,
+  lessonId,
+  csrfToken,
+  loginHref,
+}: {
+  blocks: Block[];
+  lessonId: string;
+  csrfToken: string | null;
+  loginHref: string;
+}) {
   return (
     <div className="flex flex-col gap-4" data-testid="lesson-body">
       {blocks.map((b, i) => {
@@ -27,6 +39,20 @@ export function LessonBlocks({ blocks }: { blocks: Block[] }) {
               <strong className="capitalize">{str(b.data?.kind)}: </strong>
               {str(b.data?.text)}
             </aside>
+          );
+        if (b.type === "quiz")
+          return (
+            <QuizBlock
+              key={str(b.data?.quizId) || i}
+              quizId={str(b.data?.quizId)}
+              title={str(b.data?.title) || undefined}
+              questions={
+                Array.isArray(b.data?.questions) ? (b.data.questions as PublicQuestion[]) : []
+              }
+              lessonId={lessonId}
+              csrfToken={csrfToken}
+              loginHref={loginHref}
+            />
           );
         return null;
       })}

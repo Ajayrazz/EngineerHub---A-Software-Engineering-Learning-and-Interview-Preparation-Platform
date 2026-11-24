@@ -18,6 +18,7 @@ import {
 } from "@/lib/cms/blocks";
 import { Markdown } from "@/components/markdown";
 import { adminFetch } from "./admin-fetch";
+import { QuizEditor } from "./quiz-editor";
 import { Notice, btn, input, when } from "./ui";
 
 type LessonView = components["schemas"]["LessonView"];
@@ -180,7 +181,7 @@ export function LessonEditor({
           />
         ))}
         <div className="flex flex-wrap items-center gap-2">
-          {(["markdown", "code", "callout"] as BlockType[]).map((t) => (
+          {(["markdown", "code", "callout", "quiz"] as BlockType[]).map((t) => (
             <button
               key={t}
               className={btn}
@@ -253,6 +254,31 @@ function BlockPreview({ blocks }: { blocks: Block[] }) {
               <figcaption className="text-xs opacity-70">{b.data.caption}</figcaption>
             )}
           </figure>
+        ) : b.type === "quiz" && b.quiz ? (
+          <section
+            key={b.key}
+            className="flex flex-col gap-2 rounded border p-3 text-sm"
+            aria-label="Quiz preview"
+          >
+            <strong>{b.quiz.title || "Quiz"}</strong>
+            {b.quiz.questions.map((q, qi) => (
+              <div key={q.id}>
+                <p>
+                  {qi + 1}. {q.prompt}
+                </p>
+                <ul className="ml-4 list-disc">
+                  {q.options.map((o) => (
+                    <li key={o.id}>
+                      {o.text} {q.correct.includes(o.id) ? "✓" : ""}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <span className="opacity-70">
+              Learners do not see the ticks until they submit an attempt.
+            </span>
+          </section>
         ) : (
           <aside key={b.key} className="rounded border-l-4 p-3 text-sm">
             <strong className="capitalize">{b.data.kind}: </strong>
@@ -281,7 +307,7 @@ function BlockEditor({
 }) {
   const set = (k: string, v: string) => onChange({ ...block, data: { ...block.data, [k]: v } });
   const body = block.type === "code" ? block.data.code : block.data.text;
-  const max = LIMITS[block.type];
+  const max = block.type === "quiz" ? 0 : LIMITS[block.type];
   return (
     <div className="flex flex-col gap-2 rounded border p-3" data-testid="block-editor">
       <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -307,10 +333,20 @@ function BlockEditor({
         <button className={btn} onClick={onRemove} aria-label={`Remove block ${index + 1}`}>
           Remove
         </button>
-        <span className="ml-auto opacity-60">
-          {(body ?? "").length}/{max}
-        </span>
+        {block.type !== "quiz" && (
+          <span className="ml-auto opacity-60">
+            {(body ?? "").length}/{max}
+          </span>
+        )}
       </div>
+
+      {block.type === "quiz" && block.quiz && (
+        <QuizEditor
+          quiz={block.quiz}
+          index={index}
+          onChange={(quiz) => onChange({ ...block, quiz })}
+        />
+      )}
 
       {block.type === "markdown" && (
         <div className="grid gap-3 lg:grid-cols-2">

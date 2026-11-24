@@ -134,7 +134,12 @@ export default async function LessonPage({
           ) : (
             body && (
               <>
-                <LessonBlocks blocks={body.blocks ?? []} />
+                <LessonBlocks
+                  blocks={body.blocks ?? []}
+                  lessonId={body.id ?? ""}
+                  csrfToken={session?.csrfToken ?? null}
+                  loginHref={loginHref}
+                />
                 <LessonActions
                   csrfToken={session?.csrfToken ?? null}
                   lessonId={body.id ?? ""}
