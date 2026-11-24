@@ -1,0 +1,1569 @@
+[
+ {
+  "slug": "dsa-foundations",
+  "title": "Data Structures & Algorithms Foundations",
+  "description": "Build the core toolkit for coding interviews: complexity, arrays and hashing, two pointers, sliding windows and binary search, with visual walkthroughs.",
+  "topic": "arrays",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 300,
+  "sections": [
+   {
+    "title": "Getting started",
+    "lessons": [
+     {
+      "slug": "big-o-in-plain-words",
+      "title": "Big-O in plain words",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Why we measure growth\n\nTwo programs can both be correct and still behave very differently when the input grows. **Big-O notation** describes how the work an algorithm does *grows* with the input size `n`, ignoring constant factors.\n\n| Growth | Name | Doubling `n` makes the work... |\n|---|---|---|\n| O(1) | constant | the same |\n| O(log n) | logarithmic | one step longer |\n| O(n) | linear | twice as long |\n| O(n log n) | linearithmic | slightly more than twice |\n| O(n²) | quadratic | four times as long |\n\nWe usually talk about the **worst case** and drop everything but the fastest-growing term: `3n² + 10n + 7` is just O(n²).",
+      "code": [
+       "python",
+       "def has_duplicate(items):\n    # O(n^2): compares every pair\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if items[i] == items[j]:\n                return True\n    return False\n\ndef has_duplicate_fast(items):\n    # O(n): one pass, remembering what we have seen\n    seen = set()\n    for x in items:\n        if x in seen:\n            return True\n        seen.add(x)\n    return False",
+       "Same answer, very different growth"
+      ],
+      "tip": "Memory counts too. The fast version above trades O(n) extra space for speed.",
+      "quiz": [
+       {
+        "prompt": "A loop runs once over `n` items and does constant work each time. Its complexity is:",
+        "options": [
+         "O(1)",
+         "O(n)",
+         "O(n²)",
+         "O(log n)"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "One pass over n items is linear.",
+        "type": "single"
+       },
+       {
+        "prompt": "Doubling the input makes an O(n²) algorithm take roughly how much longer?",
+        "options": [
+         "The same time",
+         "Twice as long",
+         "Four times as long",
+         "Eight times as long"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "(2n)² = 4n².",
+        "type": "single"
+       },
+       {
+        "prompt": "Big-O ignores constant factors, so 5n and n are both O(n).",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Constants are dropped; only the growth rate matters.",
+        "type": "true_false"
+       }
+      ],
+      "viz": [
+       "bubble-sort",
+       "5, 2, 9, 1, 7, 3",
+       ""
+      ],
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "arrays-and-hashing",
+      "title": "Arrays and hash maps",
+      "tier": "free",
+      "minutes": 15,
+      "md": "## Two workhorse structures\n\nAn **array** stores items in consecutive memory, so reading `a[i]` is O(1). Inserting in the middle is O(n) because later items must shift.\n\nA **hash map** stores key → value pairs. A hash function turns a key into a bucket number, giving **average O(1)** insert, lookup and delete. Collisions (two keys in one bucket) are handled by chaining or probing; the worst case degrades, which is why good hash functions matter.\n\n### The classic trade\nWhenever a nested loop asks *\"have I seen a matching value?\"*, a hash map can usually turn it into a single pass.",
+      "code": [
+       "python",
+       "def first_pair_with_sum(nums, target):\n    seen = {}                      # value -> index\n    for j, x in enumerate(nums):\n        if target - x in seen:\n            return seen[target - x], j\n        seen.setdefault(x, j)\n    return None",
+       "Pair with a target sum in O(n)"
+      ],
+      "tip": "Try the practice problem **Pair With Target Sum** after this lesson.",
+      "quiz": [
+       {
+        "prompt": "What is the average cost of looking up a key in a hash map?",
+        "options": [
+         "O(1)",
+         "O(log n)",
+         "O(n)",
+         "O(n log n)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A good hash spreads keys across buckets, so a lookup touches a constant number of entries on average.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which operation is O(n) on an array?",
+        "options": [
+         "Reading a[i]",
+         "Inserting at the front",
+         "Reading the length",
+         "Overwriting a[i]"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Every existing item has to shift one place.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Core techniques",
+    "lessons": [
+     {
+      "slug": "two-pointers-and-windows",
+      "title": "Two pointers and sliding windows",
+      "tier": "free",
+      "minutes": 16,
+      "md": "## Moving two indexes instead of looping twice\n\nMany array and string problems become linear when you keep **two indexes** and move them intelligently.\n\n- **Opposite ends:** start at both ends of a sorted array and walk inward (pair sums, palindromes, container problems).\n- **Sliding window:** keep a window `[left, right]`; grow `right`, and shrink `left` whenever the window breaks a rule (longest substring without repeats, subarray sums with positive numbers).\n\nThe reason it is O(n): each index only ever moves forward, so together they make at most `2n` moves.",
+      "code": [
+       "python",
+       "def longest_unique(s):\n    last, left, best = {}, 0, 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1          # jump past the repeat\n        last[ch] = right\n        best = max(best, right - left + 1)\n    return best",
+       "Sliding window with a last-seen map"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why is a sliding window O(n) even though it has a loop inside a loop?",
+        "options": [
+         "It uses recursion",
+         "Each pointer only moves forward, so total moves are at most 2n",
+         "It sorts the array first",
+         "It skips half of the items"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Neither pointer ever moves backwards.",
+        "type": "single"
+       },
+       {
+        "prompt": "Two pointers from opposite ends of an array normally require the array to be:",
+        "options": [
+         "Sorted (or have a monotone property)",
+         "Of even length",
+         "Free of duplicates",
+         "Made of positive numbers only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The inward moves rely on a known ordering to decide which pointer to move.",
+        "type": "single"
+       }
+      ],
+      "viz": [
+       "sliding-window",
+       "2, 1, 5, 1, 3, 2",
+       "3"
+      ],
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "binary-search-mastery",
+      "title": "Binary search, and binary search on the answer",
+      "tier": "free",
+      "minutes": 18,
+      "md": "## Halving the search space\n\nBinary search finds a target in a **sorted** array in O(log n) by repeatedly checking the middle and discarding the half that cannot contain it.\n\nThe same idea works whenever you can answer a yes/no question that is **monotone**: *no, no, no, yes, yes, yes*. Then you can search for the first `yes` — even when there is no array at all (for example the smallest truck capacity that finishes in `d` days).\n\n### Off-by-one safety\nPick one convention and stick to it. Below, the answer lives in `[lo, hi)`; the loop ends when `lo == hi`.",
+      "code": [
+       "python",
+       "def first_true(lo, hi, ok):\n    # smallest x in [lo, hi) with ok(x) True, assuming ok is monotone; returns hi if none\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if ok(mid):\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo",
+       "A reusable boundary search"
+      ],
+      "tip": "Practice: **Rotated Lookup** and **Minimum Ship Capacity**.",
+      "quiz": [
+       {
+        "prompt": "How many comparisons does binary search need for 1,000,000 sorted items, roughly?",
+        "options": [
+         "About 20",
+         "About 1,000",
+         "About 500,000",
+         "1,000,000"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "log2(1,000,000) ≈ 20.",
+        "type": "single"
+       },
+       {
+        "prompt": "Binary search on the answer needs the yes/no check to be monotone.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Without monotonicity, discarding half the range is not justified.",
+        "type": "true_false"
+       }
+      ],
+      "viz": [
+       "binary-search",
+       "2, 5, 8, 12, 16, 23, 38, 56",
+       "23"
+      ],
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "system-design-basics",
+  "title": "System Design Basics",
+  "description": "Learn how real systems are shaped: requirements, scaling, load balancing, caching and data storage, with the trade-offs that interviewers expect you to discuss.",
+  "topic": "system-design",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 280,
+  "sections": [
+   {
+    "title": "Thinking in systems",
+    "lessons": [
+     {
+      "slug": "start-with-requirements",
+      "title": "Start with requirements and numbers",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Don't draw boxes yet\n\nEvery good design starts with questions.\n\n1. **Functional requirements** — what must the system do? (post a message, read a feed)\n2. **Non-functional requirements** — latency, availability, consistency, durability, cost.\n3. **Scale** — users, requests per second, data size, read/write ratio.\n\n### Back-of-the-envelope maths\nOne million daily active users each making 10 requests per day is about 10 million requests per day ≈ **115 requests per second** on average (10,000,000 / 86,400). Peaks are often 3–10× the average. Numbers like these decide whether you need one server or a fleet.",
+      "code": null,
+      "tip": "State your assumptions out loud. A reasonable assumption you can defend beats a perfect one you never mention.",
+      "quiz": [
+       {
+        "prompt": "1 million requests spread evenly over one day is about how many requests per second?",
+        "options": [
+         "12",
+         "120",
+         "1,200",
+         "12,000"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "1,000,000 / 86,400 ≈ 11.6.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which of these is a non-functional requirement?",
+        "options": [
+         "Users can upload a photo",
+         "The feed loads within 300 ms for most users",
+         "Users can follow each other",
+         "Users can delete a post"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Latency targets describe *how well* the system works, not *what* it does.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "scaling-and-load-balancing",
+      "title": "Scaling out and load balancing",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## Vertical vs horizontal\n\n**Vertical scaling** means a bigger machine; it is simple but has a ceiling and is a single point of failure. **Horizontal scaling** means more machines behind a **load balancer**, which spreads requests and removes unhealthy servers.\n\nCommon balancing strategies: round robin, least connections, and consistent hashing (when requests for the same key should reach the same server, e.g. a cache shard).\n\n### Keep servers stateless\nIf a server remembers a user's session in memory, that user must always return to it. Store sessions in a shared store (a database or cache) so **any** server can serve **any** request.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why do we prefer stateless application servers?",
+        "options": [
+         "They use less CPU",
+         "Any server can handle any request, so we can add or remove servers freely",
+         "They never need a database",
+         "They are always faster"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Statelessness is what makes horizontal scaling and failover easy.",
+        "type": "single"
+       },
+       {
+        "prompt": "A load balancer also helps availability by sending traffic only to healthy servers.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Health checks remove failed servers from rotation.",
+        "type": "true_false"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "caching-strategies",
+      "title": "Caching: where, what and when to evict",
+      "tier": "premium",
+      "minutes": 18,
+      "md": "## Make the common case cheap\n\nA **cache** keeps recent or popular results in fast memory so you avoid slow work (database queries, remote calls).\n\n### Where to cache\nBrowser → CDN (static files near the user) → application memory → a shared cache such as Redis → the database's own buffers.\n\n### Patterns\n- **Cache-aside:** read the cache; on a miss, read the database and fill the cache.\n- **Write-through:** write to cache and database together.\n- **Write-back:** write to cache first and flush later (fast, but data can be lost).\n\n### Hard parts\nA cache can be **stale**; set a time-to-live (TTL) or invalidate on writes. Evict with LRU (least recently used) when full. Beware a **cache stampede**: many requests missing at once and hammering the database.",
+      "code": [
+       "python",
+       "def get_user(user_id, cache, db):\n    user = cache.get(user_id)\n    if user is None:                  # miss\n        user = db.load_user(user_id)\n        cache.set(user_id, user, ttl_seconds=300)\n    return user",
+       "Cache-aside"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "In cache-aside, what happens on a cache miss?",
+        "options": [
+         "The request fails",
+         "The app loads from the database and stores the result in the cache",
+         "The cache asks the user",
+         "The cache is cleared"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "The application fills the cache itself.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which policy evicts the item that has gone unused the longest?",
+        "options": [
+         "FIFO",
+         "LRU",
+         "Random",
+         "LIFO"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "LRU = least recently used.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "python-for-engineers",
+  "title": "Python for Engineers",
+  "description": "A practical introduction to Python: core types, functions, comprehensions, errors and files, written for people who want to build and automate.",
+  "topic": "python",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 240,
+  "sections": [
+   {
+    "title": "Core Python",
+    "lessons": [
+     {
+      "slug": "types-and-control-flow",
+      "title": "Types, variables and control flow",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## The building blocks\n\nPython is dynamically typed: a variable is a name bound to a value, and values carry their type.\n\n| Type | Example | Mutable? |\n|---|---|---|\n| int, float, bool | `42`, `3.14`, `True` | no |\n| str | `\"hello\"` | no |\n| list | `[1, 2, 3]` | yes |\n| tuple | `(1, 2)` | no |\n| dict | `{\"a\": 1}` | yes |\n| set | `{1, 2}` | yes |\n\nIndentation defines blocks. `if/elif/else`, `for` and `while` work as you would expect; `for` iterates over any iterable.",
+      "code": [
+       "python",
+       "scores = {\"asha\": 82, \"ben\": 67, \"chen\": 91}\nfor name, score in scores.items():\n    if score >= 80:\n        grade = \"A\"\n    elif score >= 70:\n        grade = \"B\"\n    else:\n        grade = \"C\"\n    print(f\"{name}: {grade}\")",
+       "A dict, a loop and a conditional"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which of these types is immutable?",
+        "options": [
+         "list",
+         "dict",
+         "tuple",
+         "set"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "Tuples cannot be changed after creation.",
+        "type": "single"
+       },
+       {
+        "prompt": "What defines a code block in Python?",
+        "options": [
+         "Curly braces",
+         "Indentation",
+         "begin/end keywords",
+         "Semicolons"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Consistent indentation is part of the syntax.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "functions-and-comprehensions",
+      "title": "Functions and comprehensions",
+      "tier": "free",
+      "minutes": 15,
+      "md": "## Reusable logic\n\nA function groups steps behind a name. Give parameters **defaults**, call with **keyword arguments** for clarity, and return values rather than printing them.\n\nA **comprehension** builds a collection in one readable expression:\n\n`[x * x for x in nums if x % 2 == 0]` — the squares of the even numbers.\n\n### A classic trap\nNever use a mutable default such as `def add(item, bucket=[])`: the same list is shared between calls. Use `None` and create the list inside.",
+      "code": [
+       "python",
+       "def add_item(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n\nsquares = {n: n * n for n in range(5)}   # dict comprehension\nprint(squares)                           # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}",
+       "Safe defaults and a dict comprehension"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why is `def f(x, items=[])` risky?",
+        "options": [
+         "It is a syntax error",
+         "The default list is created once and shared by every call",
+         "Lists cannot be defaults",
+         "It is slower"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Defaults are evaluated once, when the function is defined.",
+        "type": "single"
+       },
+       {
+        "prompt": "`[x for x in range(6) if x % 3 == 0]` evaluates to:",
+        "options": [
+         "[0, 3]",
+         "[3, 6]",
+         "[0, 3, 6]",
+         "[1, 2]"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "range(6) is 0..5; multiples of 3 are 0 and 3.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "errors-and-files",
+      "title": "Errors, files and context managers",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Failing gracefully\n\nUse `try/except` for failures you can handle, and let others bubble up. Catch **specific** exceptions, never a bare `except:`.\n\nThe `with` statement is a **context manager**: it guarantees cleanup (closing a file) even when an error happens.",
+      "code": [
+       "python",
+       "from pathlib import Path\n\ndef count_lines(path):\n    try:\n        with Path(path).open(encoding=\"utf-8\") as f:\n            return sum(1 for _ in f)\n    except FileNotFoundError:\n        return 0",
+       "Reading a file safely"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does `with open(...) as f:` guarantee?",
+        "options": [
+         "The file is read faster",
+         "The file is closed when the block ends, even after an error",
+         "The file is created if missing",
+         "The file is locked forever"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Context managers run cleanup in all cases.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "sql-and-databases",
+  "title": "SQL and Databases",
+  "description": "Query data confidently: selecting, joining and aggregating, and understand indexes and transactions the way production systems use them.",
+  "topic": "databases",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 240,
+  "sections": [
+   {
+    "title": "Querying",
+    "lessons": [
+     {
+      "slug": "select-filter-join",
+      "title": "SELECT, WHERE and JOIN",
+      "tier": "free",
+      "minutes": 16,
+      "md": "## Asking questions of tables\n\nRelational databases store data in **tables** of rows and columns. `SELECT` chooses columns, `WHERE` filters rows, `ORDER BY` sorts.\n\nA **JOIN** combines rows from two tables using a matching column. `INNER JOIN` keeps only matches; `LEFT JOIN` keeps every left-hand row even without a match (the right-hand columns are `NULL`).\n\n`NULL` means *unknown*, so `x = NULL` is never true. Use `IS NULL`.",
+      "code": [
+       "sql",
+       "SELECT c.name, COUNT(o.id) AS orders\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nWHERE c.country = 'IN'\nGROUP BY c.name\nORDER BY orders DESC;",
+       "Customers and how many orders each placed (including zero)"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which join keeps customers that have no orders?",
+        "options": [
+         "INNER JOIN",
+         "LEFT JOIN from customers to orders",
+         "CROSS JOIN only",
+         "None"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A LEFT JOIN keeps every row of the left table.",
+        "type": "single"
+       },
+       {
+        "prompt": "How do you test for a missing value?",
+        "options": [
+         "= NULL",
+         "== NULL",
+         "IS NULL",
+         "EQUALS NULL"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "Comparisons with NULL are never true; IS NULL is the test.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "aggregation-and-grouping",
+      "title": "Aggregation, GROUP BY and HAVING",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Summaries\n\nAggregate functions — `COUNT`, `SUM`, `AVG`, `MIN`, `MAX` — collapse many rows into one value. `GROUP BY` makes one result row per group.\n\n`WHERE` filters rows **before** grouping; `HAVING` filters groups **after**. Every selected column must either be in `GROUP BY` or be wrapped in an aggregate.",
+      "code": [
+       "sql",
+       "SELECT country, COUNT(*) AS customers\nFROM customers\nGROUP BY country\nHAVING COUNT(*) >= 100\nORDER BY customers DESC;",
+       "Countries with at least 100 customers"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which clause filters groups after aggregation?",
+        "options": [
+         "WHERE",
+         "HAVING",
+         "ORDER BY",
+         "LIMIT"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "WHERE runs before grouping; HAVING runs after.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Under the hood",
+    "lessons": [
+     {
+      "slug": "indexes-and-transactions",
+      "title": "Indexes and transactions",
+      "tier": "free",
+      "minutes": 18,
+      "md": "## Speed and safety\n\nAn **index** is a sorted structure (usually a B-tree) that lets the database find rows without scanning the whole table. Indexes speed up reads on the indexed columns but cost extra space and slow down writes, so index what you filter and join on, not everything.\n\nA **transaction** groups statements so they succeed or fail together. The ACID properties: **A**tomicity (all or nothing), **C**onsistency (rules always hold), **I**solation (concurrent work does not interfere in surprising ways) and **D**urability (committed data survives a crash).",
+      "code": [
+       "sql",
+       "CREATE INDEX idx_orders_customer ON orders (customer_id);\n\nBEGIN;\nUPDATE accounts SET balance = balance - 500 WHERE id = 1;\nUPDATE accounts SET balance = balance + 500 WHERE id = 2;\nCOMMIT;",
+       "An index, and a transfer that must not half-happen"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What is the main cost of adding an index?",
+        "options": [
+         "Reads become slower",
+         "Extra storage and slower writes",
+         "Data is lost",
+         "Queries stop working"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "The index must be kept in sync on every insert, update and delete.",
+        "type": "single"
+       },
+       {
+        "prompt": "In ACID, what does Atomicity mean?",
+        "options": [
+         "Data is encrypted",
+         "A transaction's statements all happen or none do",
+         "Queries are fast",
+         "Tables are normalised"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "All or nothing.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "git-and-collaboration",
+  "title": "Git and Collaboration",
+  "description": "Version control from first commit to pull request: commits, branches, merging, rebasing and the habits that keep a team's history clean.",
+  "topic": "git",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 150,
+  "sections": [
+   {
+    "title": "Everyday Git",
+    "lessons": [
+     {
+      "slug": "commits-and-history",
+      "title": "Commits, staging and history",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Snapshots, not diffs\n\nGit records **commits**: snapshots of your project with an author, a message and a pointer to the previous commit. You choose what goes in the next commit by **staging** files.\n\nWrite messages that explain *why*: `fix: stop double-charging on retry` beats `changes`.",
+      "code": [
+       "bash",
+       "git init\ngit add README.md src/\ngit commit -m \"feat: add project skeleton\"\ngit log --oneline --graph",
+       "The core loop"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does `git add` do?",
+        "options": [
+         "Creates a commit",
+         "Stages changes for the next commit",
+         "Pushes to the server",
+         "Deletes files"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Staging selects what the next commit will contain.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "branches-and-pull-requests",
+      "title": "Branches, merging and pull requests",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Work in parallel\n\nA **branch** is a lightweight movable pointer to a commit. Create one per change so `main` stays releasable.\n\n- **Merge** joins histories with a merge commit (or fast-forwards).\n- **Rebase** replays your commits on top of another branch for a linear history. Never rebase commits others already pulled.\n\nA **pull request** asks teammates to review a branch before it merges. Keep them small and describe the intent.",
+      "code": [
+       "bash",
+       "git switch -c feature/search\n# ...edit and commit...\ngit fetch origin\ngit rebase origin/main\ngit push -u origin feature/search",
+       "A feature branch kept up to date"
+      ],
+      "tip": "Resolve conflicts by reading both sides, not by always taking yours.",
+      "quiz": [
+       {
+        "prompt": "Which is safe to rebase?",
+        "options": [
+         "Commits already shared and pulled by teammates",
+         "Your own local commits not yet pushed",
+         "Anything on main",
+         "A published tag"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Rebasing rewrites history; only do it on commits nobody else has.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why keep pull requests small?",
+        "options": [
+         "Git requires it",
+         "They are easier to review and less risky to merge",
+         "They run faster",
+         "Branches are limited in size"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Small changes get better reviews.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "web-apis-with-rest",
+  "title": "Web APIs with REST",
+  "description": "Understand HTTP, design clean REST endpoints and handle authentication and errors the way modern backends do.",
+  "topic": "web-apis",
+  "difficulty": "intermediate",
+  "tier": "free",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "HTTP and REST",
+    "lessons": [
+     {
+      "slug": "http-in-practice",
+      "title": "HTTP in practice",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## The language of the web\n\nHTTP is request/response. A request has a **method**, a **URL**, **headers** and an optional **body**; the response has a **status code**, headers and a body.\n\n| Method | Meaning | Safe? | Idempotent? |\n|---|---|---|---|\n| GET | read | yes | yes |\n| POST | create / action | no | no |\n| PUT | replace | no | yes |\n| PATCH | partial update | no | no* |\n| DELETE | remove | no | yes |\n\nStatus classes: **2xx** success, **3xx** redirect, **4xx** client mistake (400 bad input, 401 unauthenticated, 403 forbidden, 404 not found), **5xx** server fault.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which status means the caller is logged in but not allowed to do this?",
+        "options": [
+         "401",
+         "403",
+         "404",
+         "500"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "403 Forbidden: authenticated, not authorised.",
+        "type": "single"
+       },
+       {
+        "prompt": "An idempotent request can be repeated safely with the same effect as sending it once.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "That is the definition, and why PUT and DELETE are safe to retry.",
+        "type": "true_false"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "designing-rest-endpoints",
+      "title": "Designing REST endpoints",
+      "tier": "free",
+      "minutes": 16,
+      "md": "## Nouns in URLs, verbs in methods\n\nModel **resources**: `/courses`, `/courses/42`, `/courses/42/lessons`. Use plural nouns, let the method express the action, return JSON, and use consistent errors.\n\n### Good habits\n- **Pagination** for lists (`?page=2&size=20`), never unbounded results.\n- **Validation** on every input; reject unknown fields.\n- **Versioning** (`/api/v1`) so you can evolve without breaking clients.\n- **Idempotency keys** for payment-like POSTs so a retry cannot double-charge.\n- Never expose internal errors; return a stable, documented error shape.",
+      "code": [
+       "http",
+       "POST /api/v1/courses/42/enrollments\nContent-Type: application/json\n\n{}\n\n-> 201 Created\nLocation: /api/v1/courses/42/enrollments/me",
+       "Creating a sub-resource"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which URL follows REST conventions for listing lessons of course 42?",
+        "options": [
+         "GET /getLessons?course=42",
+         "GET /courses/42/lessons",
+         "POST /courses/lessons/42",
+         "GET /lesson_list/42"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A plural noun path with the GET method.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why add an idempotency key to a payment POST?",
+        "options": [
+         "To make it faster",
+         "So a retried request cannot charge twice",
+         "To encrypt it",
+         "To cache it"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "The server recognises the repeat and returns the original result.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "api-authentication",
+      "title": "Authentication and authorisation for APIs",
+      "tier": "free",
+      "minutes": 16,
+      "md": "## Who are you, and what may you do?\n\n**Authentication** proves identity; **authorisation** decides permissions. Never trust the client for either.\n\nModern apps delegate login to an identity provider using **OAuth 2.0 / OpenID Connect** and receive a signed **token** (often a JWT). The API verifies the signature, expiry, issuer and audience, then checks permissions **on the server** for every request.\n\nStore secrets in a server-side vault or environment, never in front-end code, and send tokens only over HTTPS.",
+      "code": null,
+      "tip": "A token proves who someone is. It does not replace checking that *this* user may touch *this* record.",
+      "quiz": [
+       {
+        "prompt": "Where must permission checks happen?",
+        "options": [
+         "Only in the browser",
+         "On the server, on every request",
+         "Only at login",
+         "In the database schema only"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Client code can be bypassed; the server is the authority.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which of these should an API verify on a JWT?",
+        "options": [
+         "Signature, expiry, issuer and audience",
+         "Only that it is non-empty",
+         "Only its length",
+         "Nothing; it is signed by the client"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "All of these checks prevent forged or misdirected tokens.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "machine-learning-foundations",
+  "title": "Machine Learning Foundations",
+  "description": "What machine learning is, how models learn from data, why overfitting happens and how to evaluate a model honestly.",
+  "topic": "machine-learning",
+  "difficulty": "beginner",
+  "tier": "premium",
+  "minutes": 240,
+  "sections": [
+   {
+    "title": "From data to models",
+    "lessons": [
+     {
+      "slug": "what-is-machine-learning",
+      "title": "What is machine learning?",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Learning rules from examples\n\nTraditional programming: *you* write the rules. In **machine learning (ML)** you provide **examples** and an algorithm finds the rules.\n\n- **Supervised learning:** examples come with answers (labels). *Regression* predicts a number (a house price); *classification* predicts a category (spam or not).\n- **Unsupervised learning:** no labels; find structure, such as clusters of similar customers.\n- **Reinforcement learning:** an agent learns from rewards through trial and error.\n\nThe basic loop: choose a **model**, define a **loss** that measures how wrong it is, and adjust the model's parameters to reduce the loss (often with gradient descent).",
+      "code": null,
+      "tip": "ML is only as good as its data. Most real projects spend more time on data than on models.",
+      "quiz": [
+       {
+        "prompt": "Predicting tomorrow's temperature in degrees is a:",
+        "options": [
+         "Classification task",
+         "Regression task",
+         "Clustering task",
+         "Reward task"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "The target is a continuous number.",
+        "type": "single"
+       },
+       {
+        "prompt": "Grouping customers by similarity without labels is:",
+        "options": [
+         "Supervised learning",
+         "Unsupervised learning",
+         "Regression",
+         "Overfitting"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "No labels means unsupervised.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "train-test-and-overfitting",
+      "title": "Train/test splits and overfitting",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## Don't grade a student on the homework they memorised\n\nA model that scores perfectly on the data it learned from may still fail on new data. That is **overfitting**: it memorised noise instead of the pattern. The opposite, **underfitting**, is a model too simple to capture the pattern.\n\nSo split your data: a **training set** to fit the model, a **validation set** to tune choices, and a **test set** used once at the end for an honest estimate. Never let information from the test set leak into training (for example by scaling using statistics of the full dataset).\n\n**Cross-validation** repeats the split several ways for a steadier estimate.",
+      "code": [
+       "python",
+       "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)\nmodel = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nprint(\"test accuracy:\", model.score(X_test, y_test))",
+       "A basic honest evaluation (scikit-learn)"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A model scores 99% on training data and 60% on test data. This most likely shows:",
+        "options": [
+         "Underfitting",
+         "Overfitting",
+         "A perfect model",
+         "Too little training"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A large gap between training and test performance is the signature of overfitting.",
+        "type": "single"
+       },
+       {
+        "prompt": "The test set should be used repeatedly while tuning the model.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Tune on validation data; touch the test set once at the end.",
+        "type": "true_false"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "evaluating-models",
+      "title": "Accuracy, precision and recall",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## One number is not enough\n\nSuppose 1% of transactions are fraud. A model that always says *\"not fraud\"* is 99% **accurate** and completely useless. For classification, look at the **confusion matrix**:\n\n- **Precision** = TP / (TP + FP): of the cases flagged, how many were right?\n- **Recall** = TP / (TP + FN): of the real cases, how many did we catch?\n- **F1** is their harmonic mean.\n\nChoose by cost: for cancer screening favour recall (missing a case is costly); for a spam filter that deletes mail favour precision.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A model flags 10 transactions as fraud; 8 really are fraud. Precision is:",
+        "options": [
+         "0.2",
+         "0.8",
+         "0.08",
+         "1.0"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "8 correct out of 10 flagged.",
+        "type": "single"
+       },
+       {
+        "prompt": "There are 20 real fraud cases and the model catches 15. Recall is:",
+        "options": [
+         "0.25",
+         "0.5",
+         "0.75",
+         "0.15"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "15 / 20 = 0.75.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "ai-and-llm-engineering",
+  "title": "AI and LLM Engineering",
+  "description": "Build with large language models: how they work, prompting and structured output, retrieval-augmented generation, evaluation and safety.",
+  "topic": "llm-engineering",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 260,
+  "sections": [
+   {
+    "title": "Working with LLMs",
+    "lessons": [
+     {
+      "slug": "how-llms-work",
+      "title": "How large language models work",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Predicting the next token\n\nA large language model (LLM) is a neural network trained on huge amounts of text to predict the **next token**. A *token* is a chunk of text (a word or part of one). Text goes in as tokens, passes through many layers using **attention** (which lets each token look at the others), and the model outputs a probability for every possible next token.\n\nGeneration repeats: pick a token, append it, predict again. **Temperature** controls randomness: low is focused and repeatable, high is varied.\n\n### Limits to remember\n- A fixed **context window**: only so many tokens fit.\n- Models can produce fluent but **wrong** statements (hallucination).\n- Their knowledge has a training cut-off.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What does an LLM fundamentally predict?",
+        "options": [
+         "The next token",
+         "The truth of a statement",
+         "The user's intent only",
+         "A database row"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Everything else emerges from next-token prediction at scale.",
+        "type": "single"
+       },
+       {
+        "prompt": "Lowering the temperature makes output:",
+        "options": [
+         "More random",
+         "More focused and repeatable",
+         "Longer",
+         "Faster to train"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Low temperature concentrates probability on the likeliest tokens.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "prompting-and-structured-output",
+      "title": "Prompting and structured output",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## Clear instructions, checkable results\n\nGood prompts state the **role**, the **task**, the **context** and the **format** you want, and include a few **examples** when the pattern is subtle.\n\nFor software, ask for **structured output** (JSON matching a schema) and then **validate it** in code — never assume the model complied. Treat model output like any untrusted input.\n\n### Prompt injection\nIf your prompt includes user-supplied or web-sourced text, that text can contain instructions that try to override yours. Keep trusted instructions separate, limit what tools the model may call, and never give it secrets it does not need.",
+      "code": [
+       "python",
+       "import json\n\ndef parse_ticket(model_reply: str):\n    data = json.loads(model_reply)          # may raise: handle it\n    allowed = {\"bug\", \"feature\", \"question\"}\n    if data.get(\"category\") not in allowed:\n        raise ValueError(\"unexpected category\")\n    return data",
+       "Validate model output before trusting it"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why validate JSON produced by a model?",
+        "options": [
+         "It is always perfect",
+         "It can be malformed or contain unexpected values",
+         "JSON cannot be parsed otherwise",
+         "To make it longer"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Models are probabilistic; code must enforce the contract.",
+        "type": "single"
+       },
+       {
+        "prompt": "Prompt injection is when text from an untrusted source tries to override your instructions.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It is the LLM-era analogue of injection attacks.",
+        "type": "true_false"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "retrieval-augmented-generation",
+      "title": "Retrieval-augmented generation (RAG)",
+      "tier": "premium",
+      "minutes": 18,
+      "md": "## Give the model the facts it needs\n\nA model does not know your private documents and may be out of date. **RAG** retrieves relevant passages at question time and places them in the prompt.\n\n1. **Chunk** documents into passages.\n2. **Embed** each chunk: turn it into a vector that captures meaning.\n3. Store vectors in a **vector index**.\n4. At query time, embed the question, find the nearest chunks, and add them to the prompt.\n5. Ask the model to answer **only from the provided context** and to cite it.\n\nQuality depends on retrieval: poor chunking or irrelevant matches give poor answers. Evaluate retrieval separately from generation.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What is an embedding?",
+        "options": [
+         "A compressed file",
+         "A vector that represents the meaning of text",
+         "A database index only",
+         "A prompt template"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Similar meanings map to nearby vectors.",
+        "type": "single"
+       },
+       {
+        "prompt": "In RAG, which step most often limits answer quality?",
+        "options": [
+         "Retrieving relevant context",
+         "Choosing a font",
+         "Counting tokens",
+         "Using HTTPS"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "If the right passage is never retrieved, the model cannot use it.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "data-science-with-python",
+  "title": "Data Science with Python",
+  "description": "Load, clean and explore data with pandas, then summarise and visualise it to find answers.",
+  "topic": "data-science",
+  "difficulty": "beginner",
+  "tier": "free",
+  "minutes": 220,
+  "sections": [
+   {
+    "title": "Working with data",
+    "lessons": [
+     {
+      "slug": "dataframes-with-pandas",
+      "title": "DataFrames with pandas",
+      "tier": "free",
+      "minutes": 15,
+      "md": "## Tables in Python\n\n`pandas` gives you the **DataFrame**: a table with labelled columns. Load a file, look at it, and select what you need.\n\n- `df.head()`, `df.info()`, `df.describe()` — quick inspection.\n- `df[\"price\"]` selects a column; `df[df[\"price\"] > 100]` filters rows.\n- `df.groupby(\"city\")[\"price\"].mean()` aggregates by group.",
+      "code": [
+       "python",
+       "import pandas as pd\n\ndf = pd.read_csv(\"sales.csv\")\nprint(df.describe())\nbig = df[df[\"amount\"] > 1000]\nprint(big.groupby(\"region\")[\"amount\"].sum().sort_values(ascending=False))",
+       "Load, filter, group"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "How do you keep only rows where `amount` exceeds 1000?",
+        "options": [
+         "df.filter(amount > 1000)",
+         "df[df[\"amount\"] > 1000]",
+         "df.where(1000)",
+         "df.amount.drop(1000)"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A boolean mask inside square brackets filters rows.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "cleaning-data",
+      "title": "Cleaning messy data",
+      "tier": "free",
+      "minutes": 15,
+      "md": "## Most of the job\n\nReal data has **missing values**, **duplicates**, wrong types and inconsistent labels. Decide deliberately:\n\n- Missing values: drop the row, fill with a sensible value (median, a flag), or leave as missing and model it.\n- Duplicates: `df.drop_duplicates()`.\n- Types: dates stored as text should become datetimes; numbers stored as strings must be converted.\n- Inconsistent text: `\"Delhi\"`, `\"delhi \"` and `\"DELHI\"` should be normalised.\n\nKeep the raw file untouched and write cleaning as a repeatable script.",
+      "code": [
+       "python",
+       "df[\"city\"] = df[\"city\"].str.strip().str.title()\ndf[\"date\"] = pd.to_datetime(df[\"date\"], errors=\"coerce\")\ndf[\"amount\"] = df[\"amount\"].fillna(df[\"amount\"].median())\ndf = df.drop_duplicates()",
+       "Typical cleaning steps"
+      ],
+      "tip": "Always report how many rows each cleaning step changed. Silent data loss is a classic mistake.",
+      "quiz": [
+       {
+        "prompt": "Why keep the original raw data file unchanged?",
+        "options": [
+         "Disk space is free",
+         "So cleaning is repeatable and auditable",
+         "pandas requires it",
+         "Raw data is faster"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "You can always re-run and review your steps.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "exploring-and-visualising",
+      "title": "Exploring and visualising",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Look before you model\n\n**Exploratory data analysis (EDA)** means plotting and summarising to understand the data: distributions (histograms), relationships (scatter plots), comparisons (bar charts), trends (line charts).\n\nChoose the simplest chart that answers the question. Label axes and units, start bar charts at zero, and beware that **correlation is not causation**: two things moving together does not mean one causes the other.",
+      "code": [
+       "python",
+       "import matplotlib.pyplot as plt\n\ndf[\"amount\"].plot(kind=\"hist\", bins=30)\nplt.xlabel(\"Order amount (INR)\")\nplt.ylabel(\"Number of orders\")\nplt.show()",
+       "A labelled histogram"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Ice-cream sales and drowning rise together in summer. This shows:",
+        "options": [
+         "Ice cream causes drowning",
+         "A correlation that may have a common cause (hot weather)",
+         "A data error",
+         "Causation"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A third factor, temperature, explains both.",
+        "type": "single"
+       },
+       {
+        "prompt": "Which chart best shows how values are distributed?",
+        "options": [
+         "Histogram",
+         "Pie of one slice",
+         "Table of names",
+         "Map"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Histograms show the shape of a distribution.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "cybersecurity-fundamentals",
+  "title": "Cybersecurity Fundamentals",
+  "description": "Think like a defender: threat modelling, passwords and hashing, the most common web vulnerabilities, and how TLS protects traffic.",
+  "topic": "cybersecurity",
+  "difficulty": "beginner",
+  "tier": "premium",
+  "minutes": 240,
+  "sections": [
+   {
+    "title": "Core ideas",
+    "lessons": [
+     {
+      "slug": "cia-and-threat-modelling",
+      "title": "The CIA triad and threat modelling",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## What are we protecting, and from whom?\n\nSecurity aims at three properties, the **CIA triad**:\n\n- **Confidentiality:** only the right people can read data.\n- **Integrity:** data cannot be changed without detection.\n- **Availability:** the system works when needed.\n\n**Threat modelling** asks four questions: what are we building, what can go wrong, what are we doing about it, and did we do a good job? A common checklist for \"what can go wrong\" is **STRIDE**: Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.\n\nDefence in depth: assume any single control can fail and layer several.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A DDoS attack mainly threatens which property?",
+        "options": [
+         "Confidentiality",
+         "Integrity",
+         "Availability",
+         "Non-repudiation only"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "It stops legitimate users reaching the service.",
+        "type": "single"
+       },
+       {
+        "prompt": "Someone alters a bank transfer amount in transit. Which property is violated?",
+        "options": [
+         "Integrity",
+         "Availability",
+         "Confidentiality",
+         "None"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Data was changed without authorisation.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "passwords-and-hashing",
+      "title": "Passwords, hashing and MFA",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Never store passwords\n\nStore a **hash**, not the password. A hash is a one-way function. For passwords use a **slow, salted** algorithm designed for it — `argon2id`, `bcrypt` or `scrypt` — never plain SHA-256 or MD5. A **salt** is a random value per user so identical passwords produce different hashes and precomputed tables do not work.\n\nPrefer **passkeys** or a trusted identity provider over building your own login. Add **multi-factor authentication (MFA)**: something you know plus something you have. Rate-limit login attempts and never reveal whether the username or the password was wrong.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which is appropriate for hashing stored passwords?",
+        "options": [
+         "MD5",
+         "SHA-256 alone",
+         "argon2id with a per-user salt",
+         "Base64"
+        ],
+        "correct": [
+         2
+        ],
+        "explanation": "Password hashes must be slow and salted.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why add a salt?",
+        "options": [
+         "To make hashing faster",
+         "So equal passwords hash differently and rainbow tables fail",
+         "To encrypt the hash",
+         "To shorten the hash"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Each user's hash becomes unique.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "web-vulnerabilities",
+      "title": "XSS, SQL injection and CSRF",
+      "tier": "premium",
+      "minutes": 18,
+      "md": "## The classics\n\n**SQL injection:** untrusted input is concatenated into a query so an attacker changes its meaning. Fix: **parameterised queries**, always.\n\n**Cross-site scripting (XSS):** untrusted input is rendered as HTML/JS in a page, so the attacker's script runs as your user. Fix: **escape output by context**, avoid inserting raw HTML, and add a Content Security Policy.\n\n**Cross-site request forgery (CSRF):** a malicious site makes the victim's browser send an authenticated request. Fix: anti-CSRF tokens and `SameSite` cookies.\n\nAll three share a root cause: **treating data as code or trusting the client**. Validate input, encode output, and enforce authorisation on the server.",
+      "code": [
+       "python",
+       "# Vulnerable: input becomes part of the SQL text\ncur.execute(\"SELECT * FROM users WHERE name = '\" + name + \"'\")\n\n# Safe: the driver sends the value separately from the query\ncur.execute(\"SELECT * FROM users WHERE name = %s\", (name,))",
+       "Parameterised queries"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What is the primary defence against SQL injection?",
+        "options": [
+         "Hiding error messages only",
+         "Parameterised queries",
+         "Longer passwords",
+         "Using HTTPS"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "They keep data separate from the SQL command.",
+        "type": "single"
+       },
+       {
+        "prompt": "An attacker's script runs inside your page because user text was inserted unescaped. This is:",
+        "options": [
+         "CSRF",
+         "XSS",
+         "DDoS",
+         "Phishing only"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "Cross-site scripting.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "tls-and-network-basics",
+      "title": "TLS and network basics",
+      "tier": "premium",
+      "minutes": 14,
+      "md": "## Protecting data in transit\n\n**TLS** (the \"S\" in HTTPS) gives a connection three things: **encryption** (eavesdroppers cannot read it), **integrity** (tampering is detected) and **authentication** of the server through a certificate issued by a trusted authority.\n\nIn a handshake the client and server agree on keys, then switch to fast symmetric encryption. Always redirect HTTP to HTTPS, keep certificates renewed, and set HSTS so browsers refuse plain HTTP.\n\nAt the network level, a **firewall** filters traffic by rules and **segmentation** limits how far an intruder can move.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A TLS certificate mainly proves:",
+        "options": [
+         "The site has no bugs",
+         "The server is who it claims to be",
+         "The user is over 18",
+         "The data is compressed"
+        ],
+        "correct": [
+         1
+        ],
+        "explanation": "A trusted authority vouches for the domain's identity.",
+        "type": "single"
+       },
+       {
+        "prompt": "HSTS tells browsers to:",
+        "options": [
+         "Always use HTTPS for the site",
+         "Cache images",
+         "Block cookies",
+         "Use HTTP/1.0"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It prevents downgrade to plain HTTP.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "low-level-design-basics",
+  "title": "Low-Level Design Basics",
+  "description": "Write code that stays easy to change: SOLID principles, common design patterns and how to talk through a class design.",
+  "topic": "low-level-design",
+  "difficulty": "intermediate",
+  "tier": "premium",
+  "minutes": 200,
+  "sections": [
+   {
+    "title": "Principles and patterns",
+    "lessons": [
+     {
+      "slug": "solid-principles",
+      "title": "The SOLID principles",
+      "tier": "free",
+      "minutes": 16,
+      "md": "## Five habits for changeable code\n\n- **S — Single responsibility:** a class has one reason to change.\n- **O — Open/closed:** add behaviour by adding code, not by editing tested code.\n- **L — Liskov substitution:** a subtype must be usable wherever its parent is expected, without surprises.\n- **I — Interface segregation:** many small interfaces beat one fat one.\n- **D — Dependency inversion:** depend on abstractions, not concrete classes, so parts can be swapped and tested.\n\nThey are guidelines, not laws: apply them where change actually happens.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A class that formats reports *and* sends emails and saves to disk breaks which principle?",
+        "options": [
+         "Single responsibility",
+         "Liskov substitution",
+         "Interface segregation",
+         "None"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It has several reasons to change.",
+        "type": "single"
+       },
+       {
+        "prompt": "Depending on an interface rather than a concrete class mainly helps:",
+        "options": [
+         "Swapping implementations and testing",
+         "Making code shorter",
+         "Avoiding classes",
+         "Saving memory"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "That is dependency inversion.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "strategy-and-observer",
+      "title": "Two patterns: Strategy and Observer",
+      "tier": "premium",
+      "minutes": 16,
+      "md": "## Patterns as vocabulary\n\n**Strategy** lets you swap an algorithm at run time. A checkout takes a `PricingStrategy` (regular, festival sale, member discount) instead of a giant `if` chain.\n\n**Observer** lets objects subscribe to events. When an order is placed, the email sender, inventory and analytics each get notified without the order class knowing about them.\n\nBoth reduce coupling. Don't use a pattern until the problem is actually there.",
+      "code": [
+       "python",
+       "class PricingStrategy:\n    def price(self, base: float) -> float: ...\n\nclass Festival(PricingStrategy):\n    def price(self, base): return base * 0.8\n\nclass Cart:\n    def __init__(self, strategy: PricingStrategy):\n        self.strategy = strategy\n    def total(self, base): return self.strategy.price(base)",
+       "Strategy in a few lines"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which pattern replaces a long if/else choosing between algorithms?",
+        "options": [
+         "Strategy",
+         "Observer",
+         "Singleton",
+         "Builder"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Each algorithm becomes an interchangeable object.",
+        "type": "single"
+       },
+       {
+        "prompt": "An event publisher that notifies many unknown listeners is an example of:",
+        "options": [
+         "Observer",
+         "Adapter",
+         "Factory",
+         "Decorator"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Subscribers register; the publisher just broadcasts.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   }
+  ]
+ }
+]

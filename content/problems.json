@@ -1,0 +1,2245 @@
+[
+ {
+  "slug": "pair-with-target-sum",
+  "title": "Pair With Target Sum",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "hashing"
+  ],
+  "patterns": [
+   "hashing"
+  ],
+  "statement": "A shop keeps a list of item prices. A customer wants exactly **two different items** whose prices add up to a given budget.\n\nFind the pair that is *completed earliest*: among all valid pairs `(i, j)` with `i < j`, choose the one with the smallest `j`, and for that `j` the smallest `i`. Print the 1-based positions `i j`, or `-1` if no pair exists.",
+  "inputFormat": "Line 1: `n t` (item count and budget). Line 2: `n` integers, the prices.",
+  "outputFormat": "`i j` or `-1`.",
+  "constraints": "2 ≤ n ≤ 100 000; prices and t fit in 32-bit signed integers.",
+  "hints": [
+   "Checking every pair works but is too slow for large n.",
+   "While scanning left to right, what do you need to remember about the prices you have already seen?",
+   "A hash map from price to the first position it appeared turns the inner loop into one lookup."
+  ],
+  "tests": [
+   {
+    "input": "4 9\n2 7 11 15",
+    "expected": "1 2",
+    "sample": true,
+    "explanation": "Prices 2 and 7 (positions 1 and 2) sum to 9."
+   },
+   {
+    "input": "3 100\n1 2 3",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "No two prices reach 100."
+   },
+   {
+    "input": "2 4\n2 2",
+    "expected": "1 2",
+    "sample": false
+   },
+   {
+    "input": "5 0\n-3 5 3 0 0",
+    "expected": "1 3",
+    "sample": false
+   },
+   {
+    "input": "6 3\n-2 3 3 4 1 -5",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "9 4\n-3 -4 4 -3 3 0 -1 1 6",
+    "expected": "3 6",
+    "sample": false
+   },
+   {
+    "input": "6 3\n2 9 -1 -3 7 5",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "4 8\n2 -2 3 8",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "7 3\n2 7 6 3 -5 -5 3",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "5 -2\n5 2 3 2 -3",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "6 7\n-4 6 7 9 -4 5",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "2 12\n5 7",
+    "expected": "1 2",
+    "sample": false
+   },
+   {
+    "input": "4 11\n6 -4 -4 2",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "9 6\n8 1 9 -1 5 -4 7 -5 8",
+    "expected": "2 5",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "calm-stretch",
+  "title": "Calm Stretch",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "sliding-window"
+  ],
+  "patterns": [
+   "sliding-window"
+  ],
+  "statement": "A sensor reports one reading per minute. A stretch of consecutive minutes is **calm** if the highest and lowest readings in it differ by at most `k`.\n\nPrint the length of the longest calm stretch.",
+  "inputFormat": "Line 1: `n k`. Line 2: `n` integers, the readings.",
+  "outputFormat": "One integer: the longest calm stretch.",
+  "constraints": "1 ≤ n ≤ 200 000; 0 ≤ k ≤ 10^9; |reading| ≤ 10^9.",
+  "hints": [
+   "Try a window that grows on the right and shrinks on the left.",
+   "To know the window's max and min quickly after the left side moves, what structure keeps them in order?",
+   "Two monotonic deques (one for the max, one for the min) give O(n) overall."
+  ],
+  "tests": [
+   {
+    "input": "6 2\n4 6 5 9 8 7",
+    "expected": "3",
+    "sample": true,
+    "explanation": "Minutes 1-3 (4, 6, 5) differ by 2; no longer stretch qualifies."
+   },
+   {
+    "input": "1 0\n7",
+    "expected": "1",
+    "sample": true,
+    "explanation": "A single reading is always calm."
+   },
+   {
+    "input": "3 0\n5 5 5",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "3 6\n2 9 10",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "8 5\n2 5 9 7 6 5 0 5",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "10 3\n4 10 0 1 5 10 11 12 0 4",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "6 1\n4 9 11 4 4 3",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "5 3\n11 7 10 5 8",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "5 6\n8 10 7 6 12",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "3 2\n1 10 6",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "9 6\n7 8 10 9 8 1 5 10 1",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "7 3\n10 2 10 5 8 6 11",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "7 6\n8 0 3 0 3 8 0",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "rotated-lookup",
+  "title": "Rotated Lookup",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "binary-search"
+  ],
+  "patterns": [
+   "binary-search"
+  ],
+  "statement": "A sorted list of **distinct** integers was cut at some position and the two parts swapped, so it may look like `[40, 50, 10, 20, 30]`.\n\nGiven the rotated list and a value, print the 0-based position of the value, or `-1` if it is absent. Aim for logarithmic time.",
+  "inputFormat": "Line 1: `n t`. Line 2: `n` distinct integers.",
+  "outputFormat": "The index or `-1`.",
+  "constraints": "1 ≤ n ≤ 100 000.",
+  "hints": [
+   "At any midpoint, at least one half of the range is still sorted.",
+   "Decide which half is sorted, then check whether the target can lie inside it.",
+   "Keep narrowing the range exactly like binary search."
+  ],
+  "tests": [
+   {
+    "input": "5 20\n40 50 10 20 30",
+    "expected": "3",
+    "sample": true,
+    "explanation": "20 sits at index 3."
+   },
+   {
+    "input": "4 8\n3 4 1 2",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "8 is not in the list."
+   },
+   {
+    "input": "1 5\n5",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "7 27\n-5 -2 9 26 27 -19 -18",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "7 -15\n38 -17 -15 -1 5 10 30",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "10 36\n10 13 16 17 25 30 32 36 -9 4",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "6 27\n27 31 -10 -5 -1 26",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "5 -12\n-9 -8 24 28 -12",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "7 -2\n-3 -2 18 23 -20 -14 -11",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "5 17\n17 19 26 -10 3",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "3 -3\n16 -3 -1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "4 2\n2 30 38 -13",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "9 19\n9 16 22 27 -11 -6 -2 -1 2",
+    "expected": "-1",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "minimum-ship-capacity",
+  "title": "Minimum Ship Capacity",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "arrays",
+   "binary-search"
+  ],
+  "patterns": [
+   "binary-search"
+  ],
+  "statement": "Packages with given weights must be shipped **in the given order**. Each day the truck takes consecutive packages as long as their total weight fits its capacity. You have `d` days.\n\nPrint the smallest truck capacity that ships every package within `d` days.",
+  "inputFormat": "Line 1: `n d`. Line 2: `n` positive integers, the weights.",
+  "outputFormat": "One integer: the minimum capacity.",
+  "constraints": "1 ≤ d ≤ n ≤ 100 000; 1 ≤ weight ≤ 10 000.",
+  "hints": [
+   "The capacity can never be below the heaviest package nor above the total weight.",
+   "If a capacity works, any larger one works too. What does that suggest?",
+   "Binary search the capacity; for each guess, greedily count the days needed."
+  ],
+  "tests": [
+   {
+    "input": "6 3\n4 2 3 7 1 5",
+    "expected": "9",
+    "sample": true,
+    "explanation": "Capacity 9 gives days {4,2,3}, {7,1}, {5}; 8 would need four days."
+   },
+   {
+    "input": "3 3\n2 9 4",
+    "expected": "9",
+    "sample": true,
+    "explanation": "One package per day, so the heaviest decides."
+   },
+   {
+    "input": "1 1\n10",
+    "expected": "10",
+    "sample": false
+   },
+   {
+    "input": "9 2\n3 4 15 7 3 7 12 2 7",
+    "expected": "31",
+    "sample": false
+   },
+   {
+    "input": "6 4\n9 12 6 15 15 9",
+    "expected": "21",
+    "sample": false
+   },
+   {
+    "input": "5 2\n7 6 10 8 15",
+    "expected": "23",
+    "sample": false
+   },
+   {
+    "input": "8 4\n1 13 3 15 6 14 3 2",
+    "expected": "19",
+    "sample": false
+   },
+   {
+    "input": "5 3\n3 3 1 15 4",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "8 5\n4 6 12 12 13 11 14 10",
+    "expected": "24",
+    "sample": false
+   },
+   {
+    "input": "5 1\n10 10 13 9 2",
+    "expected": "44",
+    "sample": false
+   },
+   {
+    "input": "3 2\n8 1 10",
+    "expected": "10",
+    "sample": false
+   },
+   {
+    "input": "7 5\n5 8 3 1 12 6 15",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "2 1\n8 10",
+    "expected": "18",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "balanced-brackets",
+  "title": "Balanced Brackets",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings",
+   "stacks"
+  ],
+  "patterns": [
+   "stack"
+  ],
+  "statement": "A string is made only of the characters `(`, `)`, `[`, `]`, `{` and `}`. It is **balanced** when every opener is closed by the same kind of bracket in the correct order.\n\nPrint `YES` if the string is balanced, otherwise `NO`.",
+  "inputFormat": "One line: the bracket string.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ length ≤ 100 000.",
+  "hints": [
+   "The most recent unclosed opener must be closed first.",
+   "Which data structure gives you the most recent item?",
+   "Push openers; on a closer, the top of the stack must be its partner. Also check the stack is empty at the end."
+  ],
+  "tests": [
+   {
+    "input": "([]{})",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Every pair nests properly."
+   },
+   {
+    "input": "(]",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "A `]` arrives while `(` is open."
+   },
+   {
+    "input": "()",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "(((",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": ")",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "){]}[}]",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "))}{}])",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "[[}(})[[}}",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "]}})))(}",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "][))}{)((",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "]{}]})}})[",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": ")}({)(]}{",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "(}",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "}[(([][}",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "}[){[[(()[",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "next-warmer-day",
+  "title": "Next Warmer Day",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "monotonic-stacks"
+  ],
+  "patterns": [
+   "monotonic-stack"
+  ],
+  "statement": "For each day you are given the temperature. For every day, print how many days you must wait until a **strictly warmer** day arrives, or `0` if none ever does.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers, the temperatures.",
+  "outputFormat": "`n` integers separated by spaces.",
+  "constraints": "1 ≤ n ≤ 200 000.",
+  "hints": [
+   "For one day, scanning forward is O(n); doing it for all days is O(n²).",
+   "Keep days whose answer is still unknown in a stack.",
+   "When a warmer temperature arrives, pop every colder day and record the distance."
+  ],
+  "tests": [
+   {
+    "input": "6\n30 20 25 40 35 22",
+    "expected": "3 1 1 0 0 0",
+    "sample": true,
+    "explanation": "Day 1 waits 3 days for 40; day 4 never sees warmer."
+   },
+   {
+    "input": "1\n10",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "4\n9 8 7 6",
+    "expected": "0 0 0 0",
+    "sample": false
+   },
+   {
+    "input": "9\n39 33 27 14 34 17 36 40 20",
+    "expected": "7 3 2 1 2 1 1 0 0",
+    "sample": false
+   },
+   {
+    "input": "5\n40 21 31 27 24",
+    "expected": "0 1 0 0 0",
+    "sample": false
+   },
+   {
+    "input": "5\n38 22 33 29 19",
+    "expected": "0 1 0 0 0",
+    "sample": false
+   },
+   {
+    "input": "8\n19 34 29 30 28 32 25 13",
+    "expected": "1 0 1 2 1 0 0 0",
+    "sample": false
+   },
+   {
+    "input": "10\n39 21 11 25 24 14 33 12 39 35",
+    "expected": "0 2 1 3 2 1 2 1 0 0",
+    "sample": false
+   },
+   {
+    "input": "3\n13 28 18",
+    "expected": "1 0 0",
+    "sample": false
+   },
+   {
+    "input": "5\n34 20 39 32 30",
+    "expected": "2 1 0 0 0",
+    "sample": false
+   },
+   {
+    "input": "6\n12 13 11 11 18 16",
+    "expected": "1 3 2 1 0 0",
+    "sample": false
+   },
+   {
+    "input": "6\n26 32 16 29 27 36",
+    "expected": "1 4 1 2 1 0",
+    "sample": false
+   },
+   {
+    "input": "4\n20 13 28 40",
+    "expected": "2 1 1 0",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "merge-meeting-slots",
+  "title": "Merge Meeting Slots",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "intervals"
+  ],
+  "patterns": [
+   "intervals"
+  ],
+  "statement": "A room booking system stores slots as `[start, end)` pairs. Slots that overlap **or touch** (one ends exactly when the next starts) should be shown as a single block.\n\nPrint the number of blocks, then each block as `start end`, ordered by start.",
+  "inputFormat": "Line 1: `n`. Then `n` lines, each `start end`.",
+  "outputFormat": "First line: the number of blocks. Then one line per block.",
+  "constraints": "1 ≤ n ≤ 100 000; 0 ≤ start < end ≤ 10^9.",
+  "hints": [
+   "Order matters: sort first.",
+   "After sorting by start, compare each slot only with the last merged block.",
+   "If it starts at or before the block's end, extend the block; otherwise start a new one."
+  ],
+  "tests": [
+   {
+    "input": "4\n1 3\n2 6\n8 10\n6 7",
+    "expected": "2\n1 7\n8 10",
+    "sample": true,
+    "explanation": "[1,3] and [2,6] merge to [1,6]; [6,7] touches it, giving [1,7]; [8,10] stays apart."
+   },
+   {
+    "input": "1\n3 4",
+    "expected": "1\n3 4",
+    "sample": false
+   },
+   {
+    "input": "7\n12 16\n5 8\n10 16\n1 6\n18 23\n16 21\n7 11",
+    "expected": "1\n1 23",
+    "sample": false
+   },
+   {
+    "input": "3\n12 18\n16 20\n10 16",
+    "expected": "1\n10 20",
+    "sample": false
+   },
+   {
+    "input": "5\n13 15\n13 18\n1 5\n4 6\n20 25",
+    "expected": "3\n1 6\n13 18\n20 25",
+    "sample": false
+   },
+   {
+    "input": "3\n15 20\n3 8\n20 26",
+    "expected": "2\n3 8\n15 26",
+    "sample": false
+   },
+   {
+    "input": "6\n20 21\n4 6\n15 17\n1 3\n0 6\n1 2",
+    "expected": "3\n0 6\n15 17\n20 21",
+    "sample": false
+   },
+   {
+    "input": "1\n14 19",
+    "expected": "1\n14 19",
+    "sample": false
+   },
+   {
+    "input": "1\n18 24",
+    "expected": "1\n18 24",
+    "sample": false
+   },
+   {
+    "input": "6\n2 4\n0 1\n18 22\n7 13\n18 22\n14 17",
+    "expected": "5\n0 1\n2 4\n7 13\n14 17\n18 22",
+    "sample": false
+   },
+   {
+    "input": "6\n3 4\n14 18\n15 17\n19 24\n3 7\n15 18",
+    "expected": "3\n3 7\n14 18\n19 24",
+    "sample": false
+   },
+   {
+    "input": "6\n5 11\n8 10\n2 6\n13 14\n16 20\n6 12",
+    "expected": "3\n2 12\n13 14\n16 20",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "subarrays-with-sum",
+  "title": "Subarrays With Sum",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "arrays",
+   "prefix-sums",
+   "hashing"
+  ],
+  "patterns": [
+   "prefix-sums",
+   "hashing"
+  ],
+  "statement": "Count the contiguous, non-empty subarrays whose elements add up to exactly `k`. Numbers may be negative, so a sliding window will not work.",
+  "inputFormat": "Line 1: `n k`. Line 2: `n` integers.",
+  "outputFormat": "One integer: the count.",
+  "constraints": "1 ≤ n ≤ 200 000; |a_i| ≤ 1000.",
+  "hints": [
+   "Let P[i] be the sum of the first i numbers. A subarray (i, j] has sum P[j] - P[i].",
+   "For each j you need how many earlier prefixes equal P[j] - k.",
+   "Store prefix-sum counts in a hash map as you scan."
+  ],
+  "tests": [
+   {
+    "input": "5 3\n1 2 1 2 1",
+    "expected": "4",
+    "sample": true,
+    "explanation": "The subarrays at positions 1-2, 2-3, 3-4 and 4-5 each sum to 3."
+   },
+   {
+    "input": "3 0\n0 0 0",
+    "expected": "6",
+    "sample": true,
+    "explanation": "Six zero-sum subarrays."
+   },
+   {
+    "input": "1 5\n5",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "6 4\n-1 0 -3 3 -2 0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "5 0\n3 -1 0 0 -2",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "9 3\n3 -3 1 -3 0 -3 2 -3 1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "9 3\n4 1 4 4 2 -2 3 3 3",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "4 2\n0 4 0 3",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "1 4\n2",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "4 -1\n2 4 3 -1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "2 1\n-1 4",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "1 3\n0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "4 -2\n2 -1 0 4",
+    "expected": "0",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "fewest-coins",
+  "title": "Fewest Coins",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "dynamic-programming"
+  ],
+  "patterns": [
+   "dynamic-programming"
+  ],
+  "statement": "You have unlimited coins of several denominations. Print the **fewest coins** that add up to exactly `t`, or `-1` if it is impossible. A total of 0 needs 0 coins.",
+  "inputFormat": "Line 1: `n t`. Line 2: `n` distinct coin values.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 12; 1 ≤ coin ≤ 10 000; 0 ≤ t ≤ 10 000.",
+  "hints": [
+   "Greedy (always the biggest coin) can fail. Think about smaller totals.",
+   "Let best[v] be the fewest coins for total v.",
+   "best[v] = 1 + min(best[v - c]) over coins c ≤ v."
+  ],
+  "tests": [
+   {
+    "input": "3 11\n1 2 5",
+    "expected": "3",
+    "sample": true,
+    "explanation": "5 + 5 + 1."
+   },
+   {
+    "input": "2 3\n2 4",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "Odd totals cannot be formed from even coins."
+   },
+   {
+    "input": "1 0\n7",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "4 10\n4 8 1 3",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "3 6\n7 8 3",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "4 13\n6 9 1 5",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "2 24\n3 2",
+    "expected": "8",
+    "sample": false
+   },
+   {
+    "input": "4 20\n7 4 6 5",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "3 5\n5 9 3",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "4 5\n9 6 8 4",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "4 1\n5 8 7 3",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "2 13\n5 8",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "2 8\n2 1",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "staircase-ways",
+  "title": "Staircase Ways",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "dynamic-programming"
+  ],
+  "patterns": [
+   "dynamic-programming"
+  ],
+  "statement": "A staircase has `n` steps. You may climb 1, 2 or 3 steps at a time. Print the number of distinct ways to reach the top, modulo 1 000 000 007.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 100 000.",
+  "hints": [
+   "The last move was 1, 2 or 3 steps.",
+   "ways[i] = ways[i-1] + ways[i-2] + ways[i-3].",
+   "Remember to take the modulo at every addition."
+  ],
+  "tests": [
+   {
+    "input": "4",
+    "expected": "7",
+    "sample": true,
+    "explanation": "1+1+1+1, 1+1+2, 1+2+1, 2+1+1, 2+2, 1+3, 3+1 = 7 ways."
+   },
+   {
+    "input": "0",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "12",
+    "expected": "927",
+    "sample": false
+   },
+   {
+    "input": "6",
+    "expected": "24",
+    "sample": false
+   },
+   {
+    "input": "13",
+    "expected": "1705",
+    "sample": false
+   },
+   {
+    "input": "14",
+    "expected": "3136",
+    "sample": false
+   },
+   {
+    "input": "11",
+    "expected": "504",
+    "sample": false
+   },
+   {
+    "input": "5",
+    "expected": "13",
+    "sample": false
+   },
+   {
+    "input": "8",
+    "expected": "81",
+    "sample": false
+   },
+   {
+    "input": "10",
+    "expected": "274",
+    "sample": false
+   },
+   {
+    "input": "3",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "9",
+    "expected": "149",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "longest-common-run",
+  "title": "Longest Common Run",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "strings",
+   "dynamic-programming"
+  ],
+  "patterns": [
+   "dynamic-programming"
+  ],
+  "statement": "Two strings are given. Print the length of the longest sequence of characters that appears in **both**, in the same order (characters need not be adjacent).",
+  "inputFormat": "Two lines, one string each.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ length ≤ 2000; lowercase letters.",
+  "hints": [
+   "Compare prefixes: what happens when the last characters match?",
+   "dp[i][j] = dp[i-1][j-1] + 1 if they match, else max(dp[i-1][j], dp[i][j-1]).",
+   "You only need the previous row to compute the next."
+  ],
+  "tests": [
+   {
+    "input": "abcde\nace",
+    "expected": "3",
+    "sample": true,
+    "explanation": "The common sequence `ace` has length 3."
+   },
+   {
+    "input": "a\nb",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "aab\naaccbabc",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "cbbabbb\nb",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "ccbab\nbcb",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "bacbaa\nb",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "ccccac\naa",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "ccbbcc\nbaaaabc",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "ccac\nacca",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "caba\nca",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "aa\nccbaccbb",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "cbbb\ncbbcbcbc",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "island-counter",
+  "title": "Island Counter",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "graphs",
+   "depth-first-search"
+  ],
+  "patterns": [
+   "dfs"
+  ],
+  "statement": "A map is a grid of `#` (land) and `.` (water). Land cells touching horizontally or vertically belong to the same island. Print the number of islands.",
+  "inputFormat": "Line 1: `h w`. Then `h` lines of `w` characters.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ h, w ≤ 500.",
+  "hints": [
+   "When you find land, everything connected to it is one island.",
+   "Walk the island with DFS or BFS and mark its cells as visited.",
+   "Count how many times you start a new walk."
+  ],
+  "tests": [
+   {
+    "input": "3 4\n##..\n#..#\n...#",
+    "expected": "2",
+    "sample": true,
+    "explanation": "Two islands: the top-left group and the right-hand pair."
+   },
+   {
+    "input": "1 1\n.",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "3 4\n#.##\n.#.#\n#.#.",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "5 2\n.#\n#.\n#.\n##\n##",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 1\n.\n#\n.\n#\n.\n.",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 1\n.\n#\n.\n.\n.\n.",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "5 2\n..\n#.\n..\n.#\n..",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 6\n###.#.\n#..#.#\n######\n..#.##\n#...#.\n#....#",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "2 5\n.##..\n.#...",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "2 1\n#\n.",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "6 3\n.#.\n..#\n...\n#.#\n##.\n..#",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "6 3\n.##\n###\n#.#\n###\n#..\n..#",
+    "expected": "2",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "shortest-maze-path",
+  "title": "Shortest Maze Path",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "graphs",
+   "breadth-first-search"
+  ],
+  "patterns": [
+   "bfs"
+  ],
+  "statement": "A maze has open cells, walls `#`, a start `S` and an exit `E`. You move one step up, down, left or right through open cells. Print the minimum number of steps from `S` to `E`, or `-1`.",
+  "inputFormat": "Line 1: `h w`. Then `h` lines of `w` characters.",
+  "outputFormat": "One integer.",
+  "constraints": "2 ≤ h, w ≤ 500; exactly one S and one E.",
+  "hints": [
+   "All moves cost the same, so the first time you reach a cell is the shortest way.",
+   "Which traversal explores in order of distance?",
+   "Breadth-first search with a queue and a distance per cell."
+  ],
+  "tests": [
+   {
+    "input": "3 4\nS..#\n.#..\n...E",
+    "expected": "5",
+    "sample": true,
+    "explanation": "Go down twice, then right three times."
+   },
+   {
+    "input": "2 3\nS#E\n.#.",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "The wall column blocks every route."
+   },
+   {
+    "input": "2 2\nSE\n..",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "1 3\nS#E",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "3 2\n..\nE#\n.S",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "2 2\n.E\nS.",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 3\n.##\nE##\n..#\n.##\n#S.\n...",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "2 6\n##.#.S\nE...#.",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "2 6\n..#SE.\n...#.#",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "5 3\n###\n.#.\n#S.\n.#.\nE..",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "5 4\n.S..\n###.\n##.#\n##.E\n....",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "3 5\n...#.\n#S...\n..E..",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 3\n...\n..#\nS.E\n.#.\n#..\n...",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 6\n.#..S#\n..###.\n.##E##\n...##.\n....##\n#..#.#",
+    "expected": "-1",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "course-order",
+  "title": "Course Order",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "graphs",
+   "topological-sort"
+  ],
+  "patterns": [
+   "topological-sort"
+  ],
+  "statement": "A degree has `n` courses numbered 1..n and `m` rules `a b`, meaning course `a` must be taken before `b`. Print an order that respects every rule. If several orders work, print the one that is smallest when compared number by number. Print `IMPOSSIBLE` if the rules contain a cycle.",
+  "inputFormat": "Line 1: `n m`. Then `m` lines `a b`.",
+  "outputFormat": "`n` integers in order, or `IMPOSSIBLE`.",
+  "constraints": "1 ≤ n ≤ 100 000; 0 ≤ m ≤ 200 000.",
+  "hints": [
+   "A course with no unmet prerequisite can be taken now.",
+   "Track in-degrees; courses at 0 are ready.",
+   "Use a min-heap for the ready set so the smallest label is always chosen. If fewer than n courses get taken, there is a cycle."
+  ],
+  "tests": [
+   {
+    "input": "4 3\n1 2\n1 3\n3 4",
+    "expected": "1 2 3 4",
+    "sample": true,
+    "explanation": "Take 1, then 2, 3, 4."
+   },
+   {
+    "input": "2 2\n1 2\n2 1",
+    "expected": "IMPOSSIBLE",
+    "sample": true,
+    "explanation": "Each course needs the other first."
+   },
+   {
+    "input": "1 0",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "6 3\n1 6\n3 2\n6 2",
+    "expected": "1 3 4 5 6 2",
+    "sample": false
+   },
+   {
+    "input": "6 1\n6 2",
+    "expected": "1 3 4 5 6 2",
+    "sample": false
+   },
+   {
+    "input": "2 0",
+    "expected": "1 2",
+    "sample": false
+   },
+   {
+    "input": "2 1\n2 1",
+    "expected": "2 1",
+    "sample": false
+   },
+   {
+    "input": "6 2\n4 3\n6 4",
+    "expected": "1 2 5 6 4 3",
+    "sample": false
+   },
+   {
+    "input": "3 1\n1 2",
+    "expected": "1 2 3",
+    "sample": false
+   },
+   {
+    "input": "3 3\n1 2\n2 1\n2 3",
+    "expected": "IMPOSSIBLE",
+    "sample": false
+   },
+   {
+    "input": "3 2\n2 3\n3 1",
+    "expected": "2 3 1",
+    "sample": false
+   },
+   {
+    "input": "4 4\n1 2\n2 4\n3 1\n3 4",
+    "expected": "3 1 2 4",
+    "sample": false
+   },
+   {
+    "input": "6 1\n2 3",
+    "expected": "1 2 3 4 5 6",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "cheapest-route",
+  "title": "Cheapest Route",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "graphs",
+   "shortest-paths"
+  ],
+  "patterns": [
+   "shortest-path"
+  ],
+  "statement": "A country has `n` cities and `m` two-way roads with positive tolls. Print the cheapest total toll from city 1 to city `n`, or `-1` if there is no route.",
+  "inputFormat": "Line 1: `n m`. Then `m` lines `a b w`.",
+  "outputFormat": "One integer.",
+  "constraints": "2 ≤ n ≤ 100 000; 0 ≤ m ≤ 200 000; 1 ≤ w ≤ 10^6.",
+  "hints": [
+   "Tolls are positive, so the cheapest known city can be finalised.",
+   "Use a priority queue keyed by distance (Dijkstra).",
+   "Skip a popped entry whose distance is already outdated."
+  ],
+  "tests": [
+   {
+    "input": "4 4\n1 2 4\n1 3 1\n3 2 2\n2 4 5",
+    "expected": "8",
+    "sample": true,
+    "explanation": "1 → 3 → 2 → 4 costs 1+2+5 = 8."
+   },
+   {
+    "input": "3 1\n1 2 5",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "City 3 is unreachable."
+   },
+   {
+    "input": "2 0",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "4 10\n2 4 8\n1 3 5\n2 4 1\n4 2 3\n2 4 2\n2 3 5\n4 1 7\n2 3 9\n1 4 3\n3 2 3",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "5 9\n3 4 7\n1 3 3\n1 2 6\n5 1 2\n2 2 3\n3 4 3\n5 5 6\n4 4 8\n1 2 7",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "5 10\n1 1 7\n4 1 8\n3 4 9\n2 4 8\n5 4 7\n2 4 2\n5 5 1\n2 1 1\n3 1 6\n3 2 2",
+    "expected": "10",
+    "sample": false
+   },
+   {
+    "input": "4 9\n3 4 1\n3 1 5\n2 2 1\n1 4 7\n4 3 5\n4 4 6\n4 3 4\n4 1 8\n1 1 4",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "2 10\n2 2 1\n2 2 4\n2 1 3\n2 1 2\n1 2 6\n2 1 9\n2 2 6\n1 1 3\n1 1 2\n2 2 6",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "7 5\n3 1 3\n2 3 6\n2 4 3\n5 4 6\n7 5 4",
+    "expected": "22",
+    "sample": false
+   },
+   {
+    "input": "3 3\n1 2 2\n2 2 4\n2 3 2",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "7 6\n4 2 4\n6 5 1\n6 5 9\n2 7 9\n2 7 1\n3 6 8",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "6 8\n3 2 5\n1 1 7\n3 5 5\n6 3 9\n2 6 3\n5 3 3\n2 3 2\n4 5 6",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "4 3\n1 4 5\n2 2 8\n2 3 1",
+    "expected": "5",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "most-meetings",
+  "title": "Most Meetings",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "greedy"
+  ],
+  "patterns": [
+   "greedy",
+   "intervals"
+  ],
+  "statement": "One room, many requests `[start, end)`. Two meetings may share an endpoint (one ends when the next begins). Print the **largest number** of meetings that can be held without overlap.",
+  "inputFormat": "Line 1: `n`. Then `n` lines `start end`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 100 000.",
+  "hints": [
+   "Which meeting should you choose first?",
+   "The one that ends earliest leaves the most room.",
+   "Sort by end time and take every meeting that starts at or after the last chosen end."
+  ],
+  "tests": [
+   {
+    "input": "4\n1 3\n2 4\n3 5\n4 6",
+    "expected": "2",
+    "sample": true,
+    "explanation": "Take [1,3) and [3,5), or [2,4) and [4,6): at most 2."
+   },
+   {
+    "input": "1\n0 1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "7\n8 10\n8 10\n11 14\n5 10\n6 9\n5 7\n10 13",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "2\n4 8\n11 13",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6\n1 2\n0 5\n10 13\n5 10\n11 12\n4 8",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "4\n10 15\n9 11\n6 7\n3 5",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "1\n6 9",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "2\n0 5\n5 6",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "3\n1 4\n1 5\n12 16",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "8\n2 5\n14 19\n12 14\n10 14\n12 16\n4 8\n9 13\n8 12",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "1\n8 9",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "3\n5 6\n13 14\n12 17",
+    "expected": "2",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "fewest-hops",
+  "title": "Fewest Hops",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "arrays",
+   "greedy"
+  ],
+  "patterns": [
+   "greedy"
+  ],
+  "statement": "You stand on the first of `n` stepping stones. Stone `i` lets you jump **up to** `a[i]` stones forward. Print the fewest jumps needed to reach the last stone, or `-1` if it cannot be reached.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 100 000; 0 ≤ a[i] ≤ 1000.",
+  "hints": [
+   "Think in layers: all stones reachable with 1 jump, then 2 jumps, and so on.",
+   "Track the farthest stone reachable from the current layer.",
+   "When you pass the end of the current layer, take one more jump."
+  ],
+  "tests": [
+   {
+    "input": "5\n2 3 1 1 4",
+    "expected": "2",
+    "sample": true,
+    "explanation": "Jump to stone 2, then to the end: 2 hops."
+   },
+   {
+    "input": "3\n1 0 5",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "Stuck on the second stone."
+   },
+   {
+    "input": "1\n0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "1\n1",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "8\n2 0 2 2 1 4 2 0",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "5\n1 1 1 4 1",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "4\n3 0 2 4",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "4\n2 1 2 3",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "4\n2 4 1 3",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "5\n1 1 2 0 4",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "6\n2 4 0 0 4 0",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "1\n3",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "3\n4 2 1",
+    "expected": "1",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "kth-largest",
+  "title": "Kth Largest",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays",
+   "heaps"
+  ],
+  "patterns": [
+   "heap"
+  ],
+  "statement": "Print the `k`-th largest value in a list of numbers (duplicates count separately: in `[5, 5, 3]` the 2nd largest is 5).",
+  "inputFormat": "Line 1: `n k`. Line 2: `n` integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ k ≤ n ≤ 200 000.",
+  "hints": [
+   "Sorting works in O(n log n).",
+   "You only need to remember the k biggest values seen so far.",
+   "Keep a min-heap of size k; its top is the answer."
+  ],
+  "tests": [
+   {
+    "input": "6 2\n3 9 4 9 1 7",
+    "expected": "9",
+    "sample": true,
+    "explanation": "Sorted descending: 9, 9, 7 ... the 2nd is 9."
+   },
+   {
+    "input": "1 1\n-4",
+    "expected": "-4",
+    "sample": false
+   },
+   {
+    "input": "10 5\n7 -9 4 4 -2 -2 6 2 9 2",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "10 7\n-8 -1 2 -2 -1 -7 -2 5 -7 -7",
+    "expected": "-7",
+    "sample": false
+   },
+   {
+    "input": "10 6\n7 -8 -6 4 -7 -8 9 -3 -6 -7",
+    "expected": "-6",
+    "sample": false
+   },
+   {
+    "input": "1 1\n-9",
+    "expected": "-9",
+    "sample": false
+   },
+   {
+    "input": "4 2\n-1 1 7 8",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "9 9\n-2 -8 9 7 -6 -9 -4 7 2",
+    "expected": "-9",
+    "sample": false
+   },
+   {
+    "input": "6 3\n9 8 6 -2 -2 -9",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "2 2\n-1 0",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "10 2\n2 2 -8 -4 5 -2 -2 7 2 4",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "8 4\n8 2 5 2 4 4 -8 9",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "anagram-groups",
+  "title": "Anagram Groups",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings",
+   "hashing"
+  ],
+  "patterns": [
+   "hashing"
+  ],
+  "statement": "Words are anagrams if they use exactly the same letters the same number of times. Print how many **groups of mutually anagram words** the list splits into.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` words separated by spaces.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 100 000; lowercase letters.",
+  "hints": [
+   "Two anagrams look identical once their letters are sorted.",
+   "Use the sorted letters (or letter counts) as a hash key.",
+   "The answer is the number of distinct keys."
+  ],
+  "tests": [
+   {
+    "input": "5\nlisten silent enlist google gogole",
+    "expected": "2",
+    "sample": true,
+    "explanation": "Two groups: {listen, silent, enlist} and {google, gogole}."
+   },
+   {
+    "input": "1\na",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "4\nacc ab a aaba",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "4\naa ca bbcb aca",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "5\nc ab aabb aa a",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "6\ncbc ccbc cb acc b aabc",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "5\naaaa aabb aacc cbbb aaa",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "3\nabba b aa",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "1\nac",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "8\na cca c abbb ccca bb abac acc",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "6\nb cc abcb accc ca a",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "2\nbb b",
+    "expected": "2",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "longest-unique-stretch",
+  "title": "Longest Unique Stretch",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "strings",
+   "sliding-window"
+  ],
+  "patterns": [
+   "sliding-window",
+   "hashing"
+  ],
+  "statement": "Print the length of the longest substring in which **no character repeats**.",
+  "inputFormat": "One line: the string.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ length ≤ 200 000.",
+  "hints": [
+   "Maintain a window with no repeats.",
+   "When a character repeats, move the left edge past its previous position.",
+   "Store the last index of each character."
+  ],
+  "tests": [
+   {
+    "input": "abcabcbb",
+    "expected": "3",
+    "sample": true,
+    "explanation": "`abc` has length 3 and nothing longer is repeat-free."
+   },
+   {
+    "input": "aaaa",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "a",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "bcbdcca",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "adcbaaadabc",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "aabaa",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "dbbdbbadaada",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "d",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "cdca",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "bddbcbdbcbd",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "da",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "bdb",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "dad",
+    "expected": "2",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "subset-target-count",
+  "title": "Subset Target Count",
+  "difficulty": "medium",
+  "tier": "premium",
+  "topics": [
+   "recursion",
+   "backtracking"
+  ],
+  "patterns": [
+   "backtracking"
+  ],
+  "statement": "Count the subsets of a list (chosen by position, so equal values in different places count separately; the empty subset counts) whose sum equals `t`.",
+  "inputFormat": "Line 1: `n t`. Line 2: `n` integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 20; |a_i| ≤ 100.",
+  "hints": [
+   "For each element you choose: take it or leave it.",
+   "Recurse on the rest with the remaining target.",
+   "At the end of the list, a match is exactly when the remaining target is 0."
+  ],
+  "tests": [
+   {
+    "input": "3 4\n1 3 1",
+    "expected": "2",
+    "sample": true,
+    "explanation": "{1,3} twice (either 1) — 2 subsets."
+   },
+   {
+    "input": "1 0\n0",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "1 10\n0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "5 10\n4 -2 2 3 6",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "3 10\n-1 -3 4",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "8 4\n-2 -2 6 6 2 4 5 2",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "6 12\n0 1 4 2 4 6",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "6 7\n4 4 0 3 1 -3",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "4 1\n3 1 3 6",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "9 10\n0 4 5 4 0 2 2 -1 -3",
+    "expected": "36",
+    "sample": false
+   },
+   {
+    "input": "6 12\n2 -1 6 4 -2 3",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "3 9\n4 2 2",
+    "expected": "0",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "trapped-rainwater",
+  "title": "Trapped Rainwater",
+  "difficulty": "hard",
+  "tier": "premium",
+  "topics": [
+   "arrays",
+   "two-pointers"
+  ],
+  "patterns": [
+   "two-pointers"
+  ],
+  "statement": "Bars of width 1 and given heights stand side by side. After rain, water collects between them. Print the total units of trapped water.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` non-negative integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 200 000; 0 ≤ height ≤ 100 000.",
+  "hints": [
+   "Water above a bar is limited by the lower of the tallest bar on its left and on its right.",
+   "Precomputing both maxima works in O(n) extra space.",
+   "Two pointers moving inward let you do it in O(1) space: always advance the side with the smaller wall."
+  ],
+  "tests": [
+   {
+    "input": "6\n3 0 2 0 4 1",
+    "expected": "7",
+    "sample": true,
+    "explanation": "Positions 2, 3 and 4 hold 3, 1 and 3 units of water: 7 in total."
+   },
+   {
+    "input": "1\n5",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "3\n4 0 4",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "5\n7 0 3 2 3",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "2\n5 4",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "1\n0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "7\n7 6 1 2 4 4 6",
+    "expected": "13",
+    "sample": false
+   },
+   {
+    "input": "10\n4 5 7 4 3 4 6 3 0 0",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "2\n0 4",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "8\n4 7 1 2 3 2 6 1",
+    "expected": "16",
+    "sample": false
+   },
+   {
+    "input": "3\n1 2 3",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "10\n0 3 5 4 1 6 4 3 5 5",
+    "expected": "8",
+    "sample": false
+   },
+   {
+    "input": "8\n4 3 1 7 6 6 7 1",
+    "expected": "6",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "edit-distance",
+  "title": "Edit Distance",
+  "difficulty": "hard",
+  "tier": "premium",
+  "topics": [
+   "strings",
+   "dynamic-programming"
+  ],
+  "patterns": [
+   "dynamic-programming"
+  ],
+  "statement": "Turn string `a` into string `b` using the fewest operations, where one operation inserts, deletes or replaces a single character. Print that minimum.",
+  "inputFormat": "Two lines: `a` then `b`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ length ≤ 2000.",
+  "hints": [
+   "Look at the last character of each string.",
+   "If equal, no cost; otherwise consider insert, delete and replace.",
+   "dp[i][j] = 1 + min of the three neighbours; one row is enough."
+  ],
+  "tests": [
+   {
+    "input": "kitten\nsitting",
+    "expected": "3",
+    "sample": true,
+    "explanation": "Replace k, replace e, insert g: 3."
+   },
+   {
+    "input": "a\na",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "ab\nb",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "abb\nc",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "cc\nbaaba",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "bb\ncaaab",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "a\nccbbc",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "ba\naba",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "c\nc",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "a\ncbaabc",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "aca\naabca",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "a\nbacbb",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "a\nabaaa",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "friend-circles",
+  "title": "Friend Circles",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "graphs",
+   "union-find"
+  ],
+  "patterns": [
+   "union-find"
+  ],
+  "statement": "`n` people start with no friends. Then `m` friendships `a b` are announced; friendship is transitive for the purposes of a **circle** (a group connected through any chain of friends). Print the number of circles after all announcements.",
+  "inputFormat": "Line 1: `n m`. Then `m` lines `a b`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 200 000; 0 ≤ m ≤ 200 000.",
+  "hints": [
+   "Every merge of two different circles reduces the count by one.",
+   "How can you quickly tell whether two people are already in the same circle?",
+   "Disjoint-set union with path compression."
+  ],
+  "tests": [
+   {
+    "input": "5 3\n1 2\n2 3\n4 5",
+    "expected": "2",
+    "sample": true,
+    "explanation": "Two circles remain: {1, 2, 3} and {4, 5}."
+   },
+   {
+    "input": "1 0",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "7 6\n2 7\n1 4\n1 7\n2 4\n5 2\n4 1",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "2 3\n2 2\n1 1\n1 1",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "6 1\n6 6",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "5 7\n3 2\n4 5\n1 5\n5 1\n4 5\n4 1\n4 4",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "2 3\n2 2\n2 2\n1 1",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "3 5\n3 1\n1 1\n1 3\n3 1\n3 1",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "7 4\n3 3\n1 1\n7 4\n7 6",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "4 6\n4 3\n4 1\n3 1\n1 4\n2 3\n1 2",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "2 1\n2 2",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "8 8\n3 5\n5 7\n3 5\n8 4\n8 4\n2 3\n2 3\n7 7",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "largest-skyline-rectangle",
+  "title": "Largest Skyline Rectangle",
+  "difficulty": "hard",
+  "tier": "premium",
+  "topics": [
+   "arrays",
+   "monotonic-stacks"
+  ],
+  "patterns": [
+   "monotonic-stack"
+  ],
+  "statement": "A skyline is a row of adjacent bars of width 1. Find the area of the largest axis-aligned rectangle that fits entirely inside the skyline.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` non-negative integers, the bar heights.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 200 000; 0 ≤ height ≤ 10^9.",
+  "hints": [
+   "For each bar, how far can a rectangle of exactly its height extend left and right?",
+   "The extension stops at the nearest shorter bar on each side.",
+   "A monotonic stack finds both boundaries in one pass."
+  ],
+  "tests": [
+   {
+    "input": "6\n2 1 5 6 2 3",
+    "expected": "10",
+    "sample": true,
+    "explanation": "Bars of height 5 and 6 form a 5×2 = 10 rectangle."
+   },
+   {
+    "input": "1\n0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "3\n2 2 2",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "5\n5 7 8 2 7",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "1\n7",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "5\n8 5 1 6 3",
+    "expected": "10",
+    "sample": false
+   },
+   {
+    "input": "2\n0 5",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "7\n8 8 2 4 7 6 7",
+    "expected": "18",
+    "sample": false
+   },
+   {
+    "input": "7\n0 5 8 7 8 4 2",
+    "expected": "21",
+    "sample": false
+   },
+   {
+    "input": "5\n2 5 1 6 3",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "9\n3 2 5 1 0 1 7 7 2",
+    "expected": "14",
+    "sample": false
+   },
+   {
+    "input": "7\n5 2 7 7 7 5 5",
+    "expected": "25",
+    "sample": false
+   },
+   {
+    "input": "9\n6 4 6 0 0 8 4 7 1",
+    "expected": "12",
+    "sample": false
+   }
+  ]
+ }
+]

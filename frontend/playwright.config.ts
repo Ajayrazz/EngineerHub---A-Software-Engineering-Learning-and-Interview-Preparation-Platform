@@ -7,6 +7,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   globalSetup: "./e2e/global-setup.ts",
+  globalTeardown: "./e2e/global-teardown.ts",
   fullyParallel: false, // sessions and Keycloak are shared; determinism over speed
   workers: 1,
   retries: process.env.CI ? 1 : 0,

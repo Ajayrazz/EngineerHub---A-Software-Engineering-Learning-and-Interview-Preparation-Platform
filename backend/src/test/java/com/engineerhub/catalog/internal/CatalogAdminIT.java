@@ -615,7 +615,7 @@ class CatalogAdminIT {
   void topicsAreSeeded() throws Exception {
     call(get("/api/v1/admin/topics"), manager, null)
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(31))
+        .andExpect(jsonPath("$.length()").value(49))
         .andExpect(jsonPath("$[0].slug").value("arrays"));
   }
 }
