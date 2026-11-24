@@ -2241,5 +2241,2467 @@
     "sample": false
    }
   ]
+ },
+ {
+  "slug": "even-or-odd",
+  "title": "Even or Odd",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Read an integer and print `EVEN` if it is divisible by 2, otherwise `ODD`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "`EVEN` or `ODD`.",
+  "constraints": "-10^9 ≤ n ≤ 10^9.",
+  "hints": [
+   "What is the remainder when you divide by 2?",
+   "Be careful with negative numbers: -3 is odd."
+  ],
+  "tests": [
+   {
+    "input": "7",
+    "expected": "ODD",
+    "sample": true,
+    "explanation": "7 leaves remainder 1 when divided by 2."
+   },
+   {
+    "input": "-4",
+    "expected": "EVEN",
+    "sample": true,
+    "explanation": "-4 is divisible by 2."
+   },
+   {
+    "input": "0",
+    "expected": "EVEN",
+    "sample": false
+   },
+   {
+    "input": "-2",
+    "expected": "EVEN",
+    "sample": false
+   },
+   {
+    "input": "-22",
+    "expected": "EVEN",
+    "sample": false
+   },
+   {
+    "input": "21",
+    "expected": "ODD",
+    "sample": false
+   },
+   {
+    "input": "-16",
+    "expected": "EVEN",
+    "sample": false
+   },
+   {
+    "input": "-11",
+    "expected": "ODD",
+    "sample": false
+   },
+   {
+    "input": "-34",
+    "expected": "EVEN",
+    "sample": false
+   },
+   {
+    "input": "-41",
+    "expected": "ODD",
+    "sample": false
+   },
+   {
+    "input": "9",
+    "expected": "ODD",
+    "sample": false
+   },
+   {
+    "input": "-27",
+    "expected": "ODD",
+    "sample": false
+   },
+   {
+    "input": "18",
+    "expected": "EVEN",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "leap-year-check",
+  "title": "Leap Year Check",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "A year is a leap year if it is divisible by 4, except century years, which must be divisible by 400. Print `YES` or `NO`.",
+  "inputFormat": "One integer `y`.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ y ≤ 10^9.",
+  "hints": [
+   "Apply the three rules in order.",
+   "1900 is not a leap year but 2000 is."
+  ],
+  "tests": [
+   {
+    "input": "2024",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Divisible by 4 and not a century year."
+   },
+   {
+    "input": "1900",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "A century year not divisible by 400."
+   },
+   {
+    "input": "2000",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "1",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "2188",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "2296",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "785",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "949",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "530",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "2834",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "479",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1407",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "2886",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "409",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "count-digits",
+  "title": "Count Digits",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print how many digits the non-negative integer `n` has (0 has one digit).",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 10^18.",
+  "hints": [
+   "Repeatedly divide by 10.",
+   "Treat 0 as a special case."
+  ],
+  "tests": [
+   {
+    "input": "98765",
+    "expected": "5",
+    "sample": true,
+    "explanation": "Five digits."
+   },
+   {
+    "input": "0",
+    "expected": "1",
+    "sample": true,
+    "explanation": "Zero has one digit."
+   },
+   {
+    "input": "10",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "999999999999",
+    "expected": "12",
+    "sample": false
+   },
+   {
+    "input": "95759992",
+    "expected": "8",
+    "sample": false
+   },
+   {
+    "input": "653446737",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "5464321189",
+    "expected": "10",
+    "sample": false
+   },
+   {
+    "input": "41",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "69",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "81",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "433034",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "491081173",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "54",
+    "expected": "2",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "sum-of-digits",
+  "title": "Sum of Digits",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print the sum of the decimal digits of `n`.",
+  "inputFormat": "One non-negative integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 10^18.",
+  "hints": [
+   "`n % 10` is the last digit.",
+   "Drop it with integer division by 10."
+  ],
+  "tests": [
+   {
+    "input": "1234",
+    "expected": "10",
+    "sample": true,
+    "explanation": "1 + 2 + 3 + 4 = 10."
+   },
+   {
+    "input": "90",
+    "expected": "9",
+    "sample": true,
+    "explanation": "9 + 0 = 9."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "565",
+    "expected": "16",
+    "sample": false
+   },
+   {
+    "input": "5420988",
+    "expected": "36",
+    "sample": false
+   },
+   {
+    "input": "1709455209036",
+    "expected": "51",
+    "sample": false
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "560003720885900",
+    "expected": "53",
+    "sample": false
+   },
+   {
+    "input": "86565785",
+    "expected": "50",
+    "sample": false
+   },
+   {
+    "input": "9625755108308",
+    "expected": "59",
+    "sample": false
+   },
+   {
+    "input": "530175",
+    "expected": "21",
+    "sample": false
+   },
+   {
+    "input": "7107",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "6354633278066",
+    "expected": "59",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "reverse-a-number",
+  "title": "Reverse a Number",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print the number formed by reversing the digits of non-negative `n` (drop leading zeros of the result).",
+  "inputFormat": "One non-negative integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 10^18.",
+  "hints": [
+   "Build the result digit by digit: `rev = rev * 10 + last`."
+  ],
+  "tests": [
+   {
+    "input": "1200",
+    "expected": "21",
+    "sample": true,
+    "explanation": "Reversed digits are 0021, which is 21."
+   },
+   {
+    "input": "345",
+    "expected": "543",
+    "sample": true,
+    "explanation": "543."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "202283326002",
+    "expected": "200623382202",
+    "sample": false
+   },
+   {
+    "input": "282987275",
+    "expected": "572789282",
+    "sample": false
+   },
+   {
+    "input": "8610",
+    "expected": "168",
+    "sample": false
+   },
+   {
+    "input": "8550375536207",
+    "expected": "7026355730558",
+    "sample": false
+   },
+   {
+    "input": "83",
+    "expected": "38",
+    "sample": false
+   },
+   {
+    "input": "441372171069",
+    "expected": "960171273144",
+    "sample": false
+   },
+   {
+    "input": "45393266811",
+    "expected": "11866239354",
+    "sample": false
+   },
+   {
+    "input": "804778319895",
+    "expected": "598913877408",
+    "sample": false
+   },
+   {
+    "input": "4696",
+    "expected": "6964",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "palindrome-number",
+  "title": "Palindrome Number",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print `YES` if the non-negative integer reads the same forwards and backwards, otherwise `NO`.",
+  "inputFormat": "One non-negative integer.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "0 ≤ n ≤ 10^18.",
+  "hints": [
+   "Compare the number with its reversal."
+  ],
+  "tests": [
+   {
+    "input": "12321",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Same from both ends."
+   },
+   {
+    "input": "120",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "Reversed it is 021."
+   },
+   {
+    "input": "0",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "11",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "987",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "55",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "1601",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1274",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1220",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "348",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1521",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1407",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "984",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "1729",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "factorial",
+  "title": "Factorial",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print `n!` modulo 1 000 000 007 (0! = 1).",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 1000.",
+  "hints": [
+   "Multiply 1..n, taking the modulo after each step."
+  ],
+  "tests": [
+   {
+    "input": "5",
+    "expected": "120",
+    "sample": true,
+    "explanation": "5 × 4 × 3 × 2 × 1 = 120."
+   },
+   {
+    "input": "0",
+    "expected": "1",
+    "sample": true,
+    "explanation": "By definition 0! = 1."
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "1000",
+    "expected": "641419708",
+    "sample": false
+   },
+   {
+    "input": "11",
+    "expected": "39916800",
+    "sample": false
+   },
+   {
+    "input": "12",
+    "expected": "479001600",
+    "sample": false
+   },
+   {
+    "input": "15",
+    "expected": "674358851",
+    "sample": false
+   },
+   {
+    "input": "8",
+    "expected": "40320",
+    "sample": false
+   },
+   {
+    "input": "13",
+    "expected": "227020758",
+    "sample": false
+   },
+   {
+    "input": "19",
+    "expected": "557316307",
+    "sample": false
+   },
+   {
+    "input": "20",
+    "expected": "146326063",
+    "sample": false
+   },
+   {
+    "input": "2",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "17",
+    "expected": "425606191",
+    "sample": false
+   },
+   {
+    "input": "7",
+    "expected": "5040",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "nth-fibonacci",
+  "title": "Nth Fibonacci Number",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math",
+   "dynamic-programming"
+  ],
+  "patterns": [],
+  "statement": "With F(0)=0, F(1)=1 and F(n)=F(n-1)+F(n-2), print F(n) modulo 1 000 000 007.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 100000.",
+  "hints": [
+   "Keep only the last two values.",
+   "Take the modulo at each addition."
+  ],
+  "tests": [
+   {
+    "input": "10",
+    "expected": "55",
+    "sample": true,
+    "explanation": "0 1 1 2 3 5 8 13 21 34 55: F(10) = 55."
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": true,
+    "explanation": "F(1) = 1."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "50",
+    "expected": "586268941",
+    "sample": false
+   },
+   {
+    "input": "13",
+    "expected": "233",
+    "sample": false
+   },
+   {
+    "input": "20",
+    "expected": "6765",
+    "sample": false
+   },
+   {
+    "input": "18",
+    "expected": "2584",
+    "sample": false
+   },
+   {
+    "input": "21",
+    "expected": "10946",
+    "sample": false
+   },
+   {
+    "input": "3",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "17",
+    "expected": "1597",
+    "sample": false
+   },
+   {
+    "input": "22",
+    "expected": "17711",
+    "sample": false
+   },
+   {
+    "input": "4",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "11",
+    "expected": "89",
+    "sample": false
+   },
+   {
+    "input": "12",
+    "expected": "144",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "gcd-of-two-numbers",
+  "title": "GCD of Two Numbers",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print the greatest common divisor of two positive integers.",
+  "inputFormat": "Two integers `a b`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ a, b ≤ 10^18.",
+  "hints": [
+   "Euclid: gcd(a, b) = gcd(b, a mod b)."
+  ],
+  "tests": [
+   {
+    "input": "12 18",
+    "expected": "6",
+    "sample": true,
+    "explanation": "The largest number dividing both is 6."
+   },
+   {
+    "input": "17 5",
+    "expected": "1",
+    "sample": true,
+    "explanation": "They share no divisor except 1."
+   },
+   {
+    "input": "1 1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "35 47",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "7 46",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "1 41",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "4 18",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "29 42",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "10 18",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "4 32",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "32 20",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "32 2",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "33 18",
+    "expected": "3",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "lcm-of-two-numbers",
+  "title": "LCM of Two Numbers",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print the least common multiple of two positive integers.",
+  "inputFormat": "Two integers `a b`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ a, b ≤ 10^9.",
+  "hints": [
+   "lcm(a, b) = a / gcd(a, b) × b."
+  ],
+  "tests": [
+   {
+    "input": "4 6",
+    "expected": "12",
+    "sample": true,
+    "explanation": "12 is the smallest number both divide."
+   },
+   {
+    "input": "5 5",
+    "expected": "5",
+    "sample": true,
+    "explanation": "Equal numbers."
+   },
+   {
+    "input": "1 7",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "40 8",
+    "expected": "40",
+    "sample": false
+   },
+   {
+    "input": "11 22",
+    "expected": "22",
+    "sample": false
+   },
+   {
+    "input": "25 32",
+    "expected": "800",
+    "sample": false
+   },
+   {
+    "input": "27 17",
+    "expected": "459",
+    "sample": false
+   },
+   {
+    "input": "15 32",
+    "expected": "480",
+    "sample": false
+   },
+   {
+    "input": "25 22",
+    "expected": "550",
+    "sample": false
+   },
+   {
+    "input": "17 15",
+    "expected": "255",
+    "sample": false
+   },
+   {
+    "input": "14 34",
+    "expected": "238",
+    "sample": false
+   },
+   {
+    "input": "35 4",
+    "expected": "140",
+    "sample": false
+   },
+   {
+    "input": "33 26",
+    "expected": "858",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "prime-number-check",
+  "title": "Prime Number Check",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print `YES` if `n` is prime, otherwise `NO`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ n ≤ 10^12.",
+  "hints": [
+   "Only test divisors up to √n.",
+   "1 is not prime."
+  ],
+  "tests": [
+   {
+    "input": "17",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Only 1 and 17 divide it."
+   },
+   {
+    "input": "1",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "1 is not prime."
+   },
+   {
+    "input": "2",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "91",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "142",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "76",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "185",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "93",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "28",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "183",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "151",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "159",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "113",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "160",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "primes-up-to-n",
+  "title": "Count Primes Up To N",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print how many prime numbers are ≤ `n`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 5 000 000.",
+  "hints": [
+   "Testing each number separately is slow.",
+   "The Sieve of Eratosthenes crosses out multiples of each prime."
+  ],
+  "tests": [
+   {
+    "input": "10",
+    "expected": "4",
+    "sample": true,
+    "explanation": "2, 3, 5 and 7."
+   },
+   {
+    "input": "1",
+    "expected": "0",
+    "sample": true,
+    "explanation": "There are no primes up to 1."
+   },
+   {
+    "input": "2",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "100",
+    "expected": "25",
+    "sample": false
+   },
+   {
+    "input": "114",
+    "expected": "30",
+    "sample": false
+   },
+   {
+    "input": "110",
+    "expected": "29",
+    "sample": false
+   },
+   {
+    "input": "20",
+    "expected": "8",
+    "sample": false
+   },
+   {
+    "input": "48",
+    "expected": "15",
+    "sample": false
+   },
+   {
+    "input": "59",
+    "expected": "17",
+    "sample": false
+   },
+   {
+    "input": "6",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "87",
+    "expected": "23",
+    "sample": false
+   },
+   {
+    "input": "57",
+    "expected": "16",
+    "sample": false
+   },
+   {
+    "input": "27",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "96",
+    "expected": "24",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "perfect-number-check",
+  "title": "Perfect Number Check",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "A number is **perfect** if it equals the sum of its proper divisors (excluding itself). Print `YES` or `NO`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ n ≤ 10^6.",
+  "hints": [
+   "Add the divisors from 1 to n/2, or pair them up to √n."
+  ],
+  "tests": [
+   {
+    "input": "28",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "1 + 2 + 4 + 7 + 14 = 28."
+   },
+   {
+    "input": "12",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "The proper divisors add up to 16."
+   },
+   {
+    "input": "1",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "6",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "496",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "429",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "424",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "170",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "306",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "348",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "310",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "273",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "303",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "32",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "473",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "decimal-to-binary",
+  "title": "Decimal to Binary",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math",
+   "bit-manipulation"
+  ],
+  "patterns": [],
+  "statement": "Print the binary representation of the non-negative integer `n` without leading zeros (print `0` for 0).",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "A string of 0s and 1s.",
+  "constraints": "0 ≤ n ≤ 10^18.",
+  "hints": [
+   "Repeatedly divide by 2 and collect remainders (in reverse)."
+  ],
+  "tests": [
+   {
+    "input": "10",
+    "expected": "1010",
+    "sample": true,
+    "explanation": "10 = 8 + 2 = 1010 in binary."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": true,
+    "explanation": "Zero is `0`."
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "255",
+    "expected": "11111111",
+    "sample": false
+   },
+   {
+    "input": "263",
+    "expected": "100000111",
+    "sample": false
+   },
+   {
+    "input": "18",
+    "expected": "10010",
+    "sample": false
+   },
+   {
+    "input": "82",
+    "expected": "1010010",
+    "sample": false
+   },
+   {
+    "input": "144",
+    "expected": "10010000",
+    "sample": false
+   },
+   {
+    "input": "230",
+    "expected": "11100110",
+    "sample": false
+   },
+   {
+    "input": "118",
+    "expected": "1110110",
+    "sample": false
+   },
+   {
+    "input": "97",
+    "expected": "1100001",
+    "sample": false
+   },
+   {
+    "input": "66",
+    "expected": "1000010",
+    "sample": false
+   },
+   {
+    "input": "219",
+    "expected": "11011011",
+    "sample": false
+   },
+   {
+    "input": "9",
+    "expected": "1001",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "power-of-two-check",
+  "title": "Power of Two Check",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "bit-manipulation"
+  ],
+  "patterns": [],
+  "statement": "Print `YES` if `n` is a power of two (1, 2, 4, 8, ...), otherwise `NO`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "-10^9 ≤ n ≤ 10^9.",
+  "hints": [
+   "A power of two has exactly one bit set.",
+   "`n & (n - 1)` clears the lowest set bit."
+  ],
+  "tests": [
+   {
+    "input": "64",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "64 = 2^6."
+   },
+   {
+    "input": "48",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "48 has two bits set."
+   },
+   {
+    "input": "1",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "0",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "-8",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "51",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "61",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "41",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "69",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "62",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "53",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "63",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "65",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "20",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "66",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "sum-of-array",
+  "title": "Sum of Array Elements",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays"
+  ],
+  "patterns": [],
+  "statement": "Print the sum of all numbers in the array.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 10^5; |a_i| ≤ 10^9.",
+  "hints": [
+   "Keep a running total."
+  ],
+  "tests": [
+   {
+    "input": "4\n3 -1 4 10",
+    "expected": "16",
+    "sample": true,
+    "explanation": "3 - 1 + 4 + 10 = 16."
+   },
+   {
+    "input": "1\n5",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "8\n8 -2 -7 -4 -5 5 3 6",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "2\n-2 9",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "5\n4 8 -6 6 2",
+    "expected": "14",
+    "sample": false
+   },
+   {
+    "input": "2\n-4 8",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "7\n-5 -4 -9 -6 -1 4 4",
+    "expected": "-17",
+    "sample": false
+   },
+   {
+    "input": "1\n7",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "6\n-6 -6 2 -6 6 -8",
+    "expected": "-18",
+    "sample": false
+   },
+   {
+    "input": "8\n-3 -5 -5 -9 2 1 -8 -9",
+    "expected": "-36",
+    "sample": false
+   },
+   {
+    "input": "1\n9",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "2\n0 -8",
+    "expected": "-8",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "second-largest-element",
+  "title": "Second Largest Element",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays"
+  ],
+  "patterns": [],
+  "statement": "Print the second largest **distinct** value, or `-1` if there is none.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ n ≤ 10^5.",
+  "hints": [
+   "Track the largest and second largest in one pass.",
+   "Equal values do not count twice."
+  ],
+  "tests": [
+   {
+    "input": "5\n4 9 9 2 7",
+    "expected": "7",
+    "sample": true,
+    "explanation": "Distinct values are 2, 4, 7, 9; the second largest is 7."
+   },
+   {
+    "input": "3\n5 5 5",
+    "expected": "-1",
+    "sample": true,
+    "explanation": "Only one distinct value."
+   },
+   {
+    "input": "1\n3",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "2\n-7 -6",
+    "expected": "-7",
+    "sample": false
+   },
+   {
+    "input": "4\n6 -8 -5 1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "8\n7 -1 9 5 -2 0 -3 1",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "8\n0 -3 1 -6 7 4 3 -3",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "1\n1",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "8\n6 5 -3 6 -8 9 -4 0",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "6\n-4 5 7 1 -4 4",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "5\n-5 -6 5 -2 8",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "5\n-6 -5 -1 -9 9",
+    "expected": "-1",
+    "sample": false
+   },
+   {
+    "input": "4\n6 6 6 -5",
+    "expected": "-5",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "count-even-and-odd",
+  "title": "Count Even and Odd Numbers",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays"
+  ],
+  "patterns": [],
+  "statement": "Print the number of even values and the number of odd values, separated by a space.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "`even odd`.",
+  "constraints": "1 ≤ n ≤ 10^5.",
+  "hints": [
+   "Check each value's remainder mod 2 (negative numbers too)."
+  ],
+  "tests": [
+   {
+    "input": "5\n1 2 3 4 6",
+    "expected": "3 2",
+    "sample": true,
+    "explanation": "Evens: 2, 4, 6. Odds: 1, 3."
+   },
+   {
+    "input": "1\n-3",
+    "expected": "0 1",
+    "sample": false
+   },
+   {
+    "input": "4\n6 -1 3 9",
+    "expected": "1 3",
+    "sample": false
+   },
+   {
+    "input": "4\n-7 8 8 2",
+    "expected": "3 1",
+    "sample": false
+   },
+   {
+    "input": "6\n4 0 7 -7 -3 -8",
+    "expected": "3 3",
+    "sample": false
+   },
+   {
+    "input": "5\n1 9 1 5 -6",
+    "expected": "1 4",
+    "sample": false
+   },
+   {
+    "input": "6\n3 5 -4 -5 -1 6",
+    "expected": "2 4",
+    "sample": false
+   },
+   {
+    "input": "7\n-8 2 -9 0 -4 -4 -5",
+    "expected": "5 2",
+    "sample": false
+   },
+   {
+    "input": "5\n-9 -3 -3 -1 -6",
+    "expected": "1 4",
+    "sample": false
+   },
+   {
+    "input": "7\n-4 6 9 -7 -9 1 -9",
+    "expected": "2 5",
+    "sample": false
+   },
+   {
+    "input": "3\n0 -3 9",
+    "expected": "1 2",
+    "sample": false
+   },
+   {
+    "input": "1\n4",
+    "expected": "1 0",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "reverse-an-array",
+  "title": "Reverse an Array",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays"
+  ],
+  "patterns": [],
+  "statement": "Print the array in reverse order, separated by spaces.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "The reversed array.",
+  "constraints": "1 ≤ n ≤ 10^5.",
+  "hints": [
+   "Swap from both ends moving inward."
+  ],
+  "tests": [
+   {
+    "input": "4\n1 2 3 4",
+    "expected": "4 3 2 1",
+    "sample": true,
+    "explanation": "The last element comes first."
+   },
+   {
+    "input": "1\n9",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "6\n7 -7 -1 -7 2 9",
+    "expected": "9 2 -7 -1 -7 7",
+    "sample": false
+   },
+   {
+    "input": "6\n9 4 -2 -6 -5 -3",
+    "expected": "-3 -5 -6 -2 4 9",
+    "sample": false
+   },
+   {
+    "input": "7\n-9 4 -4 9 -3 -8 7",
+    "expected": "7 -8 -3 9 -4 4 -9",
+    "sample": false
+   },
+   {
+    "input": "7\n-3 -5 1 3 -5 -5 -6",
+    "expected": "-6 -5 -5 3 1 -5 -3",
+    "sample": false
+   },
+   {
+    "input": "2\n2 -2",
+    "expected": "-2 2",
+    "sample": false
+   },
+   {
+    "input": "5\n-3 3 4 -8 -6",
+    "expected": "-6 -8 4 3 -3",
+    "sample": false
+   },
+   {
+    "input": "3\n5 -5 7",
+    "expected": "7 -5 5",
+    "sample": false
+   },
+   {
+    "input": "4\n7 -9 8 4",
+    "expected": "4 8 -9 7",
+    "sample": false
+   },
+   {
+    "input": "6\n7 -9 6 8 1 4",
+    "expected": "4 1 8 6 -9 7",
+    "sample": false
+   },
+   {
+    "input": "8\n0 3 -3 6 1 -4 9 6",
+    "expected": "6 9 -4 1 6 -3 3 0",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "is-array-sorted",
+  "title": "Check if an Array Is Sorted",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "arrays"
+  ],
+  "patterns": [],
+  "statement": "Print `YES` if the array is in non-decreasing order, otherwise `NO`.",
+  "inputFormat": "Line 1: `n`. Line 2: `n` integers.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ n ≤ 10^5.",
+  "hints": [
+   "Compare each element with the next."
+  ],
+  "tests": [
+   {
+    "input": "4\n1 2 2 5",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Never decreases."
+   },
+   {
+    "input": "3\n3 1 2",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "3 is followed by 1."
+   },
+   {
+    "input": "1\n4",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "6\n-3 -2 -2 -2 -1 5",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "2\n2 -3",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "5\n-5 -2 0 3 4",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "5\n-3 -1 0 3 5",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "2\n1 0",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "4\n-4 -3 3 -5",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "2\n-3 4",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "2\n-5 1",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "5\n-1 -2 -1 -3 3",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "3\n-4 4 -2",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "count-vowels",
+  "title": "Count Vowels",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings"
+  ],
+  "patterns": [],
+  "statement": "Print how many vowels (`a e i o u`, case-insensitive) the text contains.",
+  "inputFormat": "One line of text.",
+  "outputFormat": "One integer.",
+  "constraints": "1 ≤ length ≤ 10^5.",
+  "hints": [
+   "Normalise to lower case, then count."
+  ],
+  "tests": [
+   {
+    "input": "Hello World",
+    "expected": "3",
+    "sample": true,
+    "explanation": "e, o, o."
+   },
+   {
+    "input": "rhythm",
+    "expected": "0",
+    "sample": true,
+    "explanation": "No vowels."
+   },
+   {
+    "input": "AEIOU",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "cdI aYYIIca",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "OueeYEbecuOEY c",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "XuuZbIIYdeE",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "aYXOYaAXAYb",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "YOcuOaeIO",
+    "expected": "7",
+    "sample": false
+   },
+   {
+    "input": "OAuZ",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "OZAZIecXcIXA",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "XEabu",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "ducb AuIIEuAXId",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "ZceXZYcEI OIZEZ",
+    "expected": "6",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "palindrome-string-check",
+  "title": "Palindrome String Check",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings"
+  ],
+  "patterns": [],
+  "statement": "Print `YES` if the string (letters only, lower case) reads the same both ways, otherwise `NO`.",
+  "inputFormat": "One string.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "1 ≤ length ≤ 10^5.",
+  "hints": [
+   "Compare characters from both ends moving inward."
+  ],
+  "tests": [
+   {
+    "input": "level",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "Same from both sides."
+   },
+   {
+    "input": "hello",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "h is not o."
+   },
+   {
+    "input": "a",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "aa",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "baabab",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "baabaab",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "abaab",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "bababaa",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "abaabaa",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "bb",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "bbbabbb",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "bbbbaaa",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "aabb",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "count-words",
+  "title": "Count Words in a Sentence",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings"
+  ],
+  "patterns": [],
+  "statement": "Words are separated by one or more spaces. Print how many words the line contains.",
+  "inputFormat": "One line.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ length ≤ 10^5.",
+  "hints": [
+   "Split on whitespace and count the non-empty parts."
+  ],
+  "tests": [
+   {
+    "input": "the quick  brown fox",
+    "expected": "4",
+    "sample": true,
+    "explanation": "Four words; extra spaces do not count."
+   },
+   {
+    "input": "hello",
+    "expected": "1",
+    "sample": true,
+    "explanation": "One word."
+   },
+   {
+    "input": "a",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "w  www  ww",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "www www www ww www www",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "www   w   w",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "ww  ww  ww  w  ww  ww",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "ww   www   w   www   ww   w",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "ww   w   www   ww   ww",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "w",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "ww  www  w  w",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "w  ww  ww  ww  w",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "ww  ww  ww  w",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "toggle-case",
+  "title": "Toggle Case",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "strings"
+  ],
+  "patterns": [],
+  "statement": "Swap the case of every letter (upper to lower and lower to upper); other characters stay the same.",
+  "inputFormat": "One line.",
+  "outputFormat": "The converted line.",
+  "constraints": "1 ≤ length ≤ 10^5.",
+  "hints": [
+   "Use the language's case helpers or add/subtract 32 on ASCII letters."
+  ],
+  "tests": [
+   {
+    "input": "Hello, World 1",
+    "expected": "hELLO, wORLD 1",
+    "sample": true,
+    "explanation": "Letters flip, the rest is unchanged."
+   },
+   {
+    "input": "a",
+    "expected": "A",
+    "sample": false
+   },
+   {
+    "input": "aa",
+    "expected": "AA",
+    "sample": false
+   },
+   {
+    "input": "1aac1B11",
+    "expected": "1AAC1b11",
+    "sample": false
+   },
+   {
+    "input": "- ac1- B c",
+    "expected": "- AC1- b C",
+    "sample": false
+   },
+   {
+    "input": "B",
+    "expected": "b",
+    "sample": false
+   },
+   {
+    "input": "c-1cBc",
+    "expected": "C-1CbC",
+    "sample": false
+   },
+   {
+    "input": "-c1-a",
+    "expected": "-C1-A",
+    "sample": false
+   },
+   {
+    "input": "Z",
+    "expected": "z",
+    "sample": false
+   },
+   {
+    "input": "c B1",
+    "expected": "C b1",
+    "sample": false
+   },
+   {
+    "input": "-a1",
+    "expected": "-A1",
+    "sample": false
+   },
+   {
+    "input": "11B a ZB",
+    "expected": "11b A zb",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "sum-of-first-n-recursive",
+  "title": "Sum of First N Numbers",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "recursion",
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print 1 + 2 + ... + n. Practise writing it recursively: sum(n) = n + sum(n - 1).",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 5000.",
+  "hints": [
+   "Base case: sum(0) = 0.",
+   "A closed formula also exists: n(n+1)/2."
+  ],
+  "tests": [
+   {
+    "input": "5",
+    "expected": "15",
+    "sample": true,
+    "explanation": "1 + 2 + 3 + 4 + 5 = 15."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": true,
+    "explanation": "Nothing to add."
+   },
+   {
+    "input": "1",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "53",
+    "expected": "1431",
+    "sample": false
+   },
+   {
+    "input": "18",
+    "expected": "171",
+    "sample": false
+   },
+   {
+    "input": "60",
+    "expected": "1830",
+    "sample": false
+   },
+   {
+    "input": "24",
+    "expected": "300",
+    "sample": false
+   },
+   {
+    "input": "22",
+    "expected": "253",
+    "sample": false
+   },
+   {
+    "input": "29",
+    "expected": "435",
+    "sample": false
+   },
+   {
+    "input": "55",
+    "expected": "1540",
+    "sample": false
+   },
+   {
+    "input": "50",
+    "expected": "1275",
+    "sample": false
+   },
+   {
+    "input": "54",
+    "expected": "1485",
+    "sample": false
+   },
+   {
+    "input": "45",
+    "expected": "1035",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "largest-of-three",
+  "title": "Largest of Three",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print the largest of three integers.",
+  "inputFormat": "Three integers.",
+  "outputFormat": "One integer.",
+  "constraints": "|values| ≤ 10^9.",
+  "hints": [
+   "Compare in pairs."
+  ],
+  "tests": [
+   {
+    "input": "3 9 4",
+    "expected": "9",
+    "sample": true,
+    "explanation": "9 is the greatest."
+   },
+   {
+    "input": "5 5 5",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "-1 -8 8",
+    "expected": "8",
+    "sample": false
+   },
+   {
+    "input": "-9 1 5",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "-9 0 -8",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "-3 5 -9",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "-2 -3 -2",
+    "expected": "-2",
+    "sample": false
+   },
+   {
+    "input": "9 2 -7",
+    "expected": "9",
+    "sample": false
+   },
+   {
+    "input": "-8 2 -2",
+    "expected": "2",
+    "sample": false
+   },
+   {
+    "input": "-1 1 -6",
+    "expected": "1",
+    "sample": false
+   },
+   {
+    "input": "1 5 2",
+    "expected": "5",
+    "sample": false
+   },
+   {
+    "input": "-4 -4 4",
+    "expected": "4",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "trailing-zeroes-of-factorial",
+  "title": "Trailing Zeroes of a Factorial",
+  "difficulty": "medium",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "Print how many zeroes `n!` ends with.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "One integer.",
+  "constraints": "0 ≤ n ≤ 10^9.",
+  "hints": [
+   "A zero comes from a factor 10 = 2 × 5.",
+   "There are always more 2s than 5s, so count the 5s: n/5 + n/25 + ..."
+  ],
+  "tests": [
+   {
+    "input": "10",
+    "expected": "2",
+    "sample": true,
+    "explanation": "10! = 3628800."
+   },
+   {
+    "input": "4",
+    "expected": "0",
+    "sample": true,
+    "explanation": "4! = 24 has none."
+   },
+   {
+    "input": "0",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "100",
+    "expected": "24",
+    "sample": false
+   },
+   {
+    "input": "3",
+    "expected": "0",
+    "sample": false
+   },
+   {
+    "input": "115",
+    "expected": "27",
+    "sample": false
+   },
+   {
+    "input": "25",
+    "expected": "6",
+    "sample": false
+   },
+   {
+    "input": "50",
+    "expected": "12",
+    "sample": false
+   },
+   {
+    "input": "22",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "87",
+    "expected": "20",
+    "sample": false
+   },
+   {
+    "input": "19",
+    "expected": "3",
+    "sample": false
+   },
+   {
+    "input": "24",
+    "expected": "4",
+    "sample": false
+   },
+   {
+    "input": "60",
+    "expected": "14",
+    "sample": false
+   },
+   {
+    "input": "9",
+    "expected": "1",
+    "sample": false
+   }
+  ]
+ },
+ {
+  "slug": "armstrong-number",
+  "title": "Armstrong Number",
+  "difficulty": "easy",
+  "tier": "free",
+  "topics": [
+   "math"
+  ],
+  "patterns": [],
+  "statement": "A number is an **Armstrong number** if it equals the sum of its digits each raised to the power of the number of digits (153 = 1³ + 5³ + 3³). Print `YES` or `NO`.",
+  "inputFormat": "One integer `n`.",
+  "outputFormat": "`YES` or `NO`.",
+  "constraints": "0 ≤ n ≤ 10^9.",
+  "hints": [
+   "Count the digits first."
+  ],
+  "tests": [
+   {
+    "input": "153",
+    "expected": "YES",
+    "sample": true,
+    "explanation": "1 + 125 + 27 = 153."
+   },
+   {
+    "input": "154",
+    "expected": "NO",
+    "sample": true,
+    "explanation": "The sum is 190."
+   },
+   {
+    "input": "0",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "9474",
+    "expected": "YES",
+    "sample": false
+   },
+   {
+    "input": "165",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "546",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "860",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "862",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "280",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "90",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "722",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "442",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "861",
+    "expected": "NO",
+    "sample": false
+   },
+   {
+    "input": "187",
+    "expected": "NO",
+    "sample": false
+   }
+  ]
  }
 ]

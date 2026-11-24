@@ -154,6 +154,258 @@
     ]
    },
    {
+    "title": "Programming Fundamentals",
+    "lessons": [
+     {
+      "slug": "choosing-a-language",
+      "title": "Choosing a language for DSA",
+      "tier": "free",
+      "minutes": 7,
+      "md": "## Pick one and know it well\n\nInterviews let you choose a language. **Python** is the shortest to write; **Java** and **C#** are explicit and common in industry; **C++** gives control and a rich standard library; **Go**, **JavaScript** and **TypeScript** are popular for backend and web roles.\n\nWhatever you choose, learn its **built-in tools** cold: dynamic arrays, hash map and set, sorting with a key, a heap, a queue or deque, and string building. Knowing them saves interview minutes.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "What matters most when choosing a language for interviews?",
+        "options": [
+         "Knowing it and its standard library well",
+         "Using the newest one",
+         "Using the longest syntax",
+         "Never switching"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Fluency beats novelty.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "input-output-and-templates",
+      "title": "Reading input and printing output",
+      "tier": "free",
+      "minutes": 6,
+      "md": "## Practice problems read standard input\n\nOur problems give the input format and expect the answer on standard output. Read all input, split into tokens, convert to numbers, and print exactly the required format (spaces, newlines).",
+      "code": [
+       "python",
+       "import sys\n\ndata = sys.stdin.read().split()\nn, k = int(data[0]), int(data[1])\na = list(map(int, data[2:2 + n]))\nprint(sum(a) + k)",
+       "Read all tokens once"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "If a problem says \"print two numbers separated by a space\", you should print:",
+        "options": [
+         "Exactly that, nothing extra",
+         "Any format",
+         "Words describing them",
+         "One number per line"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Output formats are checked exactly.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "DSA Warmup",
+    "lessons": [
+     {
+      "slug": "variables-io-operators",
+      "title": "Variables, I/O and operators",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## The first building blocks\n\nA **variable** names a value. Arithmetic operators `+ - * / %` work as you expect; `//` or integer division drops the fraction, and `%` gives the remainder. Watch for **integer overflow** in languages with fixed-size integers.\n\nTiny programs to try: swap two numbers, convert seconds to hours-minutes-seconds, compute simple interest.\n\n### Practice\n- [Largest of Three](/problems/largest-of-three)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "`17 % 5` equals:",
+        "options": [
+         "2",
+         "3",
+         "12",
+         "5"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "17 = 3×5 + 2.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "conditionals-and-decisions",
+      "title": "Conditionals and decisions",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## if / else\n\nConditionals choose between paths. Combine tests with `and`, `or`, `not`, order them from most specific to most general, and handle edge cases (zero, negative, equal values) explicitly.\n\n### Practice\n- [Even or Odd](/problems/even-or-odd)\n- [Leap Year Check](/problems/leap-year-check)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A leap-year test must check the century rule because:",
+        "options": [
+         "1900 is divisible by 4 but not a leap year",
+         "Years are random",
+         "100 is prime",
+         "It is optional"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Century years need divisibility by 400.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "loops-and-iteration",
+      "title": "Loops and iteration",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## Repeating work\n\n`for` loops repeat a known number of times, `while` loops repeat until a condition changes. Typical tasks: count digits, sum digits, reverse a number by peeling off the last digit with `% 10` and dropping it with `// 10`.\n\n### Practice\n- [Count Digits](/problems/count-digits)\n- [Sum of Digits](/problems/sum-of-digits)\n- [Reverse a Number](/problems/reverse-a-number)\n- [Palindrome Number](/problems/palindrome-number)",
+      "code": [
+       "python",
+       "def digit_sum(n):\n    s = 0\n    while n > 0:\n        s += n % 10\n        n //= 10\n    return s",
+       "Peel digits off"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "To drop the last digit of a positive integer n you use:",
+        "options": [
+         "n // 10",
+         "n % 10",
+         "n * 10",
+         "n - 10"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Integer division by 10.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "number-theory-warmups",
+      "title": "Number theory warm-ups",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Divisors, primes and gcd\n\n- **gcd** by Euclid: `gcd(a, b) = gcd(b, a % b)`; `lcm = a / gcd * b`.\n- **Prime test:** try divisors only up to √n.\n- **Sieve of Eratosthenes:** cross out multiples of each prime to list all primes ≤ n in about O(n log log n).\n- **Binary representation:** repeatedly divide by 2.\n- **Factorial** grows fast: use a modulo when asked.\n\n### Practice\n- [GCD of Two Numbers](/problems/gcd-of-two-numbers)\n- [LCM of Two Numbers](/problems/lcm-of-two-numbers)\n- [Prime Number Check](/problems/prime-number-check)\n- [Count Primes Up To N](/problems/primes-up-to-n)\n- [Perfect Number Check](/problems/perfect-number-check)\n- [Factorial](/problems/factorial)\n- [Nth Fibonacci Number](/problems/nth-fibonacci)\n- [Decimal to Binary](/problems/decimal-to-binary)\n- [Armstrong Number](/problems/armstrong-number)\n- [Trailing Zeroes of a Factorial](/problems/trailing-zeroes-of-factorial)",
+      "code": [
+       "python",
+       "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a",
+       "Euclid's algorithm"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "To test whether n is prime you only need divisors up to:",
+        "options": [
+         "√n",
+         "n/2",
+         "n",
+         "log n"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A larger factor pairs with a smaller one below √n.",
+        "type": "single"
+       },
+       {
+        "prompt": "Euclid's algorithm computes:",
+        "options": [
+         "The greatest common divisor",
+         "The prime factors",
+         "The square root",
+         "The factorial"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "gcd(a, b) = gcd(b, a mod b).",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "array-and-string-warmups",
+      "title": "Array and string warm-ups",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## One pass is often enough\n\nSum, count, max, second max, reverse, check sortedness: each is a single scan carrying a little state. For strings: count vowels, check palindromes, count words, toggle case.\n\n### Practice\n- [Sum of Array Elements](/problems/sum-of-array)\n- [Second Largest Element](/problems/second-largest-element)\n- [Count Even and Odd Numbers](/problems/count-even-and-odd)\n- [Reverse an Array](/problems/reverse-an-array)\n- [Check if an Array Is Sorted](/problems/is-array-sorted)\n- [Count Vowels](/problems/count-vowels)\n- [Palindrome String Check](/problems/palindrome-string-check)\n- [Count Words in a Sentence](/problems/count-words)\n- [Toggle Case](/problems/toggle-case)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Finding the largest element takes:",
+        "options": [
+         "One pass, O(n)",
+         "O(n²)",
+         "O(log n)",
+         "Sorting only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Keep the best seen so far.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "recursion-warmups",
+      "title": "Recursion warm-ups",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## A function that calls itself\n\nEvery recursion needs a **base case** (stop) and a **recursive case** that moves toward it. Sum of first n: `sum(n) = n + sum(n-1)`, `sum(0) = 0`. The call stack grows with depth, so very deep recursion can overflow it.\n\n### Practice\n- [Sum of First N Numbers](/problems/sum-of-first-n-recursive)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Without a base case a recursive function:",
+        "options": [
+         "Never stops (stack overflow)",
+         "Runs once",
+         "Returns 0",
+         "Is faster"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Nothing ends the calls.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
     "title": "Big O Notation",
     "lessons": [
      {
@@ -252,6 +504,171 @@
          0
         ],
         "explanation": "It is measured with the same Big-O notation.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Math Fundamentals",
+    "lessons": [
+     {
+      "slug": "logarithms-and-modular-arithmetic",
+      "title": "Logarithms and modular arithmetic",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Two tools for big numbers\n\n**log₂ n** is how many times you can halve n: it explains binary search and balanced trees. **Modular arithmetic** keeps numbers small: `(a + b) % m = ((a % m) + (b % m)) % m`, and the same holds for multiplication. Answers \"modulo 1 000 000 007\" avoid overflow in counting problems.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "log₂(1024) is:",
+        "options": [
+         "10",
+         "1024",
+         "2",
+         "100"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "2^10 = 1024.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "primes-and-the-sieve",
+      "title": "Primes and the sieve",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## Listing primes quickly\n\nStart with all numbers marked prime. For each prime p, mark p², p²+p, ... as not prime. What remains is the list of primes. This **sieve of Eratosthenes** handles ranges up to millions in milliseconds.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "The sieve marks as composite:",
+        "options": [
+         "Multiples of each prime",
+         "Only even numbers",
+         "Squares only",
+         "Random numbers"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Every multiple of a prime (after the prime) is composite.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Sorting Algorithms",
+    "lessons": [
+     {
+      "slug": "sorting-algorithms",
+      "title": "Sorting algorithms",
+      "tier": "free",
+      "minutes": 14,
+      "md": "## Putting things in order\n\n| Algorithm | Idea | Time (typical) |\n|---|---|---|\n| Bubble / selection / insertion | simple comparisons and swaps | O(n²) |\n| Merge sort | split, sort halves, merge | O(n log n) |\n| Quick sort | partition around a pivot | O(n log n) average |\n| Counting sort | count occurrences of small integers | O(n + k) |\n\n**Insertion sort** is fast on nearly sorted data. **Merge sort** is stable and predictable. In practice use your language's built-in sort (O(n log n)) and focus on *what to sort by*.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Merge sort runs in:",
+        "options": [
+         "O(n log n)",
+         "O(n²)",
+         "O(n)",
+         "O(log n)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "log n levels of linear merging.",
+        "type": "single"
+       },
+       {
+        "prompt": "A stable sort keeps equal items in their original order.",
+        "options": [
+         "True",
+         "False"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "That is the definition of stability.",
+        "type": "true_false"
+       }
+      ],
+      "viz": [
+       "merge-sort",
+       "38, 27, 43, 3, 9, 82, 10",
+       ""
+      ],
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "elementary-sorts",
+      "title": "Bubble, selection and insertion sort",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## The O(n²) trio\n\n- **Bubble sort** swaps adjacent out-of-order pairs; the largest item floats to the end each pass.\n- **Selection sort** repeatedly selects the minimum of the unsorted part and swaps it into place.\n- **Insertion sort** grows a sorted prefix by inserting each new item where it belongs; excellent on nearly sorted input.\n\nThey are simple and in place; use them to understand sorting, not for large inputs.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which is fastest on an already sorted array?",
+        "options": [
+         "Insertion sort (about O(n))",
+         "Selection sort",
+         "Bubble sort always",
+         "Merge sort only"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It does one comparison per element.",
+        "type": "single"
+       }
+      ],
+      "viz": [
+       "insertion-sort",
+       "8, 3, 5, 1, 9, 2",
+       ""
+      ],
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "quicksort-and-quickselect",
+      "title": "Quick sort and quickselect",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Partition around a pivot\n\n**Quick sort** picks a pivot, moves smaller items left and larger right, then sorts both sides: O(n log n) on average, O(n²) in the worst case (mitigate by random pivots). **Quickselect** uses the same partition to find the k-th smallest element in average O(n) without fully sorting.\n\n### Practice\n- [Kth Largest](/problems/kth-largest)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Quickselect finds the k-th smallest element in average:",
+        "options": [
+         "O(n)",
+         "O(n²)",
+         "O(log n)",
+         "O(n log n)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It only recurses into one side.",
         "type": "single"
        }
       ],
@@ -409,6 +826,69 @@
     ]
    },
    {
+    "title": "Bit Manipulation",
+    "lessons": [
+     {
+      "slug": "bit-basics-and-xor",
+      "title": "Bit basics and the XOR trick",
+      "tier": "free",
+      "minutes": 9,
+      "md": "## Working with binary\n\nBitwise `&` (and), `|` (or), `^` (xor), `~` (not), `<<` and `>>` shifts. Handy facts: `x & 1` tests oddness, `1 << k` is 2^k, `x & (x-1)` clears the lowest set bit.\n\n**XOR** cancels equal pairs (`a ^ a = 0`, `a ^ 0 = a`), so XOR-ing all numbers in a list where each value appears twice except one leaves that one.",
+      "code": [
+       "python",
+       "def single_number(nums):\n    r = 0\n    for x in nums:\n        r ^= x\n    return r",
+       "Everything cancels except the single value"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "`a ^ a` equals:",
+        "options": [
+         "0",
+         "a",
+         "1",
+         "2a"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "XOR of equal values cancels.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "bit-masks-and-counting",
+      "title": "Bit masks and counting bits",
+      "tier": "free",
+      "minutes": 8,
+      "md": "## Subsets as numbers\n\nA number's bits can represent a **set** (bit i set = item i chosen), so `n` items have 2^n masks. Count set bits with `x & (x-1)` in a loop (each iteration removes one). Use masks to enumerate subsets for small n.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "How many subsets does a set of 10 items have?",
+        "options": [
+         "1024",
+         "100",
+         "10",
+         "512"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "2^10.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
     "title": "Hash Tables",
     "lessons": [
      {
@@ -544,7 +1024,43 @@
     ]
    },
    {
-    "title": "Prefix Sums",
+    "title": "Sliding Window",
+    "lessons": [
+     {
+      "slug": "sliding-window-fixed-and-variable",
+      "title": "Sliding window: fixed and variable size",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Two kinds of windows\n\n**Fixed size k:** add the entering item, remove the leaving one, update the answer (best sum of k in a row).\n\n**Variable size:** expand `right` until the rule breaks, then shrink `left` until it is valid again; record the best length (longest substring without repeats, smallest subarray with sum ≥ target for positive numbers).\n\n### Practice\n- [Calm Stretch](/problems/calm-stretch)\n- [Longest Unique Stretch](/problems/longest-unique-stretch)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A variable window typically shrinks when:",
+        "options": [
+         "The window becomes invalid",
+         "It is empty",
+         "It reaches k",
+         "Never"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "You restore validity by moving left.",
+        "type": "single"
+       }
+      ],
+      "viz": [
+       "sliding-window",
+       "2, 1, 5, 1, 3, 2, 8, 1",
+       "3"
+      ],
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Prefix Sum",
     "lessons": [
      {
       "slug": "prefix-sums",
@@ -571,6 +1087,42 @@
          0
         ],
         "explanation": "Two lookups and a subtraction.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Kadane's Algorithm",
+    "lessons": [
+     {
+      "slug": "kadanes-algorithm",
+      "title": "Kadane's algorithm",
+      "tier": "free",
+      "minutes": 9,
+      "md": "## Maximum subarray sum in O(n)\n\nAt each position, the best subarray **ending here** is either the current value alone or the current value plus the best ending at the previous position. Track the best overall. Variants: circular arrays, maximum product (track min and max), one deletion.",
+      "code": [
+       "python",
+       "def max_subarray(a):\n    best = cur = a[0]\n    for x in a[1:]:\n        cur = max(x, cur + x)\n        best = max(best, cur)\n    return best",
+       "Best sum ending here"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Kadane's algorithm runs in:",
+        "options": [
+         "O(n)",
+         "O(n²)",
+         "O(n log n)",
+         "O(1)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "One pass with two variables.",
         "type": "single"
        }
       ],
@@ -632,139 +1184,29 @@
     ]
    },
    {
-    "title": "Sorting",
+    "title": "Matrix",
     "lessons": [
      {
-      "slug": "sorting-algorithms",
-      "title": "Sorting algorithms",
+      "slug": "matrix-traversal",
+      "title": "Matrix traversal and transformation",
       "tier": "free",
-      "minutes": 14,
-      "md": "## Putting things in order\n\n| Algorithm | Idea | Time (typical) |\n|---|---|---|\n| Bubble / selection / insertion | simple comparisons and swaps | O(n²) |\n| Merge sort | split, sort halves, merge | O(n log n) |\n| Quick sort | partition around a pivot | O(n log n) average |\n| Counting sort | count occurrences of small integers | O(n + k) |\n\n**Insertion sort** is fast on nearly sorted data. **Merge sort** is stable and predictable. In practice use your language's built-in sort (O(n log n)) and focus on *what to sort by*.",
+      "minutes": 9,
+      "md": "## Grids are arrays of arrays\n\nTraverse row by row, column by column, by diagonals or in a spiral (keep four boundaries and shrink them). A **transpose** swaps rows and columns; rotating 90° clockwise = transpose then reverse each row. For neighbours use direction arrays `(±1,0)`, `(0,±1)` and check bounds.",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "Merge sort runs in:",
+        "prompt": "Rotate a square matrix 90° clockwise by:",
         "options": [
-         "O(n log n)",
-         "O(n²)",
-         "O(n)",
-         "O(log n)"
+         "Transposing, then reversing each row",
+         "Sorting rows",
+         "Reversing columns only",
+         "Doubling it"
         ],
         "correct": [
          0
         ],
-        "explanation": "log n levels of linear merging.",
-        "type": "single"
-       },
-       {
-        "prompt": "A stable sort keeps equal items in their original order.",
-        "options": [
-         "True",
-         "False"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "That is the definition of stability.",
-        "type": "true_false"
-       }
-      ],
-      "viz": [
-       "merge-sort",
-       "38, 27, 43, 3, 9, 82, 10",
-       ""
-      ],
-      "quiz_title": "Check your understanding"
-     }
-    ]
-   },
-   {
-    "title": "Stacks and Queues",
-    "lessons": [
-     {
-      "slug": "stacks-and-brackets",
-      "title": "Stacks and bracket matching",
-      "tier": "free",
-      "minutes": 10,
-      "md": "## Last in, first out\n\nA **stack** supports push and pop at one end in O(1). The most recent unmatched opener must be closed first, which is exactly what bracket matching needs: push openers, and on a closer check that the top is its partner. At the end the stack must be empty.\n\n### Practice\n- [Balanced Brackets](/problems/balanced-brackets)",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "Which structure gives you the most recent item first?",
-        "options": [
-         "Stack",
-         "Queue",
-         "Array only",
-         "Set"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "LIFO.",
-        "type": "single"
-       }
-      ],
-      "viz": [
-       "valid-parentheses",
-       "{[()]}(",
-       ""
-      ],
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "monotonic-stack",
-      "title": "Monotonic stack",
-      "tier": "free",
-      "minutes": 10,
-      "md": "## Next greater item in O(n)\n\nKeep a stack of items whose answer is not known yet, in decreasing order. When a bigger value arrives, pop everything smaller; each popped item has just found its answer. Every item is pushed and popped once, so the whole scan is O(n).\n\n### Practice\n- [Next Warmer Day](/problems/next-warmer-day)\n- [Largest Skyline Rectangle](/problems/largest-skyline-rectangle)",
-      "code": [
-       "python",
-       "def next_greater(a):\n    res, st = [-1] * len(a), []\n    for i, x in enumerate(a):\n        while st and a[st[-1]] < x:\n            res[st.pop()] = x\n        st.append(i)\n    return res",
-       "Next greater element"
-      ],
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "Why is a monotonic stack scan O(n)?",
-        "options": [
-         "Each item is pushed and popped at most once",
-         "It sorts the data",
-         "It uses hashing",
-         "It skips half"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "Amortised constant work per element.",
-        "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding"
-     },
-     {
-      "slug": "queues-and-bfs-queue",
-      "title": "Queues",
-      "tier": "free",
-      "minutes": 7,
-      "md": "## First in, first out\n\nA **queue** removes the oldest item first. It models waiting lines and is the engine of breadth-first search. A **deque** supports both ends in O(1) and powers sliding window maximum with a monotonic queue.",
-      "code": null,
-      "tip": null,
-      "quiz": [
-       {
-        "prompt": "A queue is:",
-        "options": [
-         "First in, first out",
-         "Last in, first out",
-         "Sorted",
-         "Hashed"
-        ],
-        "correct": [
-         0
-        ],
-        "explanation": "The oldest item leaves first.",
+        "explanation": "Two simple steps compose the rotation.",
         "type": "single"
        }
       ],
@@ -774,7 +1216,7 @@
     ]
    },
    {
-    "title": "Linked Lists",
+    "title": "Linked List",
     "lessons": [
      {
       "slug": "linked-list-basics",
@@ -837,7 +1279,165 @@
     ]
    },
    {
-    "title": "Trees",
+    "title": "Stacks",
+    "lessons": [
+     {
+      "slug": "stacks-and-brackets",
+      "title": "Stacks and bracket matching",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Last in, first out\n\nA **stack** supports push and pop at one end in O(1). The most recent unmatched opener must be closed first, which is exactly what bracket matching needs: push openers, and on a closer check that the top is its partner. At the end the stack must be empty.\n\n### Practice\n- [Balanced Brackets](/problems/balanced-brackets)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Which structure gives you the most recent item first?",
+        "options": [
+         "Stack",
+         "Queue",
+         "Array only",
+         "Set"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "LIFO.",
+        "type": "single"
+       }
+      ],
+      "viz": [
+       "valid-parentheses",
+       "{[()]}(",
+       ""
+      ],
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "monotonic-stack",
+      "title": "Monotonic stack",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Next greater item in O(n)\n\nKeep a stack of items whose answer is not known yet, in decreasing order. When a bigger value arrives, pop everything smaller; each popped item has just found its answer. Every item is pushed and popped once, so the whole scan is O(n).\n\n### Practice\n- [Next Warmer Day](/problems/next-warmer-day)\n- [Largest Skyline Rectangle](/problems/largest-skyline-rectangle)",
+      "code": [
+       "python",
+       "def next_greater(a):\n    res, st = [-1] * len(a), []\n    for i, x in enumerate(a):\n        while st and a[st[-1]] < x:\n            res[st.pop()] = x\n        st.append(i)\n    return res",
+       "Next greater element"
+      ],
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why is a monotonic stack scan O(n)?",
+        "options": [
+         "Each item is pushed and popped at most once",
+         "It sorts the data",
+         "It uses hashing",
+         "It skips half"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Amortised constant work per element.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Queues",
+    "lessons": [
+     {
+      "slug": "queues-and-bfs-queue",
+      "title": "Queues",
+      "tier": "free",
+      "minutes": 7,
+      "md": "## First in, first out\n\nA **queue** removes the oldest item first. It models waiting lines and is the engine of breadth-first search. A **deque** supports both ends in O(1) and powers sliding window maximum with a monotonic queue.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A queue is:",
+        "options": [
+         "First in, first out",
+         "Last in, first out",
+         "Sorted",
+         "Hashed"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The oldest item leaves first.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Recursion and Backtracking",
+    "lessons": [
+     {
+      "slug": "recursion-fundamentals",
+      "title": "Recursion fundamentals",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Break it down\n\nSolve a problem by solving smaller copies. Define the **base case**, the **recursive case**, and make sure each call moves toward the base. Examples: power(x, n) by halving the exponent, merging two sorted lists, decoding nested strings.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Computing power(x, n) by halving n takes:",
+        "options": [
+         "O(log n)",
+         "O(n)",
+         "O(n²)",
+         "O(1)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The exponent halves each call.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "backtracking-subsets-permutations",
+      "title": "Backtracking: subsets and permutations",
+      "tier": "free",
+      "minutes": 12,
+      "md": "## Explore, then undo\n\n**Backtracking** builds a solution step by step, abandons a path as soon as it cannot work, and **undoes** the last choice before trying the next. Patterns: subsets (include or exclude each item), permutations (choose any unused item), combination sum (reuse allowed or not). Prune early to save time.\n\n### Practice\n- [Subset Target Count](/problems/subset-target-count)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "A set of n distinct items has how many subsets?",
+        "options": [
+         "2^n",
+         "n!",
+         "n²",
+         "n"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Each item is in or out.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Binary Tree",
     "lessons": [
      {
       "slug": "binary-tree-traversals",
@@ -883,7 +1483,12 @@
       ],
       "viz": null,
       "quiz_title": "Check your understanding"
-     },
+     }
+    ]
+   },
+   {
+    "title": "BST",
+    "lessons": [
      {
       "slug": "binary-search-trees",
       "title": "Binary search trees",
@@ -905,6 +1510,166 @@
          0
         ],
         "explanation": "You follow one root-to-leaf path.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Heaps",
+    "lessons": [
+     {
+      "slug": "heaps-and-priority-queues",
+      "title": "Heaps and priority queues",
+      "tier": "free",
+      "minutes": 11,
+      "md": "## Always the smallest (or largest) first\n\nA **binary heap** is a complete tree stored in an array where each parent is ≤ its children (min-heap). Push and pop cost O(log n), peek O(1). Uses: **top-k** (keep a heap of size k), merging k sorted lists, scheduling, Dijkstra's algorithm, running median with two heaps.\n\n### Practice\n- [Kth Largest](/problems/kth-largest)\n- [Cheapest Route](/problems/cheapest-route)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Popping the minimum from a binary heap costs:",
+        "options": [
+         "O(log n)",
+         "O(1)",
+         "O(n)",
+         "O(n²)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The last item moves to the root and sifts down.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Intervals",
+    "lessons": [
+     {
+      "slug": "merging-intervals",
+      "title": "Merging and scheduling intervals",
+      "tier": "free",
+      "minutes": 9,
+      "md": "## Sort first\n\nSort intervals by start. Walk through them, comparing each with the last merged interval: if it starts at or before that interval's end, extend it; otherwise start a new one. Variants: insert an interval, count meeting rooms (sweep line or a min-heap of end times), remove the fewest intervals to avoid overlap.\n\n### Practice\n- [Merge Meeting Slots](/problems/merge-meeting-slots)\n- [Most Meetings](/problems/most-meetings)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Before merging intervals you should:",
+        "options": [
+         "Sort them by start",
+         "Shuffle them",
+         "Reverse them",
+         "Remove the first"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Overlaps then appear next to each other.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Tries",
+    "lessons": [
+     {
+      "slug": "trie-basics",
+      "title": "Tries (prefix trees)",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Fast prefix lookups\n\nA **trie** stores words character by character along tree edges; a flag marks where a word ends. Insert, search and prefix-search cost O(length of the word), independent of how many words are stored. Uses: autocomplete, spell checking, word search on boards.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Searching a word of length L in a trie costs:",
+        "options": [
+         "O(L)",
+         "O(number of words)",
+         "O(L²)",
+         "O(1) always"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "You follow one edge per character.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Data Structure Design",
+    "lessons": [
+     {
+      "slug": "lru-cache-design",
+      "title": "Design: an LRU cache",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Hash map plus linked list\n\nAn **LRU cache** evicts the least recently used entry when full. Combine a **hash map** (key to node, O(1) lookup) with a **doubly linked list** ordered by recency (move to front on use, evict from the back). Both `get` and `put` run in O(1). Many design problems are a clever pairing of two simple structures.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why a doubly linked list in an LRU cache?",
+        "options": [
+         "To remove and move nodes in O(1)",
+         "To sort keys",
+         "To hash keys",
+         "To save memory"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Given a node, unlinking it needs no scan.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Greedy",
+    "lessons": [
+     {
+      "slug": "greedy-and-intervals",
+      "title": "Greedy choices and intervals",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Make the locally best choice\n\nA **greedy** algorithm commits to the best option at each step and never reconsiders. It works when a local choice can be proven safe. Classic example: to fit the most non-overlapping meetings, always take the one that **ends earliest**.\n\nFor **intervals**: sort by start, then merge by comparing each interval with the last merged one.\n\n### Practice\n- [Most Meetings](/problems/most-meetings)\n- [Merge Meeting Slots](/problems/merge-meeting-slots)\n- [Fewest Hops](/problems/fewest-hops)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "To maximise non-overlapping meetings, pick the one that:",
+        "options": [
+         "Ends earliest",
+         "Starts latest",
+         "Is longest",
+         "Is shortest always"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It leaves the most room for the rest.",
         "type": "single"
        }
       ],
@@ -987,6 +1752,33 @@
       ],
       "viz": null,
       "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "union-find",
+      "title": "Union-find (disjoint sets)",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Who is connected to whom?\n\n**Union-find** keeps disjoint sets with two operations: `find(x)` returns the set representative, `union(a, b)` merges two sets. With **path compression** and **union by size** both are almost O(1). Uses: connected components, detecting a redundant edge, Kruskal's minimum spanning tree.\n\n### Practice\n- [Friend Circles](/problems/friend-circles)",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Union-find answers quickly:",
+        "options": [
+         "Are these two nodes in the same set?",
+         "What is the shortest path?",
+         "Is the array sorted?",
+         "What is the median?"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "find(a) == find(b).",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
      }
     ]
    },
@@ -1037,33 +1829,87 @@
        ""
       ],
       "quiz_title": "Check your understanding"
-     }
-    ]
-   },
-   {
-    "title": "Greedy and Intervals",
-    "lessons": [
+     },
      {
-      "slug": "greedy-and-intervals",
-      "title": "Greedy choices and intervals",
+      "slug": "knapsack-and-subsequences",
+      "title": "Knapsack and subsequence DP",
       "tier": "free",
-      "minutes": 10,
-      "md": "## Make the locally best choice\n\nA **greedy** algorithm commits to the best option at each step and never reconsiders. It works when a local choice can be proven safe. Classic example: to fit the most non-overlapping meetings, always take the one that **ends earliest**.\n\nFor **intervals**: sort by start, then merge by comparing each interval with the last merged one.\n\n### Practice\n- [Most Meetings](/problems/most-meetings)\n- [Merge Meeting Slots](/problems/merge-meeting-slots)\n- [Fewest Hops](/problems/fewest-hops)",
+      "minutes": 12,
+      "md": "## Classic families\n\n- **0/1 knapsack:** each item once; `dp[w]` = best value with capacity w (iterate w downward).\n- **Unbounded knapsack / coin change:** items reusable.\n- **LIS:** longest increasing subsequence, O(n²) or O(n log n).\n- **LCS / edit distance:** two-string DP tables.\n\nIn each, name the state, write the transition, and decide the fill order.\n\n### Practice\n- [Fewest Coins](/problems/fewest-coins)\n- [Longest Common Run](/problems/longest-common-run)\n- [Edit Distance](/problems/edit-distance)",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "To maximise non-overlapping meetings, pick the one that:",
+        "prompt": "In 0/1 knapsack each item can be used:",
         "options": [
-         "Ends earliest",
-         "Starts latest",
-         "Is longest",
-         "Is shortest always"
+         "At most once",
+         "Unlimited times",
+         "Twice",
+         "Never"
         ],
         "correct": [
          0
         ],
-        "explanation": "It leaves the most room for the rest.",
+        "explanation": "That distinguishes it from unbounded knapsack.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     }
+    ]
+   },
+   {
+    "title": "Advanced Topics",
+    "lessons": [
+     {
+      "slug": "string-matching-kmp",
+      "title": "String matching and KMP",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Finding a pattern in text\n\nThe naive method compares at every start position: O(n·m). **KMP** precomputes, for the pattern, the longest proper prefix that is also a suffix at each position, so after a mismatch it never re-reads text characters: O(n + m). **Rabin-Karp** compares rolling hashes instead.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "KMP runs in:",
+        "options": [
+         "O(n + m)",
+         "O(n·m)",
+         "O(n²)",
+         "O(log n)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Text is scanned once.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding"
+     },
+     {
+      "slug": "segment-trees-and-fenwick",
+      "title": "Segment trees and Fenwick trees",
+      "tier": "free",
+      "minutes": 10,
+      "md": "## Range queries with updates\n\nPrefix sums answer range sums but break when values change. A **Fenwick tree** (binary indexed tree) and a **segment tree** both support point updates and range queries in O(log n). Segment trees generalise to min, max and (with lazy propagation) range updates.",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Updating one value and querying a range sum in O(log n) each is the job of:",
+        "options": [
+         "A Fenwick tree",
+         "A plain array",
+         "A stack",
+         "A queue"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Both operations walk O(log n) nodes.",
         "type": "single"
        }
       ],

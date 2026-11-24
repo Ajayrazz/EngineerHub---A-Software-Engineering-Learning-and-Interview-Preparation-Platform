@@ -144,6 +144,9 @@ PROBLEMS = [
    B.ref_hist, B.brute_hist, B.gen_hist, [("6\n2 1 5 6 2 3", "Bars of height 5 and 6 form a 5×2 = 10 rectangle.")], ["1\n0", "3\n2 2 2"]),
 ]
 
+import problems_warmup
+PROBLEMS += problems_warmup.make(P)
+
 def build():
     out, bad = [], False
     for p in PROBLEMS:

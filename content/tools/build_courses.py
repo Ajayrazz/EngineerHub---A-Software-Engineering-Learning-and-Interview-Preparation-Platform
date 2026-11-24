@@ -3,12 +3,13 @@ import json, pathlib
 from courses_a import COURSES_A
 from courses_b import COURSES_B
 from courses_c import COURSES_C
-from courses_dsa import DSA
+from courses_dsa_more import DSA_FULL as DSA
 
 def clean(c):
     for sec in c["sections"]:
         pass
-    return {**c, "sections": [{"title": t, "lessons": ls} for t, ls in c["sections"]]}
+    secs = c["sections"]
+    return {**c, "sections": secs if secs and isinstance(secs[0], dict) else [{"title": t, "lessons": ls} for t, ls in secs]}
 
 courses = [clean(c) for c in [DSA] + COURSES_A + COURSES_B + COURSES_C]
 for c in courses:
