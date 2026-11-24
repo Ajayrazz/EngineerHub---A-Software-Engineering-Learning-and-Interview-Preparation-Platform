@@ -72,6 +72,8 @@ Exit: all four options work in **test mode**; live charging impossible until the
 
 ### Phase 7 — Quizzes & visualizations (≈5–7)
 Quiz engine (MCQ/multi/TF first), embeds in lessons; visualization framework + first 8–10 deterministic visualizations.
+- **M7.1 ✅ (2026-11-24)** Quiz engine: single / multiple choice / true-false questions as a **lesson block**, answer key never sent before grading, server-side all-or-nothing grading against the published lesson, stored attempts, authoring UI and reader UI (ADR-056).
+- **M7.2** Visualization framework + first 8–10 deterministic visualizations — not started.
 
 ### Phase 8 — Roadmaps, notes/highlights, company-wise & interview content structure, notifications (≈5–6)
 
