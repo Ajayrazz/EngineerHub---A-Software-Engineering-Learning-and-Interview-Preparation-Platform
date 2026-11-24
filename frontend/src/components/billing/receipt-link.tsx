@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 /**
- * Downloads the receipt or tax invoice of one of the user's own payments. The file is fetched (so a refusal shows
+ * Downloads a document of the user's own (receipt, tax invoice or credit note) from an API path built by the caller. The file is fetched (so a refusal shows
  * a message instead of saving an error page) and handed to the browser as a download.
  */
-export function ReceiptLink({ paymentId, label }: { paymentId: string; label: string }) {
+export function ReceiptLink({ apiPath, label }: { apiPath: string; label: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +14,7 @@ export function ReceiptLink({ paymentId, label }: { paymentId: string; label: st
     setBusy(true);
     setError(null);
     try {
-      const r = await fetch(`/api/proxy/me/payments/${encodeURIComponent(paymentId)}/document`, {
+      const r = await fetch(`/api/proxy/${apiPath}`, {
         credentials: "same-origin",
         cache: "no-store",
       });

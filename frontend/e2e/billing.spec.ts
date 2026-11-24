@@ -370,6 +370,107 @@ test("an admin configures documents, and a payer downloads a receipt only once t
   }
 });
 
+test("a payer asks for a refund and an admin reviews it; with payments off the provider cannot be told, so nothing changes", async ({
+  browser,
+}) => {
+  // logging in provisions the local user (a fresh database has nobody to look up otherwise)
+  const payer = await newPage(browser, "problemsetter");
+  const admin = await newPage(browser, "admin");
+  const call = await api(admin.request);
+  const reset = () =>
+    call("put", "admin/billing/refund-settings", {
+      policyText: null,
+      requestWindowDays: null,
+      revokeAccessOnRefund: true,
+      approvalThresholdMinor: null,
+      autoDetectDuplicates: true,
+    });
+  await reset(); // a known start: no policy is ever assumed
+  const userId = (await call("get", "admin/users?q=problemsetter")).items.find(
+    (u: { username: string }) => u.username === "problemsetter",
+  ).id;
+  const plan = (await call("get", "admin/billing/plans")).find(
+    (p: { code: string }) => p.code === planCode,
+  );
+  const price = plan.prices.find((p: { billingMode: string }) => p.billingMode === "RECURRING");
+  const subscriptionId = crypto.randomUUID();
+  seedSubscription({
+    subscriptionId,
+    userId,
+    planId: plan.id,
+    planPriceId: price.id,
+    status: "cancelled",
+  });
+  seedPayment({ paymentId: crypto.randomUUID(), subscriptionId, userId });
+
+  try {
+    await payer.goto("/billing");
+    await expect(payer.getByTestId("no-refund-policy")).toContainText("No refund policy");
+    const row = payer.getByTestId("payment").first();
+    await row.getByTestId("refund-open").click();
+    await payer.locator('select[name="refund-reason"]').selectOption("technical_issue");
+    await payer.locator('textarea[name="refund-details"]').fill("e2e: could not use the service");
+    await payer.getByTestId("refund-send").click();
+    await expect(payer.getByTestId("refund-request").first()).toContainText("Waiting for review");
+    await expect(
+      payer.getByTestId("payment").first().getByTestId("payment-refund-status"),
+    ).toContainText("Waiting for review");
+
+    // the admin finds it in the queue and opens it
+    await admin.goto("/admin/refunds");
+    await admin.getByTestId("refund-row").first().getByRole("link").click();
+    await expect(admin.getByTestId("refundable")).toContainText(/₹\s?2,999\.00/);
+    await admin.getByTestId("refund-review").click();
+    await expect(admin.getByTestId("refund-status")).toContainText("review started");
+
+    // payments are off in the dev stack: the provider cannot be told, so the refund must not happen
+    await admin.locator('input[name="decision-note"]').fill("e2e: approving");
+    await admin.getByTestId("refund-approve").click();
+    await expect(admin.getByRole("alert").first()).toContainText("not available");
+    await admin.reload();
+    await expect(admin.getByTestId("refund-status")).toContainText("failed");
+    await expect(admin.getByTestId("refund-attempts")).toContainText("failed");
+    await payer.reload();
+    await expect(
+      payer.getByTestId("payment").first().getByTestId("payment-refund-status"),
+    ).toContainText("Being looked into");
+
+    // a retry needs the admin to confirm they checked the provider first
+    await expect(admin.getByTestId("refund-retry")).toBeDisabled();
+    await admin.getByTestId("refund-confirm-check").check();
+    await expect(admin.getByTestId("refund-retry")).toBeEnabled();
+
+    // the owner writes the policy; learners see exactly that text
+    await admin.goto("/admin/refunds");
+    const settings = admin.getByTestId("refund-settings");
+    await settings.locator('textarea[name="policy-text"]').fill("e2e policy written by the owner");
+    await settings.locator('input[name="window-days"]').fill("30");
+    await settings.getByTestId("refund-settings-save").click();
+    await expect(
+      admin.getByRole("status").filter({ hasText: "Refund settings saved" }),
+    ).toBeVisible();
+    await payer.reload();
+    await expect(payer.getByTestId("refund-policy")).toContainText(
+      "e2e policy written by the owner",
+    );
+    await expect(payer.getByTestId("refund-policy")).toContainText("30 days");
+
+    // rejecting explains itself to the learner
+    await admin.goto("/admin/refunds");
+    await admin.getByTestId("refund-row").first().getByRole("link").click();
+    await admin.locator('input[name="decision-note"]').fill("e2e: not eligible");
+    await admin.getByTestId("refund-reject").click();
+    await expect(admin.getByRole("status").filter({ hasText: "Request rejected" })).toBeVisible();
+    await payer.reload();
+    const mine = payer.getByTestId("refund-request").first();
+    await expect(mine).toContainText("Not approved");
+    await expect(mine).toContainText("e2e: not eligible");
+  } finally {
+    await reset();
+    await admin.context().close();
+  }
+});
+
 test("without payment credentials the pricing page offers no purchase, and the CSP admits the provider only there", async ({
   browser,
 }) => {

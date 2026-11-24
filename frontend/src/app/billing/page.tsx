@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Notice } from "@/components/admin/ui";
 import { CancelSubscription } from "@/components/billing/cancel-subscription";
 import { ReceiptLink } from "@/components/billing/receipt-link";
+import { RequestRefund } from "@/components/billing/request-refund";
 import { ReaderShell } from "@/components/reader/ui";
 import {
   accessHeadline,
@@ -13,20 +14,25 @@ import {
   renewalReminder,
   subscriptionNote,
 } from "@/lib/billing/format";
+import { reasonLabel, refundStatusLabel } from "@/lib/billing/refund";
 import type { components } from "@/lib/api/schema";
 import { readerGet, readerSession } from "@/lib/reader/server";
 
 type Access = components["schemas"]["AccessView"];
 type Summary = components["schemas"]["BillingSummary"];
+type MyRefund = components["schemas"]["MyRefundView"];
+type Policy = components["schemas"]["RefundPolicyView"];
 
 export const metadata: Metadata = { title: "My access · EngineerHub" };
 
 export default async function BillingPage() {
   const session = await readerSession();
   if (!session) redirect("/auth/login?returnTo=/billing");
-  const [summary, access] = await Promise.all([
+  const [summary, access, refunds, policy] = await Promise.all([
     readerGet<Summary>("me/billing", session.accessToken),
     readerGet<Access>("me/access", session.accessToken),
+    readerGet<MyRefund[]>("me/refund-requests", session.accessToken),
+    readerGet<Policy>("billing/refund-policy"),
   ]);
   const reminder = summary.ok ? renewalReminder(summary.data) : null;
   return (
@@ -101,6 +107,7 @@ export default async function BillingPage() {
                     <th>Amount (incl. taxes)</th>
                     <th>Status</th>
                     <th>Receipt</th>
+                    <th>Refund</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,15 +119,72 @@ export default async function BillingPage() {
                       <td>{paymentStatusLabel(p.status)}</td>
                       <td>
                         {p.id && (p.documentNumber || summary.data.documentsAvailable) ? (
-                          <ReceiptLink paymentId={p.id} label={p.documentNumber ?? "Get receipt"} />
+                          <ReceiptLink
+                            apiPath={`me/payments/${encodeURIComponent(p.id)}/document`}
+                            label={p.documentNumber ?? "Get receipt"}
+                          />
                         ) : (
                           <span className="opacity-70">Not available yet</span>
+                        )}
+                      </td>
+                      <td>
+                        {p.id && p.refundRequestable ? (
+                          <RequestRefund csrfToken={session.csrfToken} paymentId={p.id} />
+                        ) : p.refundRequestStatus ? (
+                          <span data-testid="payment-refund-status">
+                            {refundStatusLabel(p.refundRequestStatus)}
+                          </span>
+                        ) : (
+                          <span className="opacity-70">—</span>
                         )}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            )}
+          </section>
+          <section aria-labelledby="refunds-h" className="space-y-2" data-testid="refunds">
+            <h2 id="refunds-h" className="text-lg font-medium">
+              Refunds
+            </h2>
+            {policy.ok && policy.data.policyText ? (
+              <div className="rounded border p-3 text-sm" data-testid="refund-policy">
+                <p className="whitespace-pre-wrap">{policy.data.policyText}</p>
+                {policy.data.requestWindowDays && (
+                  <p className="mt-2 opacity-70">
+                    Requests are accepted for {policy.data.requestWindowDays} days after payment.
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="text-sm opacity-70" data-testid="no-refund-policy">
+                No refund policy has been published yet. You can still send a request from the
+                payments table above; a person reviews every request.
+              </p>
+            )}
+            {refunds.ok && refunds.data.length > 0 && (
+              <ul className="flex flex-col gap-2 text-sm" data-testid="refund-list">
+                {refunds.data.map((r) => (
+                  <li key={r.id} className="rounded border p-3" data-testid="refund-request">
+                    <div>
+                      <strong>{refundStatusLabel(r.status)}</strong>: {r.planName},{" "}
+                      {formatInr(r.paymentAmountMinor ?? 0)} ({reasonLabel(r.reason)})
+                    </div>
+                    {r.refundedMinor ? <div>Refunded: {formatInr(r.refundedMinor)}</div> : null}
+                    {r.decisionNote && <div>Note from us: {r.decisionNote}</div>}
+                    {r.refundId && r.creditNoteNumber && (
+                      <div>
+                        Credit note:{" "}
+                        <ReceiptLink
+                          apiPath={`me/refunds/${encodeURIComponent(r.refundId)}/credit-note`}
+                          label={r.creditNoteNumber}
+                        />
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
             )}
           </section>
           {(access.data.periods ?? []).length > 0 && (
