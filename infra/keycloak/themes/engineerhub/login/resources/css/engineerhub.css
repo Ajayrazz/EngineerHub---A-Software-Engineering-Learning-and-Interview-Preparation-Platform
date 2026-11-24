@@ -1,0 +1,115 @@
+/* EngineerHub login theme (black and electric blue). Pure CSS over the keycloak.v2 markup. */
+:root, .login-pf {
+  --keycloak-logo-url: url('../img/logo.svg');
+  --keycloak-logo-height: 63px;
+  --keycloak-logo-width: 300px;
+  --eh-bg: #03050b;
+  --eh-surface: #080d1a;
+  --eh-surface-2: #0d1630;
+  --eh-line: #17254a;
+  --eh-text: #e8eaed;
+  --eh-muted: #8fa0c4;
+  --eh-blue: #3b82f6;
+  --eh-sky: #38bdf8;
+  color-scheme: dark;
+  --pf-v5-global--BackgroundColor--100: var(--eh-surface);
+  --pf-v5-global--BackgroundColor--200: var(--eh-surface-2);
+  --pf-v5-global--Color--100: var(--eh-text);
+  --pf-v5-global--Color--200: var(--eh-muted);
+  --pf-v5-global--BorderColor--100: var(--eh-line);
+  --pf-v5-global--primary-color--100: var(--eh-blue);
+  --pf-v5-global--primary-color--200: #2563eb;
+  --pf-v5-global--link--Color: var(--eh-sky);
+  --pf-v5-global--link--Color--hover: #bae6fd;
+}
+
+html, .login-pf body {
+  background:
+    radial-gradient(55% 45% at 15% 0%, rgba(59, 130, 246, 0.28), transparent 70%),
+    radial-gradient(45% 40% at 90% 10%, rgba(56, 189, 248, 0.16), transparent 70%),
+    var(--eh-bg) !important;
+  color: var(--eh-text);
+  min-height: 100vh;
+}
+
+/* soft glowing grid behind the card */
+.login-pf body::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(70% 60% at 50% 40%, #000, transparent);
+}
+
+.pf-v5-c-login { background: transparent; position: relative; }
+.pf-v5-c-login__container { grid-template-columns: 30rem; }
+.pf-v5-c-login__header { padding-bottom: 1.5rem; }
+
+.pf-v5-c-login__main {
+  background: rgba(8, 13, 26, 0.82);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--eh-line);
+  border-radius: 1.1rem;
+  box-shadow: 0 30px 80px -30px rgba(37, 99, 235, 0.55), 0 0 0 1px rgba(56, 189, 248, 0.04) inset;
+  overflow: hidden;
+}
+.pf-v5-c-login__main-header { border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, #2563eb, #38bdf8, #2563eb) 1; }
+.pf-v5-c-title { color: var(--eh-text); font-weight: 700; letter-spacing: -0.01em; }
+
+.pf-v5-c-form-control, .pf-v5-c-form-control input, input.pf-v5-c-form-control {
+  background-color: var(--eh-surface-2) !important;
+  color: var(--eh-text) !important;
+  border-radius: 0.6rem;
+  --pf-v5-c-form-control--BorderColor: var(--eh-line);
+}
+.pf-v5-c-form-control:focus-within { --pf-v5-c-form-control--BorderColor: var(--eh-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); }
+.pf-v5-c-form__label-text, .pf-v5-c-check__label, label { color: var(--eh-text); }
+.pf-v5-c-helper-text__item-text, .pf-v5-c-form__helper-text { color: var(--eh-muted); }
+
+.pf-v5-c-button.pf-m-primary {
+  background: linear-gradient(120deg, #1d4ed8, #2563eb 50%, #0ea5e9);
+  border: 0; border-radius: 9999px; font-weight: 600; color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(37, 99, 235, 0.8);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.pf-v5-c-button.pf-m-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -8px rgba(56, 189, 248, 0.7); }
+.pf-v5-c-button.pf-m-control { background: var(--eh-surface-2); border-color: var(--eh-line); color: var(--eh-muted); }
+.pf-v5-c-button.pf-m-secondary, .pf-v5-c-button.pf-m-tertiary { border-radius: 9999px; color: var(--eh-sky); border-color: var(--eh-line); }
+
+a { color: var(--eh-sky); }
+a:hover { color: #bae6fd; }
+.pf-v5-c-login__main-footer-band { border-color: var(--eh-line); color: var(--eh-muted); }
+.pf-v5-c-alert { border-radius: 0.7rem; background: var(--eh-surface-2); }
+
+@media (prefers-reduced-motion: reduce) { .pf-v5-c-button.pf-m-primary { transition: none; } }
+
+/* Logo: replace the realm-name text with the logo image (text stays for screen readers). */
+#kc-header-wrapper {
+  text-indent: -9999px; overflow: hidden; white-space: nowrap;
+  height: var(--keycloak-logo-height); width: var(--keycloak-logo-width); max-width: 100%;
+  margin: 0 auto; padding: 0;
+  background: var(--keycloak-logo-url) center / contain no-repeat;
+}
+
+/* PatternFly draws the input border with ::before/::after: recolour and round both. */
+.pf-v5-c-form-control {
+  --pf-v5-c-form-control--before--BorderColor: var(--eh-line);
+  --pf-v5-c-form-control--before--BorderTopColor: var(--eh-line);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--eh-line);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--eh-line);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--eh-line);
+  --pf-v5-c-form-control--after--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--hover--after--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--focus--after--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--BorderRadius: 0.6rem;
+}
+.pf-v5-c-form-control::before { border-radius: 0.6rem; border-color: var(--eh-line); }
+.pf-v5-c-form-control::after { border: 0 !important; }
+.pf-v5-c-form-control:focus-within::before { border-color: var(--eh-blue); }
+.pf-v5-c-form-control input { border: 0 !important; border-radius: 0.6rem; }
+.pf-v5-c-input-group .pf-v5-c-form-control { border-radius: 0.6rem 0 0 0.6rem; }
+.pf-v5-c-input-group .pf-v5-c-button.pf-m-control { border-radius: 0 0.6rem 0.6rem 0; }
+.pf-v5-c-button.pf-m-control::after { border-color: var(--eh-line); }

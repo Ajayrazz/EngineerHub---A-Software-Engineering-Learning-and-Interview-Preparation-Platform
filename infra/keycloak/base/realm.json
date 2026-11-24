@@ -1,6 +1,7 @@
 {
   "realm": "engineerhub",
   "displayName": "EngineerHub",
+  "loginTheme": "engineerhub",
   "enabled": true,
   "sslRequired": "external",
   "registrationAllowed": true,
