@@ -19,6 +19,7 @@ backend-build: ## Package the backend jar (runs tests)
 	cd backend && ./mvnw -B package
 
 backend-run: dev-env ## Run the API locally on :8080 (profile 'local'; needs `make dev-up`)
+	@if lsof -nP -iTCP:8080 -sTCP:LISTEN -t >/dev/null 2>&1; then echo "ERROR: port 8080 is already in use (an API is probably already running). Find it with: lsof -nP -iTCP:8080 -sTCP:LISTEN"; exit 1; fi
 	set -a && . ./.env && set +a && cd backend && SPRING_PROFILES_ACTIVE=local ./mvnw spring-boot:run
 
 frontend-install: ## Install frontend deps from the lockfile
