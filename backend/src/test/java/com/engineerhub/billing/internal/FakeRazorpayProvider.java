@@ -38,6 +38,14 @@ class FakeRazorpayProvider extends RazorpayProvider {
   volatile boolean failNextSubscription = false;
   volatile boolean failNextCancel = false;
 
+  record Refund(String refundId, String paymentRef, long amountMinor, Map<String, String> notes) {}
+
+  final List<Refund> refunds = new CopyOnWriteArrayList<>();
+  volatile boolean failNextRefund = false;
+
+  /** What the provider reports for a new refund: "processed" or "pending". */
+  volatile String refundStatus = "processed";
+
   volatile boolean disabled = false;
   volatile boolean failNext = false;
   final List<Order> orders = new CopyOnWriteArrayList<>();
@@ -55,6 +63,9 @@ class FakeRazorpayProvider extends RazorpayProvider {
     cancelledAtCycleEnd.clear();
     failNextSubscription = false;
     failNextCancel = false;
+    refunds.clear();
+    failNextRefund = false;
+    refundStatus = "processed";
   }
 
   private static ApiException unavailable() {
@@ -84,6 +95,18 @@ class FakeRazorpayProvider extends RazorpayProvider {
     String id = "sub_IT" + SEQ.incrementAndGet() + Long.toString(System.nanoTime(), 36);
     subscriptions.add(new Subscription(id, planRef, totalCycles, notes));
     return new ProviderSubscription(id);
+  }
+
+  @Override
+  public ProviderRefund refundPayment(
+      String paymentRef, long amountMinor, Map<String, String> notes) {
+    if (failNextRefund) {
+      failNextRefund = false;
+      throw unavailable();
+    }
+    String id = "rfnd_IT" + SEQ.incrementAndGet() + Long.toString(System.nanoTime(), 36);
+    refunds.add(new Refund(id, paymentRef, amountMinor, notes));
+    return new ProviderRefund(id, refundStatus);
   }
 
   @Override

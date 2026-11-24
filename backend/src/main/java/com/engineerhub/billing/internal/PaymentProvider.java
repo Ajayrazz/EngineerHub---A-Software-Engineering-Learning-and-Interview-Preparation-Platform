@@ -12,6 +12,9 @@ interface PaymentProvider {
 
   record ProviderSubscription(String subscriptionId) {}
 
+  /** {@code status} is the provider's own word: "processed" or "pending". */
+  record ProviderRefund(String refundId, String status) {}
+
   String name();
 
   /** True when credentials are present (and valid for the allowed mode). */
@@ -49,4 +52,7 @@ interface PaymentProvider {
    * (a UX speed-up only).
    */
   boolean verifySubscriptionSignature(String subscriptionRef, String paymentId, String signature);
+
+  /** Refunds {@code amountMinor} of a captured payment (full or partial). */
+  ProviderRefund refundPayment(String paymentRef, long amountMinor, Map<String, String> notes);
 }

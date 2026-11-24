@@ -50,7 +50,8 @@ final class DocumentPdf {
       String sellerState,
       String sellerGstin,
       String sacCode,
-      boolean testMode) {}
+      boolean testMode,
+      String againstNumber) {}
 
   /** Printable ASCII only; everything else becomes '?'. The built-in fonts cannot draw more. */
   static String clean(String s) {
@@ -96,17 +97,19 @@ final class DocumentPdf {
 
   /** The text lines of the document, in order (also what the tests read back). */
   static List<String> lines(DocumentRow d) {
-    boolean invoice = d.docType().equals("tax_invoice");
+    boolean credit = d.docType().equals("credit_note");
+    boolean taxed = d.taxRateBps() != null; // tax invoice, or a credit note against one
+    String title = credit ? "CREDIT NOTE" : taxed ? "TAX INVOICE" : "RECEIPT";
     List<String> l = new ArrayList<>();
-    l.add(invoice ? "TAX INVOICE" : "RECEIPT");
+    l.add(title);
     if (d.testMode()) {
-      l.add(
-          "TEST MODE - NOT A VALID "
-              + (invoice ? "TAX INVOICE" : "RECEIPT")
-              + ". No real payment was made.");
+      l.add("TEST MODE - NOT A VALID " + title + ". No real payment was made.");
     }
     l.add("");
     l.add("Number: " + clean(d.number()));
+    if (credit) {
+      l.add("Against: " + clean(d.againstNumber()));
+    }
     l.add("Issued: " + DATE.format(d.issuedAt()));
     l.add("Payment date: " + DATE.format(d.paidAt()));
     l.add("");
@@ -118,7 +121,7 @@ final class DocumentPdf {
     if (d.sellerAddress() != null && !d.sellerAddress().isBlank()) {
       l.addAll(wrap(d.sellerAddress(), 80));
     }
-    if (invoice) {
+    if (taxed) {
       l.add("State: " + clean(d.sellerState()));
       l.add("GSTIN: " + clean(d.sellerGstin()));
     }
@@ -129,12 +132,14 @@ final class DocumentPdf {
     String kind =
         "RECURRING".equals(d.billingMode()) ? "auto-renewing subscription" : "one-time pass";
     l.addAll(wrap("%s - %s access (%s)".formatted(d.planName(), period, kind), 80));
-    if (invoice) {
+    if (taxed) {
       l.add("Service code (SAC): " + clean(d.sacCode()));
     }
     l.add("");
-    if (invoice) {
-      l.add("Taxable value: " + money(d.currency(), d.netMinor()));
+    if (taxed) {
+      l.add(
+          (credit ? "Taxable value credited: " : "Taxable value: ")
+              + money(d.currency(), d.netMinor()));
       l.add(
           "%s @ %d.%02d%%: %s"
               .formatted(
@@ -142,9 +147,9 @@ final class DocumentPdf {
                   d.taxRateBps() / 100,
                   d.taxRateBps() % 100,
                   money(d.currency(), d.taxMinor())));
-      l.add("Total: " + money(d.currency(), d.totalMinor()));
+      l.add((credit ? "Total credited: " : "Total: ") + money(d.currency(), d.totalMinor()));
     } else {
-      l.add("Amount paid: " + money(d.currency(), d.totalMinor()));
+      l.add((credit ? "Amount refunded: " : "Amount paid: ") + money(d.currency(), d.totalMinor()));
     }
     return l;
   }

@@ -143,14 +143,7 @@ class DocumentService {
     Instant now = clock.instant();
     String fy = TaxMath.financialYear(now.atZone(DocumentPdf.IST).toLocalDate());
     String type = invoice ? "tax_invoice" : "receipt";
-    long seq =
-        jdbc.sql(
-                "insert into billing.document_sequences (financial_year, doc_type, last_no) values (:fy, :t, 1) on conflict (financial_year, doc_type) do update set last_no = billing.document_sequences.last_no + 1 returning last_no")
-            .param("fy", fy)
-            .param("t", type)
-            .query(Long.class)
-            .single();
-    String number = "%s/%s/%06d".formatted(invoice ? "INV" : "RCPT", fy, seq);
+    String number = "%s/%s/%06d".formatted(invoice ? "INV" : "RCPT", fy, nextNumber(fy, type));
     String customer = directory.findById(userId).map(u -> u.username()).orElse("EngineerHub user");
     UUID id = Ids.newId();
     jdbc.sql(
@@ -187,6 +180,155 @@ class DocumentService {
         .param("test", provider.mode() == null || "test".equals(provider.mode()))
         .update();
     return Optional.of(id);
+  }
+
+  /**
+   * Next gap-free number of a type in a financial year; call in the same transaction as the insert.
+   */
+  long nextNumber(String fy, String type) {
+    return jdbc.sql(
+            "insert into billing.document_sequences (financial_year, doc_type, last_no) values (:fy, :t, 1) on conflict (financial_year, doc_type) do update set last_no = billing.document_sequences.last_no + 1 returning last_no")
+        .param("fy", fy)
+        .param("t", type)
+        .query(Long.class)
+        .single();
+  }
+
+  /**
+   * The credit note of a processed refund: an immutable snapshot against the payment's own
+   * document, with the refunded amount split by the ORIGINAL document's rate (tax-inclusive
+   * extraction, the same rounding). No document, no credit note. Idempotent per refund.
+   */
+  @Transactional
+  Optional<UUID> issueCreditNote(UUID refundId) {
+    var existing =
+        jdbc.sql("select id from billing.credit_notes where refund_id = :r")
+            .param("r", refundId)
+            .query(UUID.class)
+            .optional();
+    if (existing.isPresent()) {
+      return existing;
+    }
+    var orig =
+        jdbc.sql(
+                """
+                select d.id, d.doc_number, d.user_id, d.currency, d.tax_rate_bps, d.tax_rule_name, d.plan_name, d.period_unit, d.billing_mode,
+                       d.customer_name, d.seller_legal_name, d.seller_address, d.seller_state, d.seller_gstin, d.sac_code, d.test_mode, r.amount_minor
+                from billing.refunds r join billing.documents d on d.payment_id = r.payment_id
+                where r.id = :r
+                """)
+            .param("r", refundId)
+            .query(
+                (rs, i) ->
+                    new Object[] {
+                      rs.getObject(1, UUID.class),
+                      rs.getString(2),
+                      rs.getObject(3, UUID.class),
+                      rs.getString(4).strip(),
+                      rs.getObject(5, Integer.class),
+                      rs.getString(6),
+                      rs.getString(7),
+                      rs.getString(8).strip(),
+                      rs.getString(9).strip(),
+                      rs.getString(10),
+                      rs.getString(11),
+                      rs.getString(12),
+                      rs.getString(13),
+                      rs.getString(14),
+                      rs.getString(15),
+                      rs.getBoolean(16),
+                      rs.getLong(17)
+                    })
+            .optional();
+    if (orig.isEmpty()) {
+      return Optional.empty();
+    }
+    Object[] o = orig.get();
+    long total = (Long) o[16];
+    Integer rate = (Integer) o[4];
+    TaxMath.Split split =
+        rate == null ? new TaxMath.Split(total, 0) : TaxMath.extractFromInclusive(total, rate);
+    Instant now = clock.instant();
+    String fy = TaxMath.financialYear(now.atZone(DocumentPdf.IST).toLocalDate());
+    String number = "CN/%s/%06d".formatted(fy, nextNumber(fy, "credit_note"));
+    UUID id = Ids.newId();
+    jdbc.sql(
+            """
+            insert into billing.credit_notes (id, refund_id, document_id, user_id, doc_number, original_number, financial_year, issued_at, currency,
+              total_minor, net_minor, tax_minor, tax_rate_bps, tax_rule_name, plan_name, period_unit, billing_mode, customer_name,
+              seller_legal_name, seller_address, seller_state, seller_gstin, sac_code, test_mode)
+            values (:id, :ref, :doc, :u, :num, :orig, :fy, :now, :cur, :total, :net, :tax, :rate, :rule, :plan, :unit, :mode, :cust,
+              :sn, :sa, :ss, :sg, :sac, :test)
+            """)
+        .param("id", id)
+        .param("ref", refundId)
+        .param("doc", o[0])
+        .param("u", o[2])
+        .param("num", number)
+        .param("orig", o[1])
+        .param("fy", fy)
+        .param("now", Timestamp.from(now))
+        .param("cur", o[3])
+        .param("total", total)
+        .param("net", split.netMinor())
+        .param("tax", split.taxMinor())
+        .param("rate", rate, java.sql.Types.INTEGER)
+        .param("rule", o[5], java.sql.Types.VARCHAR)
+        .param("plan", o[6])
+        .param("unit", o[7])
+        .param("mode", o[8])
+        .param("cust", o[9])
+        .param("sn", o[10], java.sql.Types.VARCHAR)
+        .param("sa", o[11], java.sql.Types.VARCHAR)
+        .param("ss", o[12], java.sql.Types.VARCHAR)
+        .param("sg", o[13], java.sql.Types.VARCHAR)
+        .param("sac", o[14], java.sql.Types.VARCHAR)
+        .param("test", o[15])
+        .update();
+    return Optional.of(id);
+  }
+
+  /** The credit note PDF of one of the caller's own refunds. */
+  /** Not read-only: resolving the caller may provision the local user. */
+  PdfFile creditNotePdf(Authentication auth, UUID refundId) {
+    UUID user = directory.current(auth).id();
+    DocumentRow row =
+        jdbc.sql(
+                """
+                select doc_number, original_number, issued_at, currency, total_minor, net_minor, tax_minor, tax_rate_bps, tax_rule_name,
+                       plan_name, period_unit, billing_mode, customer_name, seller_legal_name, seller_address, seller_state, seller_gstin, sac_code, test_mode,
+                       (select p.captured_at from billing.refunds r join billing.payments p on p.id = r.payment_id where r.id = refund_id)
+                from billing.credit_notes where refund_id = :r and user_id = :u
+                """)
+            .param("r", refundId)
+            .param("u", user)
+            .query(
+                (rs, i) ->
+                    new DocumentRow(
+                        "credit_note",
+                        rs.getString(1),
+                        rs.getTimestamp(3).toInstant(),
+                        rs.getTimestamp(20).toInstant(),
+                        rs.getString(4).strip(),
+                        rs.getLong(5),
+                        rs.getLong(6),
+                        rs.getLong(7),
+                        rs.getObject(8, Integer.class),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11).strip(),
+                        rs.getString(12).strip(),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getString(16),
+                        rs.getString(17),
+                        rs.getString(18),
+                        rs.getBoolean(19),
+                        rs.getString(2)))
+            .optional()
+            .orElseThrow(() -> ApiException.notFound("Credit note not found."));
+    return new PdfFile(row.number().replace('/', '-') + ".pdf", DocumentPdf.render(row));
   }
 
   static boolean sellerComplete(Settings s) {
@@ -250,7 +392,8 @@ class DocumentService {
                         rs.getString(17),
                         rs.getString(18),
                         rs.getString(19),
-                        rs.getBoolean(20)))
+                        rs.getBoolean(20),
+                        null))
             .single();
     String file = row.number().replace('/', '-') + ".pdf";
     return new PdfFile(file, DocumentPdf.render(row));

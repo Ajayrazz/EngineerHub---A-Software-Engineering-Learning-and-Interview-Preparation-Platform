@@ -83,7 +83,9 @@ final class BillingDtos {
       String currency,
       String status,
       Instant capturedAt,
-      String documentNumber) {}
+      String documentNumber,
+      String refundRequestStatus,
+      boolean refundRequestable) {}
 
   /**
    * The user's running auto-renewing subscription. {@code renewsOn} is set only while it will

@@ -490,7 +490,12 @@ class BillingService implements EntitlementService {
     List<PaymentView> payments =
         jdbc.sql(
                 """
-                select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at, d.doc_number
+                select pay.id, pl.name, pay.amount_minor, pay.currency, pay.status, pay.captured_at, d.doc_number,
+                       (select rr.status from billing.refund_requests rr where rr.payment_id = pay.id order by rr.created_at desc limit 1),
+                       (pay.status in ('captured','partially_refunded')
+                        and not exists (select 1 from billing.refund_requests rr where rr.payment_id = pay.id and rr.status in ('requested','under_review','approved','processing','failed'))
+                        and (select coalesce(sum(r.amount_minor), 0) from billing.refunds r where r.payment_id = pay.id and r.status in ('pending','processed')) < pay.amount_minor
+                        and (select s.request_window_days is null or pay.captured_at + make_interval(days => s.request_window_days) > :now from billing.refund_settings s where s.id = 1))
                 from billing.payments pay
                 left join billing.purchase_intents i on i.id = pay.intent_id
                 left join billing.subscriptions sub on sub.id = pay.subscription_id
@@ -498,6 +503,7 @@ class BillingService implements EntitlementService {
                 left join billing.documents d on d.payment_id = pay.id
                 where pay.user_id = :u order by pay.captured_at desc, pay.id limit 50
                 """)
+            .param("now", now())
             .param("u", userId)
             .query(
                 (rs, i) ->
@@ -508,7 +514,9 @@ class BillingService implements EntitlementService {
                         rs.getString(4).strip(),
                         rs.getString(5),
                         rs.getTimestamp(6).toInstant(),
-                        rs.getString(7)))
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getBoolean(9)))
             .list();
     boolean documentsAvailable =
         jdbc.sql("select tax_mode <> 'UNCONFIGURED' from billing.tax_settings where id = 1")

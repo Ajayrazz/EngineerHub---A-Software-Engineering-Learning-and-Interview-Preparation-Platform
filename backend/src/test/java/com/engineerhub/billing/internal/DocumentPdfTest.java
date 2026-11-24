@@ -35,7 +35,8 @@ class DocumentPdfTest {
         null,
         null,
         null,
-        test);
+        test,
+        null);
   }
 
   private static DocumentRow invoice() {
@@ -59,7 +60,8 @@ class DocumentPdfTest {
         "Example State",
         "22AAAAA0000A1Z5",
         "999999",
-        false);
+        false,
+        null);
   }
 
   private static String text(byte[] pdf) throws IOException {
@@ -121,5 +123,49 @@ class DocumentPdfTest {
         .containsExactly("x".repeat(10), "x".repeat(10), "x".repeat(5));
     assertThat(DocumentPdf.money("INR", 5)).isEqualTo("INR 0.05");
     assertThat(DocumentPdf.money("INR", 123456)).isEqualTo("INR 1234.56");
+  }
+
+  private static DocumentRow credit(boolean taxed) {
+    return new DocumentRow(
+        "credit_note",
+        "CN/2026-27/000002",
+        AT,
+        AT,
+        "INR",
+        29900,
+        taxed ? 25339 : 29900,
+        taxed ? 4561 : 0,
+        taxed ? 1800 : null,
+        taxed ? "Example tax" : null,
+        "Premium",
+        "month",
+        "ONE_TIME",
+        "learner",
+        taxed ? "Example Seller Pvt Ltd" : null,
+        null,
+        taxed ? "Example State" : null,
+        taxed ? "22AAAAA0000A1Z5" : null,
+        taxed ? "999999" : null,
+        false,
+        taxed ? "INV/2026-27/000003" : "RCPT/2026-27/000007");
+  }
+
+  @Test
+  void aCreditNoteNamesTheDocumentItReversesAndKeepsTheTaxWordingRule() throws Exception {
+    String plain = text(DocumentPdf.render(credit(false)));
+    assertThat(plain)
+        .contains(
+            "CREDIT NOTE",
+            "CN/2026-27/000002",
+            "Against: RCPT/2026-27/000007",
+            "Amount refunded: INR 299.00");
+    assertThat(plain.toLowerCase())
+        .doesNotContain("tax")
+        .doesNotContain("gst")
+        .doesNotContain("sac");
+    String taxed = text(DocumentPdf.render(credit(true)));
+    assertThat(taxed)
+        .contains("Against: INV/2026-27/000003", "Taxable value credited: INR 253.39")
+        .contains("Example tax @ 18.00%: INR 45.61", "Total credited: INR 299.00");
   }
 }

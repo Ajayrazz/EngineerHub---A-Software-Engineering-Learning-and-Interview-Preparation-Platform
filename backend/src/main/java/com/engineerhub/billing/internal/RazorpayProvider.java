@@ -140,6 +140,21 @@ class RazorpayProvider implements PaymentProvider {
         props.keySecret(), subscriptionRef, paymentId, signature);
   }
 
+  @Override
+  public ProviderRefund refundPayment(
+      String paymentRef, long amountMinor, Map<String, String> notes) {
+    requireConfigured();
+    JsonNode r =
+        call("/payments/" + paymentRef + "/refund", Map.of("amount", amountMinor, "notes", notes));
+    if (r == null
+        || !r.hasNonNull("id")
+        || r.path("amount").asLong(-1) != amountMinor
+        || !paymentRef.equals(r.path("payment_id").asString())) {
+      throw unavailable(new RestClientException("unexpected refund response"));
+    }
+    return new ProviderRefund(r.get("id").asString(), r.path("status").asString("pending"));
+  }
+
   private void requireConfigured() {
     if (!configured()) {
       throw new ApiException(ErrorCode.SERVICE_UNAVAILABLE, "Online payment is not available yet.");

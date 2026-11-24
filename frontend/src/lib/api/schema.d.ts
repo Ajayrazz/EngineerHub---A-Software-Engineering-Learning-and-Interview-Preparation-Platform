@@ -228,6 +228,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/refund-settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["settings_1"];
+        put: operations["update_2"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/billing/plans/{planId}/entitlements": {
         parameters: {
             query?: never;
@@ -324,6 +340,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/billing/refund-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/billing/purchases": {
         parameters: {
             query?: never;
@@ -381,7 +413,7 @@ export interface paths {
         };
         get: operations["list"];
         put?: never;
-        post: operations["create"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -477,7 +509,7 @@ export interface paths {
         };
         get: operations["courses"];
         put?: never;
-        post: operations["create_1"];
+        post: operations["create_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -628,6 +660,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/billing/refunds/{id}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["review"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refunds/{id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["retry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refunds/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refunds/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/billing/plans": {
         parameters: {
             query?: never;
@@ -637,7 +733,7 @@ export interface paths {
         };
         get: operations["plans"];
         put?: never;
-        post: operations["create_2"];
+        post: operations["create_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -964,6 +1060,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me/refunds/{refundId}/credit-note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["creditNote"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/refund-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["mine"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me/problems/states": {
         parameters: {
             query?: never;
@@ -987,7 +1115,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["mine"];
+        get: operations["mine_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1172,6 +1300,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/billing/refund-policy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["policy"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/billing/quote": {
         parameters: {
             query?: never;
@@ -1308,6 +1452,54 @@ export interface paths {
             cookie?: never;
         };
         get: operations["access"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refunds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["queue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refunds/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["detail_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/billing/refund-flags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["flags"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1693,6 +1885,26 @@ export interface components {
             updatedAt?: string;
             rules?: components["schemas"]["TaxRuleView"][];
         };
+        RefundSettingsRequest: {
+            policyText?: string;
+            /** Format: int32 */
+            requestWindowDays?: number;
+            revokeAccessOnRefund: boolean;
+            /** Format: int64 */
+            approvalThresholdMinor?: number;
+            autoDetectDuplicates: boolean;
+        };
+        RefundSettingsView: {
+            policyText?: string;
+            /** Format: int32 */
+            requestWindowDays?: number;
+            revokeAccessOnRefund?: boolean;
+            /** Format: int64 */
+            approvalThresholdMinor?: number;
+            autoDetectDuplicates?: boolean;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         EntitlementsRequest: {
             codes: string[];
         };
@@ -1751,6 +1963,31 @@ export interface components {
             periodUnit?: string;
             cancelScheduled?: boolean;
             paid?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        RefundRequestCreate: {
+            /** Format: uuid */
+            paymentId: string;
+            reason: string;
+            details?: string;
+        };
+        MyRefundView: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            paymentId?: string;
+            planName?: string;
+            /** Format: int64 */
+            paymentAmountMinor?: number;
+            reason?: string;
+            status?: string;
+            decisionNote?: string;
+            /** Format: int64 */
+            refundedMinor?: number;
+            /** Format: uuid */
+            refundId?: string;
+            creditNoteNumber?: string;
             /** Format: date-time */
             createdAt?: string;
         };
@@ -1874,6 +2111,68 @@ export interface components {
             validFrom: string;
             /** Format: date */
             validTo?: string;
+        };
+        AdminRefundDetail: {
+            request?: components["schemas"]["AdminRefundRow"];
+            details?: string;
+            decisionNote?: string;
+            /** Format: int64 */
+            approvedAmountMinor?: number;
+            paymentStatus?: string;
+            /** Format: date-time */
+            paymentCapturedAt?: string;
+            hasDocument?: boolean;
+            reviewStarted?: boolean;
+            /** Format: int64 */
+            approvalThresholdMinor?: number;
+            attempts?: components["schemas"]["RefundAttempt"][];
+            flags?: components["schemas"]["RefundFlag"][];
+        };
+        AdminRefundRow: {
+            /** Format: uuid */
+            id?: string;
+            status?: string;
+            reason?: string;
+            username?: string;
+            planName?: string;
+            /** Format: int64 */
+            paymentAmountMinor?: number;
+            /** Format: int64 */
+            refundableMinor?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        RefundAttempt: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            status?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        RefundFlag: {
+            /** Format: uuid */
+            paymentId?: string;
+            username?: string;
+            planName?: string;
+            /** Format: int64 */
+            amountMinor?: number;
+            /** Format: date-time */
+            capturedAt?: string;
+            kind?: string;
+            suggestion?: string;
+        };
+        RetryRequest: {
+            confirmNotRefundedAtProvider: boolean;
+        };
+        RejectRequest: {
+            note: string;
+        };
+        ApproveRequest: {
+            /** Format: int64 */
+            amountMinor?: number;
+            note: string;
         };
         PlanCreate: {
             code: string;
@@ -2107,6 +2406,8 @@ export interface components {
             /** Format: date-time */
             capturedAt?: string;
             documentNumber?: string;
+            refundRequestStatus?: string;
+            refundRequestable?: boolean;
         };
         SubscriptionSummary: {
             /** Format: uuid */
@@ -2196,6 +2497,11 @@ export interface components {
         PublicLessonRef: {
             slug?: string;
             title?: string;
+        };
+        RefundPolicyView: {
+            policyText?: string;
+            /** Format: int32 */
+            requestWindowDays?: number;
         };
         QuoteView: {
             /** Format: uuid */
@@ -2732,6 +3038,50 @@ export interface operations {
             };
         };
     };
+    settings_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundSettingsView"];
+                };
+            };
+        };
+    };
+    update_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefundSettingsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundSettingsView"];
+                };
+            };
+        };
+    };
     entitlements: {
         parameters: {
             query?: never;
@@ -2883,6 +3233,30 @@ export interface operations {
             };
         };
     };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefundRequestCreate"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MyRefundView"];
+                };
+            };
+        };
+    };
     start_1: {
         parameters: {
             query?: never;
@@ -3003,7 +3377,7 @@ export interface operations {
             };
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -3187,7 +3561,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    create_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -3429,6 +3803,106 @@ export interface operations {
             };
         };
     };
+    review: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundDetail"];
+                };
+            };
+        };
+    };
+    retry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RetryRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundDetail"];
+                };
+            };
+        };
+    };
+    reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundDetail"];
+                };
+            };
+        };
+    };
+    approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApproveRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundDetail"];
+                };
+            };
+        };
+    };
     plans: {
         parameters: {
             query?: never;
@@ -3449,7 +3923,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    create_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -4062,6 +4536,48 @@ export interface operations {
             };
         };
     };
+    creditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                refundId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    mine: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MyRefundView"][];
+                };
+            };
+        };
+    };
     states: {
         parameters: {
             query?: never;
@@ -4082,7 +4598,7 @@ export interface operations {
             };
         };
     };
-    mine: {
+    mine_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -4340,6 +4856,26 @@ export interface operations {
             };
         };
     };
+    policy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundPolicyView"];
+                };
+            };
+        };
+    };
     quote: {
         parameters: {
             query: {
@@ -4531,6 +5067,70 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AccessView"];
+                };
+            };
+        };
+    };
+    queue: {
+        parameters: {
+            query?: {
+                status?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundRow"][];
+                };
+            };
+        };
+    };
+    detail_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminRefundDetail"];
+                };
+            };
+        };
+    };
+    flags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundFlag"][];
                 };
             };
         };

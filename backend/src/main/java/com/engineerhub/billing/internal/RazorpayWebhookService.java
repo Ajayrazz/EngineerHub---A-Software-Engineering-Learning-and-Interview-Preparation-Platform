@@ -34,6 +34,7 @@ class RazorpayWebhookService {
   private final PaymentProvider provider;
   private final PaymentCapturedHandler handler;
   private final SubscriptionLifecycle lifecycle;
+  private final RefundService refunds;
 
   RazorpayWebhookService(
       JdbcClient jdbc,
@@ -41,13 +42,15 @@ class RazorpayWebhookService {
       ObjectMapper mapper,
       PaymentProvider provider,
       PaymentCapturedHandler handler,
-      SubscriptionLifecycle lifecycle) {
+      SubscriptionLifecycle lifecycle,
+      RefundService refunds) {
     this.jdbc = jdbc;
     this.clock = clock;
     this.mapper = mapper;
     this.provider = provider;
     this.handler = handler;
     this.lifecycle = lifecycle;
+    this.refunds = refunds;
   }
 
   @Transactional
@@ -97,6 +100,7 @@ class RazorpayWebhookService {
           case "payment.captured", "order.paid" -> captured(event);
           case "payment.failed" -> failed(event);
           case "subscription.charged" -> subscriptionCharged(event);
+          case "refund.processed", "refund.failed" -> refundEvent(type, event);
           default ->
               SubscriptionLifecycle.handles(type) ? subscriptionEvent(type, event) : "ignored";
         };
@@ -146,6 +150,11 @@ class RazorpayWebhookService {
     return handler.subscriptionCharged(
         new PaymentCapturedHandler.Charge(
             "razorpay", subscriptionId, paymentId, pay.path("amount").asLong(), currency));
+  }
+
+  private String refundEvent(String type, JsonNode event) {
+    String refundId = event.path("payload").path("refund").path("entity").path("id").asString("");
+    return refundId.isBlank() ? "ignored_malformed" : refunds.providerEvent(type, refundId);
   }
 
   private String subscriptionEvent(String type, JsonNode event) {

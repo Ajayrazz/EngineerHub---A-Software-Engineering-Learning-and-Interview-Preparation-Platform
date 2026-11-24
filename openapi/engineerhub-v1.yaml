@@ -415,6 +415,35 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/TaxSettingsView"
+  /api/v1/admin/billing/refund-settings:
+    get:
+      tags:
+      - refund-admin-controller
+      operationId: settings_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RefundSettingsView"
+    put:
+      tags:
+      - refund-admin-controller
+      operationId: update_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefundSettingsRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RefundSettingsView"
   /api/v1/admin/billing/plans/{planId}/entitlements:
     put:
       tags:
@@ -559,6 +588,24 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/SubscriptionView"
+  /api/v1/billing/refund-requests:
+    post:
+      tags:
+      - refund-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefundRequestCreate"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MyRefundView"
   /api/v1/billing/purchases:
     post:
       tags:
@@ -670,7 +717,7 @@ paths:
     post:
       tags:
       - problem-admin-controller
-      operationId: create
+      operationId: create_1
       requestBody:
         content:
           application/json:
@@ -820,7 +867,7 @@ paths:
     post:
       tags:
       - course-admin-controller
-      operationId: create_1
+      operationId: create_2
       requestBody:
         content:
           application/json:
@@ -1040,6 +1087,100 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/TaxSettingsView"
+  /api/v1/admin/billing/refunds/{id}/review:
+    post:
+      tags:
+      - refund-admin-controller
+      operationId: review
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminRefundDetail"
+  /api/v1/admin/billing/refunds/{id}/retry:
+    post:
+      tags:
+      - refund-admin-controller
+      operationId: retry
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RetryRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminRefundDetail"
+  /api/v1/admin/billing/refunds/{id}/reject:
+    post:
+      tags:
+      - refund-admin-controller
+      operationId: reject
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminRefundDetail"
+  /api/v1/admin/billing/refunds/{id}/approve:
+    post:
+      tags:
+      - refund-admin-controller
+      operationId: approve
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApproveRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminRefundDetail"
   /api/v1/admin/billing/plans:
     get:
       tags:
@@ -1057,7 +1198,7 @@ paths:
     post:
       tags:
       - billing-admin-controller
-      operationId: create_2
+      operationId: create_3
       requestBody:
         content:
           application/json:
@@ -1640,6 +1781,40 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/MeResponse"
+  /api/v1/me/refunds/{refundId}/credit-note:
+    get:
+      tags:
+      - refund-controller
+      operationId: creditNote
+      parameters:
+      - name: refundId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+  /api/v1/me/refund-requests:
+    get:
+      tags:
+      - refund-controller
+      operationId: mine
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MyRefundView"
   /api/v1/me/problems/states:
     get:
       tags:
@@ -1656,7 +1831,7 @@ paths:
     get:
       tags:
       - my-permissions-controller
-      operationId: mine
+      operationId: mine_1
       responses:
         "200":
           description: OK
@@ -1874,6 +2049,18 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/SubscriptionView"
+  /api/v1/billing/refund-policy:
+    get:
+      tags:
+      - refund-controller
+      operationId: policy
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RefundPolicyView"
   /api/v1/billing/quote:
     get:
       tags:
@@ -2046,6 +2233,59 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AccessView"
+  /api/v1/admin/billing/refunds:
+    get:
+      tags:
+      - refund-admin-controller
+      operationId: queue
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminRefundRow"
+  /api/v1/admin/billing/refunds/{id}:
+    get:
+      tags:
+      - refund-admin-controller
+      operationId: detail_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminRefundDetail"
+  /api/v1/admin/billing/refund-flags:
+    get:
+      tags:
+      - refund-admin-controller
+      operationId: flags
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RefundFlag"
   /api/v1/admin/audit-logs:
     get:
       tags:
@@ -2824,6 +3064,47 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TaxRuleView"
+    RefundSettingsRequest:
+      type: object
+      properties:
+        policyText:
+          type: string
+          maxLength: 10000
+          minLength: 0
+        requestWindowDays:
+          type: integer
+          format: int32
+          maximum: 3660
+          minimum: 1
+        revokeAccessOnRefund:
+          type: boolean
+        approvalThresholdMinor:
+          type: integer
+          format: int64
+          minimum: 100
+        autoDetectDuplicates:
+          type: boolean
+      required:
+      - autoDetectDuplicates
+      - revokeAccessOnRefund
+    RefundSettingsView:
+      type: object
+      properties:
+        policyText:
+          type: string
+        requestWindowDays:
+          type: integer
+          format: int32
+        revokeAccessOnRefund:
+          type: boolean
+        approvalThresholdMinor:
+          type: integer
+          format: int64
+        autoDetectDuplicates:
+          type: boolean
+        updatedAt:
+          type: string
+          format: date-time
     EntitlementsRequest:
       type: object
       properties:
@@ -2953,6 +3234,54 @@ components:
           type: boolean
         paid:
           type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    RefundRequestCreate:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          minLength: 1
+          pattern: ^(duplicate_payment|not_activated|technical_issue|other)$
+        details:
+          type: string
+          maxLength: 2000
+          minLength: 0
+      required:
+      - paymentId
+      - reason
+    MyRefundView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        paymentId:
+          type: string
+          format: uuid
+        planName:
+          type: string
+        paymentAmountMinor:
+          type: integer
+          format: int64
+        reason:
+          type: string
+        status:
+          type: string
+        decisionNote:
+          type: string
+        refundedMinor:
+          type: integer
+          format: int64
+        refundId:
+          type: string
+          format: uuid
+        creditNoteNumber:
+          type: string
         createdAt:
           type: string
           format: date-time
@@ -3247,6 +3576,124 @@ components:
       required:
       - name
       - validFrom
+    AdminRefundDetail:
+      type: object
+      properties:
+        request:
+          $ref: "#/components/schemas/AdminRefundRow"
+        details:
+          type: string
+        decisionNote:
+          type: string
+        approvedAmountMinor:
+          type: integer
+          format: int64
+        paymentStatus:
+          type: string
+        paymentCapturedAt:
+          type: string
+          format: date-time
+        hasDocument:
+          type: boolean
+        reviewStarted:
+          type: boolean
+        approvalThresholdMinor:
+          type: integer
+          format: int64
+        attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/RefundAttempt"
+        flags:
+          type: array
+          items:
+            $ref: "#/components/schemas/RefundFlag"
+    AdminRefundRow:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        reason:
+          type: string
+        username:
+          type: string
+        planName:
+          type: string
+        paymentAmountMinor:
+          type: integer
+          format: int64
+        refundableMinor:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+    RefundAttempt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        amountMinor:
+          type: integer
+          format: int64
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    RefundFlag:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        planName:
+          type: string
+        amountMinor:
+          type: integer
+          format: int64
+        capturedAt:
+          type: string
+          format: date-time
+        kind:
+          type: string
+        suggestion:
+          type: string
+    RetryRequest:
+      type: object
+      properties:
+        confirmNotRefundedAtProvider:
+          type: boolean
+      required:
+      - confirmNotRefundedAtProvider
+    RejectRequest:
+      type: object
+      properties:
+        note:
+          type: string
+          maxLength: 1000
+          minLength: 5
+      required:
+      - note
+    ApproveRequest:
+      type: object
+      properties:
+        amountMinor:
+          type: integer
+          format: int64
+          minimum: 1
+        note:
+          type: string
+          maxLength: 1000
+          minLength: 5
+      required:
+      - note
     PlanCreate:
       type: object
       properties:
@@ -3745,6 +4192,10 @@ components:
           format: date-time
         documentNumber:
           type: string
+        refundRequestStatus:
+          type: string
+        refundRequestable:
+          type: boolean
     SubscriptionSummary:
       type: object
       properties:
@@ -3901,6 +4352,14 @@ components:
           type: string
         title:
           type: string
+    RefundPolicyView:
+      type: object
+      properties:
+        policyText:
+          type: string
+        requestWindowDays:
+          type: integer
+          format: int32
     QuoteView:
       type: object
       properties:
