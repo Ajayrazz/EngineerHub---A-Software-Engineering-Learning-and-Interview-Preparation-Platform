@@ -42,9 +42,10 @@ export function ProgressBar({ percent, label }: { percent: number; label: string
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label}
-      className="h-2 w-full rounded-full bg-line"
+      className="w-full"
     >
-      <div className="h-2 rounded-full bg-accent" style={{ width: `${percent}%` }} />
+      {/* <progress> carries the value as an attribute: inline style attributes are blocked by our CSP. */}
+      <progress className="meter" value={percent} max={100} aria-hidden />
     </div>
   );
 }

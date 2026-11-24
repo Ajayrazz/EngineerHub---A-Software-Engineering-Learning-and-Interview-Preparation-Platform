@@ -5,16 +5,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #07061a;
+  --background: #03050b;
   --foreground: #e8eaed;
-  --surface: #100e2b;
-  --surface-2: #17143a;
-  --line: #2a2656;
-  --muted: #9a98c4;
-  --accent: #8b5cf6;
-  --accent-strong: #7c3aed;
-  --accent-2: #22d3ee;
-  --accent-3: #f472b6;
+  --surface: #080d1a;
+  --surface-2: #0d1630;
+  --line: #17254a;
+  --muted: #8fa0c4;
+  --accent: #3b82f6;
+  --accent-strong: #2563eb;
+  --accent-2: #38bdf8;
+  --accent-3: #93c5fd;
   --accent-ink: #ffffff;
   --info: #4ea8ff;
   --warn: #f5b942;
@@ -80,14 +80,35 @@
 }
 
 @layer components {
+  .meter {
+    display: block;
+    width: 100%;
+    height: 0.5rem;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--line);
+    overflow: hidden;
+    appearance: none;
+  }
+  .meter::-webkit-progress-bar {
+    background: var(--line);
+  }
+  .meter::-webkit-progress-value {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 9999px;
+  }
+  .meter::-moz-progress-bar {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 9999px;
+  }
   .hero-glow {
     background:
-      radial-gradient(50% 45% at 20% 10%, rgba(139, 92, 246, 0.35), transparent 70%),
-      radial-gradient(45% 40% at 85% 15%, rgba(34, 211, 238, 0.22), transparent 70%),
-      radial-gradient(40% 40% at 60% 90%, rgba(244, 114, 182, 0.18), transparent 70%);
+      radial-gradient(50% 45% at 20% 10%, rgba(59, 130, 246, 0.35), transparent 70%),
+      radial-gradient(45% 40% at 85% 15%, rgba(56, 189, 248, 0.22), transparent 70%),
+      radial-gradient(40% 40% at 60% 90%, rgba(147, 197, 253, 0.18), transparent 70%);
   }
   .text-gradient {
-    background: linear-gradient(90deg, #a78bfa, #22d3ee, #f472b6, #a78bfa);
+    background: linear-gradient(90deg, #60a5fa, #38bdf8, #e0f2fe, #60a5fa);
     background-size: 300% 100%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -113,9 +134,9 @@
     align-items: center;
     gap: 0.4rem;
     border-radius: 9999px;
-    background: linear-gradient(120deg, #7c3aed, #6366f1 50%, #06b6d4);
+    background: linear-gradient(120deg, #1d4ed8, #2563eb 50%, #0ea5e9);
     background-size: 200% 100%;
-    box-shadow: 0 6px 24px -6px rgba(124, 58, 237, 0.7);
+    box-shadow: 0 6px 24px -6px rgba(37, 99, 235, 0.7);
     color: var(--accent-ink);
     padding: 0.5rem 1.1rem;
     font-size: 0.875rem;
@@ -130,7 +151,7 @@
   .btn-primary:hover {
     background-position: 100% 0;
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px -6px rgba(34, 211, 238, 0.6);
+    box-shadow: 0 10px 30px -6px rgba(56, 189, 248, 0.6);
   }
   .btn-ghost {
     display: inline-flex;
@@ -153,36 +174,20 @@
   }
 }
 
-/* ---- Motion and 3D (pure CSS; respects reduced motion) ---- */
+/* ---- Motion (pure CSS; respects reduced motion) ---- */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
 @keyframes shift {
   to {
     background-position: 300% 0;
   }
 }
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  }
-  50% {
-    transform: translateY(-16px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  }
-}
-@keyframes spin3d {
-  from {
-    transform: rotateX(-22deg) rotateY(0deg);
-  }
+@keyframes angle-spin {
   to {
-    transform: rotateX(-22deg) rotateY(360deg);
-  }
-}
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(40px, -30px, 0) scale(1.15);
+    --angle: 360deg;
   }
 }
 @keyframes marquee {
@@ -190,102 +195,179 @@
     transform: translateX(-50%);
   }
 }
-@keyframes rise {
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-l {
   from {
     opacity: 0;
-    transform: translateY(40px) scale(0.96);
+    transform: translateX(-60px);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
-@keyframes pulse-ring {
-  0% {
-    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.55);
+@keyframes slide-r {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+    filter: blur(8px);
   }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  0%,
   100% {
-    box-shadow: 0 0 0 18px rgba(139, 92, 246, 0);
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes beam {
+  from {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  to {
+    transform: translateX(320%) skewX(-20deg);
+  }
+}
+@keyframes bar {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes scan {
+  0% {
+    background-color: rgba(56, 189, 248, 0.35);
+  }
+  12%,
+  100% {
+    background-color: rgba(59, 130, 246, 0.9);
+  }
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-.orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  opacity: 0.55;
-  animation: drift 14s ease-in-out infinite;
-  pointer-events: none;
-}
-.grid-floor {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 55%;
-  background-image:
-    linear-gradient(rgba(139, 92, 246, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.35) 1px, transparent 1px);
-  background-size: 56px 56px;
-  transform: perspective(500px) rotateX(62deg);
-  transform-origin: bottom;
-  mask-image: linear-gradient(to top, black, transparent 85%);
-  pointer-events: none;
-}
-.scene {
-  perspective: 1000px;
-}
-.float {
-  animation: float 6s ease-in-out infinite;
-  transform-style: preserve-3d;
-}
-.cube {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  transform-style: preserve-3d;
-  animation: spin3d 18s linear infinite;
-}
-.cube > span {
+.spot {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(167, 139, 250, 0.7);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(34, 211, 238, 0.2));
-  backdrop-filter: blur(4px);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 1.5rem;
-  color: #e9e5ff;
-  box-shadow: inset 0 0 30px rgba(139, 92, 246, 0.35);
+  pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--mx, 70%) var(--my, 30%),
+    rgba(56, 189, 248, 0.16),
+    transparent 70%
+  );
+  transition: background-position 0.2s;
 }
-.cube > span:nth-child(1) {
-  transform: translateZ(70px);
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 20%, #bae6fd, transparent),
+    radial-gradient(1.5px 1.5px at 45% 75%, #fff, transparent),
+    radial-gradient(1px 1px at 85% 65%, #93c5fd, transparent),
+    radial-gradient(1px 1px at 10% 80%, #bae6fd, transparent);
+  background-size: 340px 300px;
+  animation: twinkle 4s ease-in-out infinite;
 }
-.cube > span:nth-child(2) {
-  transform: rotateY(90deg) translateZ(70px);
+.beams {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-.cube > span:nth-child(3) {
-  transform: rotateY(180deg) translateZ(70px);
+.beams::before,
+.beams::after {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  width: 120px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.14), transparent);
+  animation: beam 9s linear infinite;
 }
-.cube > span:nth-child(4) {
-  transform: rotateY(-90deg) translateZ(70px);
+.beams::after {
+  animation-delay: -4.5s;
+  width: 70px;
 }
-.cube > span:nth-child(5) {
-  transform: rotateX(90deg) translateZ(70px);
+.conic {
+  padding: 1px;
+  border-radius: 1rem;
+  background: conic-gradient(
+    from var(--angle),
+    var(--line) 0 55%,
+    #38bdf8 80%,
+    #2563eb 90%,
+    var(--line)
+  );
+  animation: angle-spin 5s linear infinite;
 }
-.cube > span:nth-child(6) {
-  transform: rotateX(-90deg) translateZ(70px);
+.conic-in {
+  height: 100%;
+  border-radius: calc(1rem - 1px);
+  background: var(--surface);
+}
+.caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.95em;
+  margin-left: 4px;
+  vertical-align: -0.1em;
+  background: var(--accent-2);
+  animation: caret 1s steps(1) infinite;
 }
 .marquee {
   display: flex;
   width: max-content;
   gap: 0.75rem;
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
+}
+.marquee.rev {
+  animation-name: marquee-rev;
+  animation-duration: 55s;
 }
 .marquee-wrap:hover .marquee {
   animation-play-state: paused;
 }
 .glass {
-  background: rgba(23, 20, 58, 0.6);
+  background: rgba(13, 22, 48, 0.6);
   backdrop-filter: blur(10px);
   border: 1px solid var(--line);
   border-radius: 1rem;
@@ -294,31 +376,54 @@
   transform-style: preserve-3d;
   transition:
     transform 0.15s ease-out,
-    border-color 0.2s;
+    border-color 0.2s,
+    box-shadow 0.2s;
   will-change: transform;
 }
 .tilt:hover {
   border-color: var(--accent);
-  box-shadow: 0 25px 60px -25px rgba(139, 92, 246, 0.7);
+  box-shadow: 0 25px 60px -25px rgba(59, 130, 246, 0.8);
 }
-.pulse {
-  animation: pulse-ring 2s ease-out infinite;
+.bars i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px 4px 0 0;
+  transform-origin: bottom;
+  animation:
+    bar 2.4s ease-in-out infinite,
+    scan 2.4s linear infinite;
+  background: rgba(59, 130, 246, 0.9);
+}
+.ping {
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.draw {
+  stroke-dasharray: 400;
+  animation: draw 2.4s ease-out both;
 }
 
 @supports (animation-timeline: view()) {
   .reveal {
-    animation: rise both linear;
+    animation: slide-l both linear;
     animation-timeline: view();
-    animation-range: entry 0% entry 45%;
+    animation-range: entry 0% entry 50%;
+  }
+  .reveal:nth-child(even) {
+    animation-name: slide-r;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .orb,
-  .float,
-  .cube,
+  .stars,
+  .beams::before,
+  .beams::after,
+  .conic::before,
+  .caret,
   .marquee,
   .text-gradient,
-  .pulse,
+  .bars i,
+  .ping,
+  .draw,
   .reveal {
     animation: none !important;
   }

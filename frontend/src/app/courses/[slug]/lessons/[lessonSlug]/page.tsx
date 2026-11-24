@@ -26,6 +26,9 @@ export async function generateMetadata({
   return l ? { title: `${l.title} · ${d.data.course?.title} · EngineerHub` } : {};
 }
 
+// Static classes: inline style attributes are blocked by our CSP.
+const INDENT = ["pl-0", "pl-3", "pl-6", "pl-9"];
+
 export default async function LessonPage({
   params,
 }: PageProps<"/courses/[slug]/lessons/[lessonSlug]">) {
@@ -187,8 +190,7 @@ export default async function LessonPage({
                 <a
                   key={t.id}
                   href={`#${t.id}`}
-                  className="hover:underline"
-                  style={{ paddingLeft: `${(t.level - 1) * 0.75}rem` }}
+                  className={`hover:underline ${INDENT[Math.min(Math.max(t.level - 1, 0), 3)]}`}
                 >
                   {t.text}
                 </a>

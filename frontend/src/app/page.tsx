@@ -9,6 +9,8 @@ import {
   Practice,
   Tracks,
 } from "@/components/landing";
+import { HeroTerminal } from "@/components/hero-terminal";
+import { Spotlight, Typewriter } from "@/components/hero-fx";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LogoutForm } from "@/components/logout-form";
@@ -29,17 +31,18 @@ export default async function Home(props: PageProps<"/">) {
     <>
       <SiteNav username={auth?.session.username} />
       <main className="flex flex-1 flex-col">
-        <section className="hero-glow relative overflow-hidden border-b">
-          <div className="orb -left-20 top-10 h-72 w-72 bg-accent" />
-          <div className="orb right-0 top-40 h-72 w-72 bg-accent-2 [animation-delay:-5s]" />
-          <div className="grid-floor" aria-hidden />
-          <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 px-6 py-24 lg:grid-cols-[1.2fr_1fr]">
+        <Spotlight className="hero-glow relative overflow-hidden border-b">
+          <div className="stars" aria-hidden />
+          <div className="beams" aria-hidden />
+          <div className="spot" aria-hidden />
+          <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-[1.1fr_1fr]">
             <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
               <span className="chip">Learn · Practice · Get hired</span>
               <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-                Crack interviews at top tech companies,
-                <br />
-                <span className="text-gradient">one pattern at a time.</span>
+                Crack interviews at top tech companies, master{" "}
+                <Typewriter
+                  words={["arrays.", "graphs.", "system design.", "dynamic programming."]}
+                />
               </h1>
               <p className="max-w-xl text-lg text-muted">
                 Software engineering learning and interview preparation platform.
@@ -88,32 +91,9 @@ export default async function Home(props: PageProps<"/">) {
                 </section>
               )}
             </div>
-            <div className="scene hidden h-[440px] items-center justify-center lg:flex" aria-hidden>
-              <div
-                className="float relative flex h-full w-full items-center justify-center"
-                style={{ ["--rx" as string]: "8deg", ["--ry" as string]: "-14deg" }}
-              >
-                <div className="cube">
-                  <span>{"{ }"}</span>
-                  <span>O(n)</span>
-                  <span>{"</>"}</span>
-                  <span>BFS</span>
-                  <span>DP</span>
-                  <span>[ ]</span>
-                </div>
-                <pre className="glass absolute -left-2 top-4 w-56 -rotate-6 p-4 text-xs text-accent-2 [transform:translateZ(60px)_rotate(-6deg)]">
-                  {"for (i of nums)\n  seen.add(i)\nreturn best"}
-                </pre>
-                <div className="glass absolute -right-2 bottom-6 w-48 rotate-3 p-4 text-xs [transform:translateZ(90px)_rotate(4deg)]">
-                  <div className="mb-2 text-muted">Lesson progress</div>
-                  <div className="h-2 rounded-full bg-line">
-                    <div className="h-2 w-2/3 rounded-full bg-gradient-to-r from-accent to-accent-3" />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HeroTerminal />
           </div>
-        </section>
+        </Spotlight>
         <Tracks />
         <Patterns />
         <Features />

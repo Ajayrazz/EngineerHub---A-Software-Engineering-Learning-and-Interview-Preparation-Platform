@@ -75,13 +75,13 @@ export function Tracks() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TRACKS.map((c) => (
           <Tilt key={c.t} className="reveal">
-            <Link href="/courses" className="glass block h-full p-6">
-              <span className="chip border-accent/50 text-accent-3">{c.tag}</span>
-              <h3 className="mt-4 text-lg font-semibold" style={{ transform: "translateZ(30px)" }}>
-                {c.t}
-              </h3>
-              <p className="mt-2 text-sm text-muted">{c.d}</p>
-              <span className="mt-4 inline-block text-sm text-accent-2">Browse courses →</span>
+            <Link href="/courses" className="conic block h-full">
+              <div className="conic-in p-6">
+                <span className="chip border-accent/50 text-accent-3">{c.tag}</span>
+                <h3 className="mt-4 text-lg font-semibold">{c.t}</h3>
+                <p className="mt-2 text-sm text-muted">{c.d}</p>
+                <span className="mt-4 inline-block text-sm text-accent-2">Browse courses →</span>
+              </div>
             </Link>
           </Tilt>
         ))}
@@ -128,6 +128,21 @@ export function Patterns() {
               {p}
             </span>
           ))}
+        </div>
+      </div>
+      <div className="marquee-wrap -mx-6 mt-3 overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+        <div className="marquee rev">
+          {[...PATTERNS]
+            .reverse()
+            .concat([...PATTERNS].reverse())
+            .map((p, i) => (
+              <span
+                key={`r-${p}-${i}`}
+                className="glass whitespace-nowrap px-5 py-2.5 text-sm text-muted"
+              >
+                {p}
+              </span>
+            ))}
         </div>
       </div>
       <p className="mt-10 text-center">
@@ -218,7 +233,7 @@ export function HowItWorks() {
       <ol className="grid gap-4 md:grid-cols-3">
         {STEPS.map((s) => (
           <li key={s.n} className="glass reveal p-6">
-            <span className="pulse grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 font-bold text-white">
+            <span className="relative grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 font-bold text-white">
               {s.n}
             </span>
             <h3 className="mt-4 font-semibold">{s.t}</h3>
@@ -366,7 +381,7 @@ export function Faq() {
 export function FinalCta({ signedIn }: { signedIn: boolean }) {
   return (
     <section className="hero-glow relative overflow-hidden">
-      <div className="orb -left-10 top-0 h-60 w-60 bg-accent" />
+      <div className="beams" aria-hidden />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 px-6 py-20 text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Ready to crack your next interview?
