@@ -20,6 +20,32 @@ final class BlockValidator {
   static final int MAX_CODE = 20_000;
   static final Set<String> LANGUAGES = Set.of("java", "python", "cpp", "text");
   static final Set<String> CALLOUT_KINDS = Set.of("info", "warning", "tip");
+
+  /**
+   * What a visualization block may hold: an allowlisted algorithm id with a strictly shaped input
+   * (and value).
+   */
+  record VizSpec(String inputPattern, String paramPattern) {}
+
+  private static final String NUMBERS_16 = "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,15}$";
+  private static final String NUMBERS_12 = "^-?\\d{1,3}(\\s*,\\s*-?\\d{1,3}){1,11}$";
+
+  /**
+   * Kept in step with frontend/src/lib/viz/catalog.json (VizCatalogParityTest fails if they drift).
+   */
+  static final Map<String, VizSpec> VIZ =
+      Map.ofEntries(
+          Map.entry("bubble-sort", new VizSpec(NUMBERS_16, null)),
+          Map.entry("selection-sort", new VizSpec(NUMBERS_16, null)),
+          Map.entry("insertion-sort", new VizSpec(NUMBERS_16, null)),
+          Map.entry("merge-sort", new VizSpec(NUMBERS_12, null)),
+          Map.entry("binary-search", new VizSpec(NUMBERS_16, "^-?\\d{1,3}$")),
+          Map.entry("two-pointers", new VizSpec(NUMBERS_16, "^-?\\d{1,4}$")),
+          Map.entry("sliding-window", new VizSpec(NUMBERS_16, "^\\d{1,2}$")),
+          Map.entry("valid-parentheses", new VizSpec("^[()\\[\\]{}]{1,24}$", null)),
+          Map.entry("bfs", new VizSpec("^[0-7]-[0-7](\\s*,\\s*[0-7]-[0-7]){0,15}$", "^[0-7]$")),
+          Map.entry("fibonacci-dp", new VizSpec("^\\d{1,2}$", null)));
+
   static final int MAX_QUESTIONS = 20;
   static final int MAX_PROMPT = 2_000;
   static final int MAX_OPTION = 300;
@@ -98,6 +124,31 @@ final class BlockValidator {
           n.put("title", text(i, d, "title", 1, 100, false));
         }
         n.put("questions", questions(i, d.get("questions")));
+      }
+      case "viz" -> {
+        only(i, d, Set.of("algorithm", "input", "param"));
+        String algorithm = text(i, d, "algorithm", 1, 40, false);
+        VizSpec spec = VIZ.get(algorithm);
+        if (spec == null) {
+          throw invalid("block " + i + ": unknown visualization");
+        }
+        String input = text(i, d, "input", 1, 120, false).strip();
+        if (!java.util.regex.Pattern.matches(spec.inputPattern(), input)) {
+          throw invalid("block " + i + ": the input does not fit this visualization");
+        }
+        n.put("algorithm", algorithm);
+        n.put("input", input);
+        Object rawParam = d.get("param");
+        boolean hasParam = rawParam instanceof String p && !p.isBlank();
+        if (spec.paramPattern() != null) {
+          String param = text(i, d, "param", 1, 10, false).strip();
+          if (!java.util.regex.Pattern.matches(spec.paramPattern(), param)) {
+            throw invalid("block " + i + ": the value does not fit this visualization");
+          }
+          n.put("param", param);
+        } else if (hasParam || (rawParam != null && !(rawParam instanceof String))) {
+          throw invalid("block " + i + ": this visualization takes no extra value");
+        }
       }
       default -> throw invalid("block " + i + ": unknown block type");
     }
