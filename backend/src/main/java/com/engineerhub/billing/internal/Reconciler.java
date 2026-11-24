@@ -58,6 +58,17 @@ final class Reconciler {
       Instant now) {
     List<Finding> out = new ArrayList<>();
     Set<String> seenAtProvider = new HashSet<>();
+    // The payments listing's amount_refunded proved unreliable against the real provider (it showed
+    // 0
+    // for a payment with two processed refunds), while the refunds listing was exact. The
+    // provider's
+    // refunded total is therefore the larger of the two figures.
+    Map<String, Long> refundedByPayment = new java.util.HashMap<>();
+    for (ProviderRefundRow rr : providerRefunds) {
+      if (rr.status().equals("processed")) {
+        refundedByPayment.merge(rr.paymentId(), rr.amountMinor(), Long::sum);
+      }
+    }
     for (ProviderPayment pp : providerPayments) {
       seenAtProvider.add(pp.id());
       boolean wasCaptured = pp.status().equals("captured") || pp.status().equals("refunded");
@@ -94,10 +105,12 @@ final class Reconciler {
                 "We recorded %d %s but the provider has %d %s."
                     .formatted(lp.amountMinor(), lp.currency(), pp.amountMinor(), pp.currency())));
       }
+      long providerRefunded =
+          Math.max(pp.amountRefundedMinor(), refundedByPayment.getOrDefault(pp.id(), 0L));
       long ours = lp.processedRefundMinor();
       boolean inFlight =
-          lp.pendingRefundMinor() > 0 && pp.amountRefundedMinor() == ours + lp.pendingRefundMinor();
-      if (pp.amountRefundedMinor() != ours && !inFlight) {
+          lp.pendingRefundMinor() > 0 && providerRefunded == ours + lp.pendingRefundMinor();
+      if (providerRefunded != ours && !inFlight) {
         out.add(
             new Finding(
                 "refund_amount_mismatch",
@@ -105,10 +118,10 @@ final class Reconciler {
                 blankToNull(pp.orderId()),
                 lp.id(),
                 null,
-                pp.amountRefundedMinor(),
+                providerRefunded,
                 pp.currency(),
                 "The provider shows %d refunded, we recorded %d (a refund made outside this system, or a lost event)."
-                    .formatted(pp.amountRefundedMinor(), ours)));
+                    .formatted(providerRefunded, ours)));
       }
     }
     for (ProviderRefundRow rr : providerRefunds) {

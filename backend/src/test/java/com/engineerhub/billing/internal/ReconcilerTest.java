@@ -203,6 +203,45 @@ class ReconcilerTest {
   }
 
   @Test
+  void theRefundsListingCountsEvenWhenThePaymentsListingStillSaysZero() {
+    // observed against the real provider: amount_refunded stayed 0 while two refunds were processed
+    var none = Map.of("pay_1", lp("pay_1", 29950, 0, 0, Duration.ofHours(5)));
+    var rows =
+        List.of(
+            new ProviderRefundRow("rfnd_1", "pay_1", 100, "processed"),
+            new ProviderRefundRow("rfnd_2", "pay_1", 100, "processed"),
+            new ProviderRefundRow("rfnd_3", "pay_1", 5000, "pending"), // not money moved yet
+            new ProviderRefundRow("rfnd_4", "pay_2", 700, "processed")); // another payment
+    var f =
+        compare(
+            List.of(pp("pay_1", 29950, "captured", "o", 0)), true, rows, none, Set.of(), Map.of());
+    assertThat(kinds(f)).containsExactly("refund_amount_mismatch");
+    assertThat(f.get(0).amountMinor()).isEqualTo(200);
+    // when our records agree with the refunds listing there is nothing to report
+    var agree = Map.of("pay_1", lp("pay_1", 29950, 200, 0, Duration.ofHours(5)));
+    assertThat(
+            compare(
+                List.of(pp("pay_1", 29950, "captured", "o", 0)),
+                true,
+                rows,
+                agree,
+                Set.of(),
+                Map.of()))
+        .isEmpty();
+    // the larger of the two figures wins when the payments listing is the one that is ahead
+    assertThat(
+            kinds(
+                compare(
+                    List.of(pp("pay_1", 29950, "captured", "o", 900)),
+                    true,
+                    rows,
+                    agree,
+                    Set.of(),
+                    Map.of())))
+        .containsExactly("refund_amount_mismatch");
+  }
+
+  @Test
   void aRefundTheProviderFinishedButWeStillShowPendingIsStuckOnlyAfterAWhile() {
     UUID id = UUID.randomUUID();
     var old =
