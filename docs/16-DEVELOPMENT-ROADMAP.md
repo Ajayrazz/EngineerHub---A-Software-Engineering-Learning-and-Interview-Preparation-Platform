@@ -63,7 +63,7 @@ Solved counts, daily activity, streaks, course progress counters via events; use
 - **M6.3** Billing page (validity, status, payment history) and in-app renewal reminder — **done**. Expiry sweeper and e-mail reminders deliberately not built (ADR-051); they need mail infrastructure and your decision.
 - **M6.4** Recurring subscriptions (monthly/annual): create/authenticate, `subscription.charged` into the same handler, cancel-at-cycle-end, failed payment → PAST_DUE → grace → expiry. — **done on our side, NOT verified against Razorpay** (ADR-052); the grace period is not built (P-2).
 - **M6.5** Tax config model (`UNCONFIGURED/DISABLED/ENABLED`), invoices/receipts PDF, credit notes. — **done except credit notes** (they need refunds, M6.6); tax *content* (rate, GSTIN, SAC, wording, CGST/SGST/IGST split, customer state) is still P-4 and not decided (ADR-053).
-- **M6.6** Refund requests + admin review/process + auto-flags + configurable policy text.
+- **M6.6** Refund requests + admin review/process + auto-flags + configurable policy text. — **done on our side, NOT verified against Razorpay** (ADR-054); the policy text and every rule are yours to write (P-6); credit notes (deferred from M6.5) are included.
 - **M6.7** Reconciliation job, Live Readiness Gate, full test matrix (doc 21 §10).
 Exit: all four options work in **test mode**; live charging impossible until the Gate (legal entity/KYC/accountant — pending).
 *Contingency:* if schedule tightens, passes (M6.2–6.3, 6.5–6.7 for passes) ship first and recurring (M6.4) follows — design already supports both.
