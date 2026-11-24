@@ -471,6 +471,72 @@ test("a payer asks for a refund and an admin reviews it; with payments off the p
   }
 });
 
+test("reconciliation can be run by hand and says plainly when payments are not configured", async ({
+  browser,
+}) => {
+  const admin = await newPage(browser, "admin");
+  await admin.goto("/admin/reconciliation");
+  await expect(admin.getByTestId("findings")).toBeVisible();
+  await admin.getByTestId("reconcile-run").click();
+  const first = admin.getByTestId("run").first();
+  await expect(first).toContainText("Skipped (payments are not configured)"); // the dev stack has no provider keys
+  await expect(first).toContainText("manual");
+  await expect(admin.getByTestId("no-findings")).toBeVisible();
+  // only billing managers see it
+  const learner = await newPage(browser, "learner");
+  expect((await learner.goto("/admin/reconciliation"))?.status()).toBe(404);
+  await admin.context().close();
+  await learner.context().close();
+});
+
+test("the live readiness gate is visible to billing managers, changeable only by a super administrator, and enables nothing", async ({
+  browser,
+}) => {
+  const admin = await newPage(browser, "admin");
+  const call = await api(admin.request);
+  await call("put", "admin/billing/tax", { mode: "UNCONFIGURED" }); // a known start
+  await admin.goto("/admin/live-gate");
+  const gate = admin.getByTestId("live-gate");
+  await expect(gate.getByTestId("gate-enforcement")).toContainText("refuses live payments");
+  await expect(gate.getByTestId("gate-state")).toContainText(
+    "Gate closed: 9 of 9 items still open",
+  );
+  await expect(gate.getByTestId("gate-readonly")).toBeVisible();
+  await expect(gate.getByTestId("gate-item")).toHaveCount(9);
+  for (const box of await gate.getByRole("checkbox").all()) await expect(box).toBeDisabled();
+  await expect(gate.getByTestId("gate-open")).toHaveCount(0);
+
+  const owner = await newPage(browser, "superadmin");
+  try {
+    await owner.goto("/admin/live-gate");
+    await expect(owner.getByTestId("gate-readonly")).toHaveCount(0);
+    await expect(owner.getByTestId("gate-open")).toBeDisabled(); // items are still open
+
+    // an attestation the system cannot check can simply be recorded
+    // the box follows the server, not the click, so click and then look at the outcome
+    await owner.getByRole("checkbox", { name: "Legal entity finalised" }).click();
+    await expect(owner.getByRole("status").filter({ hasText: "Attested" })).toBeVisible();
+    await expect(owner.getByTestId("gate-state")).toContainText("8 of 9 items still open");
+
+    // an item the system can check is refused while its prerequisite is missing
+    await owner.getByRole("checkbox", { name: /Tax mode confirmed/ }).click();
+    await expect(owner.getByRole("alert").first()).toContainText("tax mode is still unconfigured");
+    await owner.reload();
+    await expect(owner.getByRole("checkbox", { name: /Tax mode confirmed/ })).not.toBeChecked();
+    await expect(
+      owner
+        .getByTestId("gate-item")
+        .filter({ hasText: "Tax mode confirmed" })
+        .getByTestId("gate-check"),
+    ).toContainText("Check fails");
+  } finally {
+    const o = await api(owner.request);
+    await o("put", "admin/billing/live-gate/items/legal_entity", { done: false });
+    await owner.context().close();
+    await admin.context().close();
+  }
+});
+
 test("without payment credentials the pricing page offers no purchase, and the CSP admits the provider only there", async ({
   browser,
 }) => {

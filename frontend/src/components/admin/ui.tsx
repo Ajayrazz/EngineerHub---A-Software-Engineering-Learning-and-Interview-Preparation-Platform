@@ -13,7 +13,16 @@ export function AdminShell({
   children,
 }: {
   title: string;
-  active: "home" | "users" | "courses" | "problems" | "billing" | "refunds" | "audit";
+  active:
+    | "home"
+    | "users"
+    | "courses"
+    | "problems"
+    | "billing"
+    | "refunds"
+    | "reconciliation"
+    | "live-gate"
+    | "audit";
   global: readonly string[];
   scoped?: readonly string[];
   children: ReactNode;
@@ -38,6 +47,10 @@ export function AdminShell({
           link("/admin/problems", "Problems", "problems")}
         {global.includes("billing.manage") && link("/admin/billing", "Billing", "billing")}
         {global.includes("billing.manage") && link("/admin/refunds", "Refunds", "refunds")}
+        {global.includes("billing.manage") &&
+          link("/admin/reconciliation", "Reconciliation", "reconciliation")}
+        {global.includes("billing.manage") &&
+          link("/admin/live-gate", "Live readiness", "live-gate")}
         {global.includes("audit.read") && link("/admin/audit", "Audit log", "audit")}
         <Link href="/account" className="ml-auto text-sm opacity-70 hover:underline">
           Account
