@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Tilt } from "@/components/tilt";
 
 export function Section({
   id,
@@ -19,7 +20,7 @@ export function Section({
   return (
     <section id={id} className={`border-b ${tint ? "bg-surface/60" : ""}`}>
       <div className="mx-auto w-full max-w-6xl px-6 py-20">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
+        <div className="reveal mx-auto mb-12 max-w-2xl text-center">
           {eyebrow && <span className="chip">{eyebrow}</span>}
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
           {lead && <p className="mt-3 text-muted">{lead}</p>}
@@ -73,12 +74,16 @@ export function Tracks() {
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TRACKS.map((c) => (
-          <Link key={c.t} href="/courses" className="card card-hover block p-6">
-            <span className="chip border-accent/40 text-accent">{c.tag}</span>
-            <h3 className="mt-4 text-lg font-semibold">{c.t}</h3>
-            <p className="mt-2 text-sm text-muted">{c.d}</p>
-            <span className="mt-4 inline-block text-sm text-accent">Browse courses →</span>
-          </Link>
+          <Tilt key={c.t} className="reveal">
+            <Link href="/courses" className="glass block h-full p-6">
+              <span className="chip border-accent/50 text-accent-3">{c.tag}</span>
+              <h3 className="mt-4 text-lg font-semibold" style={{ transform: "translateZ(30px)" }}>
+                {c.t}
+              </h3>
+              <p className="mt-2 text-sm text-muted">{c.d}</p>
+              <span className="mt-4 inline-block text-sm text-accent-2">Browse courses →</span>
+            </Link>
+          </Tilt>
         ))}
       </div>
     </Section>
@@ -111,17 +116,19 @@ export function Patterns() {
       eyebrow="Patterns"
       title={
         <>
-          Master the pattern, <span className="text-accent">not just the problem</span>
+          Master the pattern, <span className="text-gradient">not just the problem</span>
         </>
       }
       lead="Problems repeat in shape. Learn to recognise the shape and the solution follows."
     >
-      <div className="flex flex-wrap justify-center gap-3">
-        {PATTERNS.map((p) => (
-          <span key={p} className="card px-4 py-2 text-sm">
-            {p}
-          </span>
-        ))}
+      <div className="marquee-wrap -mx-6 overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+        <div className="marquee">
+          {[...PATTERNS, ...PATTERNS].map((p, i) => (
+            <span key={`${p}-${i}`} className="glass whitespace-nowrap px-5 py-2.5 text-sm">
+              {p}
+            </span>
+          ))}
+        </div>
       </div>
       <p className="mt-10 text-center">
         <Link href="/problems" className="btn-primary">
@@ -166,11 +173,16 @@ export function Features() {
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map((f) => (
-          <div key={f.t} className="card p-6">
-            <div aria-hidden className="mb-4 h-1 w-10 rounded-full bg-accent" />
-            <h3 className="font-semibold">{f.t}</h3>
-            <p className="mt-2 text-sm text-muted">{f.d}</p>
-          </div>
+          <Tilt key={f.t} className="reveal">
+            <div className="glass h-full p-6">
+              <div
+                aria-hidden
+                className="mb-4 h-1 w-12 rounded-full bg-gradient-to-r from-accent via-accent-2 to-accent-3"
+              />
+              <h3 className="font-semibold">{f.t}</h3>
+              <p className="mt-2 text-sm text-muted">{f.d}</p>
+            </div>
+          </Tilt>
         ))}
       </div>
     </Section>
@@ -205,8 +217,8 @@ export function HowItWorks() {
     >
       <ol className="grid gap-4 md:grid-cols-3">
         {STEPS.map((s) => (
-          <li key={s.n} className="card p-6">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-accent font-bold text-accent-ink">
+          <li key={s.n} className="glass reveal p-6">
+            <span className="pulse grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 font-bold text-white">
               {s.n}
             </span>
             <h3 className="mt-4 font-semibold">{s.t}</h3>
@@ -246,7 +258,11 @@ export function Practice() {
     >
       <div className="grid gap-4 md:grid-cols-3">
         {PRACTICE.map((p) => (
-          <Link key={p.t} href={p.href} className="card card-hover block p-6">
+          <Link
+            key={p.t}
+            href={p.href}
+            className="glass reveal block p-6 transition hover:-translate-y-1 hover:border-accent"
+          >
             <h3 className="font-semibold">{p.t}</h3>
             <p className="mt-2 text-sm text-muted">{p.d}</p>
           </Link>
@@ -282,8 +298,8 @@ export function Community() {
     >
       <div className="grid gap-4 md:grid-cols-3">
         {PRINCIPLES.map((p) => (
-          <div key={p.t} className="card p-6">
-            <h3 className="font-semibold text-accent">{p.t}</h3>
+          <div key={p.t} className="glass reveal p-6">
+            <h3 className="font-semibold text-accent-2">{p.t}</h3>
             <p className="mt-2 text-sm text-muted">{p.d}</p>
           </div>
         ))}
@@ -332,7 +348,7 @@ export function Faq() {
     <Section id="faq" eyebrow="FAQ" title="Frequently asked questions">
       <div className="mx-auto max-w-3xl space-y-3">
         {FAQS.map((f) => (
-          <details key={f.q} className="card group p-5 open:border-accent/50">
+          <details key={f.q} className="glass reveal group p-5 open:border-accent/50">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
               {f.q}
               <span aria-hidden className="text-accent transition group-open:rotate-45">
@@ -349,7 +365,8 @@ export function Faq() {
 
 export function FinalCta({ signedIn }: { signedIn: boolean }) {
   return (
-    <section className="hero-glow">
+    <section className="hero-glow relative overflow-hidden">
+      <div className="orb -left-10 top-0 h-60 w-60 bg-accent" />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 px-6 py-20 text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Ready to crack your next interview?
