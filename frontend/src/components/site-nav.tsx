@@ -1,8 +1,40 @@
 import Link from "next/link";
+import {
+  Boxes,
+  Building2,
+  ChevronDown,
+  Code2,
+  Coffee,
+  Cpu,
+  Crown,
+  Database,
+  FileText,
+  FolderOpen,
+  GitBranch,
+  GraduationCap,
+  Layers,
+  Mail,
+  Map,
+  MessageSquareQuote,
+  Network,
+  Menu,
+  Play,
+  Plug,
+  Radio,
+  Search,
+  Server,
+  Shuffle,
+  Star,
+  Target,
+  Terminal,
+  Users,
+  Workflow,
+  type LucideIcon,
+} from "lucide-react";
 
-type Item = { label: string; href?: string; glyph: string; tone: string; soon?: boolean };
+type Item = { label: string; href?: string; icon: LucideIcon; tone: string; soon?: boolean };
 type Group = { title?: string; items: Item[] };
-type Menu = { label: string; glyph: string; groups: Group[]; wide?: boolean };
+type Menu = { label: string; icon: LucideIcon; groups: Group[]; wide?: boolean };
 
 const q = (text: string) => `/courses?q=${encodeURIComponent(text)}`;
 
@@ -19,7 +51,7 @@ const t = (k: keyof typeof TONES) => TONES[k];
 const MENUS: Menu[] = [
   {
     label: "Learn",
-    glyph: "◈",
+    icon: GraduationCap,
     wide: true,
     groups: [
       {
@@ -28,96 +60,106 @@ const MENUS: Menu[] = [
           {
             label: "Data structures & algorithms",
             href: q("algorithms"),
-            glyph: "⌬",
+            icon: Network,
             tone: t("blue"),
           },
-          { label: "System design", href: q("system design"), glyph: "▤", tone: t("sky") },
-          { label: "Low-level design", href: q("low-level design"), glyph: "▣", tone: t("indigo") },
-          { label: "Concurrency", href: q("concurrency"), glyph: "⇄", tone: t("cyan") },
-          { label: "Behavioral", href: q("behavioral"), glyph: "❝", tone: t("slate") },
+          { label: "System design", href: q("system design"), icon: Server, tone: t("sky") },
+          {
+            label: "Low-level design",
+            href: q("low-level design"),
+            icon: Boxes,
+            tone: t("indigo"),
+          },
+          { label: "Concurrency", href: q("concurrency"), icon: Workflow, tone: t("cyan") },
+          {
+            label: "Behavioral",
+            href: q("behavioral"),
+            icon: MessageSquareQuote,
+            tone: t("slate"),
+          },
         ],
       },
       {
         title: "Backend",
         items: [
-          { label: "SQL & databases", href: q("sql"), glyph: "▥", tone: t("blue") },
-          { label: "API design", href: q("api"), glyph: "⚙", tone: t("sky") },
-          { label: "Microservices", href: q("microservices"), glyph: "❖", tone: t("indigo") },
-          { label: "Messaging & Kafka", href: q("kafka"), glyph: "⋮⋮", tone: t("cyan") },
+          { label: "SQL & databases", href: q("sql"), icon: Database, tone: t("blue") },
+          { label: "API design", href: q("api"), icon: Plug, tone: t("sky") },
+          { label: "Microservices", href: q("microservices"), icon: Layers, tone: t("indigo") },
+          { label: "Messaging & Kafka", href: q("kafka"), icon: Radio, tone: t("cyan") },
         ],
       },
       {
         title: "Fundamentals",
         items: [
-          { label: "Java", href: q("java"), glyph: "J", tone: t("blue") },
-          { label: "Python", href: q("python"), glyph: "Py", tone: t("sky") },
-          { label: "C++", href: q("c++"), glyph: "C+", tone: t("indigo") },
-          { label: "Go", href: q("go"), glyph: "Go", tone: t("cyan") },
-          { label: "Git", href: q("git"), glyph: "⑂", tone: t("slate") },
+          { label: "Java", href: q("java"), icon: Coffee, tone: t("blue") },
+          { label: "Python", href: q("python"), icon: Terminal, tone: t("sky") },
+          { label: "C++", href: q("c++"), icon: Cpu, tone: t("indigo") },
+          { label: "Go", href: q("go"), icon: Code2, tone: t("cyan") },
+          { label: "Git", href: q("git"), icon: GitBranch, tone: t("slate") },
         ],
       },
     ],
   },
   {
     label: "Practice",
-    glyph: "◎",
+    icon: Target,
     groups: [
       {
         items: [
-          { label: "Problem bank", href: "/problems", glyph: "⌬", tone: t("blue") },
-          { label: "Random problem", href: "/problems/random", glyph: "⤮", tone: t("sky") },
-          { label: "My problems", href: "/my-problems", glyph: "★", tone: t("indigo") },
-          { label: "Company-wise problems", glyph: "▦", tone: t("cyan"), soon: true },
+          { label: "Problem bank", href: "/problems", icon: Network, tone: t("blue") },
+          { label: "Random problem", href: "/problems/random", icon: Shuffle, tone: t("sky") },
+          { label: "My problems", href: "/my-problems", icon: Star, tone: t("indigo") },
+          { label: "Company-wise problems", icon: Building2, tone: t("cyan"), soon: true },
         ],
       },
     ],
   },
   {
     label: "Interview",
-    glyph: "❝",
+    icon: MessageSquareQuote,
     groups: [
       {
         items: [
-          { label: "Coding interview", href: "/problems", glyph: "</>", tone: t("blue") },
+          { label: "Coding interview", href: "/problems", icon: Code2, tone: t("blue") },
           {
             label: "System design interview",
             href: q("system design"),
-            glyph: "▤",
+            icon: Server,
             tone: t("sky"),
           },
           {
             label: "Low-level design interview",
             href: q("low-level design"),
-            glyph: "▣",
+            icon: Boxes,
             tone: t("indigo"),
           },
-          { label: "Mock interviews", glyph: "◉", tone: t("cyan"), soon: true },
+          { label: "Mock interviews", icon: Users, tone: t("cyan"), soon: true },
         ],
       },
     ],
   },
   {
     label: "Resources",
-    glyph: "▭",
+    icon: FolderOpen,
     groups: [
       {
         items: [
-          { label: "Visualizations", href: q("visualization"), glyph: "▶", tone: t("sky") },
-          { label: "Plans & pricing", href: "/pricing", glyph: "♛", tone: t("blue") },
-          { label: "Roadmaps", glyph: "⌖", tone: t("indigo"), soon: true },
-          { label: "Resume builder", glyph: "▤", tone: t("cyan"), soon: true },
+          { label: "Visualizations", href: q("visualization"), icon: Play, tone: t("sky") },
+          { label: "Plans & pricing", href: "/pricing", icon: Crown, tone: t("blue") },
+          { label: "Roadmaps", icon: Map, tone: t("indigo"), soon: true },
+          { label: "Resume builder", icon: FileText, tone: t("cyan"), soon: true },
         ],
       },
     ],
   },
   {
     label: "Newsletter",
-    glyph: "✉",
+    icon: Mail,
     groups: [
       {
         items: [
-          { label: "All articles", glyph: "▤", tone: t("blue"), soon: true },
-          { label: "Premium articles", glyph: "♛", tone: t("sky"), soon: true },
+          { label: "All articles", icon: FileText, tone: t("blue"), soon: true },
+          { label: "Premium articles", icon: Crown, tone: t("sky"), soon: true },
         ],
       },
     ],
@@ -153,9 +195,9 @@ function Row({ item }: { item: Item }) {
     <>
       <span
         aria-hidden
-        className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg text-xs font-bold ${item.tone}`}
+        className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${item.tone}`}
       >
-        {item.glyph}
+        <item.icon size={16} />
       </span>
       <span className="flex-1 whitespace-nowrap">{item.label}</span>
       {item.soon && <span className="chip py-0 text-[10px]">Soon</span>}
@@ -182,13 +224,13 @@ function Dropdown({ menu }: { menu: Menu }) {
         aria-haspopup="menu"
         className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 group-hover:bg-surface-2 group-hover:text-accent-2 group-focus-within:bg-surface-2 group-focus-within:text-accent-2"
       >
-        <span aria-hidden className="text-accent-2">
-          {menu.glyph}
-        </span>
+        <menu.icon size={16} aria-hidden className="text-accent-2" />
         {menu.label}
-        <span aria-hidden className="text-[10px] opacity-60">
-          ▾
-        </span>
+        <ChevronDown
+          size={14}
+          aria-hidden
+          className="opacity-60 transition group-hover:rotate-180"
+        />
       </button>
       <div
         className={`invisible absolute left-0 top-full z-40 translate-y-1 pt-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 ${menu.wide ? "w-[min(56rem,92vw)]" : "w-max"}`}
@@ -250,15 +292,20 @@ export function SiteNav({ username }: { username?: string | null }) {
             href="/pricing"
             className="hidden items-center gap-1.5 rounded-lg border border-accent/40 bg-accent/10 px-3 py-1.5 text-sm font-medium text-accent-2 hover:bg-accent/20 sm:flex"
           >
-            ♛ Premium
+            <Crown size={14} aria-hidden /> Premium
           </Link>
-          <form action="/courses" method="get" role="search" className="hidden md:block">
+          <form action="/courses" method="get" role="search" className="relative hidden md:block">
+            <Search
+              size={14}
+              aria-hidden
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+            />
             <input
               name="q"
               maxLength={100}
               placeholder="Search courses"
               aria-label="Search courses"
-              className="w-40 rounded-lg border bg-surface px-3 py-1.5 text-sm placeholder:text-muted focus:w-56"
+              className="w-40 rounded-lg border bg-surface py-1.5 pl-8 pr-3 text-sm placeholder:text-muted focus:w-56"
             />
           </form>
           {username ? (
@@ -292,7 +339,7 @@ export function SiteNav({ username }: { username?: string | null }) {
               className="cursor-pointer list-none rounded-lg border px-3 py-1.5"
               aria-label="Menu"
             >
-              ☰
+              <Menu size={16} aria-hidden />
             </summary>
             <ul className="absolute right-0 top-full mt-2 max-h-[70vh] w-64 space-y-0.5 overflow-auto rounded-xl border bg-surface p-2 shadow-2xl">
               {mobile.map((i) => (
