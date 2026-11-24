@@ -81,7 +81,7 @@ class RazorpayWebhookService {
             .param("id", eventId)
             .param("t", type.length() > 60 ? type.substring(0, 60) : type)
             .param("now", Timestamp.from(clock.instant()))
-            .param("p", new String(rawBody, StandardCharsets.UTF_8))
+            .param("p", redacted(event, rawBody))
             .update();
     if (inserted == 0) {
       boolean done =
@@ -111,6 +111,46 @@ class RazorpayWebhookService {
         .param("id", eventId)
         .update();
     return outcome;
+  }
+
+  /**
+   * Payer details the provider includes but we never need (data minimisation): dropped before
+   * storing.
+   */
+  static final java.util.Set<String> PERSONAL =
+      java.util.Set.of(
+          "email",
+          "contact",
+          "card",
+          "card_id",
+          "token_id",
+          "vpa",
+          "wallet",
+          "bank",
+          "acquirer_data",
+          "customer_id",
+          "customer_details",
+          "billing_address",
+          "shipping_address");
+
+  /**
+   * The event as stored: everything except payer details. If the body is not an object we keep it
+   * as it came (nothing to redact), which only happens for events we ignore anyway.
+   */
+  String redacted(JsonNode event, byte[] rawBody) {
+    if (!(event instanceof tools.jackson.databind.node.ObjectNode root)) {
+      return new String(rawBody, StandardCharsets.UTF_8);
+    }
+    JsonNode payload = root.path("payload");
+    for (var entry : payload.properties()) {
+      JsonNode entity = entry.getValue().path("entity");
+      if (entity instanceof tools.jackson.databind.node.ObjectNode obj) {
+        for (String key : PERSONAL) {
+          obj.remove(key);
+        }
+      }
+    }
+    return mapper.writeValueAsString(root);
   }
 
   private String captured(JsonNode event) {

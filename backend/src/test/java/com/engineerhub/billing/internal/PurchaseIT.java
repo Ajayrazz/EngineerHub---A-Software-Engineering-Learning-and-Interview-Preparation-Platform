@@ -558,6 +558,31 @@ class PurchaseIT {
   }
 
   @Test
+  void payerDetailsInAWebhookAreNeverStored() throws Exception {
+    String[] c = catalog();
+    var u = who(sub());
+    String order = start(u, c[1], null).get("orderId").asString();
+    String pay = "pay_ITpii" + Ids.newId().toString().substring(28);
+    String body =
+        "{\"event\":\"payment.captured\",\"payload\":{\"payment\":{\"entity\":{\"id\":\"%s\",\"amount\":29950,\"currency\":\"INR\",\"status\":\"captured\",\"order_id\":\"%s\",\"email\":\"payer@example.test\",\"contact\":\"+910000000000\",\"vpa\":\"someone@upi\",\"card\":{\"last4\":\"1234\",\"name\":\"A Payer\"},\"acquirer_data\":{\"auth_code\":\"123\"}}}}}"
+            .formatted(pay, order);
+    signedWebhook(body, "evt_pii_" + Ids.newId()).andExpect(status().isOk());
+    assertThat(premium(u)).isTrue(); // the data we do need was still read
+    String stored =
+        jdbc.sql("select payload from billing.webhook_events where payload like :p")
+            .param("p", "%" + pay + "%")
+            .query(String.class)
+            .single();
+    assertThat(stored).contains(pay).contains(order).contains("29950");
+    for (String leaked :
+        new String[] {
+          "payer@example.test", "+910000000000", "someone@upi", "1234", "A Payer", "auth_code"
+        }) {
+      assertThat(stored).as(leaked).doesNotContain(leaked);
+    }
+  }
+
+  @Test
   void invalidMissingOrTamperedSignaturesAreRejectedAndChangeNothing() throws Exception {
     String[] c = catalog();
     var u = who(sub());
