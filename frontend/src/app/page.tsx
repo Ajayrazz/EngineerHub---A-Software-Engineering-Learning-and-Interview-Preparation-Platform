@@ -1,4 +1,15 @@
 import Link from "next/link";
+import {
+  Community,
+  Faq,
+  Features,
+  FinalCta,
+  HowItWorks,
+  Patterns,
+  Practice,
+  Tracks,
+} from "@/components/landing";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LogoutForm } from "@/components/logout-form";
 import { currentSession } from "@/lib/auth/current";
@@ -14,21 +25,6 @@ export default async function Home(props: PageProps<"/">) {
   const error = rawError ? ERRORS[rawError] : undefined; // fixed messages only; input is never reflected
   const auth = await currentSession();
 
-  const features = [
-    {
-      t: "Structured courses",
-      d: "Chapters, lessons, quizzes and step-by-step visualizations, tracked as you go.",
-    },
-    {
-      t: "Practice problems",
-      d: "A curated problem bank with hints, difficulty, tags and your own progress.",
-    },
-    {
-      t: "Interview preparation",
-      d: "Patterns and strategy lessons written for real interview loops.",
-    },
-    { t: "Know where you stand", d: "A dashboard with streaks, completion and what to do next." },
-  ];
   return (
     <>
       <SiteNav username={auth?.session.username} />
@@ -37,9 +33,9 @@ export default async function Home(props: PageProps<"/">) {
           <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 px-6 py-24 text-center">
             <span className="chip">Learn · Practice · Get hired</span>
             <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-              Master software engineering,
+              Crack interviews at top tech companies,
               <br />
-              <span className="text-accent">one lesson at a time.</span>
+              <span className="text-accent">one pattern at a time.</span>
             </h1>
             <p className="max-w-xl text-lg text-muted">
               Software engineering learning and interview preparation platform.
@@ -89,15 +85,16 @@ export default async function Home(props: PageProps<"/">) {
             )}
           </div>
         </section>
-        <section className="mx-auto grid w-full max-w-6xl gap-4 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f) => (
-            <div key={f.t} className="card card-hover p-5">
-              <h2 className="font-semibold">{f.t}</h2>
-              <p className="mt-2 text-sm text-muted">{f.d}</p>
-            </div>
-          ))}
-        </section>
+        <Tracks />
+        <Patterns />
+        <Features />
+        <HowItWorks />
+        <Practice />
+        <Community />
+        <Faq />
+        <FinalCta signedIn={Boolean(auth)} />
       </main>
+      <SiteFooter />
     </>
   );
 }
