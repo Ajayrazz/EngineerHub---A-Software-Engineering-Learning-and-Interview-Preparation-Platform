@@ -146,10 +146,10 @@ new["adv"] = [
 ]
 
 import courses_dsa_welcome as WL
-import lang_java, lang_python, lang_cpp, lang_csharp, lang_go, lang_js, lang_ts
+import lang_java2 as lang_java, lang_python2 as lang_python, lang_cpp2 as lang_cpp, lang_csharp2 as lang_csharp, lang_go2 as lang_go, lang_js2 as lang_js, lang_ts2 as lang_ts
 class LANG:
-    JAVA, PYTHON, CPP = lang_java.JAVA, lang_python.PYTHON, lang_cpp.CPP
-    CSHARP, GO, JS, TS = lang_csharp.CSHARP, lang_go.GO, lang_js.JS, lang_ts.TS
+    JAVA, PYTHON, CPP = lang_java.JAVA2, lang_python.PYTHON2, lang_cpp.CPP2
+    CSHARP, GO, JS, TS = lang_csharp.CSHARP2, lang_go.GO2, lang_js.JS2, lang_ts.TS2
 
 layout = [
  ("Welcome", keep("course-introduction", "course-roadmap")),
