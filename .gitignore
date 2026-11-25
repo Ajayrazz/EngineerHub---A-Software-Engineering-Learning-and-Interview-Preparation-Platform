@@ -38,3 +38,4 @@ frontend/playwright/.cache/
 # generated Keycloak realm import (scripts/build-realm.py)
 /infra/keycloak/build/
 __pycache__/
+backups/

@@ -7,7 +7,7 @@ export JAVA_HOME := $(JDK21)
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify msg-verify format api-update hooks scan frontend-check frontend-start e2e lint-scripts seed-content clean-test-content
+.PHONY: help backend-test backend-run backend-build frontend-install frontend-dev frontend-lint frontend-build test verify dev-env dev-up dev-down dev-reset dev-logs dev-ps dev-verify api-verify msg-verify format api-update hooks scan frontend-check frontend-start e2e lint-scripts seed-content clean-test-content db-backup db-restore-check
 
 help: ## List commands
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-18s %s\n",$$1,$$2}'
@@ -107,3 +107,9 @@ seed-content: ## Load the original courses and problems (content/*.json) into th
 
 clean-test-content: ## Remove browser-test leftovers from the LOCAL database (e2e runs this automatically afterwards)
 	./scripts/clean-test-content.sh
+
+db-backup: ## Dump the LOCAL app and Keycloak databases to ./backups (git-ignored)
+	./scripts/db-backup.sh
+
+db-restore-check: ## Prove a dump restores: make db-restore-check DUMP=backups/engineerhub-<stamp>.dump
+	./scripts/db-restore-check.sh $(DUMP)
