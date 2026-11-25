@@ -9,7 +9,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 dump="${1:?usage: REMOTE_DATABASE_URL=... db-push-remote.sh <dump file> --yes}"
 [[ "${2:-}" == "--yes" ]] || { echo "refusing without --yes (this REPLACES the contents of the target database)"; exit 2; }
-url="${REMOTE_DATABASE_URL:?set REMOTE_DATABASE_URL (postgresql://user:pass@host:5432/db?sslmode=require)}"
+set -a; [ -f .env ] && . ./.env; set +a
+url="${REMOTE_DATABASE_URL:-${NEON_DIRECT_URL:-}}"
+[ -n "$url" ] || { echo "set NEON_DIRECT_URL in .env (or REMOTE_DATABASE_URL), the direct/unpooled postgresql:// URL"; exit 2; }
 shown=$(printf '%s' "$url" | sed -E 's#(postgres(ql)?://)[^@]*@#\1***@#')
 echo "target: $shown"
 docker compose exec -T postgres pg_restore --dbname "$url" --no-owner --no-privileges --clean --if-exists --exit-on-error < "$dump"
