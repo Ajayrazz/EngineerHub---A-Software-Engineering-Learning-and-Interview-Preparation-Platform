@@ -145,7 +145,9 @@ PROBLEMS = [
 ]
 
 import problems_warmup
+import problems_warmup2
 PROBLEMS += problems_warmup.make(P)
+PROBLEMS += problems_warmup2.make(P)
 
 def build():
     out, bad = [], False

@@ -2340,193 +2340,593 @@
     "lessons": [
      {
       "slug": "variables-io-operators",
-      "title": "Variables, I/O and operators",
+      "title": "Variables, I/O & Operators",
       "tier": "free",
-      "minutes": 8,
-      "md": "## The first building blocks\n\nA **variable** names a value. Arithmetic operators `+ - * / %` work as you expect; `//` or integer division drops the fraction, and `%` gives the remainder. Watch for **integer overflow** in languages with fixed-size integers.\n\nTiny programs to try: swap two numbers, convert seconds to hours-minutes-seconds, compute simple interest.\n\n### Practice\n- [Largest of Three](/problems/largest-of-three)",
+      "minutes": 18,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "`17 % 5` equals:",
+        "prompt": "In Python, `-7 // 2` equals:",
+        "options": [
+         "-4",
+         "-3",
+         "3",
+         "4"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Floor division rounds toward minus infinity.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why compute a temperature in tenths with integers?",
+        "options": [
+         "To avoid floating-point rounding errors",
+         "It is shorter",
+         "Python requires it",
+         "It is faster to read"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Integers are exact.",
+        "type": "single"
+       },
+       {
+        "prompt": "If `a = 17` and `b = 5`, what is `a % b`?",
         "options": [
          "2",
          "3",
-         "12",
-         "5"
+         "5",
+         "12"
         ],
         "correct": [
          0
         ],
-        "explanation": "17 = 3×5 + 2.",
+        "explanation": "17 = 5 × 3 + 2.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Warm up your hands before the algorithms\n\nEvery algorithm in this course is built from a few tiny skills: store a value, read input, compute something, print the answer. This chapter makes those skills automatic. The exercises are small on purpose; the goal is **speed and zero hesitation**, so that later your attention can go to the idea instead of the syntax.\n\n## Variables and types\n\nA **variable** is a name for a stored value. A value has a **type**: a whole number (integer), a number with a fraction (float), text (string), or true/false (boolean). In statically typed languages you declare the type (`int x = 5;`); in Python you just assign (`x = 5`). Before you write code, ask: *can this number get big?* If it can exceed about two billion, use a 64-bit integer (`long` in Java, `long long` in C++, `int64` in Go); Python integers never overflow.\n\n## Reading input and printing output\n\nPractice problems read **standard input** and print to **standard output**, and the output must match **exactly** (spaces, newlines, decimals). Read tokens with `input().split()` in Python; convert text to numbers with `int(...)`. Print several values separated by spaces with `print(a, b)`.\n\n## Operators you need\n\n| Operator | Meaning | Example |\n|---|---|---|\n| `+ - *` | add, subtract, multiply | `3 * 4 == 12` |\n| `/` | division (a float in Python) | `7 / 2 == 3.5` |\n| `//` | integer (floor) division | `7 // 2 == 3` |\n| `%` | remainder | `7 % 2 == 1` |\n| `**` | power | `2 ** 10 == 1024` |\n| `abs(x)` | absolute value | `abs(-4) == 4` |\n\n**Two ideas appear everywhere.** First, `a = b * q + r` where `q = a // b` and `r = a % b`: this connects division and remainder. Second, **swapping** two variables needs a temporary (or Python's tuple assignment `a, b = b, a`).\n"
+       ],
+       [
+        "code",
+        "python",
+        "a, b = map(int, \"3 8\".split())          # in a real solution: input().split()\na, b = b, a                              # swap without a temporary\nprint(a, b)                              # 8 3\n\nsecs = 3725\nh, rest = divmod(secs, 3600)             # quotient and remainder in one call\nm, s = divmod(rest, 60)\nprint(h, m, s)                           # 1 2 5\n\nc = 100\ntenths = c * 18 + 320                    # F * 10 using only integers: no floating-point error\nprint(f\"{tenths // 10}.{tenths % 10}\")   # 212.0\n\nn = -17\nprint(n if n >= 0 else -n)               # absolute value without abs(): 17",
+        "Swap, divmod, integer-only temperature conversion and absolute value"
+       ],
+       [
+        "md",
+        "## Avoid floating-point surprises\n\nDecimals such as `0.1` cannot be stored exactly, so `0.1 + 0.2 != 0.3`. When the answer has a fixed number of decimals (two for money, one for a temperature), do the arithmetic with **integers in the smallest unit** (cents, tenths) and format at the end. The interest problem uses exactly this idea: compute with fractions or integers, then round half up.\n\n## A quick method for every exercise\n\n1. Write the input and the expected output for the sample by hand.\n2. Name the values (`a`, `b`, `secs`).\n3. Write one line per step of the calculation.\n4. Test the edge cases: zero, one, the biggest allowed value, negative numbers.\n"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Swap Two Numbers](/problems/swap-two-numbers)\n2. [Temperature Converter](/problems/temperature-converter)\n3. [Simple Interest and Compound Interest](/problems/simple-and-compound-interest)\n4. [Convert Seconds to Hours, Minutes, Seconds](/problems/seconds-to-hms)\n5. [Absolute Value Without Built-in](/problems/absolute-value)\n6. [Quotient and Remainder of a Division](/problems/quotient-and-remainder)\n7. [Area and Perimeter of Shapes](/problems/area-and-perimeter)"
+       ]
+      ]
      },
      {
       "slug": "conditionals-and-decisions",
-      "title": "Conditionals and decisions",
+      "title": "Conditionals & Decision Making",
       "tier": "free",
-      "minutes": 8,
-      "md": "## if / else\n\nConditionals choose between paths. Combine tests with `and`, `or`, `not`, order them from most specific to most general, and handle edge cases (zero, negative, equal values) explicitly.\n\n### Practice\n- [Even or Odd](/problems/even-or-odd)\n- [Leap Year Check](/problems/leap-year-check)",
+      "minutes": 18,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "A leap-year test must check the century rule because:",
+        "prompt": "For grades, why test `>= 90` before `>= 80`?",
         "options": [
-         "1900 is divisible by 4 but not a leap year",
-         "Years are random",
-         "100 is prime",
-         "It is optional"
+         "The first true branch wins, so higher bands must come first",
+         "It is faster",
+         "Python requires it",
+         "No reason"
         ],
         "correct": [
          0
         ],
-        "explanation": "Century years need divisibility by 400.",
+        "explanation": "Otherwise 95 would match the lower band first.",
+        "type": "single"
+       },
+       {
+        "prompt": "Is 1900 a leap year?",
+        "options": [
+         "No",
+         "Yes",
+         "Only in Python",
+         "It depends"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "It is a century year not divisible by 400.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why use the cross-product test for collinear points?",
+        "options": [
+         "It avoids division and works for vertical lines",
+         "It is longer",
+         "It uses floats",
+         "It needs sorting"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A zero area means the points are on one line.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Choosing between paths\n\nA **conditional** runs different code depending on a condition. In Python: `if`, `elif` (else-if) and `else`. The condition must evaluate to true or false. Combine conditions with `and`, `or`, `not`; Python also lets you chain comparisons: `0 <= x < n`.\n\n## Order matters\n\nConditions are tested top to bottom and the **first true one wins**. For a grade table (90+ is A, 80+ is B, ...) test the highest band first; if you test `marks >= 60` first, a score of 95 would be caught too early. Always ask: *can two branches both be true, and which should win?*\n\n## Common building blocks\n\n| Task | Test |\n|---|---|\n| Even or odd | `n % 2 == 0` (also correct for negatives in Python) |\n| Sign | `n > 0`, `n < 0`, else zero |\n| Leap year | divisible by 4, except century years, which need 400: `(y % 4 == 0 and y % 100 != 0) or y % 400 == 0` |\n| Triangle with sides a, b, c | each side < the sum of the other two |\n| Vowel | `ch.lower() in \"aeiou\"` |\n| Three points collinear | `x1(y2-y3) + x2(y3-y1) + x3(y1-y2) == 0` |\n\n### Why the collinearity formula\nThree points are on one line exactly when the triangle they form has **zero area**. Twice that area is the expression above. It uses only multiplication and subtraction, so there is no division by zero (a slope formula fails for vertical lines) and no rounding error.\n"
+       ],
+       [
+        "code",
+        "python",
+        "def grade(m):\n    if m >= 90: return \"A\"\n    if m >= 80: return \"B\"\n    if m >= 70: return \"C\"\n    if m >= 60: return \"D\"\n    return \"F\"\n\ndef is_leap(y):\n    return (y % 4 == 0 and y % 100 != 0) or y % 400 == 0\n\ndef triangle(a, b, c):\n    return a + b > c and a + c > b and b + c > a\n\ndef collinear(x1, y1, x2, y2, x3, y3):\n    return x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2) == 0\n\nprint(grade(85), is_leap(1900), is_leap(2000), triangle(1, 2, 3), collinear(0, 0, 1, 1, 2, 2))\n# B False True False True",
+        "Grades, leap years, triangles and collinear points as small functions"
+       ],
+       [
+        "md",
+        "## Edge cases to test every time\n\nEqual boundaries (marks exactly 90 or 60), zero, negative numbers, the smallest and largest allowed values, and degenerate shapes (a \"triangle\" with sides 1, 2, 3 is a flat line).\n"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Even or Odd](/problems/even-or-odd)\n2. [Positive, Negative, or Zero](/problems/positive-negative-or-zero)\n3. [Leap Year Check](/problems/leap-year-check)\n4. [Grade from Marks](/problems/grade-from-marks)\n5. [Valid Triangle from Three Sides](/problems/valid-triangle)\n6. [Vowel or Consonant](/problems/vowel-or-consonant)\n7. [Check if Three Points are Collinear](/problems/collinear-points)"
+       ]
+      ]
      },
      {
       "slug": "loops-and-iteration",
-      "title": "Loops and iteration",
+      "title": "Loops & Iteration",
       "tier": "free",
-      "minutes": 8,
-      "md": "## Repeating work\n\n`for` loops repeat a known number of times, `while` loops repeat until a condition changes. Typical tasks: count digits, sum digits, reverse a number by peeling off the last digit with `% 10` and dropping it with `// 10`.\n\n### Practice\n- [Count Digits](/problems/count-digits)\n- [Sum of Digits](/problems/sum-of-digits)\n- [Reverse a Number](/problems/reverse-a-number)\n- [Palindrome Number](/problems/palindrome-number)",
-      "code": [
-       "python",
-       "def digit_sum(n):\n    s = 0\n    while n > 0:\n        s += n % 10\n        n //= 10\n    return s",
-       "Peel digits off"
-      ],
+      "minutes": 18,
+      "md": "",
+      "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "To drop the last digit of a positive integer n you use:",
+        "prompt": "To include `n` in a Python range starting at 1 you write:",
         "options": [
-         "n // 10",
-         "n % 10",
-         "n * 10",
-         "n - 10"
+         "range(1, n + 1)",
+         "range(1, n)",
+         "range(n)",
+         "range(0, n)"
         ],
         "correct": [
          0
         ],
-        "explanation": "Integer division by 10.",
+        "explanation": "The stop value is excluded.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why does a divisor loop stop at √n?",
+        "options": [
+         "Divisors come in pairs (d, n/d)",
+         "Larger numbers are not divisors",
+         "To avoid zero",
+         "It is a Python rule"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "One of each pair is at most √n.",
+        "type": "single"
+       },
+       {
+        "prompt": "A loop that peels digits with `n //= 10` runs about:",
+        "options": [
+         "log₁₀(n) times",
+         "n times",
+         "√n times",
+         "once"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "A number has about log₁₀(n) digits.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Doing something many times\n\nA **loop** repeats a block. `for i in range(1, n + 1)` runs with `i = 1, 2, ..., n`; `while cond:` repeats until the condition becomes false. Use `for` when you know how many repetitions there are, `while` when you repeat until something changes.\n\n## The loop checklist\n\n1. **Start** (where does the counter begin?), 2. **Stop** (which value ends it? Is the end included?), 3. **Step** (how does it change?), 4. **Body** (what happens each time?).\n\nThe most common bug is the **off-by-one error**: `range(1, n)` stops at `n - 1`; to include `n` write `range(1, n + 1)`.\n\n## Patterns you will reuse\n- **Accumulate:** start a total at 0 and add to it (`total += x`).\n- **Digit loop:** `while n > 0: digit = n % 10; n //= 10` visits every digit of a number from the right.\n- **Divisor loop:** divisors come in pairs `(d, n/d)`, so test `d` only up to `√n`. For `n = 10^12` that is a million steps instead of a trillion.\n\n## How fast is your loop?\nA loop that runs `n` times costs O(n). Looping to √n costs O(√n). Counting the number of times the inner statement runs is how you estimate whether a solution is fast enough.\n"
+       ],
+       [
+        "code",
+        "python",
+        "n = 10\nprint(*range(1, n + 1))                              # 1 2 3 ... 10\n\ntotal = sum(x for x in range(2, n + 1, 2))           # sum of evens up to n: 30\nprint(total, (n // 2) * (n // 2 + 1))                # the closed form k(k+1) gives the same: 30 30\n\nx, digits = 4096, 0\nwhile x > 0:                                         # count digits by peeling the last one off\n    digits += 1\n    x //= 10\nprint(digits)                                        # 4\n\ndef sigma(n):                                        # sum of divisors in O(sqrt n)\n    t, d = 0, 1\n    while d * d <= n:\n        if n % d == 0:\n            t += d + (n // d if d * d != n else 0)   # do not add a square root twice\n        d += 1\n    return t\nprint(sigma(28), sigma(36))                          # 56 91",
+        "Counting, summing, digit loops and an O(sqrt n) divisor sum"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Print Numbers from 1 to N](/problems/print-1-to-n)\n2. [Multiplication Table of a Number](/problems/multiplication-table)\n3. [Sum of Even or Odd Numbers](/problems/sum-of-even-or-odd)\n4. [Count Digits in an Integer](/problems/count-digits)\n5. [Sum of All Divisors of a Number](/problems/sum-of-divisors)"
+       ]
+      ]
      },
      {
-      "slug": "number-theory-warmups",
-      "title": "Number theory warm-ups",
+      "slug": "pattern-printing",
+      "title": "Pattern Printing",
       "tier": "free",
-      "minutes": 12,
-      "md": "## Divisors, primes and gcd\n\n- **gcd** by Euclid: `gcd(a, b) = gcd(b, a % b)`; `lcm = a / gcd * b`.\n- **Prime test:** try divisors only up to √n.\n- **Sieve of Eratosthenes:** cross out multiples of each prime to list all primes ≤ n in about O(n log log n).\n- **Binary representation:** repeatedly divide by 2.\n- **Factorial** grows fast: use a modulo when asked.\n\n### Practice\n- [GCD of Two Numbers](/problems/gcd-of-two-numbers)\n- [LCM of Two Numbers](/problems/lcm-of-two-numbers)\n- [Prime Number Check](/problems/prime-number-check)\n- [Count Primes Up To N](/problems/primes-up-to-n)\n- [Perfect Number Check](/problems/perfect-number-check)\n- [Factorial](/problems/factorial)\n- [Nth Fibonacci Number](/problems/nth-fibonacci)\n- [Decimal to Binary](/problems/decimal-to-binary)\n- [Armstrong Number](/problems/armstrong-number)\n- [Trailing Zeroes of a Factorial](/problems/trailing-zeroes-of-factorial)",
-      "code": [
-       "python",
-       "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a",
-       "Euclid's algorithm"
-      ],
+      "minutes": 22,
+      "md": "",
+      "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "To test whether n is prime you only need divisors up to:",
+        "prompt": "Row i of a centred pyramid with n rows has how many stars?",
         "options": [
-         "√n",
-         "n/2",
-         "n",
-         "log n"
+         "2i - 1",
+         "i",
+         "n - i",
+         "2n"
         ],
         "correct": [
          0
         ],
-        "explanation": "A larger factor pairs with a smaller one below √n.",
+        "explanation": "1, 3, 5, ...",
         "type": "single"
        },
+       {
+        "prompt": "What is the first thing to define for any pattern?",
+        "options": [
+         "Rows, then spaces and symbols per row as formulas",
+         "The language",
+         "A recursive function",
+         "A sorted list"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Formulas in i and n drive the loops.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why test n = 1 and n = 2?",
+        "options": [
+         "Formulas such as n - 2 can go negative",
+         "They are slow",
+         "Larger n is invalid",
+         "To avoid recursion"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Small cases expose boundary mistakes.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Why print patterns?\n\nPattern problems look silly but train something real: **thinking in rows and columns** and controlling nested loops precisely. You will use the same skill for matrices, grids, dynamic-programming tables and image-like data.\n\n## The three questions\n\nFor every pattern ask:\n1. **How many rows?** (The outer loop.)\n2. **In row `i`, how many spaces come first, and how many symbols follow?** (Write them as formulas in `i` and `n`.)\n3. **What changes from one row to the next?**\n\nThen each row is `\" \" * spaces + \"*\" * stars`.\n\n## Worked formulas (n rows)\n\n| Pattern | Row `i` (1-based) |\n|---|---|\n| Right-angled triangle | `i` stars |\n| Inverted triangle | `n - i + 1` stars |\n| Pyramid | `n - i` spaces, `2i - 1` stars |\n| Inverted pyramid | `i - 1` spaces, `2(n - i) + 1` stars |\n| Diamond | pyramid rows `1..n`, then pyramid rows `n-1..1` |\n| Hourglass | inverted pyramid, then pyramid rows `2..n` |\n| Butterfly | `i` stars, `2(n - i)` spaces, `i` stars; then the rows in reverse order |\n| Floyd's triangle | `i` consecutive numbers; a counter keeps growing across rows |\n\n**Hollow shapes:** print the border and leave the interior as spaces. For a hollow square, a cell is a star when its row is the first or last, or its column is the first or last.\n\n**The spiral** is a different skill: fill an `n × n` grid by walking right, down, left, up, shrinking four boundaries (`top`, `bottom`, `left`, `right`) after each side.\n\n## Output rules\nPrint **no trailing spaces**; the last character of each row is a symbol. Test `n = 1` and `n = 2`, where formulas like `n - 2` can go negative.\n"
+       ],
+       [
+        "code",
+        "python",
+        "n = 4\nfor i in range(1, n + 1):                      # pyramid\n    print(\" \" * (n - i) + \"*\" * (2 * i - 1))\nprint()\nfor i in range(1, n + 1):                      # hollow square\n    print(\"*\" * n if i in (1, n) else \"*\" + \" \" * (n - 2) + \"*\")\nprint()\nk = 1\nfor i in range(1, 4):                          # Floyd's triangle with 3 rows\n    print(*range(k, k + i)); k += i\n\ndef spiral(n):\n    g = [[0] * n for _ in range(n)]\n    top, bot, left, right, k = 0, n - 1, 0, n - 1, 1\n    while top <= bot and left <= right:\n        for c in range(left, right + 1): g[top][c] = k; k += 1\n        top += 1\n        for r in range(top, bot + 1): g[r][right] = k; k += 1\n        right -= 1\n        if top <= bot:\n            for c in range(right, left - 1, -1): g[bot][c] = k; k += 1\n            bot -= 1\n        if left <= right:\n            for r in range(bot, top - 1, -1): g[r][left] = k; k += 1\n            left += 1\n    return g\nfor row in spiral(3): print(*row)              # 1 2 3 / 8 9 4 / 7 6 5",
+        "A pyramid, a hollow square, Floyd's triangle and the spiral walk"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Right-Angled Triangle of Stars](/problems/right-angled-triangle)\n2. [Inverted Right-Angled Triangle](/problems/inverted-right-angled-triangle)\n3. [Pyramid of Stars](/problems/pyramid-of-stars)\n4. [Inverted Pyramid](/problems/inverted-pyramid)\n5. [Hollow Square](/problems/hollow-square)\n6. [Hollow Triangle](/problems/hollow-triangle)\n7. [Diamond Pattern](/problems/diamond-pattern)\n8. [Floyd's Triangle](/problems/floyds-triangle)\n9. [Mirror Number Pattern](/problems/mirror-number-pattern)\n10. [Butterfly Pattern](/problems/butterfly-pattern)\n11. [Hourglass Pattern](/problems/hourglass-pattern)\n12. [Spiral Number Pattern](/problems/spiral-number-pattern)"
+       ]
+      ]
+     },
+     {
+      "slug": "number-theory-warmups",
+      "title": "Number Theory Warm-ups",
+      "tier": "free",
+      "minutes": 22,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
        {
         "prompt": "Euclid's algorithm computes:",
         "options": [
          "The greatest common divisor",
-         "The prime factors",
-         "The square root",
-         "The factorial"
+         "The next prime",
+         "A factorial",
+         "A binary string"
         ],
         "correct": [
          0
         ],
         "explanation": "gcd(a, b) = gcd(b, a mod b).",
         "type": "single"
-       }
-      ],
-      "viz": null,
-      "quiz_title": "Check your understanding",
-      "blocks": null
-     },
-     {
-      "slug": "array-and-string-warmups",
-      "title": "Array and string warm-ups",
-      "tier": "free",
-      "minutes": 10,
-      "md": "## One pass is often enough\n\nSum, count, max, second max, reverse, check sortedness: each is a single scan carrying a little state. For strings: count vowels, check palindromes, count words, toggle case.\n\n### Practice\n- [Sum of Array Elements](/problems/sum-of-array)\n- [Second Largest Element](/problems/second-largest-element)\n- [Count Even and Odd Numbers](/problems/count-even-and-odd)\n- [Reverse an Array](/problems/reverse-an-array)\n- [Check if an Array Is Sorted](/problems/is-array-sorted)\n- [Count Vowels](/problems/count-vowels)\n- [Palindrome String Check](/problems/palindrome-string-check)\n- [Count Words in a Sentence](/problems/count-words)\n- [Toggle Case](/problems/toggle-case)",
-      "code": null,
-      "tip": null,
-      "quiz": [
+       },
        {
-        "prompt": "Finding the largest element takes:",
+        "prompt": "To test whether n is prime you only need divisors up to:",
         "options": [
-         "One pass, O(n)",
-         "O(n²)",
-         "O(log n)",
-         "Sorting only"
+         "√n",
+         "n / 2",
+         "n",
+         "log n"
         ],
         "correct": [
          0
         ],
-        "explanation": "Keep the best seen so far.",
+        "explanation": "A larger divisor pairs with a smaller one.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why divide before multiplying in lcm(a, b) = a // gcd * b?",
+        "options": [
+         "To avoid overflow in fixed-size integers",
+         "Python needs it",
+         "It is faster",
+         "No reason"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "a × b can be huge.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## Numbers you will meet again and again\n\n**Primes, factorials, Fibonacci numbers, GCD, LCM, perfect numbers and binary representation** appear inside harder problems (hashing, modular arithmetic, combinatorics, bit tricks). Learn them once, properly.\n\n## Prime numbers\nA **prime** is an integer greater than 1 whose only divisors are 1 and itself. To test one number, try divisors from 2 up to `√n` (if `n` had a divisor larger than `√n`, its partner would be smaller): O(√n). To list **all primes up to n**, use the **Sieve of Eratosthenes**: mark every multiple of each prime as composite. It runs in about O(n log log n), far faster than testing each number alone.\n\n## Factorial and Fibonacci\n`n! = 1 × 2 × ... × n` grows extremely fast (20! already needs a 64-bit integer), so problems often ask for the answer **modulo 1 000 000 007**: take the remainder after every multiplication. The Fibonacci sequence `0, 1, 1, 2, 3, 5, ...` is generated by keeping the last two terms and updating them: O(n) time, O(1) space.\n\n## GCD and LCM\nThe **greatest common divisor** comes from **Euclid's algorithm**: `gcd(a, b) = gcd(b, a % b)` until `b` is 0. It takes O(log min(a, b)) steps. The **least common multiple** is `lcm(a, b) = a // gcd(a, b) * b` (divide first to avoid overflow).\n\n## Perfect numbers and binary\nA number is **perfect** if it equals the sum of its proper divisors (6 = 1 + 2 + 3, 28 = 1 + 2 + 4 + 7 + 14). Use the divisor-pair loop up to √n. To convert a number to **binary**, repeatedly divide by 2 and collect the remainders in reverse; in Python `bin(n)` shows the result and `n & (n - 1)` clears the lowest set bit.\n"
+       ],
+       [
+        "code",
+        "python",
+        "def is_prime(n):\n    if n < 2: return False\n    d = 2\n    while d * d <= n:\n        if n % d == 0: return False\n        d += 1\n    return True\n\ndef sieve(n):\n    s = [True] * (n + 1); s[0:2] = [False, False]\n    for i in range(2, int(n ** 0.5) + 1):\n        if s[i]:\n            for j in range(i * i, n + 1, i): s[j] = False\n    return [i for i in range(n + 1) if s[i]]\n\ndef gcd(a, b):\n    while b: a, b = b, a % b\n    return a\n\ndef to_binary(n):\n    if n == 0: return \"0\"\n    out = \"\"\n    while n: out = str(n % 2) + out; n //= 2\n    return out\n\nprint(is_prime(17), sieve(20))                 # True [2, 3, 5, 7, 11, 13, 17, 19]\nprint(gcd(12, 18), 12 // gcd(12, 18) * 18)     # 6 36\nprint(to_binary(10), 28 == sum(d for d in range(1, 28) if 28 % d == 0))   # 1010 True\n\na, b, fib = 0, 1, []\nfor _ in range(8): fib.append(a); a, b = b, a + b\nprint(fib)                                     # [0, 1, 1, 2, 3, 5, 8, 13]",
+        "Primality, the sieve, Euclid, binary conversion and Fibonacci"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Prime Number Check](/problems/prime-number-check)\n2. [Print All Primes Up to N](/problems/print-primes-up-to-n)\n3. [Factorial of a Number](/problems/factorial)\n4. [Print Fibonacci Up to N Terms](/problems/print-fibonacci-terms)\n5. [GCD of Two Numbers](/problems/gcd-of-two-numbers)\n6. [LCM of Two Numbers](/problems/lcm-of-two-numbers)\n7. [Perfect Number Check](/problems/perfect-number-check)\n8. [Decimal to Binary](/problems/decimal-to-binary)"
+       ]
+      ]
+     },
+     {
+      "slug": "array-warmups",
+      "title": "Array Warm-ups",
+      "tier": "free",
+      "minutes": 20,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "Why start 'largest so far' from the first element instead of 0?",
+        "options": [
+         "All values may be negative",
+         "Zero is slow",
+         "It is shorter",
+         "No reason"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Starting from 0 would give a wrong answer for all-negative input.",
+        "type": "single"
+       },
+       {
+        "prompt": "Reversing an array in place uses how much extra space?",
+        "options": [
+         "O(1)",
+         "O(n)",
+         "O(log n)",
+         "O(n²)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Two indices and swaps.",
+        "type": "single"
+       },
+       {
+        "prompt": "What is the second largest distinct value in `5 5 3`?",
+        "options": [
+         "3",
+         "5",
+         "None",
+         "8"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Equal copies of the maximum do not count.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## One pass, a little state\n\nMost array warm-ups are a **single scan** that carries a little **state** from element to element. The skill is deciding what to remember.\n\n| Task | State to carry | Cost |\n|---|---|---|\n| Sum / average | running total | O(n) time, O(1) space |\n| Largest | best so far (start with the first element) | O(n), O(1) |\n| Second largest (distinct) | best and second best | O(n), O(1) |\n| Count evens and odds | two counters | O(n), O(1) |\n| Linear search | nothing: stop at the first match | O(n), worst case n |\n| Is sorted? | compare each element with the next | O(n), O(1) |\n| Frequency of each value | a hash map value → count | O(n) time, O(distinct values) space |\n| Reverse in place | two indices swapping inward | O(n) time, O(1) space |\n\n## Details that cause wrong answers\n- **Empty and one-element arrays:** initialise \"best so far\" from the first element, not from 0 (all values may be negative).\n- **Second largest** must ignore equal copies of the maximum: `5 5 3` has second largest `3`.\n- **Average:** divide only at the end; for two decimals round **half up** using integers: `(sum * 200 + n) // (2 * n)` gives hundredths.\n- **Frequency order:** a hash map has no order; sort the keys before printing if the problem asks for one.\n\n## Complexity words to use\nSay \"one pass, O(n) time, O(1) extra space\" for scans, and \"O(n) time and O(k) space for k distinct values\" for the frequency map.\n"
+       ],
+       [
+        "code",
+        "python",
+        "a = [4, 9, 9, 2, 7]\n\nbest = a[0]\nfor x in a[1:]:\n    if x > best: best = x\nprint(best)                                           # 9\n\nhi = lo = None                                        # second largest distinct\nfor x in a:\n    if hi is None or x > hi: lo, hi = hi, x\n    elif x != hi and (lo is None or x > lo): lo = x\nprint(lo)                                             # 7\n\nfreq = {}\nfor x in a: freq[x] = freq.get(x, 0) + 1\nprint(sorted(freq.items()))                           # [(2, 1), (4, 1), (7, 1), (9, 2)]\n\ni, j = 0, len(a) - 1\nwhile i < j: a[i], a[j] = a[j], a[i]; i += 1; j -= 1\nprint(a)                                              # [7, 2, 9, 9, 4]\n\nprint(all(x <= y for x, y in zip(a, a[1:])))          # False: is it sorted?\ntotal, n = sum(a), len(a)\nc = (total * 200 + n) // (2 * n); print(f\"{c // 100}.{c % 100:02d}\")   # 6.20",
+        "Largest, second largest, frequencies, in-place reverse, sortedness and a rounded average"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Sum of All Elements](/problems/sum-of-array)\n2. [Average of Array Elements](/problems/average-of-array)\n3. [Largest Element in an Array](/problems/largest-element)\n4. [Second Largest Element](/problems/second-largest-element)\n5. [Count Even and Odd Numbers](/problems/count-even-and-odd)\n6. [Linear Search for a Target](/problems/linear-search)\n7. [Reverse an Array In Place](/problems/reverse-an-array)\n8. [Check if an Array is Sorted](/problems/is-array-sorted)\n9. [Count Frequency of Each Element](/problems/count-frequency)"
+       ]
+      ]
+     },
+     {
+      "slug": "string-warmups",
+      "title": "String Warm-ups",
+      "tier": "free",
+      "minutes": 20,
+      "md": "",
+      "code": null,
+      "tip": null,
+      "quiz": [
+       {
+        "prompt": "`\"a  b\".split()` returns how many words?",
+        "options": [
+         "2",
+         "3",
+         "1",
+         "0"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "split() without an argument ignores repeated whitespace.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why does a strict `>` keep the first longest word?",
+        "options": [
+         "Equal-length later words do not replace it",
+         "It is faster",
+         "It sorts words",
+         "It removes spaces"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Only a longer word can replace the best so far.",
+        "type": "single"
+       },
+       {
+        "prompt": "Building a long string with `+=` in a loop can be:",
+        "options": [
+         "O(n²)",
+         "O(1)",
+         "O(log n)",
+         "Impossible"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Each step may copy the whole string; join once instead.",
+        "type": "single"
+       }
+      ],
+      "viz": null,
+      "quiz_title": "Check your understanding",
+      "blocks": [
+       [
+        "md",
+        "## Strings are sequences of characters\n\nA **string** is an ordered sequence of characters, and most string warm-ups are scans just like arrays, with extra care for **spaces, case and non-letters**.\n\n## Core facts\n- Strings are **immutable** in Python, Java, Go and JavaScript: operations return a new string. To build a big string, collect pieces in a list and `\"\".join(...)` once; repeated `+=` can be O(n²).\n- `len(s)` is O(1). `s[i]` is O(1). Slicing `s[a:b]` copies, O(b - a).\n- Compare characters as numbers: `ord(\"a\") == 97`, `ord(\"b\") - ord(\"a\") == 1`. This gives a letter index and a fast frequency table of 26 counters.\n- Case: `c.lower()`, `c.upper()`, `c.isalpha()`, `c.isdigit()`.\n\n## Typical tasks\n| Task | Idea |\n|---|---|\n| Length | count characters (spaces count) |\n| Vowels and consonants | count **letters** only; test `c.lower() in \"aeiou\"` |\n| Words in a sentence | split on whitespace; consecutive spaces create no empty word |\n| Palindrome | compare characters from both ends moving inward |\n| Occurrences of a character | scan and compare (case sensitive) |\n| Replace spaces | build a new string, swapping each space |\n| Toggle case | swap upper and lower; leave other characters |\n| Longest word | keep the best so far; a strict `>` keeps the **first** among ties |\n\n## Pitfalls\nLeading, trailing or double spaces; an empty string; upper-case vowels; characters that are not letters (digits, punctuation). Read the statement for exactly which characters count.\n"
+       ],
+       [
+        "code",
+        "python",
+        "s = \"the quick  brown fox\"\nprint(len(s))                                          # 20 (spaces count)\nprint(len(s.split()))                                  # 4 words (double space ignored)\n\nletters = [c for c in s.lower() if c.isalpha()]\nvowels = sum(1 for c in letters if c in \"aeiou\")\nprint(vowels, len(letters) - vowels)                   # 5 11\n\nprint(\"banana\".count(\"a\"))                             # 3\nprint(\"a b c\".replace(\" \", \"-\"))                       # a-b-c\nprint(\"Hello, World 1\".swapcase())                     # hELLO, wORLD 1\n\nbest = \"\"\nfor w in \"the quick brown fox\".split():\n    if len(w) > len(best): best = w                    # strict > keeps the first of equal length\nprint(best)                                            # quick\n\ndef is_pal(t):\n    i, j = 0, len(t) - 1\n    while i < j:\n        if t[i] != t[j]: return False\n        i, j = i + 1, j - 1\n    return True\nprint(is_pal(\"level\"), is_pal(\"hello\"))                # True False",
+        "Length, words, vowels, replace, toggle, longest word and a palindrome test"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Length of a String](/problems/length-of-string)\n2. [Count Vowels and Consonants](/problems/count-vowels-and-consonants)\n3. [Count Words in a Sentence](/problems/count-words)\n4. [Palindrome String Check](/problems/palindrome-string-check)\n5. [Count Occurrence of a Character](/problems/count-occurrence-of-character)\n6. [Replace All Spaces with a Character](/problems/replace-spaces)\n7. [Toggle Case of Every Character](/problems/toggle-case)\n8. [Find the Longest Word in a Sentence](/problems/longest-word)"
+       ]
+      ]
      },
      {
       "slug": "recursion-warmups",
-      "title": "Recursion warm-ups",
+      "title": "Recursion Warm-ups",
       "tier": "free",
-      "minutes": 8,
-      "md": "## A function that calls itself\n\nEvery recursion needs a **base case** (stop) and a **recursive case** that moves toward it. Sum of first n: `sum(n) = n + sum(n-1)`, `sum(0) = 0`. The call stack grows with depth, so very deep recursion can overflow it.\n\n### Practice\n- [Sum of First N Numbers](/problems/sum-of-first-n-recursive)",
+      "minutes": 22,
+      "md": "",
       "code": null,
       "tip": null,
       "quiz": [
        {
-        "prompt": "Without a base case a recursive function:",
+        "prompt": "Every recursive function needs:",
         "options": [
-         "Never stops (stack overflow)",
-         "Runs once",
-         "Returns 0",
-         "Is faster"
+         "A base case that stops it",
+         "A loop",
+         "A global variable",
+         "A second function"
         ],
         "correct": [
          0
         ],
-        "explanation": "Nothing ends the calls.",
+        "explanation": "Without a base case it never terminates.",
+        "type": "single"
+       },
+       {
+        "prompt": "Printing before the recursive call (counting down from n) gives:",
+        "options": [
+         "n, n-1, ..., 1",
+         "1, 2, ..., n",
+         "Nothing",
+         "A random order"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Work done before the call happens on the way in.",
+        "type": "single"
+       },
+       {
+        "prompt": "Why is naive recursive Fibonacci slow?",
+        "options": [
+         "It recalculates the same subproblems",
+         "It uses loops",
+         "Python limits it",
+         "It sorts"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "Memoisation stores each result once.",
+        "type": "single"
+       },
+       {
+        "prompt": "Computing power by halving the exponent takes:",
+        "options": [
+         "O(log b) calls",
+         "O(b) calls",
+         "O(b²) calls",
+         "O(1)"
+        ],
+        "correct": [
+         0
+        ],
+        "explanation": "The exponent halves each call.",
         "type": "single"
        }
       ],
       "viz": null,
       "quiz_title": "Check your understanding",
-      "blocks": null
+      "blocks": [
+       [
+        "md",
+        "## A function that calls itself\n\n**Recursion** solves a problem by solving a smaller copy of it. Every recursive function has two parts:\n\n1. **Base case**: the smallest input, answered directly (it stops the recursion).\n2. **Recursive case**: reduce the input and call yourself, then combine.\n\nExample: `sum(n) = n + sum(n - 1)` with `sum(0) = 0`. For `n = 3` the calls expand as `3 + (2 + (1 + 0))`.\n\n## How the computer runs it\nEach call gets a **stack frame**. The deepest call returns first, then each caller finishes its work on the way back. A recursion with no base case, or one that never reaches it, ends in a stack overflow (Python allows about 1000 nested calls by default).\n\n## Order of work: before or after the call\nIf you **print before** the recursive call the output goes `1 2 3 ... n`; **after** the call it prints on the way back `n ... 3 2 1`. This is why \"print 1 to N and N to 1\" needs only one function.\n\n## Cost\n- Linear recursions (`sum`, `factorial`, `count digits`) make n calls: O(n) time and O(n) stack space.\n- **Halving the exponent** makes power O(log n): `pow(a, b) = pow(a, b // 2)²` (times `a` if `b` is odd).\n- The naive `fib(n) = fib(n-1) + fib(n-2)` recalculates the same values and takes exponential time; **memoising** (storing results) makes it O(n). This idea becomes dynamic programming later.\n\n## Recursion on digits and strings\n`n % 10` is the last digit and `n // 10` is the rest, so \"sum of digits\" and \"count digits\" recurse on `n // 10`. A string splits as `first character + rest`, so reversal is `reverse(rest) + first`. GCD recurses with `gcd(b, a % b)` until `b == 0`.\n"
+       ],
+       [
+        "code",
+        "python",
+        "import sys\nfrom functools import lru_cache\n\ndef total(n):            return 0 if n == 0 else n + total(n - 1)\ndef fact(n):             return 1 if n == 0 else n * fact(n - 1)\ndef power(a, b):\n    if b == 0: return 1\n    half = power(a, b // 2)                      # halve the exponent: O(log b) calls\n    return half * half * (a if b % 2 else 1)\ndef digit_sum(n):        return 0 if n == 0 else n % 10 + digit_sum(n // 10)\ndef count_digits(n):     return 1 if n < 10 else 1 + count_digits(n // 10)\ndef reverse(s):          return s if len(s) <= 1 else reverse(s[1:]) + s[0]\ndef gcd(a, b):           return a if b == 0 else gcd(b, a % b)\n\n@lru_cache(None)                                 # memoisation: each F(k) computed once\ndef fib(n):              return n if n < 2 else fib(n - 1) + fib(n - 2)\n\ndef up_down(n):\n    if n == 0: return\n    print(n, end=\" \")                            # printing BEFORE the call: n, n-1, ..., 1\n    up_down(n - 1)\n    print(n, end=\" \")                            # printing AFTER the call: 1, 2, ..., n\n\nprint(total(5), fact(5), power(2, 10), digit_sum(4096), count_digits(12345), reverse(\"stack\"), gcd(48, 18), fib(30))\n# 15 120 1024 19 5 kcats 6 832040\nup_down(3); print()                              # 3 2 1 1 2 3",
+        "Seven recursive functions, memoised Fibonacci and the before/after printing trick"
+       ],
+       [
+        "md",
+        "\n\n### Practice problems\nSolve these in order. Try each one without hints first, then check the hints.\n\n1. [Sum of First N Natural Numbers (Recursive)](/problems/sum-of-first-n-recursive)\n2. [Factorial (Recursive)](/problems/factorial-recursive)\n3. [Nth Fibonacci Number (Recursive)](/problems/fibonacci-recursive)\n4. [Power of a Number (Recursive)](/problems/power-recursive)\n5. [Reverse a String (Recursive)](/problems/reverse-string-recursive)\n6. [Sum of Digits (Recursive)](/problems/sum-of-digits-recursive)\n7. [Print Numbers 1 to N and N to 1 (Recursive)](/problems/print-1-to-n-and-back)\n8. [Count Digits (Recursive)](/problems/count-digits-recursive)\n9. [GCD Using Recursion](/problems/gcd-recursive)"
+       ]
+      ]
      }
     ]
    },

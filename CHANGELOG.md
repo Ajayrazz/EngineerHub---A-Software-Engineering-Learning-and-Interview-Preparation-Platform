@@ -4,6 +4,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/), versioning: SemVer once
 
 ## [Unreleased]
 ### Added
+- **DSA Warmup chapter complete (2026-11-25):** all 65 warm-up exercises (variables and I/O, conditionals, loops, 12 pattern-printing problems, number theory, array, string and recursion warm-ups) exist as original problems; the bank grew from 54 to 100 problems / 1,227 tests, each test's expected output produced by a reference solution and cross-checked against an independent brute force (that check caught a double-rounding bug in my own brute force for the interest problem). The chapter is eight detailed lessons (one per group, each with worked code and the full practice list); all lesson programs were run.
 - **Online database preparation (2026-11-25):** `docs/25-ONLINE-DATABASE.md` (provider must offer PostgreSQL 18 for `uuidv7()`, role setup, secrets, push, verify, backup policy) and `scripts/db-push-remote.sh` (copies a dump into a remote database; refuses without `--yes`, never prints the password; tested against a scratch database: 23 courses, 54 problems, 21 migrations restored). No provider account exists yet: not run against a real remote.
 - Initial product, requirements, architecture, security and roadmap documentation (docs 00–19).
 - Docs 20 (content & licensing policy) and 21 (Razorpay payments & GST design).

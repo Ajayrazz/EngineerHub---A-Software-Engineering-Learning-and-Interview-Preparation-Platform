@@ -146,6 +146,7 @@ new["adv"] = [
 ]
 
 import courses_dsa_welcome as WL
+import courses_dsa_warmup as WARM
 import lang_java2 as lang_java, lang_python2 as lang_python, lang_cpp2 as lang_cpp, lang_csharp2 as lang_csharp, lang_go2 as lang_go, lang_js2 as lang_js, lang_ts2 as lang_ts
 class LANG:
     JAVA, PYTHON, CPP = lang_java.JAVA2, lang_python.PYTHON2, lang_cpp.CPP2
@@ -155,7 +156,7 @@ layout = [
  ("Welcome", keep("course-introduction", "course-roadmap")),
  ("Coding Interview Strategy", keep("how-coding-interviews-work", "communicating-while-you-solve", "recognising-the-pattern")),
  ("Programming Fundamentals", [LANG.JAVA, LANG.PYTHON, LANG.CPP, LANG.CSHARP, LANG.GO, LANG.JS, LANG.TS]),
- ("DSA Warmup", new["warm"]),
+ ("DSA Warmup", WARM.WARMUP),
  ("Big O Notation", keep("big-o-in-plain-words", "best-worst-and-space")),
  ("Math Fundamentals", new["math"]),
  ("Sorting Algorithms", new["sort"]),
