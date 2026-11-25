@@ -1,0 +1,762 @@
+{
+  "data-structures-and-algorithms/recognising-the-pattern": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "longest-unique-stretch",
+      "title": "Longest Unique Stretch",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "calm-stretch",
+      "title": "Calm Stretch",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "minimum-ship-capacity",
+      "title": "Minimum Ship Capacity",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "staircase-ways",
+      "title": "Staircase Ways",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "fewest-coins",
+      "title": "Fewest Coins",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/java-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "anagram-groups",
+      "title": "Anagram Groups",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/python-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "anagram-groups",
+      "title": "Anagram Groups",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "merge-meeting-slots",
+      "title": "Merge Meeting Slots",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "island-counter",
+      "title": "Island Counter",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/cpp-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "cheapest-route",
+      "title": "Cheapest Route",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "course-order",
+      "title": "Course Order",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/csharp-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "course-order",
+      "title": "Course Order",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "island-counter",
+      "title": "Island Counter",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/go-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "cheapest-route",
+      "title": "Cheapest Route",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/javascript-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "island-counter",
+      "title": "Island Counter",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/typescript-for-dsa": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "course-order",
+      "title": "Course Order",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/variables-io-operators": [
+    {
+      "slug": "swap-two-numbers",
+      "title": "Swap Two Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "temperature-converter",
+      "title": "Temperature Converter",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "simple-and-compound-interest",
+      "title": "Simple Interest and Compound Interest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "seconds-to-hms",
+      "title": "Convert Seconds to Hours, Minutes, Seconds",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "absolute-value",
+      "title": "Absolute Value Without Built-in",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "quotient-and-remainder",
+      "title": "Quotient and Remainder of a Division",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "area-and-perimeter",
+      "title": "Area and Perimeter of Shapes",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/conditionals-and-decisions": [
+    {
+      "slug": "even-or-odd",
+      "title": "Even or Odd",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "positive-negative-or-zero",
+      "title": "Positive, Negative, or Zero",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "leap-year-check",
+      "title": "Leap Year Check",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "grade-from-marks",
+      "title": "Grade from Marks",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "valid-triangle",
+      "title": "Valid Triangle from Three Sides",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "vowel-or-consonant",
+      "title": "Vowel or Consonant",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "collinear-points",
+      "title": "Check if Three Points are Collinear",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/loops-and-iteration": [
+    {
+      "slug": "print-1-to-n",
+      "title": "Print Numbers from 1 to N",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "multiplication-table",
+      "title": "Multiplication Table of a Number",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "sum-of-even-or-odd",
+      "title": "Sum of Even or Odd Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-digits",
+      "title": "Count Digits",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "sum-of-divisors",
+      "title": "Sum of All Divisors of a Number",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/pattern-printing": [
+    {
+      "slug": "right-angled-triangle",
+      "title": "Right-Angled Triangle of Stars",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "inverted-right-angled-triangle",
+      "title": "Inverted Right-Angled Triangle",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "pyramid-of-stars",
+      "title": "Pyramid of Stars",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "inverted-pyramid",
+      "title": "Inverted Pyramid",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "hollow-square",
+      "title": "Hollow Square",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "hollow-triangle",
+      "title": "Hollow Triangle",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "diamond-pattern",
+      "title": "Diamond Pattern",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "floyds-triangle",
+      "title": "Floyd's Triangle",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "mirror-number-pattern",
+      "title": "Mirror Number Pattern",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "butterfly-pattern",
+      "title": "Butterfly Pattern",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "hourglass-pattern",
+      "title": "Hourglass Pattern",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "spiral-number-pattern",
+      "title": "Spiral Number Pattern",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/number-theory-warmups": [
+    {
+      "slug": "prime-number-check",
+      "title": "Prime Number Check",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "print-primes-up-to-n",
+      "title": "Print All Primes Up to N",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "factorial",
+      "title": "Factorial",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "print-fibonacci-terms",
+      "title": "Print Fibonacci Up to N Terms",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "gcd-of-two-numbers",
+      "title": "GCD of Two Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "lcm-of-two-numbers",
+      "title": "LCM of Two Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "perfect-number-check",
+      "title": "Perfect Number Check",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "decimal-to-binary",
+      "title": "Decimal to Binary",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/array-warmups": [
+    {
+      "slug": "sum-of-array",
+      "title": "Sum of Array Elements",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "average-of-array",
+      "title": "Average of Array Elements",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "largest-element",
+      "title": "Largest Element in an Array",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "second-largest-element",
+      "title": "Second Largest Element",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-even-and-odd",
+      "title": "Count Even and Odd Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "linear-search",
+      "title": "Linear Search for a Target",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "reverse-an-array",
+      "title": "Reverse an Array",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "is-array-sorted",
+      "title": "Check if an Array Is Sorted",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-frequency",
+      "title": "Count Frequency of Each Element",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/string-warmups": [
+    {
+      "slug": "length-of-string",
+      "title": "Length of a String",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-vowels-and-consonants",
+      "title": "Count Vowels and Consonants",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-words",
+      "title": "Count Words in a Sentence",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "palindrome-string-check",
+      "title": "Palindrome String Check",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-occurrence-of-character",
+      "title": "Count Occurrence of a Character",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "replace-spaces",
+      "title": "Replace All Spaces with a Character",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "toggle-case",
+      "title": "Toggle Case",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "longest-word",
+      "title": "Find the Longest Word in a Sentence",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/recursion-warmups": [
+    {
+      "slug": "sum-of-first-n-recursive",
+      "title": "Sum of First N Numbers",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "factorial-recursive",
+      "title": "Factorial (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "fibonacci-recursive",
+      "title": "Nth Fibonacci Number (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "power-recursive",
+      "title": "Power of a Number (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "reverse-string-recursive",
+      "title": "Reverse a String (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "sum-of-digits-recursive",
+      "title": "Sum of Digits (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "print-1-to-n-and-back",
+      "title": "Print Numbers 1 to N and N to 1 (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "count-digits-recursive",
+      "title": "Count Digits (Recursive)",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "gcd-recursive",
+      "title": "GCD Using Recursion",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/quicksort-and-quickselect": [
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/finding-and-counting": [
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/anagrams-and-frequency": [
+    {
+      "slug": "anagram-groups",
+      "title": "Anagram Groups",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "longest-unique-stretch",
+      "title": "Longest Unique Stretch",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/hash-maps-in-practice": [
+    {
+      "slug": "pair-with-target-sum",
+      "title": "Pair With Target Sum",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "subarrays-with-sum",
+      "title": "Subarrays With Sum",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/two-pointers-and-windows": [
+    {
+      "slug": "trapped-rainwater",
+      "title": "Trapped Rainwater",
+      "difficulty": "hard"
+    },
+    {
+      "slug": "calm-stretch",
+      "title": "Calm Stretch",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "longest-unique-stretch",
+      "title": "Longest Unique Stretch",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/sliding-window-fixed-and-variable": [
+    {
+      "slug": "calm-stretch",
+      "title": "Calm Stretch",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "longest-unique-stretch",
+      "title": "Longest Unique Stretch",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/prefix-sums": [
+    {
+      "slug": "subarrays-with-sum",
+      "title": "Subarrays With Sum",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/binary-search-mastery": [
+    {
+      "slug": "rotated-lookup",
+      "title": "Rotated Lookup",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "minimum-ship-capacity",
+      "title": "Minimum Ship Capacity",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/stacks-and-brackets": [
+    {
+      "slug": "balanced-brackets",
+      "title": "Balanced Brackets",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/monotonic-stack": [
+    {
+      "slug": "next-warmer-day",
+      "title": "Next Warmer Day",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "largest-skyline-rectangle",
+      "title": "Largest Skyline Rectangle",
+      "difficulty": "hard"
+    }
+  ],
+  "data-structures-and-algorithms/backtracking-subsets-permutations": [
+    {
+      "slug": "subset-target-count",
+      "title": "Subset Target Count",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/heaps-and-priority-queues": [
+    {
+      "slug": "kth-largest",
+      "title": "Kth Largest",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "cheapest-route",
+      "title": "Cheapest Route",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/merging-intervals": [
+    {
+      "slug": "merge-meeting-slots",
+      "title": "Merge Meeting Slots",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "most-meetings",
+      "title": "Most Meetings",
+      "difficulty": "easy"
+    }
+  ],
+  "data-structures-and-algorithms/greedy-and-intervals": [
+    {
+      "slug": "most-meetings",
+      "title": "Most Meetings",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "merge-meeting-slots",
+      "title": "Merge Meeting Slots",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "fewest-hops",
+      "title": "Fewest Hops",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/bfs-and-dfs": [
+    {
+      "slug": "shortest-maze-path",
+      "title": "Shortest Maze Path",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "island-counter",
+      "title": "Island Counter",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "friend-circles",
+      "title": "Friend Circles",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/topological-sort-and-shortest-paths": [
+    {
+      "slug": "course-order",
+      "title": "Course Order",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "cheapest-route",
+      "title": "Cheapest Route",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/union-find": [
+    {
+      "slug": "friend-circles",
+      "title": "Friend Circles",
+      "difficulty": "medium"
+    }
+  ],
+  "data-structures-and-algorithms/dp-first-steps": [
+    {
+      "slug": "staircase-ways",
+      "title": "Staircase Ways",
+      "difficulty": "easy"
+    },
+    {
+      "slug": "fewest-coins",
+      "title": "Fewest Coins",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "longest-common-run",
+      "title": "Longest Common Run",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "edit-distance",
+      "title": "Edit Distance",
+      "difficulty": "hard"
+    }
+  ],
+  "data-structures-and-algorithms/knapsack-and-subsequences": [
+    {
+      "slug": "fewest-coins",
+      "title": "Fewest Coins",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "longest-common-run",
+      "title": "Longest Common Run",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "edit-distance",
+      "title": "Edit Distance",
+      "difficulty": "hard"
+    }
+  ]
+}

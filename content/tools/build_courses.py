@@ -22,3 +22,22 @@ path = pathlib.Path(__file__).resolve().parent.parent / "courses.json"
 path.write_text(json.dumps(courses, indent=1, ensure_ascii=False) + "\n")
 n = sum(len(s["lessons"]) for c in courses for s in c["sections"])
 print(f"{len(courses)} courses, {n} lessons -> {path}")
+
+# The reader sidebar lists each lesson's practice problems under it. Derive that map from the content so it can never
+# drift from the lesson text: lesson slug -> [{slug, title, difficulty}] (frontend/src/lib/reader/practice-outline.json).
+import re
+probs = {p["slug"]: p for p in json.loads((path.parent / "problems.json").read_text())}
+outline = {}
+for c in courses:
+    for sec in c["sections"]:
+        for les in sec["lessons"]:
+            texts = [les.get("md") or ""] + [b[1] for b in (les.get("blocks") or []) if b[0] == "md"]
+            seen, items = set(), []
+            for t in texts:
+                for title, slug in re.findall(r"\[([^\]]+)\]\(/problems/([a-z0-9-]+)\)", t):
+                    if slug in probs and slug not in seen:
+                        seen.add(slug); items.append({"slug": slug, "title": probs[slug]["title"], "difficulty": probs[slug]["difficulty"]})
+            if items: outline[f"{c['slug']}/{les['slug']}"] = items
+out = path.parent.parent / "frontend/src/lib/reader/practice-outline.json"
+out.write_text(json.dumps(outline, indent=1, ensure_ascii=False) + "\n")
+print(f"practice outline: {sum(len(v) for v in outline.values())} problem links in {len(outline)} lessons -> {out}")

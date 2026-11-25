@@ -6,6 +6,7 @@ import { LessonBlocks } from "@/components/reader/lesson-blocks";
 import { CourseSidebar } from "@/components/reader/course-sidebar";
 import { RoadmapAnimation } from "@/components/reader/roadmap-animation";
 import { LanguageHero } from "@/components/reader/language-hero";
+import outline from "@/lib/reader/practice-outline.json";
 import { ReadingProgress } from "@/components/reader/reading-progress";
 import { ReaderShell } from "@/components/reader/ui";
 import { extractHeadings } from "@/lib/cms/toc";
@@ -54,6 +55,15 @@ export default async function LessonPage({
   }
 
   const courseId = detail.data.id;
+  const problemStates = session
+    ? await readerGet<components["schemas"]["ProblemStates"]>(
+        "me/problems/states",
+        session.accessToken,
+      )
+    : null;
+  const solvedSlugs = (problemStates?.ok ? (problemStates.data.states ?? []) : [])
+    .filter((st) => st.status === "solved")
+    .map((st) => st.slug ?? "");
   const progress =
     session && courseId
       ? await readerGet<Progress>(`me/courses/${courseId}/progress`, session.accessToken)
@@ -77,6 +87,14 @@ export default async function LessonPage({
           courseSlug={slug}
           courseTitle={detail.data.course?.title ?? ""}
           currentSlug={lessonSlug}
+          practice={Object.fromEntries(
+            Object.entries(
+              outline as Record<string, { slug: string; title: string; difficulty: string }[]>,
+            )
+              .filter(([k]) => k.startsWith(`${slug}/`))
+              .map(([k, v]) => [k.slice(slug.length + 1), v]),
+          )}
+          solved={solvedSlugs}
           enrolled={Boolean(p?.enrolled)}
           percent={p?.percent ?? 0}
           completed={p?.completedLessons ?? 0}
